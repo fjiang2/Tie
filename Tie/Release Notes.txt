@@ -1,0 +1,1129 @@
+﻿//--------------------------------------------------------------------------------------------------//
+//                                                                                                  //
+//        Tie                                                                                       //
+//                                                                                                  //
+//          Copyright(c) Datum Connect Inc.                                                         //
+//                                                                                                  //
+// This source code is subject to terms and conditions of the Datum Connect Software License. A     //
+// copy of the license can be found in the License.html file at the root of this distribution. If   //
+// you cannot locate the  Datum Connect Software License, please send an email to                   //
+// support@datconn.com. By using this source code in any fashion, you are agreeing to be bound      //
+// by the terms of the Datum Connect Software License.                                              //
+//                                                                                                  //
+// You must not remove this notice, or any other, from this software.                               //
+//                                                                                                  //
+//                                                                                                  //
+//--------------------------------------------------------------------------------------------------//
+
+
+//-----------------------------------------------------------------------------------//
+//                                                                                   //
+//        Tie                                                                        //
+//                                                                                   //  
+//             Copyright Jiang,Fuhua (jiang.fuhua@gmail.com)                         //
+//                                                                                   //  
+//                1991-2011                                                          //
+//                                                                                   //
+//-----------------------------------------------------------------------------------//
+未完成的任务:
+  1. Host的operator overloading
+  2. 从多个相容的overloading methods中选择一个最优的
+
+04/17/2012
+   增加VAL ToHostString() 函数, 输出C#语法能接受的格式譬如
+   decimal d=10.0M;
+   byte[] bytes = new bytes[]{ 12,2,....}
+
+12/11/2011
+	HostOperation.EnumBitFlags(object host)中关于是不是bitor值的判读,用Enum.IsDefined(..),而不是根据host.ToString()的值(那是不可靠的)
+
+11/29/2011
+  CPU.Run(int) 加RuntimeException的处理
+
+11/18/2011
+  修正由于traceback引起的source code log混乱, 把pos变量从class Token 移到 JLex
+  取消Position中的static line, col, cur
+
+11/17/2011
+  增加Numeric类,用来表示常数,给public class和property,fields and method 写XML注释	
+
+11/11/2011
+  区别指令中的Operand和数据VAL,增加Operand类
+
+09/15/2011
+  看下面的语句:
+  var w = new Workflow.State();
+  如果class Workflow.State 没有Registered, 说明 CPU 中的DS1 和 DS2 都没有Workflow 变量
+  那么副作用就是: 
+    在DS2中会产生一个Workflow的变量, 因为TIE在查找Workflow变量的时候(也许已经注册过,所以先查找),没有发现Workflow变量就自动产生一个
+	DS2["Workflow"] == void
+
+09/14/2011
+  Fix bug in HostOperation.EnumBitFlags(object host)
+
+08/24/2011
+  注释Coding.cs 和 Script.cs, 开始写systemfunction使用说明,document 在dropbox里面
+
+07/28/2011
+  disable VAL implicit 因为使得程序容易引入bugs
+
+07/25/2011
+  写了注释为Script.cs和Constant.cs
+
+07/20/2011
+ 1. 使用class ValizationInfo, 用来减少误操作, 只用于Valize的构造函数.
+    Valize的构造函数, 修正为  
+	  class ClassName
+	  {
+	     ...
+	     public ClassName(ValizationInfo info)
+		 ...
+	  }
+
+07/18/2011
+ 1.VAL支持IClonable, IComparable,....
+
+07/16/2011
+  1.支持所有的operator overloading
+    +, -, !, ~							These unary operators can be overloaded. 
+	+, -, *, /, %, &, |, ^, <<, >> 
+	==, !=, <, >, <=, >= 
+ 	+=, -=, *=, /=, %=, &=, |=, ^=, <<=, >>=
+	除了
+	++, --, true, false
+  2.指令INSTYPE.NEG 支持参数
+     NEG +1  //Unary Plus
+	 NEG -1  //Unary Negation
+
+07/15/2001
+  1.把decimal (128bit)作为基本类型以保证精度, 这样long,uint, ulong可用decimal来保存, 同时修改四则运算和比较操作符
+  2.支持explicit重载, 参见: SystemFunction.cast(...)
+
+07/14/2001
+  1.修正JExpression.s_varnext中关于generic的错误,
+  2.增加一些VAL的implicit/explicit的操作符
+  3.支持逻辑运作操作符的重载,>,<, =
+
+07/12/2011
+   1. VAL增加implicit and explicit operator
+   2. 使用Type.IsAssignableFrom(value)来实现operator is
+   3. 把内置类型DateTime转为Host类型
+   4. 支持Host一部分的operator overloading
+		 -exp, 
+		 和四则运算+-*/%
+
+07/11/2011
+  1.在reference中,优先搜索深度的namespace
+    譬如: System.Windows.Forms,  先搜索System.Windows.Forms, 然后搜索System.Windows,最后搜索System
+  2.在根据class name自动寻找Assembly中,也是采用这种方法
+  3.支持Host 函数的可变参数, 如: string.Format("{0}{1}",1,2);
+
+07/10/2011
+ 1.增加HostType.AddReference(namespace,assembly)函数, 遇到这个namespace,就到相应的assembly中去查找
+
+07/07/2011
+  修正HostType.Register()在register extend methods时候的错误, 因为method name 有可能和其他的TIE varible和function是一样的
+  修改class JError的关于runtime warning/error method
+
+07/04/2011
+  1.增加函数HostType.IsType(object,Type), 用来支持.net的is表达式
+  2.同时修正.net的as表达式, as和is后面必须是Type, JExpression中的有关is和as的parsing从exp9(), 修改为s_var(true),并支持generic type
+  3.TIE支持这种格式:
+       dict = typeof(System.Collections.Generic.Dictionary<,>);
+       list = typeof(System.Collections.Generic.List<>);
+
+07/02/2011
+  refactoring, 增加class GenericArguemnt
+
+07/01/2011
+  在JExpression.varnext(..)中,把>> SHR, 拆分为2个>　GTR
+  增加JToken的一个Constructor函数,用来简化JLex的Traceback(index, token)
+
+07/01/2011
+   支持generic method, 修改了JExpression.varnext(..), 利用JLex的回溯能力,支持generic method语法, 因为<>括号中的<跟小于符号有二义性
+   HostOperation.Offset() 对于函数的offset, 如果有重载函数,那么就返回数组,包含所有的重载函数
+   HostFunction的参数匹配检查,如果遇到null值的时候,增加了检查cast, 如(string)null;
+   CPU中CALL指令增加对generic method调用,
+         GNRC指令支持generic method
+
+   例如:
+   t1 = test.Times<int[]>(new int[] {1,2,3},new int[] {4,5,6});   
+   generic arguments在函数名字的后面,
+
+   还没有解决的是SHR>>, JLex翻译为SHR, 但是在generic中>>需要解释为2个GTR
+
+06/29/2011
+   支持delegate变量,
+   在C#中定义一个delegate 变量 dPlus = delegate(int[] A) {...};
+   DS.Add("dPlus", VAL.NewHostType(dPlus);
+   在TIE code中使用:
+      dPlus((int[]){20,30});
+
+   修改foreach对ICollection的支持,升级为对IEnumerable的支持
+
+
+06/28/2011
+   取消class Coding, 和class Script合并在一起, 因为Coding比较令人费解
+
+06/28/2011
+	修正s_lambda中的bugs
+	LC开始的语法有3种可能:
+	1. 语句 { return 1;}
+	2. 简单表  { 1, 2, 4}
+	3. 带类型的表  { 1, 2, 4}.typeof("System.Int32[]")
+	虽然都是以LC开始,但是并没有以RC结束, 所以不得不用先测试statement语法,失败以后回溯, 再测试expression语法
+	因为statement比expression更容易测试,为了实现这个,升级bool s_sent()到 int s_sent()
+	s_sent() 的返回值:
+	1: sent 成功,还可以继续匹配下一条语句
+	0: sent 成功, 匹配结束
+   -1: sent 失败, 可能就是expression
+
+   增加了CodeType.auto, 自动测试是expression还是statement
+
+
+06/27/2011
+	自动识别expression和statement
+
+06/25/2011
+   试图支持Linq的ExtendMethod格式, 产生class HostFunction.cs
+   增加TIE .NET 4.0 project
+
+06/23/2011
+   支持Lambda Expression, 把LE转换为function
+
+06/22/2011
+	为了支持Generic类型, typeof(Dictionary<,>).Name == "Dictionary`2"
+	字符`可以作为ident的一部分, 
+	这样可以用 HostType.Register(typeof(Dictionary<,>));
+
+	增加指令GNRC用来支持generic
+	实现了create instance of generic class, 例如: dict = new System.Collections.Generic.Dictionary<string,int>(20);
+
+06/19/2011
+  重新组织了RuntimeException, HostTypeException
+  以及使用string.Format()的那些语句
+
+06/18/2011
+   让Tie函数作为C#.NET的delegate, 参见DynamicDelegate.cs
+   用DynamicMethod根据C# delegate的定义, 动态的产生一个delegate的实现, 这个实现调用Tie的函数, 
+
+06/17/2011
+   1.支持Host函数delegate参量的传递, 参照DelegateTest.cs, 
+     主要原理是把methodInfo自动转换为Delegate实例,参照: private static bool IsCompatibleType(Type type, ref object val)
+   2.把TIE函数作为Host函数的delegate还没有实现, 具体的困难是不能根据Host的DelegateType来自动构造一个wrap了TIE函数的Host函数
+     注意: EventHandler是TIE函数,但是因为EventHanlder的signature是固定的,永远是void handler(object sender, EventArg e), 可以事先构造
+
+
+06/16/2011
+   支持HostType函数的extend method,支持重载的函数
+   HostType.Register注册class中的静态方法,然后可以不用class的名字,直接使用静态函数名字
+   为了支持HostType的extend method的调用,我们来看一个例子:
+	 sum = A.plus(20,30);
+	 可以有3种情况, 
+		1. A是class name, 静态class 
+		2. A是一个class的instance,  普通class
+		3. extend method, A是第一个参数,  等价于 sum = plus(A,20,30);
+	如果是情况1或者2, 那么 proc.temp.host == A, 用这个条件来判断是不是extend method, 
+		参照:　private bool SysFuncCall(object func, VAL proc, VAL instance, bool arg0)　文件CPU.cs
+		测试:  FunctionTest.cs
+
+		假如: UnitTest.ExtendTest.Area(double) 是静态方法, 下面的语句是等价的
+		     r = 4.0;
+            f1 = UnitTest.ExtendTest.Area;
+            A1 = f1(r);
+            A2 = Area(r);
+            A3 = r.Area();
+            A4 = r.f1();
+            A5 = UnitTest.ExtendTest.Area(r);
+            A6 = r.(UnitTest.ExtendTest.Area)();
+
+
+06/10/2011
+   修正错误: foreach语句,会分配2个临时变量空间,在符号表中并没有增加, 这样在foreach循环体内部有var的局部变量的话,就会存储空间冲突
+   在SymbolTable.cs中增加AddLocal(int count)函数,来分配空间
+
+06/10/2011
+	支持函数的可变参数, 如果CALL的参数个数,比定义的参数个数少1, 那么表示最后一个传入的参数为{}
+	  foo = function(fmt,A) {..};
+		s1= foo('Sum=');    //参数个数少一个, A={}
+		s2= foo('Sum=', {1,2,3,4,5}); //参数个数相同, 不压制为数组, 原来是什么样子就是什么样子, A={1,2,3,4,5}
+		s3= foo('Sum=', 1,2,3,4,5); //参数个数多了, 最后1个参数压制为array, A={1,2,3,4,5}
+		s4= foo('Sum=', 125);   //参数个数相同: A=125, 而不是A={125}
+                
+
+06/09/2011
+支持第三种类型的函数调用, 例如:
+    *  L={0,1,2,3,4,5,6,7,8,9,10};
+    *  A.plus = function(L)        //可以把函数赋值给一个复合变量
+    *     {
+    *        var sum=0; foreach(l in L) sum+=l;
+    *         return sum;
+    *     };
+    * sum6 = L.(A.plus)();   这个时候A.plus就是函数指针
+
+06/07/2011
+ 1. TIE 支持multi-dimensional type cast 例如:(TIE script), 语法跟C#一样, 函数s_varnext()在JExpression.cs文件得到了增强
+    new int[,] { {1,2}, {3,4}, {5,6}};
+
+ 2. VAL.HostValue返回准确的多维数组,根据cast的类型, 
+	VALL.HostValue支持多维数组的转换,从VAL到int[,,,]
+    VAL.Boxing()支持多维数组的转换,从int[,,,]到VAL
+
+ 3. 系统函数MakeArrayType支持1,2个参数, 1个参数时候,为一维数组, 第二参数为多维数组的rank
+
+
+
+06/07/2011
+由于HostOffset.value和VAL.value存在2个相同的拷贝,很难维护,把HostOffset.value取消,
+  也就是说,Host中的数组保存在VAL中是hostcon类型的. 没有转为VALL.
+
+增加VAL.Boxing1(object), 不Boxing Array类型的数据,
+增加public VAL(Array), 把.NET Array转换为VALL.
+ 
+
+06/06/2011
+    1. 支持多维属性,例如
+       this[int i, string j, int k] { get; set;}
+    2. 支持多维数组 int[,] A = new int[,] { {1,2}, {3,4}, {5,6}}
+
+对于.NET对象的数组,一旦传入到TIE的VALL中,如果对数组进行修改,实际上就是对VALL修改, 对.NET的数组值没有影响,
+所以对class HostOffset 增加了public object value, 以保存原始的host值的reference,这样当修改数组时候,可以修改.NET host数组的值
+VAL.getter函数,增加分支:
+	 if (this.temp is HostOffset)
+	 用来处理给数组元素的赋值的问题.
+
+   譬如:
+   class Demo
+   {
+     public int[] A = new int[] { 1,2,3,4};
+   }
+
+   Demo d = new Demo();
+
+   DS.Add("d", VAL.Boxing(d));
+   string code = @"
+      d.A[1] = 2;
+   ";
+
+   
+
+06/04/2001
+  增加函数fieldof,可以读/写 private/protected 变量
+  例如:
+	var ret = p.fieldof("privateValue", 10000);
+    privateValue = p.fieldof("privateValue");
+
+  增加methodof,可以call private/static/public/pretected .NET　method
+  函数返回 MethodInfo, 因为这个methodinfo可以多次invoke
+  例如:
+	plus = p.methodof(typeof(int), 'plus', {typeof(int), typeof(int)});
+	sum20 = plus(12,8);
+	sum60 = plus(32,28);
+
+06/03/2011
+   用于property name相同,但是返回类型不同的情况下,get/set property
+   value = propertyof(host, returnType, propertyName);
+   propertyof(host, returnType, propertyName, value);
+     例如:
+       var ret = listBox.propertyof(typeof(string),"SelectedValue");
+       listBox.propertyof(typeof(string), "SelectedValue", 100);
+
+   同时也支持没有returnType参数的, 假如没有歧义的话, 可以读/写private/static/public/protected属性
+   value = propertyof(host, propertyName);
+   propertyof(host, propertyName, value);
+ 
+
+06/02/2011
+   增加Coding.InvokeFunction函数, 用来在.NET中直接调用TIE function/class
+   VAL i6 = Coding.InvokeFunction(DS, new VAL(), "function(a,b,c) { return a+b+c;}", new object[] { 1, 2, 3 }, null);
+   System.Diagnostics.Debug.Assert(i6.Intcon == 6);
+
+
+05/31/2011
+   1.修正HostOperation中的Offset和Assign的bug, 原始版本用type.IsArray来检查是不是可以用int作为数组下标, 后来修改为用 if( host is IList), 有bug
+     因为一些class实现了IList,并且还实现了this[string]的属性, 但不是Array, 所以恢复到老版本
+
+05/30/2011
+   1.HostValization.Val2Host增加对event的支持,这样在VAL/JSON中就可以定义event, 例如:
+    {
+       Class: "System.Windows.Forms.Button",
+       Name: "btnSave",
+       Text: "Save",
+	   Click: delegate(sender,e){System.Windows.Forms.MessageBox.Show("Button [Save] is clicked.");},  //MessageBox must be registered.
+       Size:  new System.Drawing.Size(120, 30),
+       Location : new System.Drawing.Point(100, 120)
+     }
+
+  2.HostValization.Host2Valor 增加对ICollection的支持
+  3.class Script 中增加一组函数,可以invoke TIE script中的$class, $function, 和 Chained functions
+
+
+
+5/29/2011
+   1.high-level function 支持系统函数, 系统函数只能用字符串,譬如要使用size函数,要传入'size', 不能传入size,因为size这个时候会看成变量,没有定义,值为null
+     参见例子FunctionTest.cs
+
+5/28/2011
+	1.支持像Listbox中的Items属性,只读,而且是ICollection的Val2Host
+	2.支持class VAL的ICollection<VAL>
+
+5/26/2011
+  1.伟大的创举, 把statement变成expression, 用匿名函数实现, 函数体里面可以是各种语句
+    sum = function(a,b) { return a+b;} (20,30);  ---> 50
+
+5/25/2011
+  1.改变FunctionChain的Policy, 让后加入的函数,优先运行,可以override以前的函数
+  2.支持语法
+     I1 = new int[] {1,2,3};
+	 I2= new string[];  不支持 I2 = new string[2][4];
+
+
+5/24/2011
+  1.支持用户扩展的System Function,使用
+		Script.AddSystemFunction(functions);  见HostTypeHelper.cs
+  2.增加FunctionChain class支持先加入的函数先运行, 删除上面一项功能
+
+5/23/2011
+  1.实现强制类型转换, 例如 (double[]){1,2,3} 
+  2.支持数组类型,如: string[], 暂时不支持generic类型如: Dictionary<string, int>
+  3. C# 关键字类型被支持, int, uint, byte, float, decimal, double, long, short, ubyte,ulong,ushort, char, string, bool, object
+  4. 如果要支持更多的类型cast, 请用register
+  5. 取消as函数,用cast替换. 增加 as 表达式, 例如: A = X as string;
+
+
+5/22/2011
+  1.VALL 由public改为internal
+  2.VAL,VALL和Instruction上的ISerilizable用IValizable实现
+
+
+05/20/2011
+   1.对host类型的提供Devalizer的支持, Devalizer根据VAL的值来产生一个Host的实例
+   如果valor是一个list,那么Devalizer在VALL.HostValue中被调用.否则在HostValization.Val2Host(VAL, object) 中被调用
+
+
+05/19/2011
+   1. 区别 Host2Valizable(host) 和 Host2Val(host), 第一个用来Valizable的,第二个可以用来调用 Val2Host(val,host)的
+   2. 增加.NET支持注册type和Valizable的能力
+	  例如:
+	     public delegate string Valizable(object host);
+	     HostType.Register(typeof(System.Drawing.Size), delegate(object host)
+                    {
+                        Size size = (Size)host;
+                        return string.Format("new System.Drawing.Size({0},{1})", size.Width, size.Height);
+                    }
+            );
+
+	3. ValPersistentAttribute 改名为 ValizableAttribute
+	   NonValPersistentAttribute 改名为 NonValizedAttribute
+
+
+05/18/2011
+   1.支持Coding.Execute(..) 返回值, 用return 语句返回,最后一句话必须是return, 修改了CPU.cs的RET指令解释
+   2.修改了CPU bitwise指令,能识别是int类型还是enum类型
+   3.增加函数valizable(host)返回persistent string
+
+05/17/2011
+   把数组类型的值cast为(object[]), 修改成cast为(System.Array), 这样value type的数组就不会出错, VAL.cs, HostOperation.cs
+   
+   list可以保持数组或者HostObject
+   1.如果list.Class是array,那么就是普通数组,否则就是HostObject
+   2.参照VALL.HostValue
+   
+   扩展ValPersistentAttribute用来支持任意的HostObject的VAL序列化, HostPersistent.cs
+
+
+05/08/2011
+	修正JParser.cs中对foreach(var element in collection) 中的循环元素element的初始化.
+	否则element在堆栈存储的地方,有可能是其他变量存储过的,会修改其他变量的值,因为.NET reference的原因.
+
+    exp1 is exp2 修改为GetType(exp1) == exp2, 原先使用typeof()函数
+
+	增加函数 islist(L) 返回是不是list值
+
+
+05/04/2011
+   增强HostOperation.HostTypeFunction(...)的功能,如果根据函数值不能确定调用哪个C#函数,
+   那么就搜索所有具有相同函数名字和相同参数个数的函数,然后再比较参数类型是不是相容
+   
+   新功能:  
+     A = {}.typeof("System.String[]") 等价于--> string[] A = new string[0];
+     A = {}.typeof("System.Int32[]")  等价于--> int[] A = new int[0];
+     A = {}.as("System.String[]") 等价于--> string[] A = new string[0];
+	 而在区别就是
+	   typeof 
+			不产生一个拷贝, 
+			只能用于list
+			typeof的类型可以是任何字符串,譬如typeof("SET"), 是集合类型,
+			如果类型碰巧是.NET类型,那么跟as作用相同
+	   as 
+			产生一个拷贝,原来的list不变, as必须是已知的.NET类型
+			as可以用于任何类型的转换
+
+	    
+
+对于null的类型转换, 参照SystemFunction.cast(VAL val,Type type)
+                 *   譬如C#中 
+                 *   S =(string[])null;  
+                 *   A = (int)null;
+                 *   
+                 *  那么类型type保存在val.temp中,
+                 *     参照: HostOperation.HostTypeFunction(object host, string func, VALL parameters)
+                 *     在查找.NET method时候会使用(Type)val.temp 作为参数类型的.
+
+修改的文件有: 
+	VAL.cs
+	VALL.cs
+	HostOperation.cs
+	HostType.cs
+	SystemFunction.cs
+	测试的文件有:
+	BasicTest.cs
+
+
+
+04/29/2011
+   CPU.cs 修正bitwise运算的错误
+   SystemFunction.cs 增加对任意类型值的强制转换(不支持SliverLight)
+
+
+03/17/2011
+文件SystemFunction.cs
+增加函数register(assemblyName,className), 可以用于static method, enum, 返回注册好的Type
+如:
+   假如plus是静态方法, 
+   A = register("Tie.UnitTest", "UnitTest.VALTest").plus(20,30);
+   B = UnitTest.VALTest.plus(30,40);
+   
+   //public enum MyColor
+   C = register("Tie.UnitTest", "UnitTest.MyColor").red;
+
+   也可以这样使用:
+   A = typeof("Tie.UnitTest", "UnitTest.VALTest").plus(20,30);
+   C1 = typeof("Tie.UnitTest", "UnitTest.MyColor").red;
+   C2 = typeof("UnitTest.MyColor").red;
+
+文件JParser.cs
+修正在if(调用函数) .. else ... / do .. while/ while(..)... /for(...)... 语句的RemoveRegisterTop的错误,修改s_expr() 为 s_expr1(),
+
+
+
+03/14/2011
+ 修正当属性值为void时候, dict插入2个相同的属性的错误. 修正CPU.cs
+ 
+ 譬如:
+ base.S1 为void, 因为这个变量没有定义过, CPU认为这个变量不存在,就插入这个变量(属性)
+ string THIS="States.S2";
+            Memory memory = new Memory();
+            Coding.Evaluate(THIS, "this.from(base.S1) && base.S1.Completed)", memory, new WorkflowFunction());
+            VAL nodes = Coding.Evaluate("States", memory);
+
+
+支持JSON的Key不打印双引号, 增加VAL.ToJSON()函数, 修改了Export.cs 和VAL.cs
+如:
+   { ID: 100, Key: "Name"}
+
+
+03/06/2011
+  修正HostCoding.ToHostArray函数中的ValueType数组cast到object[]数组的问题
+  增加SystemFunction函数as用来进行类型转换
+  譬如
+      E={10,11,12,13,14,15};
+      E4 = E.as(ObjectArray);		//HostType.Register("ObjectArray", typeof(System.Object[]));
+      i=12;
+      byte = i.as(System.Byte);
+
+11/19/2010
+  修正foreach中的不能存取Dictionary<T,T>元素的错误, HostOperation.HostTypeOffset(...), 通过使用IEnumerator来存取数据
+
+11/17/2010
+  支持try...catch..finally
+       *  可能不止一个catch,但是我们这里打算只支持一个catch,因为我们没有Exception类型检查机制
+        *  多个catch可以用一个catch替代
+        *  如:
+        *    C#
+        *    try
+        *    {
+        *     ...  
+        *    }
+        *    catch(RuntimeException e1)
+        *    {..}
+        *    catch(Exception e2)
+        *    {...}
+        *    
+        * 可以用下面的语句替代
+        *    try
+        *    {..}
+        *    catch(e)
+        *    {
+        *      if(e is RuntimeException)
+        *         ...
+        *      else if(e is Exception)
+        *        ...
+        *    }
+
+11/16/2010
+  1. "string"*3 = "stringstringstring"
+  2. HOST(val) 强制类型转换为hostcon
+  3. 增加HostType.Register(Type[] types)
+  4. 支持is操作符,如:  if( dt is System.Date) ...
+  5. foreach(a in L) ... 可以写作 foreach(var a in L) ...
+  6. 增加对操作符is的支持
+      b1 = typeof(today)==System.DateTime;
+      等价于 b2 = today is System.DateTime; 
+  7. 取消INSTYPE.PAL指令, 把 ident:exp 转换为 
+		INSTYPE.MARK
+		INSTYPE.MOV "ident"
+		INSTYPE.MOV exp
+		INSTYPE.END 
+  8. 把if(a in A) .. 转化为 if(a<A)....
+  9. 支持函数的可变参数,譬如:
+      Format = function(prefix, fmt, args)
+      { 
+          return prefix + System.string.Format(fmt,args);
+      };
+      stringFormat = Format(':::', '{0}={1}.{2}:{3}','A',20,30,'B');
+	  函数Format只接受3个参数, 而Invoke函数的参数有6个, 那么多余的参数自动的压制成数组{'A',20,30,'B'}当成最后一个参数args传入
+      
+
+11/14/2010
+   1.增加Fault-Tolerance设计,例如
+           textBox = new System.Windows.Forms.Text();  
+           prop = { Text: "Hello",
+                     Location : new System.Drawing.Point(60, 40),
+                     My : count
+                   };
+          textBox += prop;   
+   2. 增加对instance在.NET Host和 TIE Guest之间的变量值的同步
+      Script.AddInstanceFields(object instance) 
+      Script.SyncInstanceFields(object instance)
+	  
+   3.TIE函数type(val)返回VAL的类型,如: TYPE.STRING, TYPE.INT
+	 TIE函数typeof(list)返回 listcon的Class值,而list.typeof("SET")可以设置Class的值     	   
+
+11/13/2010
+  TIE Script中的函数也支持Extened Method的格式,注意只有静态函数才有意义
+
+11/12/2010
+  add keyword "void", means thing is not existed or undefined.
+  对于HostType的值,区分Instance["Index"]和Instance.Index, 这二个是不一样的
+  增加新的类型voidcon
+  删除旧的类型usercon,这个可以用listcon加类型来代替.
+
+
+
+11/11/2010
+   支持Module,Library, function, class的Serialization
+
+
+
+11/10/2010
+   1.把变量的namespace的概念换成scope, 并用#scope来控制变量的scope
+   2.支持在TIE src中的#module directive, 会自动修改Library中的moduleName.
+     #module Shape 建议写在代码的第一行,然后可以控制function和class的moduleName
+
+   3.重新整理的VAL,VALL的[]操作函数, 为支撑class继承做好基础
+
+   4.支持TIE class的继承
+      * 格式:
+             *   Circle = class(x,y,r):Point(x,y) 
+             *   { 
+             *     ...
+             *   }  
+             *   转化为 
+             *  Circle = class(x,y,r)
+             *  { 
+             *    this.$base= new Point(x,y); 
+             *    ...
+             *  }  
+             * 
+  
+  把具体基类的实例存储在 $base 分量下面
+  如
+     {{"$base",{{"$base",new object(System.Windows.Forms.Form)},{"MyProp1",100}}},{"MyProp2",20}}
+
+ 对于第一次在class中出现的变量, 如果写成this.variable那么就是属性,如果不写的话,就是global变量
+ 后面的语句写不写this不要紧,因为优先到当前的class中寻找
+
+
+
+11/09/2010
+  从CPU类里面分离出Context,Conext包含DS0,DS1,DS2
+  这样的话,代码在Module里面, 数据在Context里面, CPU使用Module和Context运行出结果
+
+
+11/08/2010
+  1.支持函数指针变量在 函数参数中的传递实现high-level function
+    系统函数不被支持,因为无法判断是不是喜欢函数
+
+  2.增加 public static VAL HostTypeFunction(VAL proc, VALL parameters) 函数,refactoring 简化函数调用
+
+  3.在CPU中的 { MOV 常数 } 指令, 把常数clone,传入到REG中, 防止CS段中的指令被破坏
+  
+  4.VAL.NewCopyVAL函数,增加temp的Clone
+
+  5.传统方式的C语言函数已经fixed, 通过转换来解决问题
+      function plus(a,b}
+	  { ... }
+	  转化为 plus = function(a,b)
+	  {...};
+
+  6. var声明可以是expression,例如:
+     for(var i=0; i<100; i++) sum+=i;
+
+11/03/2010
+   用来支持JSON格式的Associative Array输入 { Width:40, Height:200} 等价于 { {"Width",40}, {"Height",200}}
+   支持类似Python格式的sliced list
+   只有2种方式
+         A={"a","b","c","d","e","f","g"};
+		 B=A.slice(1:3)   --> {"b","c","d"}
+		 B=A.slice(1:4:2) --> {"b","d","e"}
+
+  Python				Tie   
+-----------------------------  
+  A[:]				  A.slice()
+  A[start:]			  A.slice(start)
+  A[:stop]			  A.slice(0,stop)
+  A[start:stop]		  A.slice(start,stop]
+  A[start:stop:step]  A.slice(start,stop,step)
+  A[start:stop:]	  A.slice(start,stop)
+  A[start::step]      A.slice(start,-1,step)
+  A[:stop:step]		  A.slice(0,stop,step)
+  A[::step]			  A.slice(0,-1,step)
+  
+ 
+
+11/02/2010
+  增加HostOperation.HostComparto函数用于支持Host类型的值的比较
+  支持Host class的函数指针,这个功能很强大
+      1. 例如 .net 的一个class CLSS, 原先有一个方法叫 method1(int), 后来取消了这个方法, 换成另外一个方法 method2(int, string)
+	     在TIE可以这样使用
+		  a = new CLSS();
+		  if(a.method1!=null)
+		     a.method1(10);
+          else 
+		     a.method2(10,"message");
+
+      或者这样使用
+	      mth = a.method1;
+		  if(mth!=null)
+		     mth(10);
+		    
+
+
+11/31/2010
+  增加系统函数:
+    队列: Q.enqueue(q); q =Q.dequeue(); 队列可以用 Q.enqueue(q) 等价于 Q = {q}+Q;  q=Q.dequeue() 等价于 q = Q.pop();
+	堆栈: S.push(s); s = S.pop();
+	通用: L.insert(index,e);
+	     L.remove(index);
+		 L.range(start,stop, step) --> 指定的子表
+
+10/30/2010
+	增加Script.AddFunction/RemoveFunction, 让系统容易增加用户定义的函数
+
+10/29/2010
+  在Class Script中增加DEBUG功能,可以到指定的行breakpoint,停下来,也可以继续运行
+    * 用例: 每一行都停顿
+         * 
+         *  int line = 1;
+         *  if(script.DebugStart(src))
+         *      while(script.DebugContinue(line++, handler));
+
+
+10/28/2010
+   增加ExceptionPosition类,这样的话,如果TIE 运行出错的时候,就会记录出错的位置, 
+   class Module 保存source code,以便在一个模块调用另外一个模块时候,能准确的发现那个源程序出错.
+
+10/28/2010
+  CPU和Function中的pipe被取消, 这个功能可以用memory传递HostType变量来实现
+       在运行以前调用  memory.AddHostObject("pipe",pipe);
+	   在函数体内使用  T pipe = (T)(memory["pipe"].HostValue);
+
+10/27/2010
+   1. 在VALL中增加了一个属性ty,用来保持HostType数组的类型的.其他情况下没有用处, 
+      因为如果HostType类型的数组,如果element为null,很难自动判断是数组的类型,
+      这样导致在invoke .net函数时候导致函数的argument类型不一致
+   2. 增加delegate关键字,跟function是等价的
+
+
+10/25/2010
+  支持SilverLight
+
+10/19/2010
+  支持Nullable<T>类型的复制
+  修正对函数变量再次复制的错误,因为function也使用temp, 跟hostType和冲突
+  
+10/18/2010
+  DateTime是TIE内置类型,为了使用.NET中的DateTIme类型变量,需要CAST到HostType, 用HostType(...). 同理string也是一样的.
+
+10/15/2010
+   修正list中的调用函数RMT的错误,增加了s_expr1函数,List是不需要RMT的
+
+10/14/2010
+      cast-function VAL(val) 可以强制val不自动unboxing 
+
+10/12/2010
+  修正HostCoding.Decode的bug
+  修正JExpression中的对于namespace优先级的问题,function中的arguement优先级更高
+  公开接口类封装为sealed
+
+10/11/2010
+  修正class Position中的错误
+
+10/10/2010
+   修正HostType.Decode中的NewInstance错误
+
+10/9/2010
+  增加RuntimeException的source code位置定位功能
+  在Debug版本下,增加编译的深度log信息, 每一行源代码所产生的机器码一一列出
+
+10/8/2010
+  1.新函数:
+    CreateInstance(Type, {...});
+  2.VAL.HostValue 如果返回数组的话,就自动适应为.NET类型
+  3.修正.NET的Host类型的数组赋值错误,HostOperation.HostTypeAssign(....)
+    
+
+10/7/2010
+  VAL.NewBestVAL --> 修改为VAL.Boxing
+  VAL.HostValue  --> 扩展为VAL.Unboxing, 概念跟.NET的Boxing/UnBoxing类似,把object封装到VAL类型中叫做Boxing,反之叫Unboxing
+  存在的问题为,要不要对array的object: (2种选择不好定, 目前是封装为VAL的list, 这个就要求C#的函数使用object[]数组)
+     1. 封装为VAL的list,
+     2. 封装为HostType的array
+     
+     
+  修正局部变量的x.y和x[y]操作时候,当x为null时候发生的错误
+
+10/6/2010
+  s_exp1()函数返回值
+  s_exp() 函数的返回值被削掉RMT指令
+  把Host部分的一部分函数隐藏起来,产生新的class HostCoding和HostOperation
+  增加对父进程的判断,以决定是不是在design mode环境, 用于trial目的
+
+10/5/2010
+	修正i++, ++i的错误, 在CPU.cs和Parser.cs
+	增加foreach(element in collection)语句, element自动设置为局部变量,如果element在foreach语句之前被var定义过,那么重用这个变量
+
+10/4/2010
+  支持XML和JSON格式的输出
+
+10/3/2010
+   重新设计SymbolTable类,支持函数的嵌套,
+
+9/30/2010
+   1.修正simple函数在class内部的调用错误,使用SEG.NS表示为simple function, 复合函数的例子: this.func(a,b)
+   2.ENDP区分是class的ENDP还是函数的ENDP,如果没有return语句定义时候,class 缺省return this, function缺省return null;
+   3.把eventhandler的历史保存到Computer.DS中,并且提供Script.ClearEventHandler()函数
+   4. 增加using库函数功能,但是有bug
+   5.支持HostType的静态函数
+   6. CPU中,如果HostType的offset不存在,返回值修正为null
+   7.增加系统的Logger功能,支持Console,String,File三种模式
+
+
+9/29/2010
+修正event handler定义在class内部,而取不到对象instance的错误,VAL.Temp扩充为 new object[]{CPU,instance}
+修正函数内部局部变量的开始地址从[BP+1]开始,以前错误的地址是从[BP+0]开始,会覆盖函数的返回地址, 修改了class JSymbolTab 
+
+
+9/22/2010
+修正event handler的错误
+支持
+event  +=function(sender, e) {};
+event  -=function(sender, e) {};
+
+修正LIST的Reference错误
+L=L+a;   其中a修正为传值
+
+
+
+9/15/2010
+   修正在Coding.Decode中Invoke 函数的产生的bug, 在VAL.cs中修改的.
+
+9/2/2010 
+    Tie v2.0 版本
+    编译过的代码放在Libary里面
+    一个Libary可以包含多个Module, 每一个Module都有名字
+    一个Module可以包含多个CodeBlock, 最后一个CodeBlock可以容许被覆盖,
+
+
+8/26/2010
+支持event:
+  dt.RowChanged += function(sender, e)
+                {
+                    ID = e.Row['Workflow_ID'];
+                    //return;
+                };
+                
+                ID = dt.Rows[0]['Workflow_ID'];    
+
+C#代码:
+           Coding.Decode(code, CodeType.statements, DS);
+            dt.Rows[0]["Workflow_ID"]=20;
+最后DS["ID"] = 20
+
+
+支持调用函数
+	VAL x1 = Coding.Invoke(func, args);
+	VAL x2 = Coding.Invoke(DS["minus"], args);
+	VAL x3 = Coding.Invoke(DS["multiple"], 20, 30);
+
+
+
+
+8/20/2010
+增加了对HostType的enum类型的额外支持, 可以用int值给enum赋值
+以前的只有一种方法是:
+HostType.Register(typeof(MyEnum));
+
+
+3/14/2010
+PROC指令包含arguements个数,
+支持函数参数个数匹配检查.
+
+
+3/13/2010
+支持自定义对象
+例如:
+ #module Shape;
+                Circle = class(x,y, radius)
+                {
+                    this.x = x;
+                    this.y = y;
+                    this.radius = radius;
+  
+                    this.Area = function() 
+                    { 
+                        return this.radius*this.radius*3.1415;
+                    };
+                
+                    this.Circumference = function()
+                    { return 2*this.radius*3.1415; };        
+
+                    this.Distance = function(x1,y1)
+                    { return sqrt((x1-this.x)*(x1-this.x)+(y1-this.y)*(y1-this.y)); };        
+
+                   return this;
+                };
+
+           
+                circle1 = new Circle(0,1,2);
+                aa[0] = circle1.Area();
+                cc[0] = circle1.Circumference();
+                dd[0] = circle1.Distance(3,5);
+
+                circle2 = new Circle(1,2,4);
+                aa[1] = circle2.Area();
+                cc[1] = circle2.Circumference();
+                dd[1] = circle2.Distance(3,5);
+
+this的优先级,在class定义中内部的变量,函数优先. 如果不是在class中,那么this由namespace决定
+
+模块module名字解释:
+模块就是一组源程序,通常用在函数库. 存储在独立指令空间中, 也就是每一个模块CS的地址都是从零开始.
+
+支持加载模块Coding.LoadModule(....)
+一个模块中的语句可以调用另外一个模块中的函数
+
+
+
+
+
+3/9/2010
+  支持 function表达式, 这个是支持事件的基础, 如  
+	f = function(a,b) {return a+b;};
+                  c = f(20,30);        // --> c=50
+ 
+
+
+3/8/2010
+由于operator *addr 和 operator !"表达式", 事实上是重复的, 都是计算返回字符串表达式的值.
+所以把operator ! 升级为 operator !"语句"; 
+
+在new 一个.NET对象时候, 对于没有注册的,NET 对象, 系统会自动到已经加载的Assembly列表中去查找, 然后产生实例
+如:  lb = new System.Windows.Forms.ListBox();
+
+3/4/2010
+         用字符串表示变量的地址, 操作符&var是返回变量var的地址 
+          &this     返回this指向的名字空间,例如: "ImageTable.Q"
+          &base  返回base指向的名字空间,例如: "ImageTable"
+          &var      返回变量var的地址, 变量的地址就是字符串, 变量名字本身, 如 &var --> "var"
+          *addr    返回地址所指向的值,  所以譬如  *(&this) == this
+例如:
+            
+	System.Math.x='xxx'; System.Math.y='yyy'; 
+	namespace System.Math ; 
+	addr1 = &this.x;			// 返回"System.Math.x",   而&addr1 则返回"addr1"
+                  addr2 = &this;			// 返回"System.Math"
+                  addr3 = &base;			// 返回"System"
+	val = *addr1; 			//  返回"xxx"
+
+	tx = {{'x',1},{'y',2},{'z',3}};    
+                  B0 = &tx.x;			//返回"tx.x"
+                  B1 = &tx[1];    			//返回"tx[1]" 
+                  B2 = &tx['z'];   			//返回"tx['z'];
+	B3 = &{{'x',1},{'y',2},{'z',3}}.y;      		//匿名数组没有变量名字,也就是返回的地址为null    
+
+	val = *B1; 		                                    //支持数组下标的  val=*"tx[1]";
+                   *B1 = 12;                                                       //对数组赋值 
+
+以上操作只对全局变量有效, 局部变量在stack中,全局变量在heap中.
+
+增加了2条指令: ADR, VL, 分别为取址和取值
+&, * 的优先级和 !,  -,  ~  一样
+
+
+
+3/4/2010
+支持.NET enum 对象, struct中的静态属性譬如System.Drawing.Color.Red
+
+
+3/3/2010
+支持对.NET对象的. property/Array/Method的支持,
+event暂时不支持,
+在VAL.NewHostType(object o),  如果传入的struct类型的值, 好像boxing不起作用, 前几天还是可以的.
+例如: 
+C# code:
+    Computer.DS.Add("dataTable", VAL.NewHostType(SQLCommand.FillDataTable("SELECT .. FROM ..."));
+
+Tie code
+   dataTable.Row[0]["Column1"] = 12;
+   dataRow =  dataTable.NewRow();
+   dataRow["Column1"] = 200;
+   dataTable.Rows.Add(dataRow);
+
+
+支持在Tie中 new objec,
+C# code:
+    HostType.Register(new System.Windows.Forms.Label());
+
+
+Tie code:
+   label = new System.Windows.Forms.Label();
+   label.Text = "Hello world";
+
+
+
+
+3/1/2010
+支持在Tie用类似C#语言的语法,对.NET object的支持, 例如:
+       a = new Tie.VAL();
+       a.Str = 'ABC';     
+       b = a.Str + "12";       
+
+那么在Visual Studio中等价于  
+      a = Tie.VAL.NewHostType("ABC");
+
+2/28/2010
+支持.Net object对象登记
+用法例子:
+            HostType.Register(typeof(VAL));   //或者         HostType.Register(new VAL("XXX"));     //这个定义了缺省的实例值
+            Memory myDS = new Memory();
+            net = @" {
+                 a1 = new object(Tie.VAL,{{'Intcon',123}});
+                 a2 = new object(Tie.VAL,{{'Floatcon',400.12}});
+                 a3 = new object(Tie.VAL);			//使用缺省的实例值
+                }";
+            Coding.Decode(net, CodeType.statement, myDS);
+
+支持预先把Registry值保存在数据库里,然后使用
+HostType.Register(DataTable, Memory) 读入到内存中
+
+
+
+
+
+2/27/2010
+通过SoapFormatter或者BinaryFormatter, 实现VAL对.NET object的Serialization支持. Coding.Decode函数支持.NET object实例化
+,NET对象存储格式为XML SOAP格式
+NET object 类型为VALTYPE.hostcon
+
+
+
+11/08/2009
+   支持格式 base.base.x
+   取值: BSE  n
+             THS  0
+   取址: BSE [n]
+             THS [0]
+
+11/05/2009
+   启用关键字base
+   如当前的namspace为ImageTable.Q, 那么 
+	this.x = 100    等价于 ImageTable.Q.x=100
+	base.x = 100  等价于 ImageTable.x=100
+   如当前的namspace为ImageTable, 那么 
+	this.x = 100    等价于 ImageTable.x=100
+	base.x = 100  等价于 x=100
+   如当前的namspace为空, 那么 
+	this.x = 100    等价于 x=100
+	base.x = 100  会产生错误, throw exception
+
+09/12/2009
+  修正namespace有语法错误导致的死循环
+  支持runtime操作符!, 用来计算表达式.
+    e.g.
+     a=12;
+     b=!"a+1"+3  --> 16
+
+09/10/2009
+    fix bug, 当有名字空间的函数参数为空的时候,不能返回正确的值,  e,g A.sin()
+    扩展 dot运算符和[]运算符语法. 支持下列格式
+        this.write(14)[0].x;
+    含义解释:
+     A.Sin(30)  --- >  Sin(A,30)
+     A.Sin(30).Cos(40) .B[1]  -->  Cos( Sin(A,30), 40).B[1]
+
+
+09/08/2009
+    修正private VAL GetScopeVAL(string scope)的bug.
+    e.g. 第一次 workflow.states.TableImage1 能正确返回(如果TableImage属性不存在,自动产生一个)
+    第二次workflow.states.Grid就不能正确返回(不能自动产生不存在的属性)
+
+09/07/2009
+ .NET object 类型修改为VALTYPE.hostcon
+ 测试了, 用户自定义class类型,  
+    e.g.
+      new Set(1,2,3,4,5).   --> ty = usercon; value = {1,2,3,4,5}
+
+      My.x=5;, My.y = 6;
+      new My.Set(1, 2, 3, 4, 5).   --> ty = usercon; value = {{{"x",5},{"y",6}}, 1, 2, 3, 4, 5}
+      new My.Set(1, 2, this.x, 4, 5).   --> ty = usercon; value = {{{"x",5},{"y",6}}, 1, 2,  5, 4, 5}
+
+自定义类型是目前是用来支持Messaging System的,
+
+    增加关键字namespace
+    增加语句 namespace  System.Math;
+例如:
+	System.Math.x='xxx'; 
+	System.Math.y='yyy'; 
+	namespace System.Math ; 
+	a= new this.Set(32, this.x, true);    -->  new Set({{"x","xxx"},{"y","yyy"}},32,"xxx",true)	
+		
+
+09/05/2009
+  1. 支持格式像System.Math.sin(3.14) 的函数, 转化为 sin(System.Math, 3.14)的函数
+  e.g.
+   person = { {"name", "Zhang Shan"}, ｛"age",20}};
+   person.save("tableName")
+    --> save(person,"tableName")
+ 
+    s_var()返回是简单变量或者复合变量
+
+ 2.  支持$作为开始字符的变量名, 可以作为系统变量
+
+ 3. 支持复杂变量的的a.b[1].c +=2;     引入新的指令: INSTYPE.RCP, 用于register 的复制, 修改了函数repeatvar(), 以前是compile是通过复制机器码, 
+
+现在是在runtime时实现的.
+
+08/31/2009
+      +=, -= 等只支持简单变量,譬如 i+=2; 不支持复合变量,例如下面的表达式
+     a.x=1; 
+     a.x += 12;
+
+     修正下列语句带来的无限递归错误, 在VAL.cs,  +operator, 没有使用v1的clone值而导致错误
+     nextState = 260;
+     nextState = nextState+{259};
+
+08/14/2009
+	支持namespace, 和this操作符
+	修正整数和浮点数不能比较的错误

@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{77E4EE61-D572-423B-8E14-6855CD01861A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnitTest</RootNamespace>
+    <AssemblyName>Tie.UnitTest</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <ManifestCertificateThumbprint>7FC92C977BCFD429BC1057F1BC769AFE6B24B95C</ManifestCertificateThumbprint>
+    <ManifestKeyFile>Tie.UnitTest_TemporaryKey.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <PublishUrl>c:\devel\bin\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://localhost/</InstallUrl>
+    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;EXTEND</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Basic|AnyCPU'">
+    <OutputPath>bin\Basic\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Extend|AnyCPU'">
+    <OutputPath>bin\Extend\</OutputPath>
+    <DefineConstants>EXTEND</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArrayTest.cs" />
+    <Compile Include="BasicTest.cs" />
+    <Compile Include="CastTest.cs" />
+    <Compile Include="ClassTest.cs" />
+    <Compile Include="DebugTest.cs" />
+    <Compile Include="DelegateTest.cs" />
+    <Compile Include="EventTest.cs" />
+    <Compile Include="ExtendMethodTest.cs" />
+    <Compile Include="FaultToleranceTest.cs" />
+    <Compile Include="FunctionTest.cs" />
+    <Compile Include="GenericTest.cs" />
+    <Compile Include="HostObjectTest.cs" />
+    <Compile Include="HostPersistentTest.cs" />
+    <Compile Include="HostTypeHelper.cs" />
+    <Compile Include="JSONTest.cs" />
+    <Compile Include="LambdaExpressionTest.cs" />
+    <Compile Include="MathTest.cs" />
+    <Compile Include="MultidimensionalArrayTest.cs" />
+    <Compile Include="OperatorTest.cs" />
+    <Compile Include="ParamsTest.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HostObjectSerialization.cs" />
+    <Compile Include="PropertyTest.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SET.cs" />
+    <Compile Include="SqlCmd.cs" />
+    <Compile Include="StatementTest.cs" />
+    <Compile Include="SubclassTest.cs" />
+    <Compile Include="Test.cs" />
+    <Compile Include="TryCatchTest.cs" />
+    <Compile Include="UserDefinedFunctionTest.cs" />
+    <Compile Include="VALTest.cs" />
+    <Compile Include="VariableOperatorTest.cs" />
+    <Compile Include="XMLTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tie\Tie.csproj">
+      <Project>{0FAD3400-65A1-458F-9280-89925A6F7731}</Project>
+      <Name>Tie</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
