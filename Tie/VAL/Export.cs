@@ -104,7 +104,7 @@ namespace Tie
                 }
                 o.Write(Indent(tab)); o.Write("}");
                 if (!quotationMark && val.Class != null)
-                    o.Write(".typeof(\"{0}\")", val.Class);
+                    o.Write(val.encodetypeof());
             }
             else if (val.ty == VALTYPE.listcon)
             {
@@ -121,7 +121,7 @@ namespace Tie
                 }
                 o.Write(Indent(tab)); o.Write("]");
                 if (!quotationMark && val.Class != null)
-                    o.Write(".typeof(\"{0}\")", val.Class);
+                    o.Write(val.encodetypeof());
             }
             else if (val.ty == VALTYPE.hostcon)
             {

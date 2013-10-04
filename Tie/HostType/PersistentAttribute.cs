@@ -25,7 +25,7 @@ namespace Tie
     /// <summary>
     /// Represents non valized attributes.
     /// </summary>
-    [System.AttributeUsage(System.AttributeTargets.Field)]
+    [System.AttributeUsage(System.AttributeTargets.Field | System.AttributeTargets.Property)]
     public class NonValizedAttribute : Attribute
     {
     }

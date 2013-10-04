@@ -116,14 +116,33 @@ namespace Tie
                 case "typeof":
                     if (size == 2)
                     {
-                        if (L0.ty == VALTYPE.listcon && L1.ty == VALTYPE.stringcon)            //1.
+                        if (L0.ty == VALTYPE.listcon)                   //使用2个参数, 例如{1,2,3}.typeof(System.Int32[]), 
                         {
-                            L0.Class = L1.Str;
-                            return L0;
+                            if (L1.value == null)                       //1.1如果没有注册过,试图search DLL,譬如:Color=typeof(System.Drawing.Color)
+                            {
+                                Type ty = HostType.GetType(L1.name);
+                                if (ty != null)
+                                {
+                                    L0.Class = ty.FullName;
+                                    return L0;
+                                }
+                                else
+                                    return L0;                          //1.1.2 如果没有注册过,那么忽略数组类型
+                            }
+                            if (L1.ty == VALTYPE.stringcon)             //1.2 例子: {2,4,5}.typeof("System.Int32[]")
+                            {
+                                L0.Class = L1.Str;
+                                return L0;
+                            }
+                            else if (L1.ty == VALTYPE.hostcon)
+                            {
+                                L0.Class = L1.HostValue.ToString();     //1.3 例子: {2,4,5}.typeof(System.Int32[]) 或者 {2,3,4}.typeof(int[])
+                                return L0;
+                            }
                         }
                     }
                     else if (size == 1)
-                    {
+                    {                    
                         if (L0.value == null)       //如果没有注册过,试图search DLL,譬如:Color=typeof(System.Drawing.Color)
                         {
                             Type ty = HostType.GetType(L0.name);
@@ -147,7 +166,7 @@ namespace Tie
                         }
                         else if (L0.ty == VALTYPE.stringcon)
                         {
-                            return VAL.NewHostType(HostType.GetType(L0.Str));    //6.
+                            return VAL.NewHostType(HostType.GetType(L0.Str));    //6. typeof("System.Int32[]")
                         }
                     }
                     break;

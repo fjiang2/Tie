@@ -29,14 +29,15 @@ namespace UnitTest
             DS.Clear();
             Script.Execute(code, DS);
             System.Diagnostics.Debug.Assert((string)DS["I0"].Valor == "{1,2,3}");
-            System.Diagnostics.Debug.Assert((string)DS["I1"].Valor == "{1,2,3}.typeof(\"System.Int32[]\")");
-            System.Diagnostics.Debug.Assert((string)DS["I2"].Valor == "{}.typeof(\"System.String[]\")");
+            System.Diagnostics.Debug.Assert((string)DS["I1"].Valor == "{1,2,3}.typeof(System.Int32[])");
+            System.Diagnostics.Debug.Assert((string)DS["I2"].Valor == "{}.typeof(System.String[])");
 
             //System.Diagnostics.Debug.Assert((double)DS["F"].HostValue == 9.0);
             //System.Diagnostics.Debug.Assert(DS["B3"].HostValue == typeof(int[][]));
             //System.Diagnostics.Debug.Assert(DS["B1"].HostValue.GetType() == typeof(int[]));
             //System.Diagnostics.Debug.Assert(DS["D"].HostValue.GetType() == typeof(double[]));
 
+            VAL x = Script.Evaluate("{1,2,3}.typeof(int[])");
             Logger.Close();
         }
     }

@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie", "Tie\Tie.csproj", "{0FAD3400-65A1-458F-9280-89925A6F7731}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest", "Tie.UnitTest\Tie.UnitTest.csproj", "{77E4EE61-D572-423B-8E14-6855CD01861A}"
