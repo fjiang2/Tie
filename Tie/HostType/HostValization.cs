@@ -273,14 +273,14 @@ namespace Tie
                     return temp;
                 }
 
-                FieldInfo[] fields = host.GetType().GetFields();
+                FieldInfo[] fields = host.GetType().GetFields(BindingFlags.Instance);
                 foreach (FieldInfo fieldInfo in fields)
                 {
-                    //Field缺省转换为VAL, 除非设置NonValizedAttribute属性
-                    Attribute[] A = (Attribute[])fieldInfo.GetCustomAttributes(typeof(NonValizedAttribute), true);
-                    if (A.Length != 0)
+                    //Field缺省不转换为VAL 除非设置ValizableAttribute属性, 只存储简单的属性, 有下标的属性,不考虑
+                    Attribute[] A = (Attribute[])fieldInfo.GetCustomAttributes(typeof(ValizableAttribute), true);
+                    if (A.Length == 0)
                         continue;
-
+                    
                     //处理customerized的Persistent代码
                     object fieldValue = fieldInfo.GetValue(host);
                     VAL persistent = ValizerScript.ToValor(fieldInfo, fieldValue);
@@ -300,9 +300,12 @@ namespace Tie
                 PropertyInfo[] properties = host.GetType().GetProperties();
                 foreach (PropertyInfo propertyInfo in properties)
                 {
-                    //Property缺省情况下不转为VAL, 除非设置ValPersistent属性, 只存储简单的属性, 有下标的属性,不考虑
-                    ValizableAttribute[] attributes = (ValizableAttribute[])propertyInfo.GetCustomAttributes(typeof(ValizableAttribute), true);
-                    if (attributes.Length == 0 || !propertyInfo.CanRead)
+                    //Property缺省情况下转为VAL, 除非设置NonValizedAttribute属性
+                    Attribute[] A = (Attribute[])propertyInfo.GetCustomAttributes(typeof(NonValizedAttribute), true);
+                    if (A.Length != 0)
+                        continue;
+
+                    if (!propertyInfo.CanRead)
                         continue;
 
 
