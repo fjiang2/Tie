@@ -226,8 +226,8 @@ namespace Tie
          * 
          * 如果instance支持IValizable interface, 那么直接call GetValData()
          * 否则:
-         * public 变量, 缺省情况下被转换为VAL, 除非设置[NonValized]属性
-         * public 属性, 缺省情况下不转为VAL, 除非设置[Valizable]属性, 只存储简单的属性, 有下标的属性,不考虑
+         * public 属性, 缺省情况下被转换为VAL, 除非设置[NonValized]属性
+         * public 变量, 缺省情况下不转为VAL, 除非设置[Valizable]属性, 只存储简单的属性, 有下标的属性,不考虑
          * 
          * */
         private static VAL Host2Valor(object host, VAL val)
@@ -276,7 +276,7 @@ namespace Tie
                 FieldInfo[] fields = host.GetType().GetFields(BindingFlags.Instance);
                 foreach (FieldInfo fieldInfo in fields)
                 {
-                    //Field缺省不转换为VAL 除非设置ValizableAttribute属性, 只存储简单的属性, 有下标的属性,不考虑
+                    //Field缺省不转换为VAL 除非设置ValizableAttribute属性
                     Attribute[] A = (Attribute[])fieldInfo.GetCustomAttributes(typeof(ValizableAttribute), true);
                     if (A.Length == 0)
                         continue;
@@ -300,14 +300,16 @@ namespace Tie
                 PropertyInfo[] properties = host.GetType().GetProperties();
                 foreach (PropertyInfo propertyInfo in properties)
                 {
-                    //Property缺省情况下转为VAL, 除非设置NonValizedAttribute属性
+                    //Property缺省情况下转为VAL, 除非设置NonValizedAttribute属性, 只存储简单的属性, 有下标的属性,不考虑
                     Attribute[] A = (Attribute[])propertyInfo.GetCustomAttributes(typeof(NonValizedAttribute), true);
                     if (A.Length != 0)
                         continue;
 
-                    if (!propertyInfo.CanRead)
+                    if (!(propertyInfo.CanRead && propertyInfo.CanWrite))
                         continue;
-
+                
+                    if (IsStatic(propertyInfo))
+                        continue;
 
                     //处理customerized的Persistent代码
                     object propertyValue = propertyInfo.GetValue(host, null);
@@ -344,6 +346,12 @@ namespace Tie
 
             val.Class = host.GetType().FullName;
             return val;
+        }
+
+        public static bool IsStatic(PropertyInfo propertyInfo)
+        {
+            return ((propertyInfo.CanRead && propertyInfo.GetGetMethod().IsStatic) ||
+                (propertyInfo.CanWrite && propertyInfo.GetSetMethod().IsStatic));
         }
 
         //用来输出Persistent对象的,不能回填到函数Val2Host(VAL, object)中, 回填要使用Host2Val(object)的输出

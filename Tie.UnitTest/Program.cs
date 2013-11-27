@@ -18,13 +18,39 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tie;
-
+using System.Windows;
+using Microsoft.Maps.MapControl.WPF;
 
 namespace UnitTest
 {
     class Program
     {
         static void Main(string[] args)
+        {
+
+            Size size = new Size(100, 200);
+            VAL x = VAL.Boxing(size);
+            string sx1 = x.Valor;
+            
+            HostType.Register(typeof(AltitudeReference));
+
+            Location p905 = new Location(29.620931484730015, -95.629716997105);
+            VAL val = VAL.Boxing(p905);
+            string s = val.ToString();
+            string s1 = val.Valor;
+            string json = val.ToJson();
+
+            VAL v2 = Script.Evaluate(s1);
+            object obj = v2.HostValue;
+
+
+            Memory memory = new Memory();
+            string keyName = "XXX";
+            Script.Execute(string.Format("{0}={1};", keyName, VAL.Boxing(p905).Valor), memory);
+            VAL v = Script.Evaluate(keyName, memory);
+        }
+
+        static void Main1(string[] args)
         {
 
             HostType.Register(new Type[]
