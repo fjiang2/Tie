@@ -23,6 +23,15 @@ namespace UnitTest
         public static void main()
         {
 
+            VAL json = new VAL();
+            json["A"] = new VAL(1);
+            json["B"] = new VAL(2);
+            json.Add("C", 3);
+            Debug.Assert(json["C"].Intcon == 3);
+            Debug.Assert(json.Count == 3);
+            json.Remove("B");
+            Debug.Assert(json.Count == 2);
+
             string code = @"
 SET='SET';
 a.b.c.d1=12;

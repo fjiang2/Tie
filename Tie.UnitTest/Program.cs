@@ -25,7 +25,7 @@ namespace UnitTest
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main1(string[] args)
         {
 
             Size size = new Size(100, 200);
@@ -50,7 +50,7 @@ namespace UnitTest
             VAL v = Script.Evaluate(keyName, memory);
         }
 
-        static void Main1(string[] args)
+        static void Main(string[] args)
         {
 
             HostType.Register(new Type[]
