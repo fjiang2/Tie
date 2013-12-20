@@ -92,7 +92,7 @@ namespace Tie
                     throw new TieException("variable \"{0}\"  is oversize on persistent device", variable);
 
                 val = get(var);
-                string json = val.ToJson("", false);
+                string json = val.ToJson("", ExportFormat.QuestionMark| ExportFormat.EncodeTypeof );
                 if (json.Length > MaxValLength)
                     throw new TieException("value of variable \"{0}\" is oversize on persistent device", variable);
                 
@@ -101,7 +101,7 @@ namespace Tie
             }
             else
             {
-                string json = val.ToJson("", false);
+                string json = val.ToJson("", ExportFormat.QuestionMark | ExportFormat.EncodeTypeof);
                 if (json.Length <= MaxValLength)
                 {
                     storage.Add(variable, json);
@@ -243,7 +243,7 @@ namespace Tie
 
                 VAL val = get(variable);
 
-                if (val.IsHostType || val.IsNull || val.Undefined)
+                if (val.IsNull || val.Undefined)
                     continue;
 
                 try

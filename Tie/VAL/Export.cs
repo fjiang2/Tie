@@ -22,40 +22,60 @@ using System.IO;
 
 namespace Tie
 {
+    [Flags]
+    enum ExportFormat
+    {
+        QuestionMark = 0x01,        //write question mark
+        WellFormatted = 0x02,       //well-formatted, indent and new line
+        EncodeTypeof = 0x04         //write typeof on the class
+    }
+
     class Export
     {
-        public static string ToXml(VAL val, string tag)
+        public static string ToXml(VAL val, string tag, ExportFormat fmt)
         {
-            return ToXML(val, tag, 0);
+            return ToXML(val, tag, 0, fmt);
         }
 
 
-        private static string ToXML(VAL val, string tag, int tab)
+        private static string ToXML(VAL val, string tag, int tab, ExportFormat fmt)
         {
+
+            //bool quotationMark = (fmt & ExportFormat.QuestionMark) == ExportFormat.QuestionMark;
+            bool formatted = (fmt & ExportFormat.WellFormatted) == ExportFormat.WellFormatted;
+            //bool encodeTypeof = (fmt & ExportFormat.EncodeTypeof) == ExportFormat.EncodeTypeof;
+
             StringWriter o = new StringWriter();
             if (val.IsAssociativeArray())
             {
-                o.Write(Indent(tab)); o.WriteLine("<" + tag + ">");
+                o.Write(Indent(tab, formatted)); 
+                o.Write("<" + tag + ">");
+                if (formatted) o.WriteLine();
+                
                 for (int i = 0; i < val.Size; i++)
                 {
                     VAL v = val[i];
-                    o.Write(ToXML(v[1], v[0].Str, tab + 1));
+                    o.Write(ToXML(v[1], v[0].Str, tab + 1, fmt));
                 }
-                o.Write(Indent(tab)); o.WriteLine("</" + tag + ">");
+                
+                o.Write(Indent(tab, formatted)); 
+                o.Write("</" + tag + ">");
+                if (formatted) o.WriteLine();
             }
             else if (val.ty == VALTYPE.listcon)
             {
                 for (int j = 0; j < val.Size; j++)
                 {
                     VAL v = val[j];
-                    o.Write(ToXML(v, tag, tab + 1));
+                    o.Write(ToXML(v, tag, tab + 1, fmt));
                 }
             }
             else
             {
-                o.Write(Indent(tab)); o.Write("<" + tag + ">"); 
+                o.Write(Indent(tab, formatted)); o.Write("<" + tag + ">"); 
                 o.Write(XmlString(val.ToString2())); 
-                o.WriteLine("</" + tag + ">");
+                o.Write("</" + tag + ">");
+                if (formatted) o.WriteLine();
             }
             return o.ToString();
 
@@ -65,19 +85,23 @@ namespace Tie
 
 
 
-        public static string ToJson(VAL val, string tag, bool quotationMark, bool formatted)
+        public static string ToJson(VAL val, string tag,  ExportFormat fmt)
         {
             if(tag==null || tag=="")
-                return ToJson(val, "", 0, quotationMark, formatted);
+                return ToJson(val, "", 0, fmt);
             else
-                return "{" + ToJson(val, tag, 0, quotationMark, formatted) + "}";
+                return "{" + ToJson(val, tag, 0, fmt) + "}";
         }
 
 
-        private static string ToJson(VAL val,string tag, int tab, bool quotationMark, bool formatted)
+        private static string ToJson(VAL val, string tag, int tab, ExportFormat fmt)
         {
         
             StringWriter o = new StringWriter();
+
+            bool quotationMark = (fmt & ExportFormat.QuestionMark) == ExportFormat.QuestionMark;
+            bool formatted = (fmt & ExportFormat.WellFormatted) == ExportFormat.WellFormatted;
+            bool encodeTypeof = (fmt & ExportFormat.EncodeTypeof) == ExportFormat.EncodeTypeof;
 
             o.Write(Indent(tab, formatted));
             if (tag != "")
@@ -95,7 +119,7 @@ namespace Tie
                 for (int i = 0; i < val.Size; i++)
                 {
                     VAL v = val[i];
-                    o.Write(ToJson(v[1], v[0].Str, tab + 1, quotationMark, formatted));
+                    o.Write(ToJson(v[1], v[0].Str, tab + 1, fmt));
 
                     if (i < val.Size - 1)
                          o.Write(",");
@@ -103,7 +127,7 @@ namespace Tie
                     if (formatted) o.WriteLine();
                 }
                 o.Write(Indent(tab, formatted)); o.Write("}");
-                if (!quotationMark && val.Class != null)
+                if (encodeTypeof && val.Class != null)
                     o.Write(val.encodetypeof());
             }
             else if (val.ty == VALTYPE.listcon)
@@ -112,7 +136,7 @@ namespace Tie
                 for (int j = 0; j < val.Size; j++)
                 {
                     VAL a = val[j];
-                    o.Write(ToJson(a, "", tab + 1, quotationMark, formatted));
+                    o.Write(ToJson(a, "", tab + 1, fmt));
                     
                     if (j < val.Size - 1)
                         o.Write(",");
@@ -120,14 +144,14 @@ namespace Tie
                     if (formatted) o.WriteLine();
                 }
                 o.Write(Indent(tab, formatted)); o.Write("]");
-                if (!quotationMark && val.Class != null)
+                if (encodeTypeof && val.Class != null)
                     o.Write(val.encodetypeof());
             }
             else if (val.ty == VALTYPE.hostcon)
             {
                 val = HostValization.Host2Valor(val.value);
                 if (val.ty == VALTYPE.listcon)
-                    o.Write(ToJson(val, "", tab, quotationMark, formatted));
+                    o.Write(ToJson(val, "", tab, fmt));
                 else
                     o.Write(val.Valor);
             }

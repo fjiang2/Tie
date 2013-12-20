@@ -5,9 +5,54 @@ using System.Text;
 using Tie;
 using System.IO;
 using System.Diagnostics;
+using System.IO.Ports;
 
 namespace UnitTest
 {
+    class HttpConfig
+    {
+        public string Protocol { get; set; }
+        public string Host { get; set; }
+        public int Port { get; set; }
+
+        public HttpConfig()
+        {
+            this.Protocol = "http";
+            this.Host = "127.0.0.1";
+            this.Port = 80;
+        }
+    }
+
+    class CommConfig 
+    {
+        public CommConfig()
+        {
+            this.PortName = "COM1";
+            this.BaudRate = 9600;
+            this.DataBits = 8;
+            this.Parity = Parity.None;
+            this.StopBits = StopBits.One;
+        }
+
+        public string PortName { get; set; }
+        public int BaudRate { get; set; }
+        public int DataBits { get; set; }
+        public Parity Parity { get; set; }
+        public StopBits StopBits { get; set; }
+    }
+
+    class AppConfig
+    {
+        public HttpConfig Http { get; set; }
+        public CommConfig Comm { get; set; }
+
+        public AppConfig()
+        {
+            this.Http = new HttpConfig();
+            this.Comm = new CommConfig();
+        }
+    }
+
     class ApplicationMemoryTest : PersistentMemory
     {
         string fileName = "c:\\temp\\TestFile.txt";
@@ -77,8 +122,8 @@ namespace UnitTest
             Logger.Open("c:\\temp\\tie.log");
             Memory DS = new Memory();
 
-            ApplicationMemoryTest test = new ApplicationMemoryTest(DS);
-            test.Load();
+            ApplicationMemoryTest device = new ApplicationMemoryTest(DS);
+            device.Load();
 
             string code = @"
                Place.Zip = '60015'; 
@@ -97,10 +142,10 @@ namespace UnitTest
             DS.Clear();
             Script.Execute(code, DS);
 
-            test.VarColWidh = 16;
-            test.ValColWidh = 40;
-            test.Save(new string[] { "Place" });
-            string text1 = test.GetFileText();
+            device.VarColWidh = 16;
+            device.ValColWidh = 40;
+            device.Save(new string[] { "Place" });
+            string text1 = device.GetFileText();
             string text2 = 
 @"Place.Zip 	 ""60015""
 Place.State 	 ""TX""
@@ -109,10 +154,10 @@ Place.StreetName 	 ""500 Airport Highway""
 ";
             Debug.Assert(text1 == text2);
 
-            test.VarColWidh = 16;
-            test.ValColWidh = 160;
-            test.Save(new string[] { "Place" });
-            text1 = test.GetFileText();
+            device.VarColWidh = 16;
+            device.ValColWidh = 160;
+            device.Save(new string[] { "Place" });
+            text1 = device.GetFileText();
             text2 = @"Place 	 {""Zip"" : ""60015"",""State"" : ""TX"",""City"" : ""Stafford"",""StreetName"" : ""500 Airport Highway""}
 ";
             Debug.Assert(text1 == text2);
@@ -120,7 +165,7 @@ Place.StreetName 	 ""500 Airport Highway""
 
             try
             {
-                test.Save();
+                device.Save();
             }
             catch (TieException ex)
             {
@@ -128,7 +173,24 @@ Place.StreetName 	 ""500 Airport Highway""
             }
 
 
-            
+            DS.Clear();
+            System.Windows.Size size = new System.Windows.Size(10, 20);
+            device.SetValue("Size", size);
+            device.SetValue("Today", DateTime.Today);
+            device.Save();
+
+            DS.Clear();
+            device.Load();
+            size = device.GetValue<System.Windows.Size>("Size");
+            Debug.Assert(size.Width == 10 && size.Height == 20);
+
+            AppConfig appConfig = new AppConfig();
+            device.SetValue("AppConfig", appConfig);
+            device.Save();
+
+            DS.Clear();
+            device.Load();
+            appConfig = device.GetValue<AppConfig>("AppConfig");
             //System.Diagnostics.Debug.Assert((string)DS["I1"].Valor == "{1,2,3}.typeof(System.Int32[])");
             //System.Diagnostics.Debug.Assert((string)DS["I2"].Valor == "{}.typeof(System.String[])");
 
