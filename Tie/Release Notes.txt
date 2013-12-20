@@ -29,6 +29,9 @@
   1. Host的operator overloading
   2. 从多个相容的overloading methods中选择一个最优的
 
+12/20/2013
+  add class ApplicationMemory to support Host object serialization
+
 12/19/2013
   add static VAL: VAL.NULL and VAL.VOID
   Valor extract value of Property but Field, except Attribute defined

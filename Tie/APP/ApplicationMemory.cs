@@ -35,6 +35,20 @@ namespace Tie
             memory = new Memory();
         }
 
+
+        private VAL get(string variable)
+        {
+            VAL val;
+
+            //simple varible
+            if (memory.ContainsKey(variable))
+                val = memory.DS[variable];
+            else
+                val = Script.Evaluate(variable, memory); //composite varible
+
+            return val;
+        }
+
         /// <summary>
         /// check if varible is defined
         /// </summary>
@@ -42,7 +56,7 @@ namespace Tie
         /// <returns></returns>
         public bool ContainsVariable(string variable)
         {
-            VAL v = Script.Evaluate(variable, memory);
+            VAL v = get(variable);
             return v.Defined;
         }
 
@@ -72,7 +86,7 @@ namespace Tie
         /// <returns></returns>
         public object GetValue(string variable)
         {
-            VAL v = Script.Evaluate(variable, memory);
+            VAL v = get(variable);
 
             if (v.IsNull)
                 return null;
@@ -88,7 +102,7 @@ namespace Tie
         /// <returns></returns>
         public T GetValue<T>(string variable)
         {
-            VAL v = Script.Evaluate(variable, memory);
+            VAL v = get(variable);
 
             if (v.Undefined || v.IsNull)
             {
@@ -123,21 +137,17 @@ namespace Tie
         {
             Dictionary<string, string> storage = new Dictionary<string, string>();
 
-            foreach (string keyName in variables)
+            foreach (string variable in variables)
             {
-                if (keyName.StartsWith("System") || keyName.StartsWith("Microsoft"))
+                if (variable.StartsWith("System") || variable.StartsWith("Microsoft"))
                     continue;
 
-                VAL val;
-                if(memory.ContainsKey(keyName))
-                    val = memory.DS[keyName];
-                else
-                    val = Script.Evaluate(keyName, memory);
+                VAL val = get(variable);
 
                 if (val.IsHostType || val.IsNull || val.Undefined)
                     continue;
 
-                storage.Add(keyName, val.ToJson(""));
+                storage.Add(variable, val.ToJson(""));
             }
 
             SaveIntoDevice(storage);
