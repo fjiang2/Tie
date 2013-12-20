@@ -4,27 +4,31 @@ using System.Linq;
 using System.Text;
 using Tie;
 using System.IO;
+using System.Diagnostics;
 
 namespace UnitTest
 {
     class ApplicationMemoryTest : ApplicationMemory
     {
-
+        string fileName = "c:\\temp\\TestFile.txt";
         public ApplicationMemoryTest(Memory memory)
             :base(memory)
         { 
         }
 
-        protected override int MaxVarLength { get { return 20; } }
-        protected override int MaxValLength { get { return 60; } }
+        public int ValColWidh = 40;
+        public int VarColWidh = 16;
+
+        protected override int MaxVarLength { get { return VarColWidh; } }
+        protected override int MaxValLength { get { return ValColWidh; } }
 
         protected override Dictionary<string, string> LoadFromDevice()
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
 
-            if (File.Exists("c:\\temp\\TestFile.txt"))
+            if (File.Exists(fileName))
             {
-                using (StreamReader sr = new StreamReader("c:\\temp\\TestFile.txt"))
+                using (StreamReader sr = new StreamReader(fileName))
                 {
                     while (!sr.EndOfStream)
                     {
@@ -42,7 +46,11 @@ namespace UnitTest
 
         protected override void SaveIntoDevice(Dictionary<string, string> dict)
         {
-            using (StreamWriter sw = new StreamWriter("c:\\temp\\TestFile.txt"))
+            string folder = Path.GetDirectoryName(fileName);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            using (StreamWriter sw = new StreamWriter(fileName))
             {
                 foreach (KeyValuePair<string, string> kvp in dict)
                 {
@@ -51,6 +59,17 @@ namespace UnitTest
             }
         }
 
+
+        public string GetFileText()
+        {
+
+            using (StreamReader sr = new StreamReader(fileName))
+            {
+                return sr.ReadToEnd();
+            }
+        }
+
+        
 
         public static void main()
         {
@@ -62,6 +81,10 @@ namespace UnitTest
             test.Load();
 
             string code = @"
+               Place.Zip = '60015'; 
+               Place.State = 'TX'; 
+               Place.City = 'Stafford'; 
+               Place.StreetName = '500 Airport Highway'; 
                I0 = {1,2,3}; 
                I1 = new int[]{1,2,3};
                I2 = new string[]; 
@@ -74,9 +97,38 @@ namespace UnitTest
             DS.Clear();
             Script.Execute(code, DS);
 
-            test.Save();
+            test.VarColWidh = 16;
+            test.ValColWidh = 40;
+            test.Save(new string[] { "Place" });
+            string text1 = test.GetFileText();
+            string text2 = 
+@"Place.Zip 	 ""60015""
+Place.State 	 ""TX""
+Place.City 	 ""Stafford""
+Place.StreetName 	 ""500 Airport Highway""
+";
+            Debug.Assert(text1 == text2);
 
-            //System.Diagnostics.Debug.Assert((string)DS["I0"].Valor == "{1,2,3}");
+            test.VarColWidh = 16;
+            test.ValColWidh = 160;
+            test.Save(new string[] { "Place" });
+            text1 = test.GetFileText();
+            text2 = @"Place 	 {""Zip"" : ""60015"",""State"" : ""TX"",""City"" : ""Stafford"",""StreetName"" : ""500 Airport Highway""}
+";
+            Debug.Assert(text1 == text2);
+
+
+            try
+            {
+                test.Save();
+            }
+            catch (TieException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            
             //System.Diagnostics.Debug.Assert((string)DS["I1"].Valor == "{1,2,3}.typeof(System.Int32[])");
             //System.Diagnostics.Debug.Assert((string)DS["I2"].Valor == "{}.typeof(System.String[])");
 

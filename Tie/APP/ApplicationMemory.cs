@@ -40,6 +40,101 @@ namespace Tie
             this.memory = memory;
         }
 
+        #region Adjust Variable and Value based on the maximum capacity of persistent device
+        private static bool ValidIdent(string id)
+        {
+            int i = 0;
+            char ch = id[i++];
+
+            if (!char.IsLetter(ch) && ch != '_')
+                return false;
+
+            while (i < id.Length)
+            {
+                ch = id[i++];
+
+                if (ch != '_' && !char.IsLetterOrDigit(ch))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static string AdujstVariableName(string variable, int maxLength)
+        {
+            string[] nameSpace = variable.Split(new char[] { '.' });
+            int n = nameSpace.Length - 1;
+
+            while (n > 0)
+            {
+                string ns = "";
+                for (int i = 0; i < n - 1; i++)
+                    ns += nameSpace[i] + ".";
+
+                ns += nameSpace[n - 1];
+
+                if (ns.Length <= maxLength)
+                    return ns;
+
+                n--;
+            }
+
+            return null;
+        }
+
+
+        private void Adjust(Dictionary<string, string> storage, string variable, VAL val)
+        {
+            if (variable.Length > MaxVarLength)
+            {
+                string var = AdujstVariableName(variable, MaxVarLength);
+                if (var == null)
+                    throw new TieException("variable \"{0}\"  is oversize on persistent device", variable);
+
+                val = get(var);
+                string json = val.ToJson("", false);
+                if (json.Length > MaxValLength)
+                    throw new TieException("value of variable \"{0}\" is oversize on persistent device", variable);
+                
+                storage.Add(var, json);
+                return;
+            }
+            else
+            {
+                string json = val.ToJson("", false);
+                if (json.Length <= MaxValLength)
+                {
+                    storage.Add(variable, json);
+                    return;
+                }
+                else
+                {
+                    if (val.IsAssociativeArray())
+                    {
+                        foreach (VAL v in val)
+                        {
+                            VAL v0 = v[0];
+                            VAL v1 = v[1];
+
+                            if (ValidIdent(v0.Str))
+                                Adjust(storage, string.Format("{0}.{1}", variable, v0.Str), v1);
+                            else
+                                Adjust(storage, string.Format("{0}[\"{1}\"]", variable, v0.Str), v1);
+                        }
+                    }
+                    else
+                    {
+                        throw new TieException("value of variable \"{0}\" is oversize on persistent device", variable);
+                    }
+
+                }
+            }
+        }
+
+        #endregion
+
+
+
         private VAL get(string variable)
         {
             VAL val;
@@ -151,7 +246,8 @@ namespace Tie
                 if (val.IsHostType || val.IsNull || val.Undefined)
                     continue;
 
-                storage.Add(variable, val.ToJson("", false));
+                Adjust(storage, variable, val);
+                //storage.Add(variable, val.ToJson("", false));
             }
 
             SaveIntoDevice(storage);
