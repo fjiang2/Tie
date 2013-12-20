@@ -209,7 +209,7 @@ namespace Tie
             }
             else if (typeof(T) == typeof(VAL))
             {
-                return (T)(object)this;
+                return (T)(object)v;
             }
             else
             {
@@ -227,7 +227,7 @@ namespace Tie
             }
         }
 
-
+ 
         /// <summary>
         /// Save variables into persistent device
         /// </summary>
@@ -246,13 +246,24 @@ namespace Tie
                 if (val.IsHostType || val.IsNull || val.Undefined)
                     continue;
 
-                Adjust(storage, variable, val);
-                //storage.Add(variable, val.ToJson("", false));
+                try
+                {
+                    Adjust(storage, variable, val);
+                    //storage.Add(variable, val.ToJson("", false));
+                }
+                catch (TieException ex)
+                {
+                   SaveErrorHandler(variable, ex.Message);
+                }
             }
 
             SaveIntoDevice(storage);
+            
         }
 
+        protected virtual void SaveErrorHandler(string variable, string message)
+        { 
+        }
 
         /// <summary>
         /// Save all varibles into persistent device
