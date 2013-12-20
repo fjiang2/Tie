@@ -253,7 +253,7 @@ namespace Tie
                 }
                 catch (TieException ex)
                 {
-                   SaveErrorHandler(variable, ex.Message);
+                   OversizeHandler(variable, ex.Message);
                 }
             }
 
@@ -261,8 +261,22 @@ namespace Tie
             
         }
 
-        protected virtual void SaveErrorHandler(string variable, string message)
+        /// <summary>
+        /// variable or value is oversize
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="message"></param>
+        protected virtual void OversizeHandler(string variable, string message)
         { 
+        }
+
+        /// <summary>
+        /// invalid variable/value pair in persistent device
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="message"></param>
+        protected virtual void InvalidVariableHandler(string variable, string message)
+        {
         }
 
         /// <summary>
@@ -281,7 +295,14 @@ namespace Tie
             Dictionary<string, string> storage = LoadFromDevice();
             foreach (KeyValuePair<string, string> kvp in storage)
             {
-                Script.Execute(string.Format("{0}={1};", kvp.Key, kvp.Value), memory);
+                try
+                {
+                    Script.Execute(string.Format("{0}={1};", kvp.Key, kvp.Value), memory);
+                }
+                catch (TieException ex)
+                {
+                    InvalidVariableHandler(kvp.Key, ex.Message);
+                }
             }
         }
 
