@@ -32,9 +32,13 @@ namespace Tie
 
         protected ApplicationMemory()
         {
-            memory = new Memory();
+            this.memory = new Memory();
         }
 
+        protected ApplicationMemory(Memory memory)
+        {
+            this.memory = memory;
+        }
 
         private VAL get(string variable)
         {
@@ -147,7 +151,7 @@ namespace Tie
                 if (val.IsHostType || val.IsNull || val.Undefined)
                     continue;
 
-                storage.Add(variable, val.ToJson(""));
+                storage.Add(variable, val.ToJson("", false));
             }
 
             SaveIntoDevice(storage);
@@ -173,6 +177,16 @@ namespace Tie
                 Script.Execute(string.Format("{0}={1};", kvp.Key, kvp.Value), memory);
             }
         }
+
+        /// <summary>
+        /// Maximum length of variable name string
+        /// </summary>
+        protected abstract int MaxVarLength { get; }
+
+        /// <summary>
+        /// Maximum length of value string
+        /// </summary>
+        protected abstract int MaxValLength { get; }
 
         /// <summary>
         /// Load varibles/value pair from persistent device

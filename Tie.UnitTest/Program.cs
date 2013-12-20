@@ -106,7 +106,8 @@ namespace UnitTest
             new FaultToleranceTest();
             TryCatchTest.main();
             ParamsTest.main();
-            UserDefinedFunctionTest.main(); 
+            UserDefinedFunctionTest.main();
+            ApplicationMemoryTest.main();
         }
     }
 }

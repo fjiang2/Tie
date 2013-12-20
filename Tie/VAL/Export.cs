@@ -65,21 +65,21 @@ namespace Tie
 
 
 
-        public static string ToJson(VAL val, string tag, bool quotationMark)
+        public static string ToJson(VAL val, string tag, bool quotationMark, bool formatted)
         {
             if(tag==null || tag=="")
-                return ToJson(val, "", 0, quotationMark);
+                return ToJson(val, "", 0, quotationMark, formatted);
             else
-                return "{" + ToJson(val, tag, 0, quotationMark) + "}";
+                return "{" + ToJson(val, tag, 0, quotationMark, formatted) + "}";
         }
 
 
-        private static string ToJson(VAL val,string tag, int tab, bool quotationMark)
+        private static string ToJson(VAL val,string tag, int tab, bool quotationMark, bool formatted)
         {
         
             StringWriter o = new StringWriter();
-            
-            o.Write(Indent(tab));
+
+            o.Write(Indent(tab, formatted));
             if (tag != "")
             {
                 if(quotationMark)
@@ -91,35 +91,35 @@ namespace Tie
             
             if (val.IsAssociativeArray())
             {
-                o.WriteLine("{");
+                o.Write("{"); if (formatted) o.WriteLine();
                 for (int i = 0; i < val.Size; i++)
                 {
                     VAL v = val[i];
-                    o.Write(ToJson(v[1], v[0].Str, tab + 1, quotationMark));
+                    o.Write(ToJson(v[1], v[0].Str, tab + 1, quotationMark, formatted));
 
                     if (i < val.Size - 1)
-                         o.WriteLine(",");
-                    else
-                         o.WriteLine();
+                         o.Write(",");
+
+                    if (formatted) o.WriteLine();
                 }
-                o.Write(Indent(tab)); o.Write("}");
+                o.Write(Indent(tab, formatted)); o.Write("}");
                 if (!quotationMark && val.Class != null)
                     o.Write(val.encodetypeof());
             }
             else if (val.ty == VALTYPE.listcon)
             {
-                o.WriteLine("[");
+                o.Write("["); if (formatted) o.WriteLine();
                 for (int j = 0; j < val.Size; j++)
                 {
                     VAL a = val[j];
-                    o.Write(ToJson(a, "", tab + 1, quotationMark));
+                    o.Write(ToJson(a, "", tab + 1, quotationMark, formatted));
                     
                     if (j < val.Size - 1)
-                        o.WriteLine(",");
-                    else
-                        o.WriteLine();
+                        o.Write(",");
+                    
+                    if (formatted) o.WriteLine();
                 }
-                o.Write(Indent(tab)); o.Write("]");
+                o.Write(Indent(tab, formatted)); o.Write("]");
                 if (!quotationMark && val.Class != null)
                     o.Write(val.encodetypeof());
             }
@@ -127,7 +127,7 @@ namespace Tie
             {
                 val = HostValization.Host2Valor(val.value);
                 if (val.ty == VALTYPE.listcon)
-                    o.Write(ToJson(val, "", tab, quotationMark));
+                    o.Write(ToJson(val, "", tab, quotationMark, formatted));
                 else
                     o.Write(val.Valor);
             }
@@ -139,7 +139,15 @@ namespace Tie
             return o.ToString();
 
         }
-        
+
+        private static string Indent(int n, bool formatted)
+        {
+            if (formatted)
+                return Indent(n);
+            else
+                return "";
+        }
+
         private static string Indent(int n)
         {
             string tab = "";
