@@ -26,16 +26,16 @@ namespace Tie
     /// used to serialize memory to persistent device, such as database server or text file
     /// varible can be simple varible or composite varible, such as "X.a", "X.a.b"
     /// </summary>
-    public abstract class ApplicationMemory 
+    public abstract class PersistentMemory 
     {
         protected Memory memory;
 
-        protected ApplicationMemory()
+        protected PersistentMemory()
         {
             this.memory = new Memory();
         }
 
-        protected ApplicationMemory(Memory memory)
+        protected PersistentMemory(Memory memory)
         {
             this.memory = memory;
         }
@@ -328,7 +328,10 @@ namespace Tie
         /// <param name="storage"></param>
         protected abstract void SaveIntoDevice(Dictionary<string, string> storage);
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return memory.ToString();

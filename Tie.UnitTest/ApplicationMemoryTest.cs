@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace UnitTest
 {
-    class ApplicationMemoryTest : ApplicationMemory
+    class ApplicationMemoryTest : PersistentMemory
     {
         string fileName = "c:\\temp\\TestFile.txt";
         public ApplicationMemoryTest(Memory memory)

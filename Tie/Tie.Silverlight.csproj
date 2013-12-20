@@ -83,7 +83,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APP\ApplicationMemory.cs" />
+    <Compile Include="APP\PersistentMemory.cs" />
     <Compile Include="Compiler\CodeGeneration.cs" />
     <Compile Include="Compiler\Error.cs" />
     <Compile Include="Compiler\Expression.cs" />
