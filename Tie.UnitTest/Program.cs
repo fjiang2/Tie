@@ -19,12 +19,13 @@ using System.Collections.Generic;
 using System.Text;
 using Tie;
 using System.Windows;
-using Microsoft.Maps.MapControl.WPF;
+//using Microsoft.Maps.MapControl.WPF;
 
 namespace UnitTest
 {
     class Program
     {
+        /*
         static void Main1(string[] args)
         {
 
@@ -49,6 +50,9 @@ namespace UnitTest
             Script.Execute(string.Format("{0}={1};", keyName, VAL.Boxing(p905).Valor), memory);
             VAL v = Script.Evaluate(keyName, memory);
         }
+
+         * */
+
 
         static void Main(string[] args)
         {

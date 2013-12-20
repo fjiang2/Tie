@@ -154,7 +154,7 @@ namespace Tie
                         else if (L0.ty == VALTYPE.listcon)
                         {
                             if (L0.Class == null)
-                                return VAL.VOID;         //空表示没有定义list的类型
+                                return VAL.NewVoidType();         //空表示没有定义list的类型
                             return new VAL(L0.Class);
                         }
                         else if (L0.ty == VALTYPE.hostcon)
@@ -200,7 +200,7 @@ namespace Tie
                 case "valize":
                     if(size==1)
                     {
-                        return VAL.Script(L0.Valor);
+                        return VAL.NewScriptType(L0.Valor);
                     }
                     break;
                 /*
@@ -491,7 +491,7 @@ namespace Tie
                             else
                             {
                                 fieldInfo.SetValue(host, L[2].HostValue);
-                                return VAL.VOID;
+                                return VAL.NewVoidType();
                             }
                         }
                     }

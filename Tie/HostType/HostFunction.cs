@@ -393,7 +393,7 @@ namespace Tie
             else if (propertyInfo.CanWrite)
                 propertyInfo.SetValue(host, val, null);
 
-            return VAL.VOID;
+            return VAL.NewVoidType();
 
         }
 

@@ -246,7 +246,7 @@ namespace Tie
         public static VAL HostTypeOffset(VAL R0, VAL R1, OffsetType offsetType)
         {
             if (R0.ty != VALTYPE.hostcon)
-                return VAL.VOID;
+                return VAL.NewVoidType();
 
             
             object host = R0.value;
@@ -373,7 +373,7 @@ namespace Tie
 
 
                 if (offsetType == OffsetType.ARRAY)
-                    return VAL.VOID;
+                    return VAL.NewVoidType();
             }
 
             if (offset is string)
@@ -422,7 +422,7 @@ namespace Tie
             if (eventInfo != null)
                 return HostTypeOffsetBoxing(eventInfo, host, offset);
 
-            return VAL.VOID;
+            return VAL.NewVoidType();
         }
 
         private static VAL HostTypeOffsetBoxing(object value, object host, object offset)
@@ -445,7 +445,7 @@ namespace Tie
         //proc 是HostType函数指针, 如果不是HostType函数,就返回null
         public static VAL HostTypeFunction(VAL proc, VALL parameters)
         {
-            VAL ret = VAL.VOID;
+            VAL ret = VAL.NewVoidType();
             if (proc.ty == VALTYPE.hostcon && (proc.value is MethodInfo || proc.value is MethodInfo[]))
             {
                 HostOffset temp = (HostOffset)proc.temp;

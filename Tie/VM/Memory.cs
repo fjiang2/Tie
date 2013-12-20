@@ -130,7 +130,7 @@ namespace Tie
                 if (ds.ContainsKey(key))
                     return ds[key];
                else
-                   return VAL.VOID; 
+                   return VAL.NewVoidType(); 
             }
             set
             {

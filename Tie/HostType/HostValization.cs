@@ -251,11 +251,11 @@ namespace Tie
             }
             else if (host is Type)
             {
-                val = VAL.Script(string.Format("typeof({0})", ((Type)host).FullName));
+                val = VAL.NewScriptType(string.Format("typeof({0})", ((Type)host).FullName));
             }
             else if (host.GetType().IsEnum)            //处理enum常量
             {
-                val = VAL.Script(HostOperation.EnumBitFlags(host));
+                val = VAL.NewScriptType(HostOperation.EnumBitFlags(host));
             }
             else if (host is ICollection)
             {

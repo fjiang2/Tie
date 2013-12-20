@@ -341,7 +341,7 @@ namespace Tie
         {
             VAL f = DS[funcName];
             if(f.Undefined)
-                return VAL.VOID;
+                return VAL.NewVoidType();
 
             VAL instance = new VAL();     
             return InvokeFunction(instance, f, parameters);
@@ -359,7 +359,7 @@ namespace Tie
         {
             VAL f = instance[methodName];
             if (!f.Defined)
-                return VAL.VOID;
+                return VAL.NewVoidType();
 
             return InvokeFunction(instance, f, parameters);
         }
@@ -586,7 +586,7 @@ namespace Tie
             if (module != null)
                 return Computer.Run(module, context);
 
-            return VAL.VOID;
+            return VAL.NewVoidType();
 
         }
 

@@ -115,6 +115,7 @@
     <Compile Include="HostType\HostTypeException.cs" />
     <Compile Include="VAL\Export.cs" />
     <Compile Include="VAL\Valization.cs" />
+    <Compile Include="VAL\VALTYPE.cs" />
     <Compile Include="VM\Computer.cs" />
     <Compile Include="HostType\HostEvent.cs" />
     <Compile Include="HostType\HostType.cs" />

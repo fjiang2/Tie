@@ -46,7 +46,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\Net4\</OutputPath>
-	<BaseIntermediateOutputPath>obj\Debug\Net4\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>obj\Debug\Net4\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE;DEBUG;TIE4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -55,8 +55,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\Net4\</OutputPath>
-   	<BaseIntermediateOutputPath>obj\Release\Net4\</BaseIntermediateOutputPath>
-	<DefineConstants>TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>obj\Release\Net4\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -112,6 +112,7 @@
     <Compile Include="HostType\ValizerScript.cs" />
     <Compile Include="VAL\Export.cs" />
     <Compile Include="VAL\Valization.cs" />
+    <Compile Include="VAL\VALTYPE.cs" />
     <Compile Include="VM\Computer.cs" />
     <Compile Include="HostType\HostEvent.cs" />
     <Compile Include="HostType\HostType.cs" />
