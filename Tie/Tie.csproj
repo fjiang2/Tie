@@ -81,6 +81,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APP\ApplicationMemory.cs" />
     <Compile Include="APP\Coding.cs" />
     <Compile Include="APP\Extension.cs" />
     <Compile Include="Compiler\Compiler.cs" />
