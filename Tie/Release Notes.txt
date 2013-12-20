@@ -20,14 +20,18 @@
 //                                                                                   //
 //        Tie                                                                        //
 //                                                                                   //  
-//             Copyright Jiang,Fuhua (jiang.fuhua@gmail.com)                         //
+//             Copyright Jiang,Fuhua (datconn@gmail.com)                             //
 //                                                                                   //  
-//                1991-2011                                                          //
+//                1991-2013                                                          //
 //                                                                                   //
 //-----------------------------------------------------------------------------------//
 未完成的任务:
   1. Host的operator overloading
   2. 从多个相容的overloading methods中选择一个最优的
+
+12/19/2013
+  add static VAL: VAL.NULL and VAL.VOID
+  Valor extract value of Property but Field, except Attribute defined
 
 04/17/2012
    增加VAL ToHostString() 函数, 输出C#语法能接受的格式譬如
