@@ -184,6 +184,9 @@ Place.StreetName 	 ""500 Airport Highway""
             size = device.GetValue<System.Windows.Size>("Size");
             Debug.Assert(size.Width == 10 && size.Height == 20);
 
+            device.ValColWidh = 400;
+            HostType.Register(typeof(Parity));
+            HostType.Register(typeof(StopBits));
             AppConfig appConfig = new AppConfig();
             device.SetValue("AppConfig", appConfig);
             device.Save();
@@ -191,7 +194,7 @@ Place.StreetName 	 ""500 Airport Highway""
             DS.Clear();
             device.Load();
             appConfig = device.GetValue<AppConfig>("AppConfig");
-            //System.Diagnostics.Debug.Assert((string)DS["I1"].Valor == "{1,2,3}.typeof(System.Int32[])");
+            Debug.Assert(appConfig.Http.Port == 80);
             //System.Diagnostics.Debug.Assert((string)DS["I2"].Valor == "{}.typeof(System.String[])");
 
 

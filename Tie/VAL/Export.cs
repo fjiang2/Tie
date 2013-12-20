@@ -109,8 +109,12 @@ namespace Tie
                 if(quotationMark)
                     o.Write("\"" + tag + "\""); 
                 else
-                    o.Write(tag); 
-                o.Write(" : ");
+                    o.Write(tag);
+
+                if (formatted)
+                    o.Write(" : ");
+                else
+                    o.Write(":");
             }
             
             if (val.IsAssociativeArray())
