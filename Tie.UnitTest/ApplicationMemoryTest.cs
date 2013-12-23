@@ -64,8 +64,8 @@ namespace UnitTest
         public int ValColWidh = 40;
         public int VarColWidh = 16;
 
-        protected override int MaxVarLength { get { return VarColWidh; } }
-        protected override int MaxValLength { get { return ValColWidh; } }
+        protected override int MaxVariableSpaceLength { get { return VarColWidh; } }
+        protected override int MaxValueSpaceLength { get { return ValColWidh; } }
 
         protected override Dictionary<string, string> LoadFromDevice()
         {
@@ -152,15 +152,15 @@ Place.State 	 ""TX""
 Place.City 	 ""Stafford""
 Place.StreetName 	 ""500 Airport Highway""
 ";
-            Debug.Assert(text1 == text2);
+            Debug.Assert(text1.Equals(text2));
 
             device.VarColWidh = 16;
             device.ValColWidh = 160;
             device.Save(new string[] { "Place" });
             text1 = device.GetFileText();
-            text2 = @"Place 	 {""Zip"" : ""60015"",""State"" : ""TX"",""City"" : ""Stafford"",""StreetName"" : ""500 Airport Highway""}
+            text2 = @"Place 	 {""Zip"":""60015"",""State"":""TX"",""City"":""Stafford"",""StreetName"":""500 Airport Highway""}
 ";
-            Debug.Assert(text1 == text2);
+            Debug.Assert(text1.Equals(text2));
 
 
             try
@@ -188,6 +188,7 @@ Place.StreetName 	 ""500 Airport Highway""
             HostType.Register(typeof(Parity));
             HostType.Register(typeof(StopBits));
             AppConfig appConfig = new AppConfig();
+            appConfig.Http.Host = "196.168.0.1";
             device.SetValue("AppConfig", appConfig);
             device.Save();
 

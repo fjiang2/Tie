@@ -85,15 +85,15 @@ namespace Tie
 
         private void Adjust(Dictionary<string, string> storage, string variable, VAL val)
         {
-            if (variable.Length > MaxVarLength)
+            if (variable.Length > MaxVariableSpaceLength)
             {
-                string var = AdujstVariableName(variable, MaxVarLength);
+                string var = AdujstVariableName(variable, MaxVariableSpaceLength);
                 if (var == null)
                     throw new TieException("variable \"{0}\"  is oversize on persistent device", variable);
 
                 val = get(var);
                 string json = val.ToJson("", ExportFormat.QuestionMark| ExportFormat.EncodeTypeof );
-                if (json.Length > MaxValLength)
+                if (json.Length > MaxValueSpaceLength)
                     throw new TieException("value of variable \"{0}\" is oversize on persistent device", variable);
                 
                 storage.Add(var, json);
@@ -102,7 +102,7 @@ namespace Tie
             else
             {
                 string json = val.ToJson("", ExportFormat.QuestionMark | ExportFormat.EncodeTypeof);
-                if (json.Length <= MaxValLength)
+                if (json.Length <= MaxValueSpaceLength)
                 {
                     storage.Add(variable, json);
                     return;
@@ -221,13 +221,38 @@ namespace Tie
                 {
                     if (v.HostValue.GetType() == typeof(T))
                         return (T)v.HostValue;
+                    else if (HostCoding.HasContructor(typeof(T), new Type[] {}))
+                    {
+                        object host = Activator.CreateInstance(typeof(T), new object[] { });  
+                        HostValization.Val2Host(v, host);
+                        return (T)host;
+                    }
                     else
                         return default(T);
                 }
             }
         }
 
- 
+
+        public object GetValue(string variable, object host)
+        {
+            VAL v = get(variable);
+            object obj;
+            if (host is Type)
+            {
+                Type ty = (Type)host;
+                if (HostCoding.HasContructor(ty, new Type[] { }))
+                    obj = Activator.CreateInstance(ty, new object[] { });
+                else
+                    throw new TieException("No default constructor in Type {0}", ty);
+            }
+            else
+                obj = host;
+
+            HostValization.Val2Host(v, obj);
+            return obj;
+        }
+
         /// <summary>
         /// Save variables into persistent device
         /// </summary>
@@ -249,7 +274,6 @@ namespace Tie
                 try
                 {
                     Adjust(storage, variable, val);
-                    //storage.Add(variable, val.ToJson("", false));
                 }
                 catch (TieException ex)
                 {
@@ -309,12 +333,12 @@ namespace Tie
         /// <summary>
         /// Maximum length of variable name string
         /// </summary>
-        protected abstract int MaxVarLength { get; }
+        protected abstract int MaxVariableSpaceLength { get; }
 
         /// <summary>
         /// Maximum length of value string
         /// </summary>
-        protected abstract int MaxValLength { get; }
+        protected abstract int MaxValueSpaceLength { get; }
 
         /// <summary>
         /// Load varibles/value pair from persistent device
