@@ -252,7 +252,7 @@ Controls:
             string JSON2 = dict2.ToJson("");
             string JSON3 = dict3.ToJson("");
             string JSON4 = dict4.ToJson("");
-            string JSON5 = dict5.ToJson();
+            string JSON5 = dict5.ToExJson();
 
             string code = @"
 A={1,2,3,4,5,6};

@@ -92,7 +92,7 @@ namespace Tie
                     throw new TieException("variable \"{0}\"  is oversize on persistent device", variable);
 
                 val = get(var);
-                string json = val.ToJson("", ExportFormat.QuestionMark| ExportFormat.EncodeTypeof );
+                string json = ToJson(val);
                 if (json.Length > MaxValueSpaceLength)
                     throw new TieException("value of variable \"{0}\" is oversize on persistent device", variable);
                 
@@ -101,7 +101,7 @@ namespace Tie
             }
             else
             {
-                string json = val.ToJson("", ExportFormat.QuestionMark | ExportFormat.EncodeTypeof);
+                string json = ToJson(val);
                 if (json.Length <= MaxValueSpaceLength)
                 {
                     storage.Add(variable, json);
@@ -146,6 +146,12 @@ namespace Tie
                 val = Script.Evaluate(variable, memory); //composite varible
 
             return val;
+        }
+
+        private string ToJson(VAL val)
+        {
+            return val.ToJson("", ExportFormat.QuestionMark);
+            //return val.ToJson("", ExportFormat.QuestionMark | ExportFormat.EncodeTypeof);
         }
 
         /// <summary>
@@ -221,37 +227,45 @@ namespace Tie
                 {
                     if (v.HostValue.GetType() == typeof(T))
                         return (T)v.HostValue;
-                    else if (HostCoding.HasContructor(typeof(T), new Type[] {}))
+                    else 
                     {
+                        //used on regular JSON without typeof(list)
                         object host = Activator.CreateInstance(typeof(T), new object[] { });  
                         HostValization.Val2Host(v, host);
                         return (T)host;
                     }
-                    else
-                        return default(T);
                 }
             }
         }
 
 
+        /// <summary>
+        /// return value of variable, type must have default constructor
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public object GetValue(string variable, Type type)
+        {
+            VAL v = get(variable);
+            object host = Activator.CreateInstance(type, new object[] { });
+            return GetValue(variable, host);
+        }
+
+        /// <summary>
+        /// return value of varible, host is instantiated which is used for interface type of object
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="host"></param>
+        /// <returns></returns>
         public object GetValue(string variable, object host)
         {
             VAL v = get(variable);
-            object obj;
-            if (host is Type)
-            {
-                Type ty = (Type)host;
-                if (HostCoding.HasContructor(ty, new Type[] { }))
-                    obj = Activator.CreateInstance(ty, new object[] { });
-                else
-                    throw new TieException("No default constructor in Type {0}", ty);
-            }
-            else
-                obj = host;
-
-            HostValization.Val2Host(v, obj);
-            return obj;
+            HostValization.Val2Host(v, host);
+            return host;
         }
+
+
 
         /// <summary>
         /// Save variables into persistent device

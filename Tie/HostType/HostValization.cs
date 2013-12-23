@@ -110,7 +110,13 @@ namespace Tie
             if (temp == null)
                 temp = val.HostValue;
 
-            HostOperation.HostTypeAssign(host, offset, temp, true);
+            if (val.IsAssociativeArray())
+            {
+                VAL x = HostOperation.HostTypeOffset(VAL.Boxing(host), new VAL(offset), OffsetType.STRUCT);
+                Val2Host(val, x.value);
+            }
+            else
+                HostOperation.HostTypeAssign(host, offset, temp, true);
         }
 
       

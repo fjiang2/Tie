@@ -166,7 +166,7 @@ namespace UnitTest
             VAL xxx = v.GetValData();
 
             string persistent = v.Valor;
-            string json = v.ToJson();
+            string json = v.ToExJson();
 
 
             string size = VAL.Boxing(new Size(200, 300)).Valor;
@@ -287,7 +287,7 @@ listBox.Items[0] = 'XXXX';
             HostType.Register(typeof(ListBox), new string[] { "Items" });
             val = VAL.NewHostType(listBox1);
             string valor = val.Valor;
-            string json = val.ToJson();
+            string json = val.ToExJson();
             DS.Clear();
 
             
