@@ -39,53 +39,11 @@ namespace Tie
         {
             this.memory = memory;
 
-            HostType.Register(typeof(byte[]),
-                delegate(object host)
-                {
-                    byte[] bytes = (byte[])host;
-                    return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
-                },
-                delegate(VAL val)
-                {
-                    byte[] bytes = HostType.HexStringToByteArray(val.Str);
-                    return bytes;
-                }
-            );
-
-
-            HostType.Register(typeof(Guid), delegate(object host)
-            {
-                Guid guid = (Guid)host;
-                byte[] bytes = guid.ToByteArray();
-                return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
-            },
-         delegate(VAL val)
-         {
-             byte[] bytes = HostType.HexStringToByteArray(val.Str);
-             return new Guid(bytes);
-         }
-         );
+         
         }
 
         #region Adjust Variable and Value based on the maximum capacity of persistent device
-        private static bool ValidIdent(string id)
-        {
-            int i = 0;
-            char ch = id[i++];
-
-            if (!char.IsLetter(ch) && ch != '_')
-                return false;
-
-            while (i < id.Length)
-            {
-                ch = id[i++];
-
-                if (ch != '_' && !char.IsLetterOrDigit(ch))
-                    return false;
-            }
-
-            return true;
-        }
+      
 
         private static string AdujstVariableName(string variable, int maxLength)
         {
@@ -143,7 +101,7 @@ namespace Tie
                             VAL v0 = v[0];
                             VAL v1 = v[1];
 
-                            if (ValidIdent(v0.Str))
+                            if (ident.ValidIdent(v0.Str))
                                 Adjust(storage, string.Format("{0}.{1}", variable, v0.Str), v1);
                             else
                                 Adjust(storage, string.Format("{0}[\"{1}\"]", variable, v0.Str), v1);

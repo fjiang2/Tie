@@ -98,6 +98,7 @@
     <Compile Include="HostType\GenericArguments.cs" />
     <Compile Include="HostType\HostFunction.cs" />
     <Compile Include="HostType\HostValization.cs" />
+    <Compile Include="HostType\ident.cs" />
     <Compile Include="HostType\PersistentAttribute.cs" />
     <Compile Include="HostType\Tuple.cs" />
     <Compile Include="HostType\ValizerScript.cs" />

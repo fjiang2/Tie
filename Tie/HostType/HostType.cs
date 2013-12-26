@@ -57,10 +57,9 @@ namespace Tie
         /// </summary>
         /// <param name="type"></param>
         /// <param name="valizer"></param>
-        /// <returns></returns>
-        public static VAL Register(Type type, Valizer valizer)
+        public static void Register(Type type, Valizer valizer)
         {
-            return ValizerScript.Register(type, valizer, null);
+            ValizerScript.Register(type, valizer, null);
         }
         
         /// <summary>
@@ -69,10 +68,9 @@ namespace Tie
         /// <param name="type"></param>
         /// <param name="valizer"></param>
         /// <param name="devalizer"></param>
-        /// <returns></returns>
-        public static VAL Register(Type type, Valizer valizer, Devalizer devalizer)
+        public static void Register(Type type, Valizer valizer, Devalizer devalizer)
         {
-            return ValizerScript.Register(type, valizer, devalizer);
+            ValizerScript.Register(type, valizer, devalizer);
         }
 
 
@@ -81,10 +79,9 @@ namespace Tie
         /// </summary>
         /// <param name="type"></param>
         /// <param name="valizerScript"></param>
-        /// <returns></returns>
-        public static VAL Register(Type type, string valizerScript)
+        public static void Register(Type type, string valizerScript)
         {
-            return ValizerScript.Register(type, valizerScript, null);
+            ValizerScript.Register(type, valizerScript, null);
         }
 
         /// <summary>
@@ -92,10 +89,9 @@ namespace Tie
         /// </summary>
         /// <param name="type"></param>
         /// <param name="valizer"></param>
-        /// <returns></returns>
-        public static VAL Register(Type type, IValizer valizer)
+        public static void Register(Type type, IValizer valizer)
         {
-            return ValizerScript.Register(type, valizer, null);
+            ValizerScript.Register(type, valizer, null);
         }
 
         /// <summary>
@@ -103,10 +99,9 @@ namespace Tie
         /// </summary>
         /// <param name="type"></param>
         /// <param name="valizerMembers"></param>
-        /// <returns></returns>
-        public static VAL Register(Type type, string[] valizerMembers)
+        public static void Register(Type type, string[] valizerMembers)
         {
-            return ValizerScript.Register(type, valizerMembers, null);
+            ValizerScript.Register(type, valizerMembers, null);
         }
         
         #region Register Type Functions

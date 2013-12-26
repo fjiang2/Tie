@@ -141,42 +141,29 @@ namespace Tie
         }
 
 
-  
-        private static ValizerScript Engine(Type type)
-        {
-          //  if (!type.IsArray)
-            {
-                VAL ty = Script.Evaluate(type.FullName);
-                if (ty.temp is ValizerScript)                                        //用HostType.Register(Type, Persistent)注册
-                    return (ValizerScript)ty.temp;
-            }
 
-            return null;
-        }
-
+        static Dictionary<Type, ValizerScript> entries = new Dictionary<Type, ValizerScript>();
+      
         #endregion
 
 
         #region public Tools
 
         //为已经存在的class注册一个Valizable的对象, 供 HostType.Register使用
-        public static VAL Register(Type type, object valizer, object devalizer)
+        public static void Register(Type type, object valizer, object devalizer)
         {
-            if (type.IsArray)
-                HostType.Register(type.GetElementType(), false);
-            else
-                HostType.Register(type, false);
 
-            VAL ty = Script.Evaluate(type.FullName);
-            ty.temp = new ValizerScript(valizer, devalizer);
-            return ty;
+            HostType.Register(type, false);
+            if (entries.ContainsKey(type))
+                entries.Remove(type);
+
+            entries.Add(type, new ValizerScript(valizer, devalizer));
         }
 
 
         public static bool Registered(Type type)
         {
-            ValizerScript engine = ValizerScript.Engine(type);
-            return engine != null;
+            return entries.ContainsKey(type);
         }
 
         //处理注册过Type的customerized的Persistent代码, 用于HostValization.Host2Valor(..)
@@ -185,10 +172,11 @@ namespace Tie
             if (host == null)
                 return null;
 
-            ValizerScript engine = ValizerScript.Engine(host.GetType());
-            
-            if (engine != null)
-                return engine.Valize(host);
+            Type type = host.GetType();
+            if(entries.ContainsKey(type))
+            {
+                return entries[type].Valize(host);
+            }
             
             return null;
         }
@@ -214,10 +202,10 @@ namespace Tie
         //把Val值解析(Devalize)为host, 用于HostValization.Val2Host(..)
         public static object ToHost(VAL val, Type hostType)
         {
-          ValizerScript engine = ValizerScript.Engine(hostType);
-            
-            if (engine != null)                                   
-                 return engine.Devalize(val);
+             if (entries.ContainsKey(hostType))
+             {
+                 return entries[hostType].Devalize(val);
+             }
             
             return null;
         }

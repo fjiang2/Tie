@@ -100,6 +100,7 @@
     <Compile Include="HostType\HostOperation.cs" />
     <Compile Include="HostType\HostValization.cs" />
     <Compile Include="HostType\HostTypeException.cs" />
+    <Compile Include="HostType\ident.cs" />
     <Compile Include="HostType\PersistentAttribute.cs" />
     <Compile Include="HostType\Tuple.cs" />
     <Compile Include="HostType\ValizerScript.cs" />

@@ -297,7 +297,12 @@ namespace Tie
             {
                 val = VAL.NewScriptType(HostOperation.EnumBitFlags(host));
             }
-         
+            else if (ValizerScript.Registered(host.GetType()))
+            {
+                VAL temp = ValizerScript.ToValor(host);
+                temp.Class = host.GetType().FullName;
+                return temp;
+            }
             else if (host is ICollection)
             {
                 val = VAL.Array();
@@ -305,12 +310,6 @@ namespace Tie
                 {
                     val.Add(Host2Valor(a, new VAL()));
                 }
-            }
-            else if (ValizerScript.Registered(host.GetType()))
-            {
-                VAL temp = ValizerScript.ToValor(host);
-                temp.Class = host.GetType().FullName;
-                return temp;
             }
             else
             {

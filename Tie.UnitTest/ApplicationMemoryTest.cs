@@ -57,8 +57,36 @@ namespace UnitTest
     {
         string fileName = "c:\\temp\\TestFile.txt";
         public ApplicationMemoryTest(Memory memory)
-            :base(memory)
-        { 
+            : base(memory)
+        {
+
+            HostType.Register(typeof(byte[]),
+             delegate(object host)
+             {
+                 byte[] bytes = (byte[])host;
+                 return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
+             },
+             delegate(VAL val)
+             {
+                 byte[] bytes = HostType.HexStringToByteArray(val.Str);
+                 return bytes;
+             }
+         );
+
+
+            HostType.Register(typeof(Guid), delegate(object host)
+                {
+                    Guid guid = (Guid)host;
+                    byte[] bytes = guid.ToByteArray();
+                    return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
+                },
+                delegate(VAL val)
+                {
+                    byte[] bytes = HostType.HexStringToByteArray(val.Str);
+                    return new Guid(bytes);
+                }
+         );
+
         }
 
         public int ValColWidh = 40;
@@ -183,11 +211,12 @@ Place.StreetName 	 ""500 Airport Highway""
             DS.Clear();
             device.Load();
             size = device.GetValue<System.Windows.Size>("Size");
-            Guid guid = device.GetValue<Guid>("Guid");
-            //int[] ints = device.GetValue<int[]>("Bytes");
-            //byte[] bytes = device.GetValue<byte[]>("Bytes");
             Debug.Assert(size.Width == 10 && size.Height == 20);
-
+            
+            Guid guid = device.GetValue<Guid>("Guid");
+            byte[] bytes = device.GetValue<byte[]>("Bytes");
+            Debug.Assert(bytes[0]==1 && bytes[1]==2 && bytes[2]==3 && bytes[3]==4);
+            
             device.ValColWidh = 400;
             HostType.Register(typeof(Parity));
             HostType.Register(typeof(StopBits));
