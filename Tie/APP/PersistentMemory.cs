@@ -266,6 +266,24 @@ namespace Tie
         }
 
 
+        /// <summary>
+        /// variable or value is oversize
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="message"></param>
+        protected virtual void OversizeHandler(string variable, string message)
+        {
+        }
+
+        /// <summary>
+        /// invalid variable/value pair in persistent device
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="message"></param>
+        protected virtual void InvalidVariableHandler(string variable, string message)
+        {
+        }
+
 
         /// <summary>
         /// Save variables into persistent device
@@ -295,26 +313,8 @@ namespace Tie
                 }
             }
 
-            SaveIntoDevice(storage);
+            WriteMemory(storage);
             
-        }
-
-        /// <summary>
-        /// variable or value is oversize
-        /// </summary>
-        /// <param name="variable"></param>
-        /// <param name="message"></param>
-        protected virtual void OversizeHandler(string variable, string message)
-        { 
-        }
-
-        /// <summary>
-        /// invalid variable/value pair in persistent device
-        /// </summary>
-        /// <param name="variable"></param>
-        /// <param name="message"></param>
-        protected virtual void InvalidVariableHandler(string variable, string message)
-        {
         }
 
         /// <summary>
@@ -326,11 +326,32 @@ namespace Tie
         }
 
         /// <summary>
-        /// Load varibles from persistent device
+        /// Load variable/pair from persistent device
+        /// </summary>
+        /// <param name="variables"></param>
+        public void Load(IEnumerable<string> variables)
+        {
+            Dictionary<string, string> storage = new Dictionary<string, string>();
+            foreach (string variable in variables)
+                storage.Add(variable, "");
+            
+            ReadMemory(storage);
+            Load(storage);
+        }
+
+        /// <summary>
+        /// Load all varibles from persistent device
         /// </summary>
         public void Load()
         {
-            Dictionary<string, string> storage = LoadFromDevice();
+            Dictionary<string, string> storage = new Dictionary<string, string>();
+            ReadMemory(storage);
+            Load(storage);
+        }
+
+
+        private void Load(Dictionary<string, string> storage)
+        {
             foreach (KeyValuePair<string, string> kvp in storage)
             {
                 try
@@ -354,17 +375,20 @@ namespace Tie
         /// </summary>
         protected abstract int MaxValueSpaceLength { get; }
 
+     
         /// <summary>
-        /// Load varibles/value pair from persistent device
-        /// </summary>
-        /// <returns></returns>
-        protected abstract Dictionary<string, string> LoadFromDevice();
-
-        /// <summary>
-        /// Save varibles/value pair into persistent device
+        /// Read varibles/value pair from persistent device by storage.Keys. Read all if storage is empty
         /// </summary>
         /// <param name="storage"></param>
-        protected abstract void SaveIntoDevice(Dictionary<string, string> storage);
+        /// <returns></returns>
+        protected abstract void ReadMemory(Dictionary<string, string> storage);
+
+        /// <summary>
+        /// Write varibles/value pair into persistent device
+        /// </summary>
+        /// <param name="storage"></param>
+        protected abstract void WriteMemory(Dictionary<string, string> storage);
+
 
         /// <summary>
         /// 
