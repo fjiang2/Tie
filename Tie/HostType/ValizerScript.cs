@@ -144,7 +144,7 @@ namespace Tie
   
         private static ValizerScript Engine(Type type)
         {
-            if (!type.IsArray)
+          //  if (!type.IsArray)
             {
                 VAL ty = Script.Evaluate(type.FullName);
                 if (ty.temp is ValizerScript)                                        //用HostType.Register(Type, Persistent)注册
@@ -162,7 +162,11 @@ namespace Tie
         //为已经存在的class注册一个Valizable的对象, 供 HostType.Register使用
         public static VAL Register(Type type, object valizer, object devalizer)
         {
-            HostType.Register(type, false);
+            if (type.IsArray)
+                HostType.Register(type.GetElementType(), false);
+            else
+                HostType.Register(type, false);
+
             VAL ty = Script.Evaluate(type.FullName);
             ty.temp = new ValizerScript(valizer, devalizer);
             return ty;

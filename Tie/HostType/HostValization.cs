@@ -130,7 +130,23 @@ namespace Tie
                     return temp;
                 else
                 {
-                    object host = Activator.CreateInstance(type, new object[] { });
+                    object host;
+                    if (type.IsArray)
+                    {
+                        host = Array.CreateInstance(type.GetElementType(), val.Size);
+                        int i = 0;
+                        foreach (object elemet in (Array)host)
+                        {
+                            HostOperation.HostTypeAssign(host, new int[] {i}, val[i].HostValue, true);
+                            i++;
+                            //Val2Host(val[i++], elemet);
+                        }
+                    }
+                    else
+                    {
+                        host = Activator.CreateInstance(type, new object[] { });
+                    }
+
                     return Val2HostOffset(val, host);
                 }
             }
@@ -281,6 +297,7 @@ namespace Tie
             {
                 val = VAL.NewScriptType(HostOperation.EnumBitFlags(host));
             }
+         
             else if (host is ICollection)
             {
                 val = VAL.Array();
@@ -289,14 +306,14 @@ namespace Tie
                     val.Add(Host2Valor(a, new VAL()));
                 }
             }
-            else
+            else if (ValizerScript.Registered(host.GetType()))
             {
                 VAL temp = ValizerScript.ToValor(host);
-                if ((object)temp != null)
-                {
-                    return temp;
-                }
-
+                temp.Class = host.GetType().FullName;
+                return temp;
+            }
+            else
+            {
                 HostOffset2Val(host, val);
             }
 
