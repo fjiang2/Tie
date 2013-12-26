@@ -133,6 +133,9 @@ namespace Tie
                     object host;
                     if (type.IsArray)
                     {
+                        if (val.ty != VALTYPE.listcon)
+                            return null;
+
                         host = Array.CreateInstance(type.GetElementType(), val.Size);
                         int i = 0;
                         foreach (object elemet in (Array)host)

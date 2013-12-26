@@ -205,6 +205,7 @@ Place.StreetName 	 ""500 Airport Highway""
             device.SetValue("Size", size);
             device.SetValue("Today", DateTime.Today);
             device.SetValue("Guid", new Guid("DEC32C1A-550E-4F5C-8B81-DDD395578A77"));
+            device.SetValue("Integers", new int[] { 1, 2, 3, 4, 5 });
             device.SetValue("Bytes", new byte[] { 1, 2, 3, 4, 5 });
             device.Save();
 
@@ -215,6 +216,9 @@ Place.StreetName 	 ""500 Airport Highway""
             
             Guid guid = device.GetValue<Guid>("Guid");
             Debug.Assert(guid == new Guid("DEC32C1A-550E-4F5C-8B81-DDD395578A77"));
+
+            int[] ints = device.GetValue<int[]>("Integers");
+            double[] d = device.GetValue<double[]>("Integers");
 
             byte[] bytes = device.GetValue<byte[]>("Bytes");
             Debug.Assert(bytes[0]==1 && bytes[1]==2 && bytes[2]==3 && bytes[3]==4);
