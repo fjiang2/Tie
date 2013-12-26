@@ -30,78 +30,54 @@ namespace Tie
     public class HostType
     {
 
-        //object host;
-
-        //public HostType(string host)
-        //{
-        //    this.host = host;
-        //}
-
-
-        ////members = fields + properties
-        //public VAL Members
-        //{
-        //    get
-        //    {
-        //        return HostValization.Host2Val(host);
-        //    }
-        //    set
-        //    {
-        //        HostValization.Val2Host(value, host);
-        //    }
-        //}
-
-
         /// <summary>
         /// Register valizer
         /// </summary>
-        /// <param name="type"></param>
         /// <param name="valizer"></param>
-        public static void Register(Type type, Valizer valizer)
+        public static void Register<T>(Valizer<T> valizer)
         {
-            ValizerScript.Register(type, valizer, null);
+            Register<T>(valizer, null);
         }
         
         /// <summary>
         /// Register valizer and devalizer
         /// </summary>
-        /// <param name="type"></param>
         /// <param name="valizer"></param>
         /// <param name="devalizer"></param>
-        public static void Register(Type type, Valizer valizer, Devalizer devalizer)
+        public static void Register<T>(Valizer<T> valizer, Devalizer<T> devalizer)
         {
-            ValizerScript.Register(type, valizer, devalizer);
-        }
-
-
-        /// <summary>
-        /// Register valizer script 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="valizerScript"></param>
-        public static void Register(Type type, string valizerScript)
-        {
-            ValizerScript.Register(type, valizerScript, null);
+            Type type = typeof(T);
+            ValizeRegistry.Register(type, new ValizationDelegate<T>(valizer, devalizer));
         }
 
         /// <summary>
         /// Register Valizer by object interface
         /// </summary>
-        /// <param name="type"></param>
         /// <param name="valizer"></param>
-        public static void Register(Type type, IValizer valizer)
+        public static void Register<T>(IValizer<T> valizer)
         {
-            ValizerScript.Register(type, valizer, null);
+            ValizeRegistry.Register(typeof(T), new ValizationInterface<T>(valizer));
         }
+
+        /// <summary>
+        /// Register valizer script 
+        /// </summary>
+        /// <param name="valizerScript"></param>
+        public static void Register<T>(string valizerScript)
+        {
+            ValizeRegistry.Register(typeof(T), new ValizationScript(valizerScript, null));
+        }
+
+      
 
         /// <summary>
         /// Register valizer by class's members
         /// </summary>
         /// <param name="type"></param>
         /// <param name="valizerMembers"></param>
-        public static void Register(Type type, string[] valizerMembers)
+        public static void Register<T>(string[] valizerMembers)
         {
-            ValizerScript.Register(type, valizerMembers, null);
+            ValizeRegistry.Register(typeof(T), new ValizationProperty(valizerMembers));
         }
         
         #region Register Type Functions

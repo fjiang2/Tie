@@ -22,91 +22,62 @@ using System.Reflection;
 
 namespace Tie
 {
-    /**
-     * 
-     * 用来支持已经存在的class的Valization
-     * 譬如对System.Windows.Forms.TextBox的Valization
-     * 
-     * 定义用来产生class实例的script
-     * 
-     * 
-     * */
-
-    class ValizerScript
+    interface IValization
     {
+        VAL Valize(object host);
+        object Devalize(VAL val);
+    }
 
-        #region class implementation
+    class ValizationDelegate<T> : IValization
+    {
+        private Valizer<T> valizer;
+        private Devalizer<T> devalizer;
 
-        /**
-         * 1. string script
-         * script example for typeof(Color) :
-         *  "this.GetType().FullName + '.' + (this.Name=='0'?'Black':this.Name)"
-         *  --> System.Drawing.Color.Name
-         *  
-         * 2. delegate Valizer /delegate Devalizer
-         *   .NET实现的Persistent Object Script
-         *   
-         * 3. 支持interface IValizer
-         * 
-         * 4. Field/Property List, string[] members = new string[]{"Text","Name"};
-         * 
-         * */
-
-        private object valizer;
-        private object devalizer;
-
-        protected ValizerScript(object valizer, object devalizer)
+        public ValizationDelegate(Valizer<T> valizer, Devalizer<T> devalizer)
         {
             this.valizer = valizer;
             this.devalizer = devalizer;
         }
 
-        private VAL Valize(object host)
+        public VAL Valize(object host)
+        {
+            VAL val = valizer((T)host);
+
+            if (val.ty == VALTYPE.stringcon)
+                val.ty = VALTYPE.scriptcon;         //scriptcon 不输出"", 不象字符串
+
+            val.Class = host.GetType().FullName;
+            return val;
+
+        }
+
+        public object Devalize(VAL val)
+        {
+            if(devalizer != null)
+                return devalizer(val);
+
+            return null;
+        }
+
+    }
+
+    class ValizationScript : IValization
+    {
+        private string valizer;
+        private string devalizer;
+
+        public ValizationScript(string valizer, string devalizer)
+        {
+            this.valizer = valizer;
+            this.devalizer = devalizer;
+        }
+
+        public VAL Valize(object host)
         {
             VAL val;
 
-            if (this.valizer is string)
-            {
-                val = Script.Run(host, (string)valizer, new Memory());
-                goto L1;
-            }
+            val = Script.Run(host, valizer, new Memory());
 
-
-            if (this.valizer is Valizer)
-            {
-                Valizer valizer = (Valizer)this.valizer;
-                val = valizer(host);
-                goto L1;    
-            }
-
-            if (this.valizer is IValizer)
-            {
-                IValizer I = (IValizer)this.valizer;
-                val = I.Valizer(host);
-                goto L1;
-            
-            }
-
-            if (this.valizer is string[])
-            {
-                string[] members = (string[])this.valizer;
-                string script = "";
-                for (int i = 0; i < members.Length; i++)
-                {
-                    if (i != 0)
-                        script += ",";
-                    script += string.Format("{0} : this.{0}", members[i]);
-                }
-
-                script = "{" + script + "}";
-
-                val = Script.Run(host, script, new Memory());
-                goto L1;
-            }
-
-            return null;
-        
-            L1:
             if (val.ty == VALTYPE.stringcon)
                 val.ty = VALTYPE.scriptcon;         //scriptcon 不输出"", 不象字符串
 
@@ -117,49 +88,117 @@ namespace Tie
         }
 
 
-        private object Devalize(VAL val)
+        public object Devalize(VAL val)
         {
-            if (this.devalizer is string)
-            {
-                VAL x = Script.Run(val, (string)devalizer, new Memory());
-                return x.HostValue;
-            }
+            if (devalizer == null)
+                return null;
 
-            if (this.devalizer is Devalizer)
-            {
-                Devalizer devalizer = (Devalizer)this.devalizer;
-                return devalizer(val);
-            }
+            VAL x = Script.Run(val, devalizer, new Memory());
+            return x.HostValue;
+        }
 
-            if (this.valizer is IValizer)
-            {
-                IValizer I = (IValizer)this.valizer;
-                return I.Devalizer(val);
-            }
-            
-            return null;
+    }
+
+
+    class ValizationInterface<T> : IValization
+    {
+
+        private IValizer<T> valizer;
+
+        public ValizationInterface(IValizer<T> valizer)
+        {
+            this.valizer = valizer;
+        }
+
+        public VAL Valize(object host)
+        {
+            VAL val;
+            val = valizer.Valizer((T)host);
+
+            if (val.ty == VALTYPE.stringcon)
+                val.ty = VALTYPE.scriptcon;         //scriptcon 不输出"", 不象字符串
+
+            val.Class = host.GetType().FullName;
+
+            return val;
+
         }
 
 
-
-        static Dictionary<Type, ValizerScript> entries = new Dictionary<Type, ValizerScript>();
-      
-        #endregion
-
-
-        #region public Tools
-
-        //为已经存在的class注册一个Valizable的对象, 供 HostType.Register使用
-        public static void Register(Type type, object valizer, object devalizer)
+        public object Devalize(VAL val)
         {
+            return valizer.Devalizer(val);
+        }
+    }
 
-            HostType.Register(type, false);
+
+    class ValizationProperty : IValization
+    {
+        private string[] valizer;
+        private object devalizer;
+
+
+        public ValizationProperty(string[] valizer)
+        {
+            this.valizer = valizer;
+        }
+
+        public VAL Valize(object host)
+        {
+            VAL val;
+            string[] members = (string[])this.valizer;
+            string script = "";
+            for (int i = 0; i < members.Length; i++)
+            {
+                if (i != 0)
+                    script += ",";
+                script += string.Format("{0} : this.{0}", members[i]);
+            }
+
+            script = "{" + script + "}";
+
+            val = Script.Run(host, script, new Memory());
+
+
+            if (val.ty == VALTYPE.stringcon)
+                val.ty = VALTYPE.scriptcon;         //scriptcon 不输出"", 不象字符串
+
+            val.Class = host.GetType().FullName;
+
+            return val;
+
+        }
+
+
+        public object Devalize(VAL val)
+        {
+            return null;
+        }
+    }
+
+
+    /**
+     * 
+     * 用来支持已经存在的class的Valization
+     * 譬如对System.Windows.Forms.TextBox的Valization
+     * 
+     * 定义用来产生class实例的script
+     * 
+     * 
+     * */
+
+    class ValizeRegistry
+    {
+
+        static Dictionary<Type, IValization> entries = new Dictionary<Type, IValization>();
+
+        public static void Register(Type type, IValization valization)
+        {
             if (entries.ContainsKey(type))
                 entries.Remove(type);
 
-            entries.Add(type, new ValizerScript(valizer, devalizer));
+            entries.Add(type, valization);
         }
-
 
         public static bool Registered(Type type)
         {
@@ -192,7 +231,7 @@ namespace Tie
             if (attributes.Length != 0)
             {
                 if (attributes[0].valizer != null)      //Field或者Property定义了[Valizable]属性,并且定义了customerized
-                    return (new ValizerScript(attributes[0].valizer, null)).Valize(host);
+                    return (new ValizationScript((string)attributes[0].valizer, null)).Valize(host);
             }
 
             return ToValor(host);
@@ -210,7 +249,7 @@ namespace Tie
             return null;
         }
 
-        #endregion
+        
 
 
     }

@@ -134,17 +134,15 @@ namespace UnitTest
         private static void RegisterValizableClass()
         {
 
-            HostType.Register(typeof(System.Drawing.Size), delegate(object host)
+            HostType.Register<Size>(delegate(Size size)
             {
-                Size size = (Size)host;
                 return new VAL(string.Format("new System.Drawing.Size({0},{1})", size.Width, size.Height));
             });
 
 
             
-            HostType.Register(typeof(System.Drawing.Point), delegate(object host)
+            HostType.Register<Point>(delegate(Point point)
             {
-                Point point = (Point)host;
                 return new VAL(string.Format("new System.Drawing.Point({0},{1})", point.X, point.Y));
             });
 
@@ -161,12 +159,10 @@ namespace UnitTest
                         )");
 
 #else
-            HostType.Register(typeof(Color), delegate(object host)
+            HostType.Register<Color>(delegate(Color color)
             {
-                Color color = (Color)host;
-
                 if (color.Name.Substring(0, 1) != "0" && color.Name.Substring(0, 1) != "f")
-                    return new VAL(host.GetType().FullName + '.' + color.Name);
+                    return new VAL(color.GetType().FullName + '.' + color.Name);
 
                 return new VAL(string.Format("System.Drawing.Color.FromArgb({0},{1},{2})", color.R, color.G, color.B));
             });
@@ -194,7 +190,7 @@ namespace UnitTest
             ");
 #else
 
-            HostType.Register(typeof(Font), @"
+            HostType.Register<Font>(@"
                 format('new {0}(""{1}"",(float){2},{3},{4},(byte)0)', 
                     this.GetType().FullName, this.Name, this.Size, this.Style.valize(), this.Unit.valize())
             ");
@@ -218,9 +214,8 @@ namespace UnitTest
 #endif
 
 
-            HostType.Register(typeof(Rectangle), delegate(object host)
+            HostType.Register<Rectangle>(delegate(Rectangle rect)
             {
-                Rectangle rect = (Rectangle)host;
                 VAL val = VAL.Boxing(new int[] { rect.X, rect.Y, rect.Width, rect.Height });
                 return val;
             },
@@ -230,9 +225,8 @@ namespace UnitTest
             }
             );
 
-            HostType.Register(typeof(Guid), delegate(object host)
+            HostType.Register<Guid>(delegate(Guid guid)
             {
-                Guid guid = (Guid)host;
                 byte[] bytes = guid.ToByteArray();
                 return new VAL("\""+HostType.ByteArrayToHexString(bytes)+"\"");     //because this is a string, need quotation marks ""
             },

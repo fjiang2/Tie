@@ -60,10 +60,9 @@ namespace UnitTest
             : base(memory)
         {
 
-            HostType.Register(typeof(byte[]),
-             delegate(object host)
+            HostType.Register<byte[]>(
+             delegate(byte[] bytes)
              {
-                 byte[] bytes = (byte[])host;
                  return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
              },
              delegate(VAL val)
@@ -74,9 +73,8 @@ namespace UnitTest
          );
 
 
-            HostType.Register(typeof(Guid), delegate(object host)
+            HostType.Register<Guid>(delegate(Guid guid)
                 {
-                    Guid guid = (Guid)host;
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                 },

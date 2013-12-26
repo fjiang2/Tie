@@ -64,34 +64,34 @@ namespace Tie
     /// </summary>
     /// <param name="host"></param>
     /// <returns></returns>
-    public delegate VAL Valizer(object host);
+    public delegate VAL Valizer<T>(T host);
 
     /// <summary>
     /// delegate fro devalizer
     /// </summary>
     /// <param name="val"></param>
     /// <returns></returns>
-    public delegate object Devalizer(VAL val);
+    public delegate T Devalizer<T>(VAL val);
 
 
     /// <summary>
     /// interface of valizer and devalizer
     /// </summary>
-    public interface IValizer
+    public interface IValizer<T>
     {
         /// <summary>
         /// prototype of valizer
         /// </summary>
         /// <param name="host"></param>
         /// <returns></returns>
-        VAL Valizer(object host);
+        VAL Valizer(T host);
 
         /// <summary>
         /// prototype of devalizer
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        object Devalizer(VAL val);
+        T Devalizer(VAL val);
     }
 
     class HostValization
@@ -106,7 +106,7 @@ namespace Tie
 
         private static void SetValue(object host, Type type, string offset, VAL val)
         {
-            object temp = ValizerScript.ToHost(val, type);
+            object temp = ValizeRegistry.ToHost(val, type);
             if (temp == null)
                 temp = val.HostValue;
 
@@ -125,7 +125,7 @@ namespace Tie
             if (obj is Type)
             {
                 Type type = (Type)obj;
-                object temp = ValizerScript.ToHost(val, type);
+                object temp = ValizeRegistry.ToHost(val, type);
                 if (temp != null && temp.GetType() == type)
                     return temp;
                 else
@@ -300,9 +300,9 @@ namespace Tie
             {
                 val = VAL.NewScriptType(HostOperation.EnumBitFlags(host));
             }
-            else if (ValizerScript.Registered(host.GetType()))
+            else if (ValizeRegistry.Registered(host.GetType()))
             {
-                VAL temp = ValizerScript.ToValor(host);
+                VAL temp = ValizeRegistry.ToValor(host);
                 temp.Class = host.GetType().FullName;
                 return temp;
             }
@@ -335,7 +335,7 @@ namespace Tie
 
                 //处理customerized的Persistent代码
                 object fieldValue = fieldInfo.GetValue(host);
-                VAL persistent = ValizerScript.ToValor(fieldInfo, fieldValue);
+                VAL persistent = ValizeRegistry.ToValor(fieldInfo, fieldValue);
 
                 if ((object)persistent == null)
                 {
@@ -368,7 +368,7 @@ namespace Tie
                 if (propertyValue == null)
                     continue;
 
-                VAL persistent = ValizerScript.ToValor(propertyInfo, propertyValue);
+                VAL persistent = ValizeRegistry.ToValor(propertyInfo, propertyValue);
 
                 if ((object)persistent == null)
                 {
