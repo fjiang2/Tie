@@ -67,9 +67,9 @@ namespace UnitTest
         protected override int MaxVariableSpaceLength { get { return VarColWidh; } }
         protected override int MaxValueSpaceLength { get { return ValColWidh; } }
 
-        protected override void ReadMemory(Dictionary<string, string> dict)
+        protected override IEnumerable<KeyValuePair<string, string>> ReadMemory(IEnumerable<string> varibles)
         {
-            dict.Clear();
+            Dictionary<string, string> dict = new Dictionary<string, string>();
             if (File.Exists(fileName))
             {
                 using (StreamReader sr = new StreamReader(fileName))
@@ -84,10 +84,11 @@ namespace UnitTest
                 }
             }
 
+            return dict;
         }
 
 
-        protected override void WriteMemory(Dictionary<string, string> dict)
+        protected override void WriteMemory(IEnumerable<KeyValuePair<string, string>> dict)
         {
             string folder = Path.GetDirectoryName(fileName);
             if (!Directory.Exists(folder))

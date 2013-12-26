@@ -331,11 +331,7 @@ namespace Tie
         /// <param name="variables"></param>
         public void Load(IEnumerable<string> variables)
         {
-            Dictionary<string, string> storage = new Dictionary<string, string>();
-            foreach (string variable in variables)
-                storage.Add(variable, "");
-            
-            ReadMemory(storage);
+            IEnumerable<KeyValuePair<string, string>> storage = ReadMemory(variables);
             Load(storage);
         }
 
@@ -344,13 +340,11 @@ namespace Tie
         /// </summary>
         public void Load()
         {
-            Dictionary<string, string> storage = new Dictionary<string, string>();
-            ReadMemory(storage);
+            IEnumerable<KeyValuePair<string, string>> storage = ReadMemory(new string[]{});
             Load(storage);
         }
 
-
-        private void Load(Dictionary<string, string> storage)
+        private void Load(IEnumerable<KeyValuePair<string, string>> storage)
         {
             foreach (KeyValuePair<string, string> kvp in storage)
             {
@@ -377,17 +371,18 @@ namespace Tie
 
      
         /// <summary>
-        /// Read varibles/value pair from persistent device by storage.Keys. Read all if storage is empty
+        /// Read values from persistent device by variables. Read all if variables is empty
+        /// caution: Keys are dynamic generated based on length of Key/Value space.
         /// </summary>
-        /// <param name="storage"></param>
+        /// <param name="variables">varibles must be in Key FIELD of persistent device</param>
         /// <returns></returns>
-        protected abstract void ReadMemory(Dictionary<string, string> storage);
+        protected abstract IEnumerable<KeyValuePair<string, string>> ReadMemory(IEnumerable<string> variables);
 
         /// <summary>
         /// Write varibles/value pair into persistent device
         /// </summary>
-        /// <param name="storage"></param>
-        protected abstract void WriteMemory(Dictionary<string, string> storage);
+        /// <param name="pairs"></param>
+        protected abstract void WriteMemory(IEnumerable<KeyValuePair<string,string>> pairs);
 
 
         /// <summary>
