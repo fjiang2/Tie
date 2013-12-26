@@ -176,11 +176,15 @@ Place.StreetName 	 ""500 Airport Highway""
             System.Windows.Size size = new System.Windows.Size(10, 20);
             device.SetValue("Size", size);
             device.SetValue("Today", DateTime.Today);
+            device.SetValue("Guid", Guid.NewGuid());
+            device.SetValue("Bytes", new byte[] { 1, 2, 3, 4, 5 });
             device.Save();
 
             DS.Clear();
             device.Load();
             size = device.GetValue<System.Windows.Size>("Size");
+            Guid guid = device.GetValue<Guid>("Guid");
+           // byte[] bytes = device.GetValue<byte[]>("Bytes");
             Debug.Assert(size.Width == 10 && size.Height == 20);
 
             device.ValColWidh = 400;

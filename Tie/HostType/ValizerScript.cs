@@ -169,6 +169,11 @@ namespace Tie
         }
 
 
+        public static bool Registered(Type type)
+        {
+            ValizerScript engine = ValizerScript.Engine(type);
+            return engine != null;
+        }
 
         //处理注册过Type的customerized的Persistent代码, 用于HostValization.Host2Valor(..)
         public static VAL ToValor(object host)

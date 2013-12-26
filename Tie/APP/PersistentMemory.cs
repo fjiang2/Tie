@@ -31,13 +31,40 @@ namespace Tie
         protected Memory memory;
 
         protected PersistentMemory()
+            :this( new Memory())
         {
-            this.memory = new Memory();
         }
 
         protected PersistentMemory(Memory memory)
         {
             this.memory = memory;
+
+            HostType.Register(typeof(byte[]),
+                delegate(object host)
+                {
+                    byte[] bytes = (byte[])host;
+                    return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
+                },
+                delegate(VAL val)
+                {
+                    byte[] bytes = HostType.HexStringToByteArray(val.Str);
+                    return bytes;
+                }
+            );
+
+
+            HostType.Register(typeof(Guid), delegate(object host)
+            {
+                Guid guid = (Guid)host;
+                byte[] bytes = guid.ToByteArray();
+                return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
+            },
+         delegate(VAL val)
+         {
+             byte[] bytes = HostType.HexStringToByteArray(val.Str);
+             return new Guid(bytes);
+         }
+         );
         }
 
         #region Adjust Variable and Value based on the maximum capacity of persistent device
@@ -172,16 +199,8 @@ namespace Tie
         /// <param name="v"></param>
         public void SetValue(string variable, object v)
         {
-            if (v is byte[])
-            {
-                Script.Execute(string.Format("{0}={1};", variable, new VAL(HostType.ByteArrayToHexString((byte[])v))), memory);
-                return;
-            }
-            else
-            {
-                Script.Execute(string.Format("{0}={1};", variable, VAL.Boxing(v).Valor), memory);
-                return;
-            }
+            VAL val = HostValization.Host2Valor(v);
+            Script.Execute(string.Format("{0}={1};", variable, val.Valor), memory);
         }
 
         /// <summary>
@@ -219,22 +238,15 @@ namespace Tie
             }
             else
             {
-                if (typeof(T) == typeof(byte[]) && v.value is string)
-                {
-                    return (T)(object)HostType.HexStringToByteArray((string)v.value);
-                }
+                if (v.HostValue.GetType() == typeof(T))
+                    return (T)v.HostValue;
                 else
                 {
-                    if (v.HostValue.GetType() == typeof(T))
-                        return (T)v.HostValue;
-                    else 
-                    {
-                        //used on regular JSON without typeof(list)
-                        object host = Activator.CreateInstance(typeof(T), new object[] { });  
-                        HostValization.Val2Host(v, host);
-                        return (T)host;
-                    }
+                    //used on regular JSON without typeof(list)
+                    object host = HostValization.Val2Host(v, typeof(T));
+                    return (T)host;
                 }
+
             }
         }
 
@@ -248,8 +260,28 @@ namespace Tie
         public object GetValue(string variable, Type type)
         {
             VAL v = get(variable);
-            object host = Activator.CreateInstance(type, new object[] { });
-            return GetValue(variable, host);
+
+
+            if (v.Undefined || v.IsNull)
+            {
+                return null;
+            }
+            else if (type == typeof(VAL))
+            {
+                return v;
+            }
+            else
+            {
+                if (v.HostValue.GetType() == type)
+                    return v.HostValue;
+                else
+                {
+                    //used on regular JSON without typeof(list)
+                    return HostValization.Val2Host(v, type);
+                }
+
+            }
+            
         }
 
         /// <summary>

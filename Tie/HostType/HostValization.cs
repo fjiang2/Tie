@@ -100,7 +100,7 @@ namespace Tie
         public static object NewInstance(VAL val, object[] args)
         {
             object instance = HostType.NewInstance(val.Class, args);
-            Val2Host(val, instance);
+            Val2HostOffset(val, instance);
             return instance;
         }
 
@@ -113,18 +113,36 @@ namespace Tie
             if (val.IsAssociativeArray())
             {
                 VAL x = HostOperation.HostTypeOffset(VAL.Boxing(host), new VAL(offset), OffsetType.STRUCT);
-                Val2Host(val, x.value);
+                Val2HostOffset(val, x.value);
             }
             else
                 HostOperation.HostTypeAssign(host, offset, temp, true);
         }
 
-      
+        //Devalize
+        public static object Val2Host(VAL val, object obj)
+        {
+            if (obj is Type)
+            {
+                Type type = (Type)obj;
+                object temp = ValizerScript.ToHost(val, type);
+                if (temp != null && temp.GetType() == type)
+                    return temp;
+                else
+                {
+                    object host = Activator.CreateInstance(type, new object[] { });
+                    return Val2HostOffset(val, host);
+                }
+            }
+            else
+            {
+                return Val2HostOffset(val, obj);
+            }
+        }
 
         //Devalize
-        public static object Val2Host(VAL val, object host)
+        private static object Val2HostOffset(VAL val, object host)
         {
-
             FieldInfo[] fields = host.GetType().GetFields();
             foreach (FieldInfo fieldInfo in fields)
             {
@@ -190,7 +208,7 @@ namespace Tie
 
                             }
                             else 
-                                Val2Host(p, propertyInfo.GetValue(host, null));
+                                Val2HostOffset(p, propertyInfo.GetValue(host, null));
                         }
                     }
                 }
@@ -279,79 +297,84 @@ namespace Tie
                     return temp;
                 }
 
-                FieldInfo[] fields = host.GetType().GetFields(BindingFlags.Instance);
-                foreach (FieldInfo fieldInfo in fields)
-                {
-                    //Field缺省不转换为VAL 除非设置ValizableAttribute属性
-                    Attribute[] A = (Attribute[])fieldInfo.GetCustomAttributes(typeof(ValizableAttribute), true);
-                    if (A.Length == 0)
-                        continue;
-                    
-                    //处理customerized的Persistent代码
-                    object fieldValue = fieldInfo.GetValue(host);
-                    VAL persistent = ValizerScript.ToValor(fieldInfo, fieldValue);
-
-                    if ((object)persistent == null)
-                    {
-                        persistent = VAL.Boxing(fieldValue);
-                        if (!fieldInfo.FieldType.IsValueType && persistent.IsHostType)
-                        {
-                            persistent = Host2Valor(fieldValue, new VAL());
-                        }
-                    }
-
-                    val[fieldInfo.Name] = persistent;
-                }
-
-                PropertyInfo[] properties = host.GetType().GetProperties();
-                foreach (PropertyInfo propertyInfo in properties)
-                {
-                    //Property缺省情况下转为VAL, 除非设置NonValizedAttribute属性, 只存储简单的属性, 有下标的属性,不考虑
-                    Attribute[] A = (Attribute[])propertyInfo.GetCustomAttributes(typeof(NonValizedAttribute), true);
-                    if (A.Length != 0)
-                        continue;
-
-                    if (!(propertyInfo.CanRead && propertyInfo.CanWrite))
-                        continue;
-                
-                    if (IsStatic(propertyInfo))
-                        continue;
-
-                    //处理customerized的Persistent代码
-                    object propertyValue = propertyInfo.GetValue(host, null);
-                    if (propertyValue == null)
-                        continue;
-
-                    VAL persistent = ValizerScript.ToValor(propertyInfo, propertyValue);
-
-                    if ((object)persistent == null)
-                    {
-                        if (propertyValue is ICollection)
-                        {
-                            ICollection collection = (ICollection)propertyValue;
-                            persistent = VAL.Array();
-                            foreach (object obj in collection)
-                            {
-                                persistent.Add(VAL.Boxing(obj));
-                            }
-                        }
-                        else
-                        {
-                            persistent = VAL.Boxing(propertyValue);
-                            if (!propertyInfo.PropertyType.IsValueType && persistent.IsHostType)
-                            {
-                                persistent = Host2Valor(propertyValue, new VAL());
-                            }
-                        }
-                    }
-
-                    val[propertyInfo.Name] = persistent;
-
-                }
+                HostOffset2Val(host, val);
             }
 
             val.Class = host.GetType().FullName;
             return val;
+        }
+
+        private static void HostOffset2Val(object host, VAL val)
+        {
+            FieldInfo[] fields = host.GetType().GetFields(BindingFlags.Instance);
+            foreach (FieldInfo fieldInfo in fields)
+            {
+                //Field缺省不转换为VAL 除非设置ValizableAttribute属性
+                Attribute[] A = (Attribute[])fieldInfo.GetCustomAttributes(typeof(ValizableAttribute), true);
+                if (A.Length == 0)
+                    continue;
+
+                //处理customerized的Persistent代码
+                object fieldValue = fieldInfo.GetValue(host);
+                VAL persistent = ValizerScript.ToValor(fieldInfo, fieldValue);
+
+                if ((object)persistent == null)
+                {
+                    persistent = VAL.Boxing(fieldValue);
+                    if (!fieldInfo.FieldType.IsValueType && persistent.IsHostType)
+                    {
+                        persistent = Host2Valor(fieldValue, new VAL());
+                    }
+                }
+
+                val[fieldInfo.Name] = persistent;
+            }
+
+            PropertyInfo[] properties = host.GetType().GetProperties();
+            foreach (PropertyInfo propertyInfo in properties)
+            {
+                //Property缺省情况下转为VAL, 除非设置NonValizedAttribute属性, 只存储简单的属性, 有下标的属性,不考虑
+                Attribute[] A = (Attribute[])propertyInfo.GetCustomAttributes(typeof(NonValizedAttribute), true);
+                if (A.Length != 0)
+                    continue;
+
+                if (!(propertyInfo.CanRead && propertyInfo.CanWrite))
+                    continue;
+
+                if (IsStatic(propertyInfo))
+                    continue;
+
+                //处理customerized的Persistent代码
+                object propertyValue = propertyInfo.GetValue(host, null);
+                if (propertyValue == null)
+                    continue;
+
+                VAL persistent = ValizerScript.ToValor(propertyInfo, propertyValue);
+
+                if ((object)persistent == null)
+                {
+                    if (propertyValue is ICollection)
+                    {
+                        ICollection collection = (ICollection)propertyValue;
+                        persistent = VAL.Array();
+                        foreach (object obj in collection)
+                        {
+                            persistent.Add(VAL.Boxing(obj));
+                        }
+                    }
+                    else
+                    {
+                        persistent = VAL.Boxing(propertyValue);
+                        if (!propertyInfo.PropertyType.IsValueType && persistent.IsHostType)
+                        {
+                            persistent = Host2Valor(propertyValue, new VAL());
+                        }
+                    }
+                }
+
+                val[propertyInfo.Name] = persistent;
+
+            }
         }
 
         public static bool IsStatic(PropertyInfo propertyInfo)
@@ -382,7 +405,7 @@ namespace Tie
         public static object Valor2Host(VAL valor, object host)
         {
             VAL val = Valor2Val(valor);
-            return Val2Host(val, host);
+            return Val2HostOffset(val, host);
         }
     
     }
