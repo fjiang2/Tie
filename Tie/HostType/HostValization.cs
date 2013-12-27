@@ -374,6 +374,9 @@ namespace Tie
                 if (!(propertyInfo.CanRead && propertyInfo.CanWrite))
                     continue;
 
+                //if (!propertyInfo.CanRead)
+                //    continue;
+
                 if (IsStatic(propertyInfo))
                     continue;
 
