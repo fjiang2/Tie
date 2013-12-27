@@ -275,6 +275,9 @@ Place.StreetName 	 ""500 Airport Highway""
             list.Add(10); list.Add(20); list.Add(30);
             device.SetValue("list", list);
 
+
+
+            RegistrDictionary<string, int>();
             Dictionary<string, int> dict = new Dictionary<string, int>();
             dict.Add("A", 1);
             dict.Add("B", 2);
@@ -288,6 +291,27 @@ Place.StreetName 	 ""500 Airport Highway""
             list = device.GetValue<List<int>>("list");
 
             Logger.Close();
+        }
+
+        private static void RegistrDictionary<T1, T2>()
+        {
+            HostType.Register<Dictionary<T1, T2>>(
+                   host => 
+                   {
+                       var val = VAL.Array(host.Count, 2);
+                       foreach (var kvp in host)
+                       {
+                           val[0(kvp.Key, kvp.Value);
+                       }
+                       
+                       return val;
+                   },
+                   val => 
+                   {
+                       var dict = new Dictionary<T1, T2>();
+                       return dict;                   
+                   }
+                   );
         }
     }
 }

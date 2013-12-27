@@ -46,8 +46,7 @@ namespace Tie
         /// <param name="devalizer"></param>
         public static void Register<T>(Valizer<T> valizer, Devalizer<T> devalizer)
         {
-            Type type = typeof(T);
-            ValizeRegistry.Register(type, new ValizationDelegate<T>(valizer, devalizer));
+            ValizeRegistry.Register(typeof(T), new ValizationDelegate<T>(valizer, devalizer));
         }
 
         /// <summary>
