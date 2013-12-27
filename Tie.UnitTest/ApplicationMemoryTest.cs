@@ -56,6 +56,8 @@ namespace UnitTest
     class ApplicationMemoryTest : PersistentMemory
     {
         string fileName = "c:\\temp\\TestFile.txt";
+
+
         public ApplicationMemoryTest(Memory memory)
             : base(memory)
         {
