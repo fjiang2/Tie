@@ -270,12 +270,16 @@ Place.StreetName 	 ""500 Airport Highway""
 
             appConfig.Http.Port = 88;
             device.SetValue("Url", appConfig.Http);
+            List<int> list = new List<int>();
+            list.Add(10); list.Add(20); list.Add(30);
+            device.SetValue("list", list);
+            string v = list.GetType().FullName;
             device.Save();
             DS.Clear();
             device.Load();
             IUrlConfig url = device.GetValue<IUrlConfig>("Url");
             Debug.Assert(url.Port == 88);
-
+            list = device.GetValue<List<int>>("list");
 
             Logger.Close();
         }

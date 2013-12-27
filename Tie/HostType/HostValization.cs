@@ -138,16 +138,29 @@ namespace Tie
 
                         host = Array.CreateInstance(type.GetElementType(), val.Size);
                         int i = 0;
-                        foreach (object elemet in (Array)host)
+                        foreach (object element in (Array)host)
                         {
                             HostOperation.HostTypeAssign(host, new int[] {i}, val[i].HostValue, true);
                             i++;
-                            //Val2Host(val[i++], elemet);
                         }
                     }
                     else
                     {
                         host = Activator.CreateInstance(type, new object[] { });
+
+                        if (host is ICollection)
+                        {
+                            if (val.ty != VALTYPE.listcon)
+                                return host;
+
+                            foreach (VAL element in val)
+                            {
+                                if (host is IList)
+                                {
+                                    ((IList)host).Add(element.HostValue);
+                                }
+                            }
+                        }
                     }
 
                     return Val2HostOffset(val, host);
@@ -319,6 +332,7 @@ namespace Tie
                 HostOffset2Val(host, val);
             }
 
+            val.Type = host.GetType();
             val.Class = host.GetType().FullName;
             return val;
         }
