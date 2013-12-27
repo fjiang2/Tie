@@ -147,10 +147,10 @@ namespace UnitTest
             });
 
 
-#if VERSION1
+#if !VERSION1
             //1: System.Drawing.Color.Red
             //2: System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))))
-            HostType.Register(typeof(Color),
+            HostType.Register<Color>(
                 @"this.GetType().FullName + '.' 
                         + (
                         (this.Name.substring(0,1)!='0' && this.Name.substring(0,1)!='f') 

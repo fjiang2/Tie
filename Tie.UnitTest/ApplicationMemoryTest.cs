@@ -9,7 +9,15 @@ using System.IO.Ports;
 
 namespace UnitTest
 {
-    class HttpConfig
+
+    interface IUrlConfig
+    {
+        string Protocol { get; set; }
+        string Host { get; set; }
+        int Port { get; set; }
+    }
+
+    class HttpConfig : IUrlConfig
     {
         public string Protocol { get; set; }
         public string Host { get; set; }
@@ -20,6 +28,20 @@ namespace UnitTest
             this.Protocol = "http";
             this.Host = "127.0.0.1";
             this.Port = 80;
+        }
+    }
+
+    class FtpConfig : IUrlConfig
+    {
+        public string Protocol { get; set; }
+        public string Host { get; set; }
+        public int Port { get; set; }
+
+        public FtpConfig()
+        {
+            this.Protocol = "ftp";
+            this.Host = "127.0.0.10";
+            this.Port = 21;
         }
     }
 
@@ -43,7 +65,7 @@ namespace UnitTest
 
     class AppConfig
     {
-        public HttpConfig Http { get; set; }
+        public IUrlConfig Http { get; set; }
         public CommConfig Comm { get; set; }
 
         public AppConfig()
@@ -207,6 +229,7 @@ Place.StreetName 	 ""500 Airport Highway""
             device.SetValue("Guid", new Guid("DEC32C1A-550E-4F5C-8B81-DDD395578A77"));
             device.SetValue("Integers", new int[] { 1, 2, 3, 4, 5 });
             device.SetValue("Bytes", new byte[] { 1, 2, 3, 4, 5 });
+            device.SetValue("Color", System.Drawing.Color.Red); //Valizer defined in HostTypeHelper.cs
             device.Save();
 
             DS.Clear();
@@ -222,7 +245,10 @@ Place.StreetName 	 ""500 Airport Highway""
 
             byte[] bytes = device.GetValue<byte[]>("Bytes");
             Debug.Assert(bytes[0]==1 && bytes[1]==2 && bytes[2]==3 && bytes[3]==4);
-            
+
+            System.Drawing.Color color = device.GetValue<System.Drawing.Color>("Color");
+            Debug.Assert(color == System.Drawing.Color.Red);
+
             device.ValColWidh = 400;
             HostType.Register(typeof(Parity));
             HostType.Register(typeof(StopBits));
@@ -235,10 +261,22 @@ Place.StreetName 	 ""500 Airport Highway""
             device.Load();
             appConfig = device.GetValue<AppConfig>("AppConfig");
             Debug.Assert(appConfig.Http.Port == 80);
-            //System.Diagnostics.Debug.Assert((string)DS["I2"].Valor == "{}.typeof(System.String[])");
 
 
-            //VAL x = Script.Evaluate("{1,2,3}.typeof(int[])");
+            HostType.Register<IUrlConfig>(
+                    host => new VAL(new object[] { host.Host, host.Protocol, host.Port }),
+                    val => new HttpConfig { Host = val["Host"].Str, Protocol = val["Protocol"].Str, Port = val["Port"].Intcon }
+                        );
+
+            appConfig.Http.Port = 88;
+            device.SetValue("Url", appConfig.Http);
+            device.Save();
+            DS.Clear();
+            device.Load();
+            IUrlConfig url = device.GetValue<IUrlConfig>("Url");
+            Debug.Assert(url.Port == 88);
+
+
             Logger.Close();
         }
     }

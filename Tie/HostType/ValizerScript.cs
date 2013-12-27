@@ -24,29 +24,31 @@ namespace Tie
 {
     abstract class Valization
     {
-        protected abstract VAL Valize(object host);
-        protected abstract object Devalize(VAL val);
+        protected abstract VAL valize(object host);
+        protected abstract object devalize(VAL val);
 
 
         protected Valization()
         { 
         }
         
-        public VAL Valize2(object host)
+        public VAL Valize(object host)
         {
-            VAL val = Valize(host);
+            VAL val = valize(host);
 
             if (val.ty == VALTYPE.stringcon)
+            {
                 val.ty = VALTYPE.scriptcon;         //scriptcon 不输出"", 不象字符串
+            }
 
             val.Class = host.GetType().FullName;
 
             return val;
         }
         
-        public object Devalize2(VAL val)
+        public object Devalize(VAL val)
         {
-            return Devalize(val);
+            return devalize(val);
         }
  
     }
@@ -62,13 +64,13 @@ namespace Tie
             this.devalizer = devalizer;
         }
 
-        protected override VAL Valize(object host)
+        protected override VAL valize(object host)
         {
             VAL val = valizer((T)host);
             return val;
         }
 
-        protected override object Devalize(VAL val)
+        protected override object devalize(VAL val)
         {
             if(devalizer != null)
                 return devalizer(val);
@@ -89,7 +91,7 @@ namespace Tie
             this.devalizer = devalizer;
         }
 
-        protected override VAL Valize(object host)
+        protected override VAL valize(object host)
         {
             VAL val = Script.Run(host, valizer, new Memory());
             return val;
@@ -97,7 +99,7 @@ namespace Tie
         }
 
 
-        protected override object Devalize(VAL val)
+        protected override object devalize(VAL val)
         {
             if (devalizer == null)
                 return null;
@@ -119,7 +121,7 @@ namespace Tie
             this.valizer = valizer;
         }
 
-        protected override VAL Valize(object host)
+        protected override VAL valize(object host)
         {
             VAL val = valizer.Valizer((T)host);
             return val;
@@ -127,7 +129,7 @@ namespace Tie
         }
 
 
-        protected override object Devalize(VAL val)
+        protected override object devalize(VAL val)
         {
             return valizer.Devalizer(val);
         }
@@ -145,7 +147,7 @@ namespace Tie
             this.valizer = valizer;
         }
 
-        protected override VAL Valize(object host)
+        protected override VAL valize(object host)
         {
             VAL val;
             string[] members = (string[])this.valizer;
@@ -161,18 +163,12 @@ namespace Tie
 
             val = Script.Run(host, script, new Memory());
 
-
-            if (val.ty == VALTYPE.stringcon)
-                val.ty = VALTYPE.scriptcon;         //scriptcon 不输出"", 不象字符串
-
-            val.Class = host.GetType().FullName;
-
             return val;
 
         }
 
 
-        protected override object Devalize(VAL val)
+        protected override object devalize(VAL val)
         {
             return null;
         }
@@ -202,10 +198,17 @@ namespace Tie
             registries.Add(type, valization);
         }
 
+        public static void Unregister(Type type)
+        {
+            if (registries.ContainsKey(type))
+                registries.Remove(type);
+        }
+
         public static bool Registered(Type type)
         {
             return registries.ContainsKey(type);
         }
+
 
         //处理注册过Type的customerized的Persistent代码, 用于HostValization.Host2Valor(..)
         public static VAL ToValor(object host)
@@ -216,7 +219,7 @@ namespace Tie
             Type type = host.GetType();
             if(registries.ContainsKey(type))
             {
-                return registries[type].Valize2(host);
+                return registries[type].Valize(host);
             }
             
             return null;
@@ -233,7 +236,7 @@ namespace Tie
             if (attributes.Length != 0)
             {
                 if (attributes[0].valizer != null)      //Field或者Property定义了[Valizable]属性,并且定义了customerized
-                    return (new ValizationScript((string)attributes[0].valizer, null)).Valize2(host);
+                    return (new ValizationScript((string)attributes[0].valizer, null)).Valize(host);
             }
 
             return ToValor(host);
@@ -245,7 +248,7 @@ namespace Tie
         {
              if (registries.ContainsKey(hostType))
              {
-                 return registries[hostType].Devalize2(val);
+                 return registries[hostType].Devalize(val);
              }
             
             return null;

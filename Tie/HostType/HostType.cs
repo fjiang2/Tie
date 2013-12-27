@@ -79,7 +79,12 @@ namespace Tie
         {
             ValizeRegistry.Register(typeof(T), new ValizationProperty(valizerMembers));
         }
-        
+
+        public static void Unregister<T>()
+        {
+            ValizeRegistry.Unregister(typeof(T));
+        }
+
         #region Register Type Functions
 
         //---------------------------------------------------------------------------------------

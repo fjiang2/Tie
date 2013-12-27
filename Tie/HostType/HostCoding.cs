@@ -457,6 +457,9 @@ namespace Tie
 
         public static bool HasInterface(Type clss, Type interfce)
         {
+            if (!interfce.IsInterface)
+                return false;
+
             Type[] I = clss.GetInterfaces();
             foreach (Type i in I)
             {

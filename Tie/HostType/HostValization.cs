@@ -126,7 +126,7 @@ namespace Tie
             {
                 Type type = (Type)obj;
                 object temp = ValizeRegistry.ToHost(val, type);
-                if (temp != null && temp.GetType() == type)
+                if (temp != null && (temp.GetType() == type || HostCoding.HasInterface(temp.GetType(), type)))
                     return temp;
                 else
                 {
