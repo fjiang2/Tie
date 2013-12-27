@@ -271,6 +271,7 @@ Place.StreetName 	 ""500 Airport Highway""
             appConfig.Http.Port = 88;
             device.SetValue("Url", appConfig.Http);
 
+            RegisterList<int>();
             List<int> list = new List<int>();
             list.Add(10); list.Add(20); list.Add(30);
             device.SetValue("list", list);
@@ -286,30 +287,67 @@ Place.StreetName 	 ""500 Airport Highway""
             device.Save();
             DS.Clear();
             device.Load();
+            
             IUrlConfig url = device.GetValue<IUrlConfig>("Url");
             Debug.Assert(url.Port == 88);
+
             list = device.GetValue<List<int>>("list");
+            Debug.Assert(list[1] == 20);
+            dict = device.GetValue<Dictionary<string, int>>("dict");
+            Debug.Assert(dict["B"] == 2);
 
             Logger.Close();
+        }
+
+
+        private static void RegisterList<T>()
+        {
+            HostType.Register<List<T>>(
+                   host =>
+                   {
+                       var val = new VAL();
+                       foreach (var item in host)
+                       {
+                           val.Add(VAL.Boxing(item));
+                       }
+                       return val;
+                   },
+                   val =>
+                   {
+                       var list = new List<T>();
+                       foreach (var item in val)
+                       {
+                           list.Add((T)item.HostValue);
+                       }
+                       return list;
+                   }
+               );
         }
 
         private static void RegistrDictionary<T1, T2>()
         {
             HostType.Register<Dictionary<T1, T2>>(
-                   host => 
+                   host =>
                    {
-                       var val = VAL.Array(host.Count, 2);
+                       var val = new VAL();
                        foreach (var kvp in host)
                        {
-                           val[0(kvp.Key, kvp.Value);
+                           VAL assoc = new VAL();
+                           assoc.Add(VAL.Boxing(kvp.Key));
+                           assoc.Add(VAL.Boxing(kvp.Value));
+                           val.Add(assoc);
                        }
-                       
+
                        return val;
                    },
-                   val => 
+                   val =>
                    {
                        var dict = new Dictionary<T1, T2>();
-                       return dict;                   
+                       foreach (var assoc in val)
+                       {
+                           dict.Add((T1)assoc[0].HostValue, (T2)assoc[1].HostValue);
+                       }
+                       return dict;
                    }
                    );
         }

@@ -148,19 +148,19 @@ namespace Tie
                     {
                         host = Activator.CreateInstance(type, new object[] { });
 
-                        if (host is ICollection)
-                        {
-                            if (val.ty != VALTYPE.listcon)
-                                return host;
+                        //if (host is ICollection)
+                        //{
+                        //    if (val.ty != VALTYPE.listcon)
+                        //        return host;
 
-                            foreach (VAL element in val)
-                            {
-                                if (host is IList)
-                                {
-                                    ((IList)host).Add(element.HostValue);
-                                }
-                            }
-                        }
+                        //    foreach (VAL element in val)
+                        //    {
+                        //        if (host is IList)
+                        //        {
+                        //            ((IList)host).Add(element.HostValue);
+                        //        }
+                        //    }
+                        //}
                     }
 
                     return Val2HostOffset(val, host);
