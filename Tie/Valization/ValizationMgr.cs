@@ -34,11 +34,10 @@ namespace Tie.Valization
      * */
 
 
-    static class Registry
+    static class ValizationMgr
     {
-
-        static Dictionary<Type, BaseValization> registries = new Dictionary<Type, BaseValization>();
-        static Dictionary<Type, Tuple<MethodInfo, object, object[]>> genericRegistries = new Dictionary<Type, Tuple<MethodInfo, object, object[]>>();
+       private static Dictionary<Type, BaseValization> registries = new Dictionary<Type, BaseValization>();
+       private static Dictionary<Type, Tuple<MethodInfo, object, object[]>> genericRegistries = new Dictionary<Type, Tuple<MethodInfo, object, object[]>>();
 
         public static void Register(Type type, BaseValization valization)
         {
@@ -81,7 +80,7 @@ namespace Tie.Valization
             }
         }
 
-        public static bool Registered(Type type)
+        public static bool IsRegistered(Type type)
         {
             if (type.IsGenericType)
                 return genericRegistries.ContainsKey(type.GetGenericTypeDefinition());
@@ -89,7 +88,7 @@ namespace Tie.Valization
                 return registries.ContainsKey(type);
         }
 
-        private static void GenericRegister(Type type)
+        private static void InvokeGenericRegistry(Type type)
         {
             if (!type.IsGenericType)
                 return;
@@ -105,7 +104,7 @@ namespace Tie.Valization
         }
 
         //处理注册过Type的customerized的Persistent代码, 用于HostValization.Host2Valor(..)
-        public static VAL Serialize(object host)
+        public static VAL Valize(object host)
         {
             if (host == null)
                 return null;
@@ -113,7 +112,7 @@ namespace Tie.Valization
             Type type = host.GetType();
 
             if (!registries.ContainsKey(type))
-                GenericRegister(type);
+                InvokeGenericRegistry(type);
 
             if (registries.ContainsKey(type))
             {
@@ -124,28 +123,28 @@ namespace Tie.Valization
         }
 
         //用于设置[Valizable]属性地方的script处理
-        public static VAL Serialize(MemberInfo memberInfo, object host)
+        public static VAL Valize(MemberInfo method, object host)
         {
             if (host == null)
                 return null;
 
             //处理customerized的Valizable代码
-            ValizableAttribute[] attributes = (ValizableAttribute[])memberInfo.GetCustomAttributes(typeof(ValizableAttribute), true);
+            ValizableAttribute[] attributes = (ValizableAttribute[])method.GetCustomAttributes(typeof(ValizableAttribute), true);
             if (attributes.Length != 0)
             {
                 if (attributes[0].valizer != null)      //Field或者Property定义了[Valizable]属性,并且定义了customerized
                     return (new ScriptValization((string)attributes[0].valizer, null)).Valize(host);
             }
 
-            return Serialize(host);
+            return Valize(host);
         }
 
 
         //把Val值解析(Devalize)为host, 用于HostValization.Val2Host(..)
-        public static object Deserialize(VAL val, Type hostType)
+        public static object Devalize(VAL val, Type hostType)
         {
             if (!registries.ContainsKey(hostType))
-                GenericRegister(hostType);
+                InvokeGenericRegistry(hostType);
 
              if (registries.ContainsKey(hostType))
              {

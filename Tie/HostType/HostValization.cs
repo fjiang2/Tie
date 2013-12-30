@@ -85,12 +85,12 @@ namespace Tie
                 return val;
 
             object host = val.HostValue;
-            if (host.GetType() == type)
+            if (host.GetType() == type || HostCoding.HasInterface(host.GetType(), type))
                 return host;
 
-            object temp = Registry.Deserialize(val, type);
+            object temp = ValizationMgr.Devalize(val, type);
             if (temp != null && (temp.GetType() == type || HostCoding.HasInterface(temp.GetType(), type)))
-                return temp;
+                 return temp;
             else
             {
                 if (type.IsArray)
@@ -233,7 +233,7 @@ namespace Tie
 
         private static void SetValue(object host, Type type, string offset, VAL val)
         {
-            object temp = Registry.Deserialize(val, type);
+            object temp = ValizationMgr.Devalize(val, type);
             if (temp == null)
                 temp = val.HostValue;
 
@@ -285,9 +285,9 @@ namespace Tie
             {
                 val = VAL.NewScriptType(HostOperation.EnumBitFlags(host));
             }
-            else if (Registry.Registered(host.GetType()))
+            else if (ValizationMgr.IsRegistered(host.GetType()))
             {
-                VAL temp = Registry.Serialize(host);
+                VAL temp = ValizationMgr.Valize(host);
                 temp.Class = host.GetType().FullName;
                 return temp;
             }
@@ -321,7 +321,7 @@ namespace Tie
 
                 //处理customerized的Persistent代码
                 object fieldValue = fieldInfo.GetValue(host);
-                VAL persistent = Registry.Serialize(fieldInfo, fieldValue);
+                VAL persistent = ValizationMgr.Valize(fieldInfo, fieldValue);
 
                 if ((object)persistent == null)
                 {
@@ -357,7 +357,7 @@ namespace Tie
                 if (propertyValue == null)
                     continue;
 
-                VAL persistent = Registry.Serialize(propertyInfo, propertyValue);
+                VAL persistent = ValizationMgr.Valize(propertyInfo, propertyValue);
 
                 if ((object)persistent == null)
                 {

@@ -43,7 +43,7 @@ namespace Tie
         /// <param name="devalizer"></param>
         public static void Register<T>(Valizer<T> valizer, Devalizer<T> devalizer)
         {
-            Registry.Register(typeof(T), new DelegateValization<T>(valizer, devalizer));
+            ValizationMgr.Register(typeof(T), new DelegateValization<T>(valizer, devalizer));
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Tie
         /// <param name="valizer"></param>
         public static void Register<T>(IValizer<T> valizer)
         {
-            Registry.Register(typeof(T), new InterfaceValization<T>(valizer));
+            ValizationMgr.Register(typeof(T), new InterfaceValization<T>(valizer));
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Tie
         /// <param name="valizerScript"></param>
         public static void Register<T>(string valizerScript)
         {
-            Registry.Register(typeof(T), new ScriptValization(valizerScript, null));
+            ValizationMgr.Register(typeof(T), new ScriptValization(valizerScript, null));
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Tie
         /// <param name="genericMethod">must be static method without arguments</param>
         public static void Register(Type type, MethodInfo genericMethod)
         {
-            Registry.Register(type, genericMethod, null, null);
+            ValizationMgr.Register(type, genericMethod, null, null);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Tie
         /// <param name="parameters">An argument list for the invoked method</param>
         public static void Register(Type type, MethodInfo genericMethod, object obj, object[] parameters)
         {
-            Registry.Register(type, genericMethod, obj, parameters);
+            ValizationMgr.Register(type, genericMethod, obj, parameters);
         }
 
 
@@ -94,7 +94,7 @@ namespace Tie
         /// <param name="valizerMembers"></param>
         public static void Register<T>(string[] valizerMembers)
         {
-            Registry.Register(typeof(T), new PropertyValization(valizerMembers));
+            ValizationMgr.Register(typeof(T), new PropertyValization(valizerMembers));
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Tie
         /// <param name="type"></param>
         public static void Unregister(Type type)
         {
-            Registry.Unregister(type);
+            ValizationMgr.Unregister(type);
         }
 
         /// <summary>

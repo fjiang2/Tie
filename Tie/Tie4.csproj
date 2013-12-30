@@ -116,8 +116,8 @@
     <Compile Include="Valization\DelegateValization`1.cs" />
     <Compile Include="Valization\InterfaceValization`1.cs" />
     <Compile Include="Valization\PropertyValization.cs" />
-    <Compile Include="Valization\Registry.cs" />
     <Compile Include="Valization\ScriptValization.cs" />
+    <Compile Include="Valization\ValizationMgr.cs" />
     <Compile Include="VAL\Serializer.cs" />
     <Compile Include="VAL\Valization.cs" />
     <Compile Include="VAL\VALTYPE.cs" />

@@ -104,7 +104,7 @@
     <Compile Include="HostType\PersistentAttribute.cs" />
     <Compile Include="HostType\Tuple.cs" />
     <Compile Include="APP\IValizer.cs" />
-    <Compile Include="Valization\Registry.cs" />
+    <Compile Include="Valization\ValizationMgr.cs" />
     <Compile Include="Valization\BaseValization.cs" />
     <Compile Include="Valization\DelegateValization`1.cs" />
     <Compile Include="Valization\InterfaceValization`1.cs" />
