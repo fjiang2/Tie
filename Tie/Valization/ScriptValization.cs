@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tie.Serialization
+namespace Tie.Valization
 {
 
-    class ScriptSerialization : BaseSerialization
+    class ScriptValization : BaseValization
     {
         private string valizer;
         private string devalizer;
 
-        public ScriptSerialization(string valizer, string devalizer)
+        public ScriptValization(string valizer, string devalizer)
         {
             this.valizer = valizer;
             this.devalizer = devalizer;

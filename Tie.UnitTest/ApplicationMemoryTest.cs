@@ -84,7 +84,7 @@ namespace UnitTest
             : base(memory)
         {
 
-            Serializer.Register<Guid>(delegate(Guid guid)
+            Valizer.Register<Guid>(delegate(Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
@@ -250,7 +250,7 @@ Place.StreetName 	 ""500 Airport Highway""
             Debug.Assert(appConfig.Http.Port == 80);
 
 
-            Serializer.Register<IUrlConfig>(
+            Valizer.Register<IUrlConfig>(
                     host => new VAL(new object[] { host.Host, host.Protocol, host.Port }),
                     val => new HttpConfig { Host = val["Host"].Str, Protocol = val["Protocol"].Str, Port = val["Port"].Intcon }
                         );
@@ -280,7 +280,7 @@ Place.StreetName 	 ""500 Airport Highway""
             dict = device.GetValue<Dictionary<string, int>>("dict");
             Debug.Assert(dict["B"] == 2);
 
-            Serializer.Unregister(typeof(Dictionary<,>));
+            Valizer.Unregister(typeof(Dictionary<,>));
             Logger.Close();
         }
 

@@ -398,7 +398,7 @@ namespace Tie
         /// <returns></returns>
         public static object NewInstance(VAL valor, object[] args)
         {
-            return HostSerialization.NewInstance(valor, args);
+            return HostValization.NewInstance(valor, args);
         }
 
 
@@ -482,7 +482,7 @@ namespace Tie
         /// <returns></returns>
         public static VAL GetObjectProperties(object host)
         {
-            return HostSerialization.Host2Val(host);
+            return HostValization.Host2Val(host);
         }
 
 
@@ -504,7 +504,7 @@ namespace Tie
         /// <param name="properties"></param>
         public static void SetObjectProperties(object host, VAL properties)
         {
-            HostSerialization.Val2Host(properties, host);
+            HostValization.Val2Host(properties, host);
             return;
 
 #if OBSOLETE

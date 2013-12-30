@@ -30,7 +30,7 @@ namespace Tie
         EncodeTypeof = 0x04         //write typeof on the class
     }
 
-    class Export
+    class Serializer
     {
         public static string ToXml(VAL val, string tag, ExportFormat fmt)
         {
@@ -153,7 +153,7 @@ namespace Tie
             }
             else if (val.ty == VALTYPE.hostcon)
             {
-                val = HostSerialization.Host2Valor(val.value);
+                val = HostValization.Host2Valor(val.value);
                 if (val.ty == VALTYPE.listcon)
                     o.Write(ToJson(val, "", tab, fmt));
                 else

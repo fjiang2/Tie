@@ -83,7 +83,7 @@
   <ItemGroup>
     <Compile Include="APP\PersistentMemory.cs" />
     <Compile Include="APP\Coding.cs" />
-    <Compile Include="APP\Serializer.cs" />
+    <Compile Include="APP\Valizer.cs" />
     <Compile Include="Compiler\Compiler.cs" />
     <Compile Include="Compiler\CompilingException.cs" />
     <Compile Include="Compiler\CodeGeneration.cs" />
@@ -98,19 +98,19 @@
     <Compile Include="HostType\HostCoding.cs" />
     <Compile Include="HostType\HostFunction.cs" />
     <Compile Include="HostType\HostOperation.cs" />
-    <Compile Include="HostType\HostSerialization.cs" />
+    <Compile Include="HostType\HostValization.cs" />
     <Compile Include="HostType\HostTypeException.cs" />
     <Compile Include="HostType\ident.cs" />
     <Compile Include="HostType\PersistentAttribute.cs" />
     <Compile Include="HostType\Tuple.cs" />
-    <Compile Include="APP\ISerializer.cs" />
-    <Compile Include="Serialization\Registry.cs" />
-    <Compile Include="Serialization\BaseSerialization.cs" />
-    <Compile Include="Serialization\DelegateSerialization`1.cs" />
-    <Compile Include="Serialization\InterfaceSerialization`1.cs" />
-    <Compile Include="Serialization\PropertySerialization.cs" />
-    <Compile Include="Serialization\ScriptSerialization.cs" />
-    <Compile Include="VAL\Export.cs" />
+    <Compile Include="APP\IValizer.cs" />
+    <Compile Include="Valization\Registry.cs" />
+    <Compile Include="Valization\BaseValization.cs" />
+    <Compile Include="Valization\DelegateValization`1.cs" />
+    <Compile Include="Valization\InterfaceValization`1.cs" />
+    <Compile Include="Valization\PropertyValization.cs" />
+    <Compile Include="Valization\ScriptValization.cs" />
+    <Compile Include="VAL\Serializer.cs" />
     <Compile Include="VAL\Valization.cs" />
     <Compile Include="VAL\VALTYPE.cs" />
     <Compile Include="VM\Computer.cs" />

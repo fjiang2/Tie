@@ -157,7 +157,7 @@ namespace Tie
         /// <param name="v"></param>
         public void SetValue(string variable, object v)
         {
-            VAL val = Serializer.Serialize(v);
+            VAL val = Valizer.Valize(v);
             Script.Execute(string.Format("{0}={1};", variable, val.Valor), memory);
         }
 
@@ -209,7 +209,7 @@ namespace Tie
             }
             else
             {
-                return Serializer.Deserialize(v, type);
+                return Valizer.Devalize(v, type);
             }
 
         }
@@ -223,7 +223,7 @@ namespace Tie
         public object GetValue(string variable, object host)
         {
             VAL v = get(variable);
-            HostSerialization.Val2Host(v, host);
+            HostValization.Val2Host(v, host);
             return host;
         }
 

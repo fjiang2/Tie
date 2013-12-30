@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tie.Serialization
+namespace Tie.Valization
 {
 
-    class InterfaceSerialization<T> : BaseSerialization
+    class InterfaceValization<T> : BaseValization
     {
 
         private IValizer<T> valizer;
 
-        public InterfaceSerialization(IValizer<T> valizer)
+        public InterfaceValization(IValizer<T> valizer)
         {
             this.valizer = valizer;
         }

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Reflection;
-using Tie.Serialization;
+using Tie.Valization;
 
 namespace Tie
 {
@@ -60,7 +60,7 @@ namespace Tie
      * */
 
  
-    class HostSerialization
+    class HostValization
     {
 
         public static object NewInstance(VAL val, object[] args)
@@ -279,7 +279,7 @@ namespace Tie
             }
             else if (host is Type)
             {
-                val = VAL.NewScriptType(string.Format("typeof({0})", ((Type)host).FullName));
+                val = VAL.NewScriptType(string.Format("typeof({0})", GenericArgument.FullName((Type)host)));
             }
             else if (host.GetType().IsEnum)            //处理enum常量
             {

@@ -18,11 +18,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
-using Tie.Serialization;
+using Tie.Valization;
 
 namespace Tie
 {
-    public class Serializer
+    /// <summary>
+    /// Convert object o VAL format and convert back
+    /// </summary>
+    public class Valizer
     {
         /// <summary>
         /// Register valizer
@@ -40,7 +43,7 @@ namespace Tie
         /// <param name="devalizer"></param>
         public static void Register<T>(Valizer<T> valizer, Devalizer<T> devalizer)
         {
-            Registry.Register(typeof(T), new DelegateSerialization<T>(valizer, devalizer));
+            Registry.Register(typeof(T), new DelegateValization<T>(valizer, devalizer));
         }
 
         /// <summary>
@@ -49,7 +52,7 @@ namespace Tie
         /// <param name="valizer"></param>
         public static void Register<T>(IValizer<T> valizer)
         {
-            Registry.Register(typeof(T), new InterfaceSerialization<T>(valizer));
+            Registry.Register(typeof(T), new InterfaceValization<T>(valizer));
         }
 
         /// <summary>
@@ -58,7 +61,7 @@ namespace Tie
         /// <param name="valizerScript"></param>
         public static void Register<T>(string valizerScript)
         {
-            Registry.Register(typeof(T), new ScriptSerialization(valizerScript, null));
+            Registry.Register(typeof(T), new ScriptValization(valizerScript, null));
         }
 
         /// <summary>
@@ -91,7 +94,7 @@ namespace Tie
         /// <param name="valizerMembers"></param>
         public static void Register<T>(string[] valizerMembers)
         {
-            Registry.Register(typeof(T), new PropertySerialization(valizerMembers));
+            Registry.Register(typeof(T), new PropertyValization(valizerMembers));
         }
 
         /// <summary>
@@ -108,9 +111,9 @@ namespace Tie
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static VAL Serialize(object obj)
+        public static VAL Valize(object obj)
         {
-            VAL val = HostSerialization.Host2Valor(obj);
+            VAL val = HostValization.Host2Valor(obj);
             return val;
         }
 
@@ -119,7 +122,7 @@ namespace Tie
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static object Deserialize(VAL val)
+        public static object Devalize(VAL val)
         {
             return val.HostValue;
         }
@@ -130,9 +133,9 @@ namespace Tie
         /// <typeparam name="T"></typeparam>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static T Deserialize<T>(VAL val)
+        public static T Devalize<T>(VAL val)
         {
-            return (T)Deserialize(val, typeof(T));
+            return (T)Devalize(val, typeof(T));
         }
 
         /// <summary>
@@ -141,13 +144,10 @@ namespace Tie
         /// <param name="val"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static object Deserialize(VAL val, Type type)
+        public static object Devalize(VAL val, Type type)
         {
-            return HostSerialization.Val2Host(val, type);
+            return HostValization.Val2Host(val, type);
         }
-
-      
-        
 
     }
 }

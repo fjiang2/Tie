@@ -11,7 +11,7 @@ namespace Tie.Helper
         public static void Register()
         {
 
-            Serializer.Register<byte[]>(
+            Valizer.Register<byte[]>(
                  delegate(byte[] bytes)
                  {
                      return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
@@ -23,7 +23,7 @@ namespace Tie.Helper
                  }
             );
 
-            Serializer.Register<Size>(delegate(Size size)
+            Valizer.Register<Size>(delegate(Size size)
                 {
                     return new VAL(string.Format("new System.Drawing.Size({0},{1})", size.Width, size.Height));
                 }
@@ -31,7 +31,7 @@ namespace Tie.Helper
 
 
 
-            Serializer.Register<Point>(delegate(Point point)
+            Valizer.Register<Point>(delegate(Point point)
                 {
                     return new VAL(string.Format("new System.Drawing.Point({0},{1})", point.X, point.Y));
                 }
@@ -41,7 +41,7 @@ namespace Tie.Helper
 #if !VERSION1
             //1: System.Drawing.Color.Red
             //2: System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))))
-            Serializer.Register<Color>(
+            Valizer.Register<Color>(
                 @"this.GetType().FullName + '.' 
                         + (
                         (this.Name.substring(0,1)!='0' && this.Name.substring(0,1)!='f') 
@@ -77,7 +77,7 @@ namespace Tie.Helper
             ");
 #else
 
-            Serializer.Register<Font>(@"
+            Valizer.Register<Font>(@"
                 format('new {0}(""{1}"",(float){2},{3},{4},(byte)0)', 
                     this.GetType().FullName, this.Name, this.Size, this.Style.valize(), this.Unit.valize())
             ");
@@ -101,7 +101,7 @@ namespace Tie.Helper
 #endif
 
 
-            Serializer.Register<Rectangle>(delegate(Rectangle rect)
+            Valizer.Register<Rectangle>(delegate(Rectangle rect)
                 {
                     VAL val = VAL.Boxing(new int[] { rect.X, rect.Y, rect.Width, rect.Height });
                     return val;
@@ -112,7 +112,7 @@ namespace Tie.Helper
                 }
             );
 
-            Serializer.Register<Guid>(delegate(Guid guid)
+            Valizer.Register<Guid>(delegate(Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\""+HostType.ByteArrayToHexString(bytes)+"\"");     //because this is a string, need quotation marks ""
@@ -125,13 +125,13 @@ namespace Tie.Helper
             );
 
 
-            Serializer.Register(typeof(List<>), typeof(Serialization)
+            Valizer.Register(typeof(List<>), typeof(Serialization)
                      .GetMethod("RegisterList",
                      System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
              ));
 
 
-            Serializer.Register(typeof(Dictionary<,>), typeof(Serialization)
+            Valizer.Register(typeof(Dictionary<,>), typeof(Serialization)
                       .GetMethod("RegistrDictionary",
                       System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
               ));
@@ -141,13 +141,13 @@ namespace Tie.Helper
 
         private static void RegisterList<T>()
         {
-            Serializer.Register<List<T>>(
+            Valizer.Register<List<T>>(
                    host =>
                    {
                        var val = new VAL();
                        foreach (var item in host)
                        {
-                           val.Add(Serializer.Serialize(item));
+                           val.Add(Valizer.Valize(item));
                        }
                        return val;
                    },
@@ -156,7 +156,7 @@ namespace Tie.Helper
                        var list = new List<T>();
                        foreach (var item in val)
                        {
-                           list.Add(Serializer.Deserialize<T>(item));
+                           list.Add(Valizer.Devalize<T>(item));
                        }
                        return list;
                    }
@@ -165,15 +165,15 @@ namespace Tie.Helper
 
         private static void RegistrDictionary<T1, T2>()
         {
-            Serializer.Register<Dictionary<T1, T2>>(
+            Valizer.Register<Dictionary<T1, T2>>(
                    host =>
                    {
                        var val = new VAL();
                        foreach (var kvp in host)
                        {
                            VAL assoc = new VAL();
-                           assoc.Add(Serializer.Serialize(kvp.Key));
-                           assoc.Add(Serializer.Serialize(kvp.Value));
+                           assoc.Add(Valizer.Valize(kvp.Key));
+                           assoc.Add(Valizer.Valize(kvp.Value));
                            val.Add(assoc);
                        }
 
@@ -185,8 +185,8 @@ namespace Tie.Helper
                        foreach (var assoc in val)
                        {
                            dict.Add(
-                               Serializer.Deserialize<T1>(assoc[0]), 
-                               Serializer.Deserialize<T2>(assoc[1]));
+                               Valizer.Devalize<T1>(assoc[0]), 
+                               Valizer.Devalize<T2>(assoc[1]));
                        }
                        return dict;
                    }

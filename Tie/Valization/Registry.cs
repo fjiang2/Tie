@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace Tie.Serialization
+namespace Tie.Valization
 {
    
     /**
@@ -37,10 +37,10 @@ namespace Tie.Serialization
     static class Registry
     {
 
-        static Dictionary<Type, BaseSerialization> registries = new Dictionary<Type, BaseSerialization>();
+        static Dictionary<Type, BaseValization> registries = new Dictionary<Type, BaseValization>();
         static Dictionary<Type, Tuple<MethodInfo, object, object[]>> genericRegistries = new Dictionary<Type, Tuple<MethodInfo, object, object[]>>();
 
-        public static void Register(Type type, BaseSerialization valization)
+        public static void Register(Type type, BaseValization valization)
         {
             if (registries.ContainsKey(type))
                 registries.Remove(type);
@@ -134,7 +134,7 @@ namespace Tie.Serialization
             if (attributes.Length != 0)
             {
                 if (attributes[0].valizer != null)      //Field或者Property定义了[Valizable]属性,并且定义了customerized
-                    return (new ScriptSerialization((string)attributes[0].valizer, null)).Valize(host);
+                    return (new ScriptValization((string)attributes[0].valizer, null)).Valize(host);
             }
 
             return Serialize(host);

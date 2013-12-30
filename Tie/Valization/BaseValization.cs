@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tie.Serialization
+namespace Tie.Valization
 {
-    abstract class BaseSerialization
+    abstract class BaseValization
     {
         protected abstract VAL valize(object host);
         protected abstract object devalize(VAL val);
 
 
-        protected BaseSerialization()
+        protected BaseValization()
         {
         }
 
