@@ -46,7 +46,7 @@ namespace Tie
         /// <param name="devalizer"></param>
         public static void Register<T>(Valizer<T> valizer, Devalizer<T> devalizer)
         {
-            ValizeRegistry.Register(typeof(T), new ValizationDelegate<T>(valizer, devalizer));
+            ValizeRegistry.Register(typeof(T), new DelegateValization<T>(valizer, devalizer));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Tie
         /// <param name="valizer"></param>
         public static void Register<T>(IValizer<T> valizer)
         {
-            ValizeRegistry.Register(typeof(T), new ValizationInterface<T>(valizer));
+            ValizeRegistry.Register(typeof(T), new InterfaceValization<T>(valizer));
         }
 
         /// <summary>
@@ -64,10 +64,13 @@ namespace Tie
         /// <param name="valizerScript"></param>
         public static void Register<T>(string valizerScript)
         {
-            ValizeRegistry.Register(typeof(T), new ValizationScript(valizerScript, null));
+            ValizeRegistry.Register(typeof(T), new ScriptValization(valizerScript, null));
         }
 
-      
+        public static void Register(Type type, MethodInfo genericMethod)
+        {
+            ValizeRegistry.Register(type, genericMethod);
+        }
 
         /// <summary>
         /// Register valizer by class's members
@@ -76,12 +79,12 @@ namespace Tie
         /// <param name="valizerMembers"></param>
         public static void Register<T>(string[] valizerMembers)
         {
-            ValizeRegistry.Register(typeof(T), new ValizationProperty(valizerMembers));
+            ValizeRegistry.Register(typeof(T), new PropertyValization(valizerMembers));
         }
 
-        public static void Unregister<T>()
+        public static void Unregister(Type type)
         {
-            ValizeRegistry.Unregister(typeof(T));
+            ValizeRegistry.Unregister(type);
         }
 
         #region Register Type Functions

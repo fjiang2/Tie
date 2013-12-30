@@ -53,12 +53,12 @@ namespace Tie
  
     }
 
-    class ValizationDelegate<T> : Valization
+    class DelegateValization<T> : Valization
     {
         private Valizer<T> valizer;
         private Devalizer<T> devalizer;
 
-        public ValizationDelegate(Valizer<T> valizer, Devalizer<T> devalizer)
+        public DelegateValization(Valizer<T> valizer, Devalizer<T> devalizer)
         {
             this.valizer = valizer;
             this.devalizer = devalizer;
@@ -80,12 +80,12 @@ namespace Tie
 
     }
 
-    class ValizationScript : Valization
+    class ScriptValization : Valization
     {
         private string valizer;
         private string devalizer;
 
-        public ValizationScript(string valizer, string devalizer)
+        public ScriptValization(string valizer, string devalizer)
         {
             this.valizer = valizer;
             this.devalizer = devalizer;
@@ -111,12 +111,12 @@ namespace Tie
     }
 
 
-    class ValizationInterface<T> : Valization
+    class InterfaceValization<T> : Valization
     {
 
         private IValizer<T> valizer;
 
-        public ValizationInterface(IValizer<T> valizer)
+        public InterfaceValization(IValizer<T> valizer)
         {
             this.valizer = valizer;
         }
@@ -136,13 +136,13 @@ namespace Tie
     }
 
 
-    class ValizationProperty : Valization
+    class PropertyValization : Valization
     {
         private string[] valizer;
         private object devalizer;
 
 
-        public ValizationProperty(string[] valizer)
+        public PropertyValization(string[] valizer)
         {
             this.valizer = valizer;
         }
@@ -185,10 +185,14 @@ namespace Tie
      * 
      * */
 
+    public delegate void GenerticValizer<T>();
+    public delegate void GenerticValizer<T1, T2>();
+
     static class ValizeRegistry
     {
 
         static Dictionary<Type, Valization> registries = new Dictionary<Type, Valization>();
+        static Dictionary<Type, MethodInfo> genericRegistries = new Dictionary<Type, MethodInfo>();
 
         public static void Register(Type type, Valization valization)
         {
@@ -198,17 +202,61 @@ namespace Tie
             registries.Add(type, valization);
         }
 
+        public static void Register(Type type, MethodInfo genericMethod)
+        {
+            if (genericRegistries.ContainsKey(type))
+                genericRegistries.Remove(type);
+
+            genericRegistries.Add(type, genericMethod);
+        }
+
         public static void Unregister(Type type)
         {
-            if (registries.ContainsKey(type))
-                registries.Remove(type);
+            if (type.IsGenericType)
+            {
+                Type ty = type.GetGenericTypeDefinition();
+                if (genericRegistries.ContainsKey(ty))
+                    genericRegistries.Remove(ty);
+
+                List<Type> list = new List<Type>();
+                foreach (Type key in registries.Keys)
+                {
+                    if (key.IsGenericType && key.GetGenericTypeDefinition() == ty)
+                        list.Add(key);
+                }
+
+                foreach (Type key in list)
+                    registries.Remove(key);
+            }
+            else
+            {
+                if (registries.ContainsKey(type))
+                    registries.Remove(type);
+            }
         }
 
         public static bool Registered(Type type)
         {
-            return registries.ContainsKey(type);
+            if (type.IsGenericType)
+                return genericRegistries.ContainsKey(type.GetGenericTypeDefinition());
+            else
+                return registries.ContainsKey(type);
         }
 
+        private static void GenericRegister(Type type)
+        {
+            if (!type.IsGenericType)
+                return;
+
+            Type ty = type.GetGenericTypeDefinition();
+            if (!genericRegistries.ContainsKey(ty))
+                return;
+
+            MethodInfo geneticMethod = genericRegistries[ty];
+            MethodInfo method = geneticMethod.MakeGenericMethod(type.GetGenericArguments());
+
+            method.Invoke(null, null);
+        }
 
         //处理注册过Type的customerized的Persistent代码, 用于HostValization.Host2Valor(..)
         public static VAL ToValor(object host)
@@ -217,11 +265,15 @@ namespace Tie
                 return null;
 
             Type type = host.GetType();
-            if(registries.ContainsKey(type))
+
+            if (!registries.ContainsKey(type))
+                GenericRegister(type);
+
+            if (registries.ContainsKey(type))
             {
                 return registries[type].Valize(host);
             }
-            
+
             return null;
         }
 
@@ -236,7 +288,7 @@ namespace Tie
             if (attributes.Length != 0)
             {
                 if (attributes[0].valizer != null)      //Field或者Property定义了[Valizable]属性,并且定义了customerized
-                    return (new ValizationScript((string)attributes[0].valizer, null)).Valize(host);
+                    return (new ScriptValization((string)attributes[0].valizer, null)).Valize(host);
             }
 
             return ToValor(host);
@@ -246,6 +298,9 @@ namespace Tie
         //把Val值解析(Devalize)为host, 用于HostValization.Val2Host(..)
         public static object ToHost(VAL val, Type hostType)
         {
+            if (!registries.ContainsKey(hostType))
+                GenericRegister(hostType);
+
              if (registries.ContainsKey(hostType))
              {
                  return registries[hostType].Devalize(val);

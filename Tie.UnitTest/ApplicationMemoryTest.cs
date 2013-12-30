@@ -271,14 +271,23 @@ Place.StreetName 	 ""500 Airport Highway""
             appConfig.Http.Port = 88;
             device.SetValue("Url", appConfig.Http);
 
-            RegisterList<int>();
+
+            HostType.Register(typeof(List<>), typeof(ApplicationMemoryTest)
+                .GetMethod("RegisterList",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
+                ));
+
+            //RegisterList<int>();
             List<int> list = new List<int>();
             list.Add(10); list.Add(20); list.Add(30);
             device.SetValue("list", list);
 
 
-
-            RegistrDictionary<string, int>();
+            HostType.Register(typeof(Dictionary<,>), typeof(ApplicationMemoryTest)
+              .GetMethod("RegistrDictionary",
+              System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
+              ));
+            //RegistrDictionary<string, int>();
             Dictionary<string, int> dict = new Dictionary<string, int>();
             dict.Add("A", 1);
             dict.Add("B", 2);
@@ -296,6 +305,7 @@ Place.StreetName 	 ""500 Airport Highway""
             dict = device.GetValue<Dictionary<string, int>>("dict");
             Debug.Assert(dict["B"] == 2);
 
+            HostType.Unregister(typeof(Dictionary<,>));
             Logger.Close();
         }
 
