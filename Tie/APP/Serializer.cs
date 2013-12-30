@@ -61,10 +61,28 @@ namespace Tie
             Registry.Register(typeof(T), new ScriptSerialization(valizerScript, null));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="genericMethod">must be static method without arguments</param>
         public static void Register(Type type, MethodInfo genericMethod)
         {
-            Registry.Register(type, genericMethod);
+            Registry.Register(type, genericMethod, null, null);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="genericMethod"></param>
+        /// <param name="obj">If a method is static,this argument is ignored</param>
+        /// <param name="parameters">An argument list for the invoked method</param>
+        public static void Register(Type type, MethodInfo genericMethod, object obj, object[] parameters)
+        {
+            Registry.Register(type, genericMethod, obj, parameters);
+        }
+
 
         /// <summary>
         /// Register valizer by class's members

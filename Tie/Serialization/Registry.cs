@@ -38,7 +38,7 @@ namespace Tie.Serialization
     {
 
         static Dictionary<Type, BaseSerialization> registries = new Dictionary<Type, BaseSerialization>();
-        static Dictionary<Type, MethodInfo> genericRegistries = new Dictionary<Type, MethodInfo>();
+        static Dictionary<Type, Tuple<MethodInfo, object, object[]>> genericRegistries = new Dictionary<Type, Tuple<MethodInfo, object, object[]>>();
 
         public static void Register(Type type, BaseSerialization valization)
         {
@@ -48,12 +48,12 @@ namespace Tie.Serialization
             registries.Add(type, valization);
         }
 
-        public static void Register(Type type, MethodInfo genericMethod)
+        public static void Register(Type type, MethodInfo genericMethod, object host, object[] args)
         {
             if (genericRegistries.ContainsKey(type))
                 genericRegistries.Remove(type);
 
-            genericRegistries.Add(type, genericMethod);
+            genericRegistries.Add(type, Tuple.Create(genericMethod, host, args));
         }
 
         public static void Unregister(Type type)
@@ -98,10 +98,10 @@ namespace Tie.Serialization
             if (!genericRegistries.ContainsKey(ty))
                 return;
 
-            MethodInfo geneticMethod = genericRegistries[ty];
+            MethodInfo geneticMethod = genericRegistries[ty].Item1;
             MethodInfo method = geneticMethod.MakeGenericMethod(type.GetGenericArguments());
 
-            method.Invoke(null, null);
+            method.Invoke(genericRegistries[ty].Item2, genericRegistries[ty].Item3);
         }
 
         //处理注册过Type的customerized的Persistent代码, 用于HostValization.Host2Valor(..)
