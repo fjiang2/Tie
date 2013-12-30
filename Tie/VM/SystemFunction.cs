@@ -180,13 +180,13 @@ namespace Tie
                     if (size == 1)
                     {
                         if (L0.ty == VALTYPE.hostcon)
-                            return HostValization.Host2Val(L0.value);
+                            return HostSerialization.Host2Val(L0.value);
                     }
                     else if (size == 2)
                     {
                         if (L0.ty == VALTYPE.hostcon && L1.ty == VALTYPE.listcon)            //1.
                         {
-                            HostValization.Val2Host(L1, L0.value);
+                            HostSerialization.Val2Host(L1, L0.value);
                             return L0;
                         }
                     }

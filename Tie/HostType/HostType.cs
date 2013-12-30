@@ -30,63 +30,7 @@ namespace Tie
     public class HostType
     {
 
-        /// <summary>
-        /// Register valizer
-        /// </summary>
-        /// <param name="valizer"></param>
-        public static void Register<T>(Valizer<T> valizer)
-        {
-            Register<T>(valizer, null);
-        }
-        
-        /// <summary>
-        /// Register valizer and devalizer
-        /// </summary>
-        /// <param name="valizer"></param>
-        /// <param name="devalizer"></param>
-        public static void Register<T>(Valizer<T> valizer, Devalizer<T> devalizer)
-        {
-            ValizeRegistry.Register(typeof(T), new DelegateValization<T>(valizer, devalizer));
-        }
-
-        /// <summary>
-        /// Register Valizer by object interface
-        /// </summary>
-        /// <param name="valizer"></param>
-        public static void Register<T>(IValizer<T> valizer)
-        {
-            ValizeRegistry.Register(typeof(T), new InterfaceValization<T>(valizer));
-        }
-
-        /// <summary>
-        /// Register valizer script 
-        /// </summary>
-        /// <param name="valizerScript"></param>
-        public static void Register<T>(string valizerScript)
-        {
-            ValizeRegistry.Register(typeof(T), new ScriptValization(valizerScript, null));
-        }
-
-        public static void Register(Type type, MethodInfo genericMethod)
-        {
-            ValizeRegistry.Register(type, genericMethod);
-        }
-
-        /// <summary>
-        /// Register valizer by class's members
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="valizerMembers"></param>
-        public static void Register<T>(string[] valizerMembers)
-        {
-            ValizeRegistry.Register(typeof(T), new PropertyValization(valizerMembers));
-        }
-
-        public static void Unregister(Type type)
-        {
-            ValizeRegistry.Unregister(type);
-        }
-
+      
         #region Register Type Functions
 
         //---------------------------------------------------------------------------------------
@@ -454,7 +398,7 @@ namespace Tie
         /// <returns></returns>
         public static object NewInstance(VAL valor, object[] args)
         {
-            return HostValization.NewInstance(valor, args);
+            return HostSerialization.NewInstance(valor, args);
         }
 
 
@@ -538,7 +482,7 @@ namespace Tie
         /// <returns></returns>
         public static VAL GetObjectProperties(object host)
         {
-            return HostValization.Host2Val(host);
+            return HostSerialization.Host2Val(host);
         }
 
 
@@ -560,7 +504,7 @@ namespace Tie
         /// <param name="properties"></param>
         public static void SetObjectProperties(object host, VAL properties)
         {
-            HostValization.Val2Host(properties, host);
+            HostSerialization.Val2Host(properties, host);
             return;
 
 #if OBSOLETE

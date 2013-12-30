@@ -21,7 +21,7 @@ using System.Diagnostics;
 using System.Text;
 
 #if !SILVERLIGHT 
-namespace Tie
+namespace Tie.Helper
 {
     static class Extension
     {

@@ -17,8 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tie;
 using System.Windows;
+using Tie;
+using Tie.Helper;
 //using Microsoft.Maps.MapControl.WPF;
 
 namespace UnitTest
@@ -71,7 +72,7 @@ namespace UnitTest
             HostType.AddReference("System.Drawing", typeof(System.Drawing.Color).Assembly);
       
 
-            HostTypeHelper.Start();
+            Helper.Start();
 
             OperatorTest.main();
             LambdaExpressionTest.main();

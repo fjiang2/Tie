@@ -151,7 +151,7 @@ namespace Tie
                 return string.Format("new {0}({1})", typeof(DateTime).FullName, ((DateTime)host).Ticks);
                 
 
-            VAL val = HostValization.Host2Valor(host);
+            VAL val = HostSerialization.Host2Valor(host);
             if (persistent)
                 return val.Valor;
             else

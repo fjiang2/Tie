@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Reflection;
-
+using Tie.Serialization;
 
 namespace Tie
 {
@@ -59,42 +59,8 @@ namespace Tie
      * 
      * */
 
-    /// <summary>
-    /// delegate for valizer
-    /// </summary>
-    /// <param name="host"></param>
-    /// <returns></returns>
-    public delegate VAL Valizer<T>(T host);
-
-    /// <summary>
-    /// delegate fro devalizer
-    /// </summary>
-    /// <param name="val"></param>
-    /// <returns></returns>
-    public delegate T Devalizer<T>(VAL val);
-
-
-    /// <summary>
-    /// interface of valizer and devalizer
-    /// </summary>
-    public interface IValizer<T>
-    {
-        /// <summary>
-        /// prototype of valizer
-        /// </summary>
-        /// <param name="host"></param>
-        /// <returns></returns>
-        VAL Valizer(T host);
-
-        /// <summary>
-        /// prototype of devalizer
-        /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        T Devalizer(VAL val);
-    }
-
-    class HostValization
+ 
+    class HostSerialization
     {
 
         public static object NewInstance(VAL val, object[] args)
@@ -106,7 +72,7 @@ namespace Tie
 
         private static void SetValue(object host, Type type, string offset, VAL val)
         {
-            object temp = ValizeRegistry.ToHost(val, type);
+            object temp = Registry.Deserialize(val, type);
             if (temp == null)
                 temp = val.HostValue;
 
@@ -119,57 +85,62 @@ namespace Tie
                 HostOperation.HostTypeAssign(host, offset, temp, true);
         }
 
-        //Devalize
-        public static object Val2Host(VAL val, object obj)
+        //Deserialize
+        public static object Val2Host(VAL val, Type type)
         {
-            if (obj is Type)
-            {
-                Type type = (Type)obj;
-                object temp = ValizeRegistry.ToHost(val, type);
-                if (temp != null && (temp.GetType() == type || HostCoding.HasInterface(temp.GetType(), type)))
-                    return temp;
-                else
-                {
-                    object host;
-                    if (type.IsArray)
-                    {
-                        if (val.ty != VALTYPE.listcon)
-                            return null;
-
-                        host = Array.CreateInstance(type.GetElementType(), val.Size);
-                        int i = 0;
-                        foreach (object element in (Array)host)
-                        {
-                            HostOperation.HostTypeAssign(host, new int[] {i}, val[i].HostValue, true);
-                            i++;
-                        }
-                    }
-                    else
-                    {
-                        host = Activator.CreateInstance(type, new object[] { });
-
-                        //if (host is ICollection)
-                        //{
-                        //    if (val.ty != VALTYPE.listcon)
-                        //        return host;
-
-                        //    foreach (VAL element in val)
-                        //    {
-                        //        if (host is IList)
-                        //        {
-                        //            ((IList)host).Add(element.HostValue);
-                        //        }
-                        //    }
-                        //}
-                    }
-
-                    return Val2HostOffset(val, host);
-                }
-            }
+            object temp = Registry.Deserialize(val, type);
+            if (temp != null && (temp.GetType() == type || HostCoding.HasInterface(temp.GetType(), type)))
+                return temp;
             else
             {
-                return Val2HostOffset(val, obj);
+                object host;
+                if (type.IsArray)
+                {
+                    if (val.ty != VALTYPE.listcon)
+                        return null;
+
+                    host = Array.CreateInstance(type.GetElementType(), val.Size);
+                    int i = 0;
+                    foreach (object element in (Array)host)
+                    {
+                        HostOperation.HostTypeAssign(host, new int[] { i }, val[i].HostValue, true);
+                        i++;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        host = Activator.CreateInstance(type, new object[] { });
+                    }
+                    catch (Exception)
+                    {
+                        throw new TieException("cannot create instance on type: {0}", type.FullName);
+                    }
+
+                    //if (host is ICollection)
+                    //{
+                    //    if (val.ty != VALTYPE.listcon)
+                    //        return host;
+
+                    //    foreach (VAL element in val)
+                    //    {
+                    //        if (host is IList)
+                    //        {
+                    //            ((IList)host).Add(element.HostValue);
+                    //        }
+                    //    }
+                    //}
+                }
+
+                return Val2HostOffset(val, host);
             }
+
+        }
+
+        public static object Val2Host(VAL val, object obj)
+        {
+              return Val2HostOffset(val, obj);
         }
 
         //Devalize
@@ -313,9 +284,9 @@ namespace Tie
             {
                 val = VAL.NewScriptType(HostOperation.EnumBitFlags(host));
             }
-            else if (ValizeRegistry.Registered(host.GetType()))
+            else if (Registry.Registered(host.GetType()))
             {
-                VAL temp = ValizeRegistry.ToValor(host);
+                VAL temp = Registry.Serialize(host);
                 temp.Class = host.GetType().FullName;
                 return temp;
             }
@@ -349,7 +320,7 @@ namespace Tie
 
                 //处理customerized的Persistent代码
                 object fieldValue = fieldInfo.GetValue(host);
-                VAL persistent = ValizeRegistry.ToValor(fieldInfo, fieldValue);
+                VAL persistent = Registry.Serialize(fieldInfo, fieldValue);
 
                 if ((object)persistent == null)
                 {
@@ -385,7 +356,7 @@ namespace Tie
                 if (propertyValue == null)
                     continue;
 
-                VAL persistent = ValizeRegistry.ToValor(propertyInfo, propertyValue);
+                VAL persistent = Registry.Serialize(propertyInfo, propertyValue);
 
                 if ((object)persistent == null)
                 {

@@ -284,7 +284,7 @@ listBox.Items[0] = 'XXXX';
 
             Debug.Assert(s == "ABCDEF", "用Host值,修改Collection值");
 
-            HostType.Register<ListBox>(new string[] { "Items" });
+            Serializer.Register<ListBox>(new string[] { "Items" });
             val = VAL.NewHostType(listBox1);
             string valor = val.Valor;
             string json = val.ToExJson();

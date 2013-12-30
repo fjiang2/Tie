@@ -100,7 +100,6 @@
     <Compile Include="GenericTest.cs" />
     <Compile Include="HostObjectTest.cs" />
     <Compile Include="HostPersistentTest.cs" />
-    <Compile Include="HostTypeHelper.cs" />
     <Compile Include="JSONTest.cs" />
     <Compile Include="LambdaExpressionTest.cs" />
     <Compile Include="MathTest.cs" />
@@ -128,6 +127,10 @@
     <Compile Include="XMLTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tie.Helper\Tie.Helper.csproj">
+      <Project>{d57f9724-d273-4631-b068-72949a7bb8b3}</Project>
+      <Name>Tie.Helper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tie\Tie.csproj">
       <Project>{0FAD3400-65A1-458F-9280-89925A6F7731}</Project>
       <Name>Tie</Name>

@@ -20,161 +20,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace Tie
+namespace Tie.Serialization
 {
-    abstract class Valization
-    {
-        protected abstract VAL valize(object host);
-        protected abstract object devalize(VAL val);
-
-
-        protected Valization()
-        { 
-        }
-        
-        public VAL Valize(object host)
-        {
-            VAL val = valize(host);
-
-            if (val.ty == VALTYPE.stringcon)
-            {
-                val.ty = VALTYPE.scriptcon;         //scriptcon 不输出"", 不象字符串
-            }
-
-            val.Class = host.GetType().FullName;
-
-            return val;
-        }
-        
-        public object Devalize(VAL val)
-        {
-            return devalize(val);
-        }
- 
-    }
-
-    class DelegateValization<T> : Valization
-    {
-        private Valizer<T> valizer;
-        private Devalizer<T> devalizer;
-
-        public DelegateValization(Valizer<T> valizer, Devalizer<T> devalizer)
-        {
-            this.valizer = valizer;
-            this.devalizer = devalizer;
-        }
-
-        protected override VAL valize(object host)
-        {
-            VAL val = valizer((T)host);
-            return val;
-        }
-
-        protected override object devalize(VAL val)
-        {
-            if(devalizer != null)
-                return devalizer(val);
-
-            return null;
-        }
-
-    }
-
-    class ScriptValization : Valization
-    {
-        private string valizer;
-        private string devalizer;
-
-        public ScriptValization(string valizer, string devalizer)
-        {
-            this.valizer = valizer;
-            this.devalizer = devalizer;
-        }
-
-        protected override VAL valize(object host)
-        {
-            VAL val = Script.Run(host, valizer, new Memory());
-            return val;
-
-        }
-
-
-        protected override object devalize(VAL val)
-        {
-            if (devalizer == null)
-                return null;
-
-            VAL x = Script.Run(val, devalizer, new Memory());
-            return x.HostValue;
-        }
-
-    }
-
-
-    class InterfaceValization<T> : Valization
-    {
-
-        private IValizer<T> valizer;
-
-        public InterfaceValization(IValizer<T> valizer)
-        {
-            this.valizer = valizer;
-        }
-
-        protected override VAL valize(object host)
-        {
-            VAL val = valizer.Valizer((T)host);
-            return val;
-
-        }
-
-
-        protected override object devalize(VAL val)
-        {
-            return valizer.Devalizer(val);
-        }
-    }
-
-
-    class PropertyValization : Valization
-    {
-        private string[] valizer;
-        private object devalizer;
-
-
-        public PropertyValization(string[] valizer)
-        {
-            this.valizer = valizer;
-        }
-
-        protected override VAL valize(object host)
-        {
-            VAL val;
-            string[] members = (string[])this.valizer;
-            string script = "";
-            for (int i = 0; i < members.Length; i++)
-            {
-                if (i != 0)
-                    script += ",";
-                script += string.Format("{0} : this.{0}", members[i]);
-            }
-
-            script = "{" + script + "}";
-
-            val = Script.Run(host, script, new Memory());
-
-            return val;
-
-        }
-
-
-        protected override object devalize(VAL val)
-        {
-            return null;
-        }
-    }
-
-
+   
     /**
      * 
      * 用来支持已经存在的class的Valization
@@ -185,16 +33,14 @@ namespace Tie
      * 
      * */
 
-    public delegate void GenerticValizer<T>();
-    public delegate void GenerticValizer<T1, T2>();
 
-    static class ValizeRegistry
+    static class Registry
     {
 
-        static Dictionary<Type, Valization> registries = new Dictionary<Type, Valization>();
+        static Dictionary<Type, BaseSerialization> registries = new Dictionary<Type, BaseSerialization>();
         static Dictionary<Type, MethodInfo> genericRegistries = new Dictionary<Type, MethodInfo>();
 
-        public static void Register(Type type, Valization valization)
+        public static void Register(Type type, BaseSerialization valization)
         {
             if (registries.ContainsKey(type))
                 registries.Remove(type);
@@ -259,7 +105,7 @@ namespace Tie
         }
 
         //处理注册过Type的customerized的Persistent代码, 用于HostValization.Host2Valor(..)
-        public static VAL ToValor(object host)
+        public static VAL Serialize(object host)
         {
             if (host == null)
                 return null;
@@ -278,7 +124,7 @@ namespace Tie
         }
 
         //用于设置[Valizable]属性地方的script处理
-        public static VAL ToValor(MemberInfo memberInfo, object host)
+        public static VAL Serialize(MemberInfo memberInfo, object host)
         {
             if (host == null)
                 return null;
@@ -288,15 +134,15 @@ namespace Tie
             if (attributes.Length != 0)
             {
                 if (attributes[0].valizer != null)      //Field或者Property定义了[Valizable]属性,并且定义了customerized
-                    return (new ScriptValization((string)attributes[0].valizer, null)).Valize(host);
+                    return (new ScriptSerialization((string)attributes[0].valizer, null)).Valize(host);
             }
 
-            return ToValor(host);
+            return Serialize(host);
         }
 
 
         //把Val值解析(Devalize)为host, 用于HostValization.Val2Host(..)
-        public static object ToHost(VAL val, Type hostType)
+        public static object Deserialize(VAL val, Type hostType)
         {
             if (!registries.ContainsKey(hostType))
                 GenericRegister(hostType);

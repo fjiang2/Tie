@@ -84,7 +84,7 @@ namespace UnitTest
             : base(memory)
         {
 
-            HostType.Register<byte[]>(
+            Serializer.Register<byte[]>(
              delegate(byte[] bytes)
              {
                  return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
@@ -97,7 +97,7 @@ namespace UnitTest
          );
 
 
-            HostType.Register<Guid>(delegate(Guid guid)
+            Serializer.Register<Guid>(delegate(Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
@@ -263,7 +263,7 @@ Place.StreetName 	 ""500 Airport Highway""
             Debug.Assert(appConfig.Http.Port == 80);
 
 
-            HostType.Register<IUrlConfig>(
+            Serializer.Register<IUrlConfig>(
                     host => new VAL(new object[] { host.Host, host.Protocol, host.Port }),
                     val => new HttpConfig { Host = val["Host"].Str, Protocol = val["Protocol"].Str, Port = val["Port"].Intcon }
                         );
@@ -272,22 +272,10 @@ Place.StreetName 	 ""500 Airport Highway""
             device.SetValue("Url", appConfig.Http);
 
 
-            HostType.Register(typeof(List<>), typeof(ApplicationMemoryTest)
-                .GetMethod("RegisterList",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
-                ));
-
-            //RegisterList<int>();
             List<int> list = new List<int>();
             list.Add(10); list.Add(20); list.Add(30);
             device.SetValue("list", list);
 
-
-            HostType.Register(typeof(Dictionary<,>), typeof(ApplicationMemoryTest)
-              .GetMethod("RegistrDictionary",
-              System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
-              ));
-            //RegistrDictionary<string, int>();
             Dictionary<string, int> dict = new Dictionary<string, int>();
             dict.Add("A", 1);
             dict.Add("B", 2);
@@ -305,61 +293,11 @@ Place.StreetName 	 ""500 Airport Highway""
             dict = device.GetValue<Dictionary<string, int>>("dict");
             Debug.Assert(dict["B"] == 2);
 
-            HostType.Unregister(typeof(Dictionary<,>));
+            Serializer.Unregister(typeof(Dictionary<,>));
             Logger.Close();
         }
 
 
-        private static void RegisterList<T>()
-        {
-            HostType.Register<List<T>>(
-                   host =>
-                   {
-                       var val = new VAL();
-                       foreach (var item in host)
-                       {
-                           val.Add(VAL.Boxing(item));
-                       }
-                       return val;
-                   },
-                   val =>
-                   {
-                       var list = new List<T>();
-                       foreach (var item in val)
-                       {
-                           list.Add((T)item.HostValue);
-                       }
-                       return list;
-                   }
-               );
-        }
-
-        private static void RegistrDictionary<T1, T2>()
-        {
-            HostType.Register<Dictionary<T1, T2>>(
-                   host =>
-                   {
-                       var val = new VAL();
-                       foreach (var kvp in host)
-                       {
-                           VAL assoc = new VAL();
-                           assoc.Add(VAL.Boxing(kvp.Key));
-                           assoc.Add(VAL.Boxing(kvp.Value));
-                           val.Add(assoc);
-                       }
-
-                       return val;
-                   },
-                   val =>
-                   {
-                       var dict = new Dictionary<T1, T2>();
-                       foreach (var assoc in val)
-                       {
-                           dict.Add((T1)assoc[0].HostValue, (T2)assoc[1].HostValue);
-                       }
-                       return dict;
-                   }
-                   );
-        }
+     
     }
 }
