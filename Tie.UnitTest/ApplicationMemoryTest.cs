@@ -84,19 +84,6 @@ namespace UnitTest
             : base(memory)
         {
 
-            Serializer.Register<byte[]>(
-             delegate(byte[] bytes)
-             {
-                 return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
-             },
-             delegate(VAL val)
-             {
-                 byte[] bytes = HostType.HexStringToByteArray(val.Str);
-                 return bytes;
-             }
-         );
-
-
             Serializer.Register<Guid>(delegate(Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();

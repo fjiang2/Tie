@@ -11,17 +11,31 @@ namespace Tie.Helper
         public static void Register()
         {
 
+            Serializer.Register<byte[]>(
+                 delegate(byte[] bytes)
+                 {
+                     return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
+                 },
+                 delegate(VAL val)
+                 {
+                     byte[] bytes = HostType.HexStringToByteArray(val.Str);
+                     return bytes;
+                 }
+            );
+
             Serializer.Register<Size>(delegate(Size size)
-            {
-                return new VAL(string.Format("new System.Drawing.Size({0},{1})", size.Width, size.Height));
-            });
+                {
+                    return new VAL(string.Format("new System.Drawing.Size({0},{1})", size.Width, size.Height));
+                }
+            );
 
 
 
             Serializer.Register<Point>(delegate(Point point)
-            {
-                return new VAL(string.Format("new System.Drawing.Point({0},{1})", point.X, point.Y));
-            });
+                {
+                    return new VAL(string.Format("new System.Drawing.Point({0},{1})", point.X, point.Y));
+                }
+            );
 
 
 #if !VERSION1
@@ -88,38 +102,38 @@ namespace Tie.Helper
 
 
             Serializer.Register<Rectangle>(delegate(Rectangle rect)
-            {
-                VAL val = VAL.Boxing(new int[] { rect.X, rect.Y, rect.Width, rect.Height });
-                return val;
-            },
-            delegate(VAL val)
-            {
-                return new Rectangle(val[0].Intcon, val[1].Intcon, val[2].Intcon, val[3].Intcon);
-            }
+                {
+                    VAL val = VAL.Boxing(new int[] { rect.X, rect.Y, rect.Width, rect.Height });
+                    return val;
+                },
+                delegate(VAL val)
+                {
+                    return new Rectangle(val[0].Intcon, val[1].Intcon, val[2].Intcon, val[3].Intcon);
+                }
             );
 
             Serializer.Register<Guid>(delegate(Guid guid)
-            {
-                byte[] bytes = guid.ToByteArray();
-                return new VAL("\""+HostType.ByteArrayToHexString(bytes)+"\"");     //because this is a string, need quotation marks ""
-            },
-            delegate(VAL val)
-            {
-                byte[] bytes = HostType.HexStringToByteArray(val.Str); 
-                return new Guid(bytes);
-            }
+                {
+                    byte[] bytes = guid.ToByteArray();
+                    return new VAL("\""+HostType.ByteArrayToHexString(bytes)+"\"");     //because this is a string, need quotation marks ""
+                },
+                delegate(VAL val)
+                {
+                    byte[] bytes = HostType.HexStringToByteArray(val.Str); 
+                    return new Guid(bytes);
+                }
             );
 
 
             Serializer.Register(typeof(List<>), typeof(Serialization)
-             .GetMethod("RegisterList",
-             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
+                     .GetMethod("RegisterList",
+                     System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
              ));
 
 
             Serializer.Register(typeof(Dictionary<,>), typeof(Serialization)
-              .GetMethod("RegistrDictionary",
-              System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
+                      .GetMethod("RegistrDictionary",
+                      System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
               ));
 
         }
@@ -133,7 +147,7 @@ namespace Tie.Helper
                        var val = new VAL();
                        foreach (var item in host)
                        {
-                           val.Add(VAL.Boxing(item));
+                           val.Add(Serializer.Serialize(item));
                        }
                        return val;
                    },
@@ -142,7 +156,7 @@ namespace Tie.Helper
                        var list = new List<T>();
                        foreach (var item in val)
                        {
-                           list.Add((T)item.HostValue);
+                           list.Add(Serializer.Deserialize<T>(item));
                        }
                        return list;
                    }
@@ -158,8 +172,8 @@ namespace Tie.Helper
                        foreach (var kvp in host)
                        {
                            VAL assoc = new VAL();
-                           assoc.Add(VAL.Boxing(kvp.Key));
-                           assoc.Add(VAL.Boxing(kvp.Value));
+                           assoc.Add(Serializer.Serialize(kvp.Key));
+                           assoc.Add(Serializer.Serialize(kvp.Value));
                            val.Add(assoc);
                        }
 
@@ -170,7 +184,9 @@ namespace Tie.Helper
                        var dict = new Dictionary<T1, T2>();
                        foreach (var assoc in val)
                        {
-                           dict.Add((T1)assoc[0].HostValue, (T2)assoc[1].HostValue);
+                           dict.Add(
+                               Serializer.Deserialize<T1>(assoc[0]), 
+                               Serializer.Deserialize<T2>(assoc[1]));
                        }
                        return dict;
                    }

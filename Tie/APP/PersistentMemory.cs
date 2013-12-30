@@ -157,7 +157,7 @@ namespace Tie
         /// <param name="v"></param>
         public void SetValue(string variable, object v)
         {
-            VAL val = HostSerialization.Host2Valor(v);
+            VAL val = Serializer.Serialize(v);
             Script.Execute(string.Format("{0}={1};", variable, val.Valor), memory);
         }
 
@@ -184,28 +184,7 @@ namespace Tie
         /// <returns></returns>
         public T GetValue<T>(string variable)
         {
-            VAL v = get(variable);
-
-            if (v.Undefined || v.IsNull)
-            {
-                return default(T);
-            }
-            else if (typeof(T) == typeof(VAL))
-            {
-                return (T)(object)v;
-            }
-            else
-            {
-                if (v.HostValue.GetType() == typeof(T))
-                    return (T)v.HostValue;
-                else
-                {
-                    //used on regular JSON without typeof(list)
-                    object host = HostSerialization.Val2Host(v, typeof(T));
-                    return (T)host;
-                }
-
-            }
+            return (T)GetValue(variable, typeof(T));
         }
 
 
@@ -230,16 +209,9 @@ namespace Tie
             }
             else
             {
-                if (v.HostValue.GetType() == type)
-                    return v.HostValue;
-                else
-                {
-                    //used on regular JSON without typeof(list)
-                    return HostSerialization.Val2Host(v, type);
-                }
-
+                return Serializer.Deserialize(v, type);
             }
-            
+
         }
 
         /// <summary>

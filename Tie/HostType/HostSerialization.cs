@@ -70,30 +70,29 @@ namespace Tie
             return instance;
         }
 
-        private static void SetValue(object host, Type type, string offset, VAL val)
-        {
-            object temp = Registry.Deserialize(val, type);
-            if (temp == null)
-                temp = val.HostValue;
-
-            if (val.IsAssociativeArray())
-            {
-                VAL x = HostOperation.HostTypeOffset(VAL.Boxing(host), new VAL(offset), OffsetType.STRUCT);
-                Val2HostOffset(val, x.value);
-            }
-            else
-                HostOperation.HostTypeAssign(host, offset, temp, true);
-        }
+    
 
         //Deserialize
         public static object Val2Host(VAL val, Type type)
         {
+            if (val.ty == VALTYPE.nullcon)
+                return null;
+
+            if (val.ty == VALTYPE.voidcon)
+                throw new TieException("cannot deserialize undefined VAL");
+
+            if (type == typeof(VAL))
+                return val;
+
+            object host = val.HostValue;
+            if (host.GetType() == type)
+                return host;
+
             object temp = Registry.Deserialize(val, type);
             if (temp != null && (temp.GetType() == type || HostCoding.HasInterface(temp.GetType(), type)))
                 return temp;
             else
             {
-                object host;
                 if (type.IsArray)
                 {
                     if (val.ty != VALTYPE.listcon)
@@ -117,20 +116,6 @@ namespace Tie
                     {
                         throw new TieException("cannot create instance on type: {0}", type.FullName);
                     }
-
-                    //if (host is ICollection)
-                    //{
-                    //    if (val.ty != VALTYPE.listcon)
-                    //        return host;
-
-                    //    foreach (VAL element in val)
-                    //    {
-                    //        if (host is IList)
-                    //        {
-                    //            ((IList)host).Add(element.HostValue);
-                    //        }
-                    //    }
-                    //}
                 }
 
                 return Val2HostOffset(val, host);
@@ -140,7 +125,7 @@ namespace Tie
 
         public static object Val2Host(VAL val, object obj)
         {
-              return Val2HostOffset(val, obj);
+             return Val2HostOffset(val, obj);
         }
 
         //Devalize
@@ -243,6 +228,22 @@ namespace Tie
             }
 
             return host;
+        }
+
+
+        private static void SetValue(object host, Type type, string offset, VAL val)
+        {
+            object temp = Registry.Deserialize(val, type);
+            if (temp == null)
+                temp = val.HostValue;
+
+            if (val.IsAssociativeArray())
+            {
+                VAL x = HostOperation.HostTypeOffset(VAL.Boxing(host), new VAL(offset), OffsetType.STRUCT);
+                Val2HostOffset(val, x.value);
+            }
+            else
+                HostOperation.HostTypeAssign(host, offset, temp, true);
         }
 
         /**

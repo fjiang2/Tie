@@ -112,9 +112,9 @@ namespace Tie
         /// <typeparam name="T"></typeparam>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static object Deserialize<T>(VAL val)
+        public static T Deserialize<T>(VAL val)
         {
-            return Deserialize(val, typeof(T));
+            return (T)Deserialize(val, typeof(T));
         }
 
         /// <summary>
