@@ -6,7 +6,7 @@ using Tie;
 
 namespace Tie.Helper
 {
-    static class Serialization
+    static class Valization
     {
         public static void Register()
         {
@@ -125,13 +125,13 @@ namespace Tie.Helper
             );
 
 
-            Valizer.Register(typeof(List<>), typeof(Serialization)
+            Valizer.Register(typeof(List<>), typeof(Valization)
                      .GetMethod("RegisterList",
                      System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
              ));
 
 
-            Valizer.Register(typeof(Dictionary<,>), typeof(Serialization)
+            Valizer.Register(typeof(Dictionary<,>), typeof(Valization)
                       .GetMethod("RegistrDictionary",
                       System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
               ));

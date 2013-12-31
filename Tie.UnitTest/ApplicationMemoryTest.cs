@@ -180,7 +180,7 @@ namespace UnitTest
 
             device.VarColWidh = 16;
             device.ValColWidh = 40;
-            device.Save(new string[] { "Place" });
+            device.Save(new VAR[] { "Place" });
             string text1 = device.GetFileText();
             string text2 = 
 @"Place.Zip 	 ""60015""
@@ -192,7 +192,7 @@ Place.StreetName 	 ""500 Airport Highway""
 
             device.VarColWidh = 16;
             device.ValColWidh = 160;
-            device.Save(new string[] { "Place" });
+            device.Save(new VAR[] { "Place" });
             text1 = device.GetFileText();
             text2 = @"Place 	 {""Zip"":""60015"",""State"":""TX"",""City"":""Stafford"",""StreetName"":""500 Airport Highway""}
 ";

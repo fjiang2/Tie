@@ -36,7 +36,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Serialization.cs" />
+    <Compile Include="Valization.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="PrimitiveType.cs" />

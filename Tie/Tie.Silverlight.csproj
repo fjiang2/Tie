@@ -100,10 +100,10 @@
     <Compile Include="HostType\GenericArguments.cs" />
     <Compile Include="HostType\HostFunction.cs" />
     <Compile Include="HostType\HostValization.cs" />
-    <Compile Include="HostType\ident.cs" />
     <Compile Include="HostType\PersistentAttribute.cs" />
     <Compile Include="HostType\Tuple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VM\VAR.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APP\Coding.cs" />

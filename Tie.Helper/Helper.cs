@@ -9,7 +9,7 @@ namespace Tie.Helper
         public static void Start()
         {
             Script.FunctionChain.Add(PrimitiveType.functions);
-            Serialization.Register();
+            Valization.Register();
         }
     }
 }

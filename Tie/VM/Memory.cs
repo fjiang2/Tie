@@ -28,7 +28,7 @@ namespace Tie
     /// </summary>
     public class Memory
     {
-        Dictionary<string, VAL> ds = new Dictionary<string, VAL>();
+        Dictionary<VAR, VAL> ds = new Dictionary<VAR, VAL>();
 
         /// <summary>
         /// Initializes a new instance
@@ -45,7 +45,7 @@ namespace Tie
         { 
             for (int i = 0; i < dict.Size; i++)
             {
-                Add(dict[i][0].Str, dict[i][1]);
+                Add(new VAR(dict[i][0].Str), dict[i][1]);
             }
         }
 
@@ -55,29 +55,31 @@ namespace Tie
         /// <param name="key"></param>
         /// <param name="v"></param>
         /// <returns></returns>
-        public VAL AddHostObject(string key, object v)
+        public VAL AddHostObject(VAR key, object v)
         {
             return Add(key, VAL.NewHostType(v));
         }
 
+   
         /// <summary>
         /// Add object variable into data segment
         /// </summary>
         /// <param name="key"></param>
         /// <param name="v"></param>
         /// <returns></returns>
-        public VAL AddObject(string key, object v)
+        public VAL AddObject(VAR key, object v)
         {
             return Add(key, VAL.Boxing1(v));
         }
 
+     
         /// <summary>
         /// Add VAL variable 
         /// </summary>
         /// <param name="key"></param>
         /// <param name="v"></param>
         /// <returns></returns>
-        public VAL Add(string key, VAL v)
+        public VAL Add(VAR key, VAL v)
         {
             bool removed = false;
             VAL oldValue = null;
@@ -88,7 +90,7 @@ namespace Tie
                 removed = ds.Remove(key);
             }
 
-            v.name = key;
+            v.name = key.Ident;
             ds.Add(key, v);
 
             return oldValue;
@@ -103,14 +105,14 @@ namespace Tie
         public VAL Add(string spacename, Memory source)
         {
             VAL v = Assemble(source);
-            this.Add(spacename, v);
+            this.Add(new VAR(spacename), v);
             return v;
         }
 
         /// <summary>
         /// Dictionary of varible
         /// </summary>
-        public Dictionary<string, VAL> DS
+        public Dictionary<VAR, VAL> DS
         {
             get
             {
@@ -123,7 +125,7 @@ namespace Tie
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public VAL this[string key]
+        public VAL this[VAR key]
         {
             get
             {
@@ -138,7 +140,8 @@ namespace Tie
             }
         }
 
-        internal bool ContainsKey(string key)
+       
+        internal bool ContainsKey(VAR key)
         {
             return ds.ContainsKey(key);
         }
@@ -156,7 +159,7 @@ namespace Tie
         /// </summary>
         /// <param name="key">varible name</param>
         /// <returns></returns>
-        public bool Remove(string key)
+        public bool Remove(VAR key)
         {
             if (ds.ContainsKey(key))
                 return ds.Remove(key);
@@ -172,7 +175,7 @@ namespace Tie
         public override string ToString()
         {
             StringBuilder code = new StringBuilder();
-            foreach (KeyValuePair<string, VAL> kvp in DS)
+            foreach (KeyValuePair<VAR, VAL> kvp in DS)
             {
                 if (kvp.Value.ty != VALTYPE.nullcon)
                     code.Append(string.Format("{0}={1};", kvp.Key, kvp.Value));
@@ -181,17 +184,12 @@ namespace Tie
         }
 
 
-   
-
         internal static VAL Assemble(Memory memory)
         {
             VALL L = new VALL();
-            foreach (KeyValuePair<string, VAL> pair in memory.ds)
+            foreach (KeyValuePair<VAR, VAL> pair in memory.ds)
             {
-                //if (pair.Value.ty == VALTYPE.funccon || pair.Value.ty == VALTYPE.classcon)
-                //    continue;
-
-                L.Add(pair.Key, pair.Value);
+                L.Add(pair.Key.Ident, pair.Value);
             }
             return new VAL(L);
 
@@ -205,20 +203,20 @@ namespace Tie
         /// </summary>
         /// <param name="keyNames"></param>
         /// <returns>varible name list</returns>
-        public static List<string> CompressKeyNames(List<string> keyNames)
+        public static IEnumerable<VAR> CompressKeyNames(IEnumerable<VAR> keyNames)
         {
             StringBuilder code = new StringBuilder("{");
-            foreach (string key in keyNames)
-                code.Append(key).Append("=0;");
+            foreach (VAR key in keyNames)
+                code.Append(key.Ident).Append("=0;");
             code.Append("}");
 
             Memory SS = new Memory();
             Computer.Run("", code.ToString(), CodeType.statements, new Context(SS));
 
-            List<string> compactedKeyNames = new List<string>();
-            foreach (KeyValuePair<string, VAL> kvp in SS.DS)
+            List<VAR> compactedKeyNames = new List<VAR>();
+            foreach (VAR key in SS.DS.Keys)
             {
-                compactedKeyNames.Add(kvp.Key);
+                compactedKeyNames.Add(key);
             }
 
             return compactedKeyNames;
@@ -230,11 +228,11 @@ namespace Tie
         /// </summary>
         /// <param name="compactedKeyNames"></param>
         /// <returns></returns>
-        public Memory CopyBlock(List<string> compactedKeyNames)
+        public Memory CopyBlock(IEnumerable<VAR> compactedKeyNames)
         {
 
             Memory XS = new Memory();
-            foreach (string key in compactedKeyNames)
+            foreach (VAR key in compactedKeyNames)
             {
                 if (DS.ContainsKey(key))
                 {
@@ -252,7 +250,7 @@ namespace Tie
         /// <param name="referenceMemory">reference varibles</param>
         public void RemoveValueUnchangedBlock(Memory referenceMemory)
         {
-            foreach (KeyValuePair<string, VAL> kvp in DS)
+            foreach (KeyValuePair<VAR, VAL> kvp in DS)
             {
                 if (referenceMemory[kvp.Key] != kvp.Value)
                     DS.Remove(kvp.Key);
@@ -260,18 +258,7 @@ namespace Tie
             return;
         }
 
-        /// <summary>
-        /// get varible name list
-        /// </summary>
-        /// <returns>varible name list</returns>
-        public List<string> ExtractKeyNames()
-        {
-            List<string> keyNames = new List<string>();
-            foreach (KeyValuePair<string, VAL> kvp in DS)
-                keyNames.Add(kvp.Key);
-
-            return keyNames;
-        }
+     
 
         /// <summary>
         /// explicit convert varible dictionary into VAL associative array

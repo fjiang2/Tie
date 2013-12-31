@@ -101,7 +101,7 @@ namespace Tie
                             VAL v0 = v[0];
                             VAL v1 = v[1];
 
-                            if (ident.ValidIdent(v0.Str))
+                            if (VAR.ValidIdent(v0.Str))
                                 Adjust(storage, string.Format("{0}.{1}", variable, v0.Str), v1);
                             else
                                 Adjust(storage, string.Format("{0}[\"{1}\"]", variable, v0.Str), v1);
@@ -123,10 +123,11 @@ namespace Tie
         private VAL get(string variable)
         {
             VAL val;
-
+            VAR var = new VAR(variable);
+            
             //simple varible
-            if (memory.ContainsKey(variable))
-                val = memory.DS[variable];
+            if (memory.ContainsKey(var))
+                val = memory.DS[var];
             else
                 val = Script.Evaluate(variable, memory); //composite varible
 
@@ -251,27 +252,29 @@ namespace Tie
         /// Save variables into persistent device
         /// </summary>
         /// <param name="variables"></param>
-        public void Save(IEnumerable<string> variables)
+        public void Save(IEnumerable<VAR> variables)
         {
             Dictionary<string, string> storage = new Dictionary<string, string>();
 
-            foreach (string variable in variables)
+            foreach (VAR variable in variables)
             {
-                if (variable.StartsWith("System") || variable.StartsWith("Microsoft"))
+                string ident = variable.Ident;
+
+                if (ident.StartsWith("System") || ident.StartsWith("Microsoft"))
                     continue;
 
-                VAL val = get(variable);
+                VAL val = get(ident);
 
                 if (val.IsNull || val.Undefined)
                     continue;
 
                 try
                 {
-                    Adjust(storage, variable, val);
+                    Adjust(storage, ident, val);
                 }
                 catch (TieException ex)
                 {
-                   OversizeHandler(variable, ex.Message);
+                   OversizeHandler(ident, ex.Message);
                 }
             }
 

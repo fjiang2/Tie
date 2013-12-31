@@ -116,7 +116,7 @@ namespace Tie
             return ret;
         }
 
-        public  VAL GetVAL(string ident, bool readOnly)
+        public  VAL GetVAL(VAR ident, bool readOnly)
         {
             if (DS2 != null && DS2.ContainsKey(ident))         //user temp variable
                 return DS2[ident];
@@ -131,7 +131,7 @@ namespace Tie
                 return new VAL();
 
             VAL v = new VAL();
-            v.name = ident;
+            v.name = ident.Ident;
 
             if (DS2 != null)
             {

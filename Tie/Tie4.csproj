@@ -109,7 +109,6 @@
     <Compile Include="HostType\HostOperation.cs" />
     <Compile Include="HostType\HostTypeException.cs" />
     <Compile Include="HostType\HostValization.cs" />
-    <Compile Include="HostType\ident.cs" />
     <Compile Include="HostType\PersistentAttribute.cs" />
     <Compile Include="HostType\Tuple.cs" />
     <Compile Include="Valization\BaseValization.cs" />
@@ -141,6 +140,7 @@
     <Compile Include="VM\Register.cs" />
     <Compile Include="VAL\VAL.cs" />
     <Compile Include="VAL\VALL.cs" />
+    <Compile Include="VM\VAR.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

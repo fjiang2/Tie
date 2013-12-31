@@ -169,11 +169,11 @@ namespace UnitTest
             code = @"
              AddObject = DS.AddObject;
              if(AddObject!=void)
-                AddObject('VAR',VAL(20));
+                AddObject(VAR('VAR'),VAL(20));
 
              memoryAdd = function (func, VAR, VAL)
              {
-                var v ='@'+VAR;
+                var v = new Tie.VAR('@'+VAR);
                 return func(v, VAL);
              };
         
@@ -181,7 +181,7 @@ namespace UnitTest
                memoryAdd(AddObject, 'VAR1', 'VAL1'); 
 
             ";
-            
+
             Memory DS = new Memory();
             script.DS.AddHostObject("DS", DS);
             script.VolatileExecute(code);

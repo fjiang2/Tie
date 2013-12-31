@@ -21,20 +21,77 @@ using System.Text;
 
 namespace Tie
 {
-    sealed class ident : IComparable, IComparable<string>, IEquatable<ident>
+    public sealed class VAR : IComparable, IComparable<string>, IEquatable<VAR>
     {
-        private string id;
+        private string ident;
 
-        public ident(string id)
+        public VAR(string ident)
         {
-            this.id = id;
+            this.ident = ident;
 
-            if (!ValidIdent(id))
-                throw new TieException("Invalid ident: {0}", id);
+            //if (!ValidIdent(id))
+            //    throw new TieException("Invalid ident: {0}", id);
+        }
+
+        internal string Ident
+        {
+            get { return this.ident; }
         }
 
 
-        public static bool ValidIdent(string id)
+        public override int GetHashCode()
+        {
+            return ident.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return ident.Equals(((VAR)obj).ident);
+        }
+
+        public bool Equals(VAR obj)
+        {
+            return ident.Equals(obj.ident);
+        }
+
+        public static bool operator ==(VAR id1, VAR id2)
+        {
+            return id1.ident.Equals(id2.ident);
+        }
+
+        public static bool operator !=(VAR id1, VAR id2)
+        {
+            return !(id1 == id2);
+        }
+
+        //public static explicit operator string(VAR ident)
+        //{
+        //    return ident.ident;
+        //}
+
+        public static implicit operator VAR(string str)
+        {
+            return new VAR(str);
+        }
+
+        public int CompareTo(object obj)
+        {
+            return this.ident.CompareTo(obj);
+        }
+
+        public int CompareTo(string other)
+        {
+            return this.ident.CompareTo(other);
+        }
+
+
+        public override string ToString()
+        {
+            return this.ident;
+        }
+
+
+        internal static bool ValidIdent(string id)
         {
             int i = 0;
             char ch = id[i++];
@@ -53,53 +110,8 @@ namespace Tie
             return true;
         }
 
-     
-        public override int GetHashCode()
-        {
-            return id.GetHashCode();
-        }
 
-        public override bool Equals(object obj)
-        {
-            return id.Equals(((ident)obj).id);
-        }
-
-        public bool Equals(ident obj)
-        {
-            return id.Equals(obj.id);
-        }
-
-        public override string ToString()
-        {
-            return this.id;
-        }
-
-        public static bool operator ==(ident id1, ident id2)
-        {
-            return id1.id.Equals(id2.id);
-        }
-
-        public static bool operator !=(ident id1, ident id2)
-        {
-            return !(id1 == id2);
-        }
-
-        public static explicit operator string(ident ident)
-        {
-            return ident.id;
-        }
-
-        public int CompareTo(object obj)
-        {
-            return this.id.CompareTo(obj);
-        }
-
-        public int CompareTo(string other)
-        {
-            return this.id.CompareTo(other);
-        }
-
-        public static string ToIdent(string s)
+        internal static string ToIdent(string s)
         {
             s = s.Trim();
             StringBuilder sb = new StringBuilder();

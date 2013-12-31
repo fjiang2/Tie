@@ -203,6 +203,7 @@ namespace Tie
                         return VAL.NewScriptType(L0.Valor);
                     }
                     break;
+
                 /*
                  * A.isnull(B), 如果A为null,就返回B, 否则还是返回A值
                  * 
@@ -222,6 +223,17 @@ namespace Tie
                     {
                         R0 = VAL.Clone(L0);
                         R0.Class = "VAL";              //force to CAST VAL, don't do HostValue unboxing
+                        return R0;
+                    }
+                    break;
+
+                    /*
+                     * Translate string into VAR type
+                     * */
+                case "VAR":
+                    if (size == 1 && L0.value is string)
+                    {
+                        R0 = VAL.NewHostType(new VAR(L0.Str));
                         return R0;
                     }
                     break;
