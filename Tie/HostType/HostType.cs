@@ -45,6 +45,10 @@ namespace Tie
             return Register(type, false);
         }
 
+        public static bool Register<T>()
+        {
+            return Register(typeof(T), false);
+        }
    
         /// <summary>
         /// Register multiple .NET types
@@ -208,7 +212,12 @@ namespace Tie
             return true;
         }
 
-    
+        internal static bool IsRegistered(Type type)
+        {
+            VAL val = Script.Evaluate(type.FullName, Computer.DS1);
+            return val.Defined;
+        }
+
         #endregion
 
         
