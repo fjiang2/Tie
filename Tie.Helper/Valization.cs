@@ -23,9 +23,10 @@ namespace Tie.Helper
                  }
             );
 
+
             Valizer.Register<Size>(delegate(Size size)
                 {
-                    return new VAL(string.Format("new System.Drawing.Size({0},{1})", size.Width, size.Height));
+                    return new VAL(string.Format("new {0}({1},{2})", typeof(Size).FullName, size.Width, size.Height));
                 }
             );
 
@@ -33,7 +34,7 @@ namespace Tie.Helper
 
             Valizer.Register<Point>(delegate(Point point)
                 {
-                    return new VAL(string.Format("new System.Drawing.Point({0},{1})", point.X, point.Y));
+                    return new VAL(string.Format("new {0}({1},{2})", typeof(Point).FullName, point.X, point.Y));
                 }
             );
 

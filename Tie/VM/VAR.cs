@@ -64,10 +64,10 @@ namespace Tie
             return !(id1 == id2);
         }
 
-        //public static explicit operator string(VAR ident)
-        //{
-        //    return ident.ident;
-        //}
+        public static explicit operator string(VAR ident)
+        {
+            return ident.ident;
+        }
 
         public static implicit operator VAR(string str)
         {

@@ -236,6 +236,7 @@ namespace Tie
         /// <param name="message"></param>
         protected virtual void OversizeHandler(string variable, string message)
         {
+            Logger.WriteLine(string.Format("{0} at variable {1} of class {2}", message, variable, this.GetType().FullName)); 
         }
 
         /// <summary>
@@ -245,6 +246,7 @@ namespace Tie
         /// <param name="message"></param>
         protected virtual void InvalidVariableHandler(string variable, string message)
         {
+            Logger.WriteLine(string.Format("{0} at variable {1} of class {2}", message, variable, this.GetType().FullName)); 
         }
 
 
