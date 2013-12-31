@@ -106,6 +106,7 @@
     <Compile Include="HostType\GenericArguments.cs" />
     <Compile Include="HostType\HostCoding.cs" />
     <Compile Include="HostType\HostFunction.cs" />
+    <Compile Include="HostType\HostGenericType.cs" />
     <Compile Include="HostType\HostOperation.cs" />
     <Compile Include="HostType\HostTypeException.cs" />
     <Compile Include="HostType\HostValization.cs" />

@@ -259,14 +259,42 @@ Place.StreetName 	 ""500 Airport Highway""
             device.SetValue("Url", appConfig.Http);
 
 
+            /**
+             * 
+             * List<T>
+             * 
+             * */
             List<int> list = new List<int>();
             list.Add(10); list.Add(20); list.Add(30);
             device.SetValue("list", list);
 
+            /**
+             * 
+             * Dictionary<T1, T2>
+             * 
+             * */
             Dictionary<string, int> dict = new Dictionary<string, int>();
             dict.Add("A", 1);
             dict.Add("B", 2);
             device.SetValue("dict", dict);
+
+             /**
+             * 
+             * Nullable<T>
+             * 
+             * */
+            bool? nbool = true;
+            device.SetValue("nullable", nbool);
+
+            /**
+            * 
+            * Enum
+            * 
+            * */
+            HostType.Register(typeof(System.Reflection.BindingFlags));
+            System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.IgnoreCase;
+            device.SetValue("enum", flags);
+            device.SetValue("ienum", (int)flags);
 
             device.Save();
             DS.Clear();
@@ -279,6 +307,18 @@ Place.StreetName 	 ""500 Airport Highway""
             Debug.Assert(list[1] == 20);
             dict = device.GetValue<Dictionary<string, int>>("dict");
             Debug.Assert(dict["B"] == 2);
+
+
+            nbool = device.GetValue<bool?>("nullable");
+            Debug.Assert(nbool == true);
+
+            flags = device.GetValue<System.Reflection.BindingFlags>("enum");
+            Debug.Assert(flags == System.Reflection.BindingFlags.IgnoreCase);
+            int iflags = device.GetValue<int>("enum");
+            Debug.Assert(iflags == (int)System.Reflection.BindingFlags.IgnoreCase);
+
+            flags = device.GetValue<System.Reflection.BindingFlags>("ienum");
+            Debug.Assert(flags == System.Reflection.BindingFlags.IgnoreCase);
 
             Valizer.Unregister(typeof(Dictionary<,>));
             Logger.Close();

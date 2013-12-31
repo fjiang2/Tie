@@ -85,11 +85,11 @@ namespace Tie
                 return val;
 
             object host = val.HostValue;
-            if (host.GetType() == type || HostCoding.HasInterface(host.GetType(), type))
+            if (HostType.IsCompatibleType(host.GetType(), type))
                 return host;
 
             object temp = ValizationMgr.Devalize(val, type);
-            if (temp != null && (temp.GetType() == type || HostCoding.HasInterface(temp.GetType(), type)))
+            if (temp != null && HostType.IsCompatibleType(temp.GetType(),type))
                  return temp;
             else
             {
@@ -279,7 +279,7 @@ namespace Tie
             }
             else if (host is Type)
             {
-                val = VAL.NewScriptType(string.Format("typeof({0})", GenericArgument.FullName((Type)host)));
+                val = VAL.NewScriptType(string.Format("typeof({0})", HostGenericType.FullName((Type)host)));
             }
             else if (host.GetType().IsEnum)            //处理enum常量
             {
@@ -395,6 +395,8 @@ namespace Tie
         public static VAL Host2Valor(object host)
         {
             VAL val = new VAL();
+            if (host == null)
+                return val;
 
             return Host2Valor(host, val);
         }

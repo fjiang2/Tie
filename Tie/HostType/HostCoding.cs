@@ -455,22 +455,7 @@ namespace Tie
         #endregion
 
 
-        public static bool HasInterface(Type clss, Type interfce)
-        {
-            if (!interfce.IsInterface)
-                return false;
-
-            Type[] I = clss.GetInterfaces();
-            foreach (Type i in I)
-            {
-                if (i == interfce)
-                    return true;
-            }
-
-            return false;
-
-        }
-
+      
 
         public static bool HasContructor(Type clss, Type[] arguments)
         {

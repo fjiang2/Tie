@@ -99,6 +99,7 @@
     <Compile Include="HostType\GenericArgument.cs" />
     <Compile Include="HostType\GenericArguments.cs" />
     <Compile Include="HostType\HostFunction.cs" />
+    <Compile Include="HostType\HostGenericType.cs" />
     <Compile Include="HostType\HostValization.cs" />
     <Compile Include="HostType\PersistentAttribute.cs" />
     <Compile Include="HostType\Tuple.cs" />

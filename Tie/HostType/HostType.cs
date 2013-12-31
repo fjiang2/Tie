@@ -618,6 +618,53 @@ namespace Tie
             else
                 return host.GetType();
         }
-       
+
+
+        internal static bool HasInterface(Type clss, Type interfce)
+        {
+            if (!interfce.IsInterface)
+                return false;
+
+            Type[] I = clss.GetInterfaces();
+            foreach (Type i in I)
+            {
+                if (i == interfce)
+                    return true;
+            }
+
+            return false;
+
+        }
+
+        /// <summary>
+        /// allow to convert like: 
+        ///     TargetType y = (HostType)x;
+        /// </summary>
+        /// <param name="hostType"></param>
+        /// <param name="targetType"></param>
+        /// <returns></returns>
+        internal static bool IsCompatibleType(Type hostType, Type targetType)
+        {
+            if (hostType == targetType)
+                return true;
+
+            //base class
+            if (hostType.IsSubclassOf(targetType))
+                return true;
+
+            //Nullable<T>
+            if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                return IsCompatibleType(hostType, targetType.GetGenericArguments()[0]);
+
+            //interface
+            if (HostType.HasInterface(hostType, targetType))
+                return true;
+
+            //enum
+            if (hostType.IsEnum && targetType == typeof(int) || targetType.IsEnum && hostType == typeof(int))
+                return true;
+
+            return false;
+        }
     }
 }

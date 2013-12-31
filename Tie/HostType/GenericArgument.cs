@@ -172,31 +172,5 @@ namespace Tie
             return null;
         }
 
-        public static string FullName(Type type)
-        {
-            if (type.IsGenericType)
-            {
-                StringBuilder builder = new StringBuilder();
-
-                string x = type.GetGenericTypeDefinition().FullName;
-                x = x.Substring(0, x.IndexOf('`'));
-                builder.Append(x);
-
-                builder.Append("<");
-
-                Type[] types = type.GetGenericArguments();
-                for (int i = 0; i < types.Length; i++)
-                {
-                    builder.Append(types[i].FullName);
-                    if (i < types.Length - 1)
-                        builder.Append(",");
-                }
-                
-                builder.Append(">");
-                return builder.ToString();
-            }
-            else
-                return type.FullName;
-        }
     }
 }
