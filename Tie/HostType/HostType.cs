@@ -27,10 +27,9 @@ namespace Tie
     /// <summary>
     /// Represent .NET object Type
     /// </summary>
-    public class HostType
+    public partial class HostType
     {
 
-      
         #region Register Type Functions
 
         //---------------------------------------------------------------------------------------
@@ -173,7 +172,10 @@ namespace Tie
          */
         
         /// <summary>
-        /// Register a generic class
+        /// Using alias directive for a generic class. 
+        /// ex:
+        ///     C#: using UsingAlias = NameSpace2.MyClass<int>;
+        ///    Tie: Register("UsingAlias", typeof(NameSpace2.MyClass<int>);
         /// </summary>
         /// <param name="typeName">type name in script</param>
         /// <param name="type">generic type</param>
@@ -223,61 +225,91 @@ namespace Tie
         
         #region Add Reference
 
+        private static List<Assembly> references = new List<Assembly>();
+        private static Dictionary<string, string> aliases = new Dictionary<string, string>();
+        private static List<string> imports = new List<string>();
 
         /**
          * 
-         * 用于namespace和assembly name(DLL/EXE)不一致的情况下
-         *  如: namespace = Tie
-         *      Assembly  = Tie2.Dll
-         *   
-         *   AddReference("Tie", "Tie2");
-         *   AddReference("System.Drawing", Assembly.Load("System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"));
-         *   AddReference("System.Windows.Forms", Assembly.Load("System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
+         *   AddReference("Tie2");
+         *   AddReference(Assembly.Load("System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"));
+         *   AddReference(Assembly.Load("System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
          *   
          *   
          * */
-        public static bool AddReference(string namespaceName, Assembly assembly)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="assembly"></param>
+        public static void AddReference(Assembly assembly)
         {
-            if (references.ContainsKey(namespaceName))
-                references.Remove(namespaceName);
+            if (references.IndexOf(assembly) >= 0)
+                return;
 
-            references.Add(namespaceName, assembly);
-            return true;
+            references.Add(assembly);
         }
 
-        //<namespace, assembly>
-        private static Dictionary<string, Assembly> references = new Dictionary<string, Assembly>();
-
-
-
-        //优先搜索namespace深的空间, 譬如先搜索System.Windows.Forms, 然后搜索System.Windows, 最后搜索System
-        private static Type GetReferenceType(string className)
+        /// <summary>
+        /// using System.Data; 
+        ///     is equivalent to AddImport("System.Data");
+        /// </summary>
+        /// <param name="import"></param>
+        public static void AddImport(string import)
         {
-            string[] nameSpace = className.Split(new char[] { '.' });
-            int n = nameSpace.Length-1;
+            Assembly assembly = InvalidNamespace(import);
+            if (assembly == null)
+                throw new TieException("invalid namespace:{0}", import);
 
-            while (n > 0)
+            if (imports.IndexOf(import) >= 0)
+                return;
+
+            imports.Add(import);
+        }
+
+        /// <summary>
+        ///      C#: using SysData = System.Data;
+        ///     Tie: AddImport("System.Data", "SysData");
+        /// </summary>
+        /// <param name="alias"></param>
+        /// <param name="import"></param>
+        public static void AddImport(string alias, string import)
+        {
+            AddImport(import);
+
+            if (aliases.ContainsKey(alias))
+                aliases.Remove(alias);
+
+            aliases.Add(alias, import);
+        }
+
+        private static Assembly InvalidNamespace(string ns)
+        {
+            foreach (Assembly assembly in references)
             {
-                string ns = "";
-                for (int i = 0; i < n-1; i++)
-                    ns += nameSpace[i] + ".";
-                
-                ns += nameSpace[n - 1];
-
-                if (references.ContainsKey(ns))
+                foreach (Type type in assembly.GetExportedTypes())
                 {
-                    Type type = references[ns].GetType(className);
-                    if (type != null)
-                        return type;
+                    if (type.Namespace.Equals(ns))
+                        return assembly;
                 }
-                
-                n--;
             }
 
             return null;
         }
 
 
+        private static Type GetReferenceType(string fullTypeName)
+        {
+            foreach (Assembly assembly in references)
+            {
+                Type type = assembly.GetType(fullTypeName);
+                if (type != null)
+                    return type;
+            }
+
+            return null;
+        }
+
+    
         #endregion
 
 
@@ -298,34 +330,64 @@ namespace Tie
                 return null;
         }
 
+        public static Type GetType(string typeName)
+        {
+            string fullTypeName;
+            
+            if (typeName.IndexOf('.') >= 0 )
+            {
+                string[] names = typeName.Split(new char[] { '.' });
+
+                if (aliases.ContainsKey(names[0]))
+                {
+                    names[0] = aliases[names[0]];
+                    fullTypeName = string.Join(".", names);
+
+                    Type type = GetFullType(fullTypeName);
+                    if (type != null)
+                        return type;
+                }
+            }
+
+            foreach (string import in imports)
+            {
+                fullTypeName = import + "." + typeName;
+
+                Type type = GetFullType(fullTypeName);
+                if (type != null)
+                    return type;
+            }
+
+            return GetFullType(typeName);
+        }
 
         /// <summary>
         /// Return .NET type
         /// </summary>
-        /// <param name="typeName">type name</param>
+        /// <param name="fullTypeName">type name</param>
         /// <returns></returns>
-        public static Type GetType(string typeName)
+        private static Type GetFullType(string fullTypeName)
         {
             Type type = null;
 
             //删除空格
-            typeName = typeName.Replace(" ","");
+            fullTypeName = fullTypeName.Replace(" ","");
             int isArray = 0;    //数组类型的维数
 
             //支持多维数组
-            while (typeName.EndsWith("[]"))
+            while (fullTypeName.EndsWith("[]"))
             {
                 isArray++;
-                typeName = typeName.Substring(0, typeName.Length - 2); 
+                fullTypeName = fullTypeName.Substring(0, fullTypeName.Length - 2); 
             }
 
             //1.搜索System空间,加速返回基本类型
-            type = typeof(object).Assembly.GetType(typeName);
+            type = typeof(object).Assembly.GetType(fullTypeName);
             if (type != null)
                 goto L1;
 
             //2.搜索referecne空间
-            type = GetReferenceType(typeName);
+            type = GetReferenceType(fullTypeName);
             if (type != null)
                  goto L1;
 
@@ -333,14 +395,14 @@ namespace Tie
             //3.在当前的domain中的Assembly中搜索,然后CreateInstance
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
             {
-                type = asm.GetType(typeName);
+                type = asm.GetType(fullTypeName);
                 if (type != null)
                     goto L1;
 
             }
 #endif
             //4.根据class名字来推断assemblyName,然后返回
-            type = GetDefaultAssemblyType(typeName);
+            type = GetDefaultAssemblyType(fullTypeName);
             if (type != null)
                 goto L1;
 

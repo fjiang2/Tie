@@ -66,10 +66,8 @@ namespace UnitTest
                 typeof(Tie.HostType)
             }, true);
 
-            HostType.AddReference("UnitTest", typeof(Program).Assembly);
-            //HostType.AddReference("System.Data", typeof(System.Data.DataTable).Assembly);
-            //HostType.AddReference("System.Windows.Forms", typeof(System.Windows.Forms.BorderStyle).Assembly);
-            HostType.AddReference("System.Drawing", typeof(System.Drawing.Color).Assembly);
+            HostType.AddReference(typeof(Program).Assembly);
+            HostType.AddReference(typeof(System.Drawing.Color).Assembly);
       
 
             Helper.Start();

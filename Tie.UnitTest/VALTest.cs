@@ -92,22 +92,26 @@ E4 = E.ctype(ObjectArray);
             System.Diagnostics.Debug.Assert(nodes.ToExJson() =="{\r\n  S2 : null,\r\n  S1 : {\r\n    Completed : void\r\n  }\r\n}", "void测试");
 
             code = @"
-                addreference('UnitTest', Assembly.Load('Tie.UnitTest'));
-                A = typeof('UnitTest.VALTest').plus(20,30);
-                register(typeof('UnitTest.VALTest'));
+                addreference(Assembly.Load('Tie.UnitTest'));
+                A = typeof(UnitTest.VALTest).plus(20,30);
+                register(typeof(UnitTest.VALTest));
                 B = UnitTest.VALTest.plus(30,40);
                 
                 C1 = typeof(""UnitTest.MyColor"").red;
                 C2 = typeof(""UnitTest.MyColor"").black;
 
-                addreference('System.Data',Assembly.Load('System.Data, PublicKeyToken=B77A5C561934E089, Culture=neutral, Version=2.0.0.0'));
-                Data1 = typeof(""System.Data.DataTable"");
-                Data2 = typeof(""System.Data.DataTable"");
+                addreference(Assembly.Load('System.Data, PublicKeyToken=B77A5C561934E089, Culture=neutral, Version=2.0.0.0'));
+                Data1 = typeof(System.Data.DataTable);
+                addimport(""System.Data"");
+                Data2 = typeof(DataTable);
 ";
             memory = new Memory();
             Script.Execute(code, memory);
             Debug.Assert(memory["A"].Intcon == 50);
             Debug.Assert(memory["B"].Intcon == 70);
+
+            Debug.Assert((Type)(memory["Data1"].HostValue) == typeof(System.Data.DataTable));
+            Debug.Assert((Type)(memory["Data2"].HostValue) == typeof(System.Data.DataTable));
 
             //VAL operator overloading
             VAL x = new VAL(12);                     //等价于:  VAL x= new VAL(12);

@@ -64,14 +64,31 @@ namespace Tie
                     break;
 
                 case "addreference":
-                    if (size == 2 && L0.ty == VALTYPE.stringcon && L1.ty == VALTYPE.hostcon) 
+                    if (size == 1 && L0.ty == VALTYPE.hostcon) 
                     {
-                        object host = L1.HostValue;
+                        object host = L0.HostValue;
                         if (host is Assembly)
                         {
-                            HostType.AddReference(L0.Str, (Assembly)host);
+                            HostType.AddReference((Assembly)host);
                             return VAL.NewHostType(host);
                         }
+                    }
+                    break;
+
+                    /***
+                     * using System.Data => addimport("System.Data")
+                     * using SD = System.Data => addimport("SD", "System.Data")
+                     * */
+                case "addimport":
+                    if (size == 1 && L0.ty == VALTYPE.stringcon)
+                    {
+                        HostType.AddImport(L0.Str);
+                        return new VAL();
+                    }
+                    else if (size == 2 && L0.ty == VALTYPE.stringcon && L1.ty == VALTYPE.stringcon)
+                    {
+                        HostType.AddImport(L0.Str, L1.Str);
+                        return new VAL();
                     }
                     break;
          
