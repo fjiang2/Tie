@@ -79,36 +79,36 @@ namespace Tie
                     break;
 
                     /***
-                     * using System.Data => addimport(System.Data)
-                     * using SD = System.Data => addimport("SD", System.Data)
+                     * using System.Data => import(System.Data)
+                     * using SD = System.Data => import("SD", System.Data)
                      * */
-                case "addimport":
+                case "import":
                     if (size == 1)
                     {
-                        string import = null;
+                        string ns = null;
                         if (L0.ty == VALTYPE.stringcon)
-                            import = L0.Str;
+                            ns = L0.Str;
                         else if (L0.name != null)   //because System.Data may exist before addimport(System.Data)
-                            import = L0.name;
+                            ns = L0.name;
                         
-                        if (import != null)
+                        if (ns != null)
                         {
-                            HostType.AddImport(import);
+                            HostType.Import(ns);
                             return new VAL();
                         }
 
                     }
                     else if (size == 2 && L0.ty == VALTYPE.stringcon)
                     {
-                        string import = null;
+                        string ns = null;
                         if (L1.ty == VALTYPE.stringcon)
-                            import = L1.Str;
+                            ns = L1.Str;
                         else if (L1.name != null)
-                            import = L1.name;
+                            ns = L1.name;
 
-                        if (import != null)
+                        if (ns != null)
                         {
-                            HostType.AddImport(L0.Str, import);
+                            HostType.Import(L0.Str, ns);
                             return new VAL();
                         }
                     }

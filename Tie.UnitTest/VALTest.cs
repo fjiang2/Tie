@@ -98,13 +98,15 @@ E4 = E.ctype(ObjectArray);
                 B = UnitTest.VALTest.plus(30,40);
                 
                 C1 = typeof(""UnitTest.MyColor"").red;
-                C2 = typeof(""UnitTest.MyColor"").black;
+                C2 = typeof(UnitTest.MyColor).black;
+                import(UnitTest);
+                C3 = typeof(MyColor).black;
 
                 addreference(Assembly.Load('System.Data, PublicKeyToken=B77A5C561934E089, Culture=neutral, Version=2.0.0.0'));
                 Data1 = typeof(System.Data.DataTable);
-                addimport(""System.Data"");
-                addimport(System.Data);
-                addimport(System.Data.SqlClient);
+                import(""System.Data"");
+                import(System.Data);
+                import(System.Data.SqlClient);
                 Data2 = typeof(DataTable);
                 
                 data = new Data2();
@@ -113,6 +115,9 @@ E4 = E.ctype(ObjectArray);
             Script.Execute(code, memory);
             Debug.Assert(memory["A"].Intcon == 50);
             Debug.Assert(memory["B"].Intcon == 70);
+            Debug.Assert((MyColor)(memory["C1"].HostValue) == MyColor.red);
+            Debug.Assert((MyColor)(memory["C2"].HostValue) == MyColor.black);
+            Debug.Assert((MyColor)(memory["C3"].HostValue) == MyColor.black);
 
             Debug.Assert((Type)(memory["Data1"].HostValue) == typeof(System.Data.DataTable));
             Debug.Assert((Type)(memory["Data2"].HostValue) == typeof(System.Data.DataTable));

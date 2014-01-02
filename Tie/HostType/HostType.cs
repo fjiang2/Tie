@@ -253,35 +253,35 @@ namespace Tie
 
         /// <summary>
         /// using System.Data; 
-        ///     is equivalent to AddImport("System.Data");
+        ///     is equivalent to Import("System.Data");
         /// </summary>
-        /// <param name="import"></param>
-        public static void AddImport(string import)
+        /// <param name="nameSpace"></param>
+        public static void Import(string nameSpace)
         {
-            Assembly assembly = InvalidNamespace(import);
+            Assembly assembly = InvalidNamespace(nameSpace);
             if (assembly == null)
-                throw new TieException("invalid namespace:{0}", import);
+                throw new TieException("invalid namespace:{0}", nameSpace);
 
-            if (imports.IndexOf(import) >= 0)
+            if (imports.IndexOf(nameSpace) >= 0)
                 return;
 
-            imports.Add(import);
+            imports.Add(nameSpace);
         }
 
         /// <summary>
         ///      C#: using SysData = System.Data;
-        ///     Tie: AddImport("System.Data", "SysData");
+        ///     Tie: Import("SysData", "System.Data");
         /// </summary>
-        /// <param name="alias"></param>
-        /// <param name="import"></param>
-        public static void AddImport(string alias, string import)
+        /// <param name="aliasName"></param>
+        /// <param name="nameSpace"></param>
+        public static void Import(string aliasName, string nameSpace)
         {
-            AddImport(import);
+            Import(nameSpace);
 
-            if (aliases.ContainsKey(alias))
-                aliases.Remove(alias);
+            if (aliases.ContainsKey(aliasName))
+                aliases.Remove(aliasName);
 
-            aliases.Add(alias, import);
+            aliases.Add(aliasName, nameSpace);
         }
 
         private static Assembly InvalidNamespace(string ns)
