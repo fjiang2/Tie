@@ -226,7 +226,9 @@ namespace Tie
         #region Add Reference
 
         private static List<Assembly> references = new List<Assembly>();
-        private static Dictionary<string, string> aliases = new Dictionary<string, string>();
+        //Dictionary<alias, import>
+        private static Dictionary<string, string> aliases = new Dictionary<string, string>(); 
+        //List<import>
         private static List<string> imports = new List<string>();
 
         /**
@@ -330,6 +332,11 @@ namespace Tie
                 return null;
         }
 
+        /// <summary>
+        /// Return .NET type
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <returns></returns>
         public static Type GetType(string typeName)
         {
             string fullTypeName;

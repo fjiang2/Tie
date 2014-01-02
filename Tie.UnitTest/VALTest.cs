@@ -103,7 +103,11 @@ E4 = E.ctype(ObjectArray);
                 addreference(Assembly.Load('System.Data, PublicKeyToken=B77A5C561934E089, Culture=neutral, Version=2.0.0.0'));
                 Data1 = typeof(System.Data.DataTable);
                 addimport(""System.Data"");
+                addimport(System.Data);
+                addimport(System.Data.SqlClient);
                 Data2 = typeof(DataTable);
+                
+                data = new Data2();
 ";
             memory = new Memory();
             Script.Execute(code, memory);
@@ -112,6 +116,7 @@ E4 = E.ctype(ObjectArray);
 
             Debug.Assert((Type)(memory["Data1"].HostValue) == typeof(System.Data.DataTable));
             Debug.Assert((Type)(memory["Data2"].HostValue) == typeof(System.Data.DataTable));
+            Debug.Assert(memory["data"].HostValue is System.Data.DataTable);
 
             //VAL operator overloading
             VAL x = new VAL(12);                     //等价于:  VAL x= new VAL(12);

@@ -63,6 +63,9 @@ namespace Tie
                     }
                     break;
 
+                    /**
+                     * add reference
+                     * */
                 case "addreference":
                     if (size == 1 && L0.ty == VALTYPE.hostcon) 
                     {
@@ -76,19 +79,38 @@ namespace Tie
                     break;
 
                     /***
-                     * using System.Data => addimport("System.Data")
-                     * using SD = System.Data => addimport("SD", "System.Data")
+                     * using System.Data => addimport(System.Data)
+                     * using SD = System.Data => addimport("SD", System.Data)
                      * */
                 case "addimport":
-                    if (size == 1 && L0.ty == VALTYPE.stringcon)
+                    if (size == 1)
                     {
-                        HostType.AddImport(L0.Str);
-                        return new VAL();
+                        string import = null;
+                        if (L0.ty == VALTYPE.stringcon)
+                            import = L0.Str;
+                        else if (L0.name != null)   //because System.Data may exist before addimport(System.Data)
+                            import = L0.name;
+                        
+                        if (import != null)
+                        {
+                            HostType.AddImport(import);
+                            return new VAL();
+                        }
+
                     }
-                    else if (size == 2 && L0.ty == VALTYPE.stringcon && L1.ty == VALTYPE.stringcon)
+                    else if (size == 2 && L0.ty == VALTYPE.stringcon)
                     {
-                        HostType.AddImport(L0.Str, L1.Str);
-                        return new VAL();
+                        string import = null;
+                        if (L1.ty == VALTYPE.stringcon)
+                            import = L1.Str;
+                        else if (L1.name != null)
+                            import = L1.name;
+
+                        if (import != null)
+                        {
+                            HostType.AddImport(L0.Str, import);
+                            return new VAL();
+                        }
                     }
                     break;
          
