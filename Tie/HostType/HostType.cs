@@ -57,11 +57,6 @@ namespace Tie
             return Register(type, false);
         }
 
-        public static bool Register<T>()
-        {
-            return Register(typeof(T), false);
-        }
-   
         /// <summary>
         /// Register multiple .NET types
         /// </summary>
@@ -181,9 +176,11 @@ namespace Tie
          *      或者
          *      HostType.Register("Dictionary.StringInt32",typeof(Dictionary<string,int>)); 
          * 
+         * 相当于C#:
+         *      using DictionaryStringInt32=Dictionary<string,int>;
          * 
          */
-        
+
         /// <summary>
         /// Using alias directive for a generic class. 
         /// ex:
@@ -227,12 +224,7 @@ namespace Tie
             return true;
         }
 
-        internal static bool IsRegistered(Type type)
-        {
-            VAL val = Script.Evaluate(type.FullName, Computer.DS1);
-            return val.Defined;
-        }
-
+  
         #endregion
 
         
@@ -377,7 +369,7 @@ namespace Tie
         /// <summary>
         ///  GetType("Int32[][]")
         ///  GetType("System.DateTime")
-        ///  GetType("Dictionary<,>")
+        ///  GetType("Dictionary`2")
         /// </summary>
         /// <param name="typeName"></param>
         /// <returns></returns>
@@ -416,6 +408,7 @@ namespace Tie
             string ns = string.Join(".", names, 0, names.Length - 1);
 
             //1: using System.Data;
+            //GetType("System.Data.DataTable");
             if (names.Length > 1 && imports.ContainsKey(ns))
             {
                 type = GetType(imports[ns], typeName);
@@ -424,6 +417,7 @@ namespace Tie
             }
 
             //2: using S=System.Data;
+            //GetType("S.DataTable");
             if (names.Length > 1 && aliases.Count > 0)
             {
                 if (aliases.ContainsKey(names[0]))
@@ -439,36 +433,41 @@ namespace Tie
 
 
             //3: search current domain and references
-            List<Assembly> list = new List<Assembly>();
-#if !SILVERLIGHT
-            foreach (Assembly assemby in AppDomain.CurrentDomain.GetAssemblies()) //在当前的domain中的Assembly中搜索
-                list.Add(assemby);
-#endif
-            foreach (Assembly assemby in references.Keys) //搜索referecne空间
+            //GetType("System.Windows.Controls.Button");
+            if (names.Length > 1)
             {
-                if (list.IndexOf(assemby) < 0)
+                List<Assembly> list = new List<Assembly>();
+#if !SILVERLIGHT
+                foreach (Assembly assemby in AppDomain.CurrentDomain.GetAssemblies()) //在当前的domain中的Assembly中搜索
                     list.Add(assemby);
+#endif
+                foreach (Assembly assemby in references.Keys) //搜索referecne空间
+                {
+                    if (list.IndexOf(assemby) < 0)
+                        list.Add(assemby);
+                }
+                type = GetType(list, typeName);
+                if (type != null)
+                    return type;
             }
-            type = GetType(list, typeName);
-            if (type != null)
-                return type;
-
-
 
             //4: simple type name
+            //using System.Data;
+            //GetType("DataTable");
             foreach (KeyValuePair<string, Assembly[]> kvp in imports)
             {
                 string import = kvp.Key;
 
                 if (!typeName.StartsWith(import))
                 {
-                    type = GetType(kvp.Value, import + "." + typeName);
+                    string fullTypeName = import + "." + typeName;
+                    type = GetType(kvp.Value, fullTypeName);
                     if (type != null)
                         return type;
                 }
             }
 
-            //3.根据class名字来推断assemblyName,然后返回
+            //4.根据class名字来推断assemblyName,然后返回
             type = GetDefaultAssemblyType(typeName);
             if (type != null)
                 return type;
