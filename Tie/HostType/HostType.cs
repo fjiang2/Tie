@@ -396,7 +396,7 @@ namespace Tie
                 typeName = typeName.Substring(0, typeName.Length - 2);
             }
 
-            type = GetSimpleNameType(typeName);
+            type = GetSimpleType(typeName);
 
             while (isArray > 0)
             {
@@ -408,93 +408,86 @@ namespace Tie
         }
 
 
-        private static Type GetSimpleNameType(string typeName)
+        private static Type GetSimpleType(string typeName)
         {
             Type type = null;
             
             string[] names = typeName.Split(new char[] { '.' });
             string ns = string.Join(".", names, 0, names.Length - 1);
 
+            //1: using System.Data;
             if (names.Length > 1 && imports.ContainsKey(ns))
             {
-                foreach (Assembly assembly in imports[ns])
-                {
-                    type = assembly.GetType(typeName);
-                    if (type != null)
-                        return type;
-                }
+                type = GetType(imports[ns], typeName);
+                if (type != null)
+                    return type;
             }
 
-            string fullTypeName;
-            if (aliases.Count > 0 && names.Length > 1)
+            //2: using S=System.Data;
+            if (names.Length > 1 && aliases.Count > 0)
             {
                 if (aliases.ContainsKey(names[0]))
                 {
                     names[0] = aliases[names[0]];
-                    fullTypeName = string.Join(".", names);
+                    string fullTypeName = string.Join(".", names);
 
-                    type = GetFullNameType(fullTypeName);
+                    type = GetSimpleType(fullTypeName);
                     if (type != null)
                         return type;
                 }
             }
 
+
+            //3: search current domain and references
+            List<Assembly> list = new List<Assembly>();
+#if !SILVERLIGHT
+            foreach (Assembly assemby in AppDomain.CurrentDomain.GetAssemblies()) //在当前的domain中的Assembly中搜索
+                list.Add(assemby);
+#endif
+            foreach (Assembly assemby in references.Keys) //搜索referecne空间
+            {
+                if (list.IndexOf(assemby) < 0)
+                    list.Add(assemby);
+            }
+            type = GetType(list, typeName);
+            if (type != null)
+                return type;
+
+
+
+            //4: simple type name
             foreach (KeyValuePair<string, Assembly[]> kvp in imports)
             {
                 string import = kvp.Key;
 
                 if (!typeName.StartsWith(import))
                 {
-                    fullTypeName = import + "." + typeName;
-                    foreach (Assembly assembly in kvp.Value)
-                    {
-                        type = assembly.GetType(fullTypeName);
-                        if (type != null)
-                            return type;
-                    }
+                    type = GetType(kvp.Value, import + "." + typeName);
+                    if (type != null)
+                        return type;
                 }
             }
 
-            return GetFullNameType(typeName);
-        }
-
-
-        /// <summary>
-        /// Return .NET type
-        /// </summary>
-        /// <param name="fullTypeName">type name</param>
-        /// <returns></returns>
-        private static Type GetFullNameType(string fullTypeName)
-        {
-            Type type = null;
-
-            //1.搜索referecne空间
-            foreach (Assembly assembly in references.Keys)
-            {
-                type = assembly.GetType(fullTypeName);
-                if (type != null)
-                    return type;
-            }
-
-
-#if !SILVERLIGHT
-            //2.在当前的domain中的Assembly中搜索,然后CreateInstance
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                type = asm.GetType(fullTypeName);
-                if (type != null)
-                    return type;
-
-            }
-#endif
             //3.根据class名字来推断assemblyName,然后返回
-            type = GetDefaultAssemblyType(fullTypeName);
+            type = GetDefaultAssemblyType(typeName);
             if (type != null)
                 return type;
 
             return null;
         }
 
+        private static Type GetType(IEnumerable<Assembly> assemblies, string typeName)
+        {
+            Type type = null;
+            foreach (Assembly assembly in assemblies)
+            {
+                type = assembly.GetType(typeName);
+                if (type != null)
+                    return type;
+            }
+
+            return null;
+        }
 
    
         //根据class name来判断assembly的名字
