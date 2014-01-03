@@ -238,10 +238,11 @@ namespace Tie
         
         #region Add Reference
 
-        private static List<Assembly> references = new List<Assembly>();
-        //Dictionary<alias, import>
-        private static Dictionary<string, string> aliases = new Dictionary<string, string>(); 
-        //List<import>
+        //Dictionary<assembly, namespace[])
+        private static Dictionary<Assembly, List<string>> references = new Dictionary<Assembly, List<string>>();
+        //Dictionary<alias, namespace>
+        private static Dictionary<string, string> aliases = new Dictionary<string, string>();
+        //Dictionary<namespace, Assembly[]>
         private static Dictionary<string, Assembly[]> imports = new Dictionary<string, Assembly[]>();
 
         /**
@@ -256,10 +257,10 @@ namespace Tie
         /// <param name="assembly"></param>
         public static void AddReference(Assembly assembly)
         {
-            if (references.IndexOf(assembly) >= 0)
+            if (references.ContainsKey(assembly))
                 return;
 
-            references.Add(assembly);
+            references.Add(assembly, new List<string>());
         }
 
         /// <summary>
@@ -268,7 +269,7 @@ namespace Tie
         /// <param name="assembly"></param>
         public static void RemoveReference(Assembly assembly)
         {
-            if (references.IndexOf(assembly) >= 0)
+            if (references.ContainsKey(assembly))
                 references.Remove(assembly);
         }
 
@@ -287,6 +288,8 @@ namespace Tie
                 return;
 
             imports.Add(nameSpace, assemblies);
+            foreach (Assembly assembly in assemblies)
+                references[assembly].Add(nameSpace);
         }
 
         /// <summary>
@@ -315,19 +318,27 @@ namespace Tie
             { 
                 string import = aliases[nameSpace];
                 aliases.Remove(nameSpace);
-                
-                if (imports.ContainsKey(import))
-                    imports.Remove(import);
+                nameSpace = import;
             }
 
+
             if (imports.ContainsKey(nameSpace))
+            {
+                Assembly[] assemblies = imports[nameSpace];
                 imports.Remove(nameSpace);
+
+                foreach (Assembly assembly in assemblies)
+                {
+                    references[assembly].Remove(nameSpace);
+                }
+            }
+                
         }
 
         private static Assembly[] GetAssemblyByNamespace(string ns)
         {
             List<Assembly> list = new List<Assembly>();
-            foreach (Assembly assembly in references)
+            foreach (Assembly assembly in references.Keys)
             {
                 foreach (Type type in assembly.GetExportedTypes())
                 {
@@ -342,20 +353,6 @@ namespace Tie
             return list.ToArray();
         }
 
-
-        private static Type GetReferenceType(string fullTypeName)
-        {
-            foreach (Assembly assembly in references)
-            {
-                Type type = assembly.GetType(fullTypeName);
-                if (type != null)
-                    return type;
-            }
-
-            return null;
-        }
-
-    
         #endregion
 
 
@@ -376,25 +373,67 @@ namespace Tie
                 return null;
         }
 
+      
         /// <summary>
-        /// Return .NET type
+        ///  GetType("Int32[][]")
+        ///  GetType("System.DateTime")
+        ///  GetType("Dictionary<,>")
         /// </summary>
         /// <param name="typeName"></param>
         /// <returns></returns>
         public static Type GetType(string typeName)
         {
-            string fullTypeName;
+            Type type = null;
 
-            if (aliases.Count>0 && typeName.IndexOf('.') >= 0)
+            //删除空格
+            typeName = typeName.Replace(" ", "");
+            int isArray = 0;    //数组类型的维数
+
+            //支持多维数组
+            while (typeName.EndsWith("[]"))
             {
-                string[] names = typeName.Split(new char[] { '.' });
+                isArray++;
+                typeName = typeName.Substring(0, typeName.Length - 2);
+            }
 
+            type = GetSimpleNameType(typeName);
+
+            while (isArray > 0)
+            {
+                isArray--;
+                type = type.MakeArrayType();    //产生多维数组
+            }
+
+            return type;
+        }
+
+
+        private static Type GetSimpleNameType(string typeName)
+        {
+            Type type = null;
+            
+            string[] names = typeName.Split(new char[] { '.' });
+            string ns = string.Join(".", names, 0, names.Length - 1);
+
+            if (names.Length > 1 && imports.ContainsKey(ns))
+            {
+                foreach (Assembly assembly in imports[ns])
+                {
+                    type = assembly.GetType(typeName);
+                    if (type != null)
+                        return type;
+                }
+            }
+
+            string fullTypeName;
+            if (aliases.Count > 0 && names.Length > 1)
+            {
                 if (aliases.ContainsKey(names[0]))
                 {
                     names[0] = aliases[names[0]];
                     fullTypeName = string.Join(".", names);
 
-                    Type type = GetFullType(fullTypeName);
+                    type = GetFullNameType(fullTypeName);
                     if (type != null)
                         return type;
                 }
@@ -403,77 +442,57 @@ namespace Tie
             foreach (KeyValuePair<string, Assembly[]> kvp in imports)
             {
                 string import = kvp.Key;
-                if(!typeName.StartsWith(import))
-                    fullTypeName = import + "." + typeName;
-                else
-                    fullTypeName = typeName;
-                foreach (Assembly assembly in kvp.Value)
+
+                if (!typeName.StartsWith(import))
                 {
-                    Type type = assembly.GetType(fullTypeName); 
-                    if (type != null)
-                        return type;
+                    fullTypeName = import + "." + typeName;
+                    foreach (Assembly assembly in kvp.Value)
+                    {
+                        type = assembly.GetType(fullTypeName);
+                        if (type != null)
+                            return type;
+                    }
                 }
             }
 
-            return GetFullType(typeName);
+            return GetFullNameType(typeName);
         }
+
 
         /// <summary>
         /// Return .NET type
         /// </summary>
         /// <param name="fullTypeName">type name</param>
         /// <returns></returns>
-        private static Type GetFullType(string fullTypeName)
+        private static Type GetFullNameType(string fullTypeName)
         {
             Type type = null;
 
-            //删除空格
-            fullTypeName = fullTypeName.Replace(" ","");
-            int isArray = 0;    //数组类型的维数
-
-            //支持多维数组
-            while (fullTypeName.EndsWith("[]"))
+            //1.搜索referecne空间
+            foreach (Assembly assembly in references.Keys)
             {
-                isArray++;
-                fullTypeName = fullTypeName.Substring(0, fullTypeName.Length - 2); 
+                type = assembly.GetType(fullTypeName);
+                if (type != null)
+                    return type;
             }
 
-            //1.搜索System空间,加速返回基本类型
-            type = typeof(object).Assembly.GetType(fullTypeName);
-            if (type != null)
-                goto L1;
-
-            //2.搜索referecne空间
-            type = GetReferenceType(fullTypeName);
-            if (type != null)
-                 goto L1;
 
 #if !SILVERLIGHT
-            //3.在当前的domain中的Assembly中搜索,然后CreateInstance
+            //2.在当前的domain中的Assembly中搜索,然后CreateInstance
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
             {
                 type = asm.GetType(fullTypeName);
                 if (type != null)
-                    goto L1;
+                    return type;
 
             }
 #endif
-            //4.根据class名字来推断assemblyName,然后返回
+            //3.根据class名字来推断assemblyName,然后返回
             type = GetDefaultAssemblyType(fullTypeName);
             if (type != null)
-                goto L1;
+                return type;
 
             return null;
-
-
-            L1:
-            while (isArray > 0)
-            {
-                isArray--;
-                type = type.MakeArrayType();    //产生多维数组
-            }
-
-            return type;
         }
 
 
