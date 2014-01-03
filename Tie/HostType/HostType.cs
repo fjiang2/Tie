@@ -27,8 +27,21 @@ namespace Tie
     /// <summary>
     /// Represent .NET object Type
     /// </summary>
-    public partial class HostType
+    public class HostType
     {
+        static HostType()
+        {
+            AddReference(typeof(object).Assembly);
+            
+            //Import(typeof(object).Namespace);
+            Import("System");
+
+            //Import(typeof(List<>).Namespace);
+            Import("System.Collections.Generic");
+
+            //Import(typeof(ASCIIEncoding).Namespace);
+            Import("System.Text");
+        }
 
         #region Register Type Functions
 
@@ -229,14 +242,12 @@ namespace Tie
         //Dictionary<alias, import>
         private static Dictionary<string, string> aliases = new Dictionary<string, string>(); 
         //List<import>
-        private static List<string> imports = new List<string>();
+        private static Dictionary<string, Assembly[]> imports = new Dictionary<string, Assembly[]>();
 
         /**
          * 
-         *   AddReference("Tie2");
          *   AddReference(Assembly.Load("System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"));
          *   AddReference(Assembly.Load("System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
-         *   
          *   
          * */
         /// <summary>
@@ -252,20 +263,30 @@ namespace Tie
         }
 
         /// <summary>
+        /// Remove added reference. Do nothing if assembly is not added before
+        /// </summary>
+        /// <param name="assembly"></param>
+        public static void RemoveReference(Assembly assembly)
+        {
+            if (references.IndexOf(assembly) >= 0)
+                references.Remove(assembly);
+        }
+
+        /// <summary>
         /// using System.Data; 
         ///     is equivalent to Import("System.Data");
         /// </summary>
         /// <param name="nameSpace"></param>
         public static void Import(string nameSpace)
         {
-            Assembly assembly = InvalidNamespace(nameSpace);
-            if (assembly == null)
+            Assembly[] assemblies = GetAssemblyByNamespace(nameSpace);
+            if (assemblies.Length == 0)
                 throw new TieException("invalid namespace:{0}", nameSpace);
 
-            if (imports.IndexOf(nameSpace) >= 0)
+            if (imports.ContainsKey(nameSpace))
                 return;
 
-            imports.Add(nameSpace);
+            imports.Add(nameSpace, assemblies);
         }
 
         /// <summary>
@@ -284,18 +305,41 @@ namespace Tie
             aliases.Add(aliasName, nameSpace);
         }
 
-        private static Assembly InvalidNamespace(string ns)
+        /// <summary>
+        /// Remove imported namespace, do nothing if namespace is not added before
+        /// </summary>
+        /// <param name="nameSpace">either namespace alias or namespace</param>
+        public static void RemoveImport(string nameSpace)
         {
+            if (aliases.ContainsKey(nameSpace))
+            { 
+                string import = aliases[nameSpace];
+                aliases.Remove(nameSpace);
+                
+                if (imports.ContainsKey(import))
+                    imports.Remove(import);
+            }
+
+            if (imports.ContainsKey(nameSpace))
+                imports.Remove(nameSpace);
+        }
+
+        private static Assembly[] GetAssemblyByNamespace(string ns)
+        {
+            List<Assembly> list = new List<Assembly>();
             foreach (Assembly assembly in references)
             {
                 foreach (Type type in assembly.GetExportedTypes())
                 {
                     if (type.Namespace.Equals(ns))
-                        return assembly;
+                    {
+                        list.Add(assembly);
+                        break;
+                    }
                 }
             }
 
-            return null;
+            return list.ToArray();
         }
 
 
@@ -340,8 +384,8 @@ namespace Tie
         public static Type GetType(string typeName)
         {
             string fullTypeName;
-            
-            if (typeName.IndexOf('.') >= 0 )
+
+            if (aliases.Count>0 && typeName.IndexOf('.') >= 0)
             {
                 string[] names = typeName.Split(new char[] { '.' });
 
@@ -356,13 +400,19 @@ namespace Tie
                 }
             }
 
-            foreach (string import in imports)
+            foreach (KeyValuePair<string, Assembly[]> kvp in imports)
             {
-                fullTypeName = import + "." + typeName;
-
-                Type type = GetFullType(fullTypeName);
-                if (type != null)
-                    return type;
+                string import = kvp.Key;
+                if(!typeName.StartsWith(import))
+                    fullTypeName = import + "." + typeName;
+                else
+                    fullTypeName = typeName;
+                foreach (Assembly assembly in kvp.Value)
+                {
+                    Type type = assembly.GetType(fullTypeName); 
+                    if (type != null)
+                        return type;
+                }
             }
 
             return GetFullType(typeName);

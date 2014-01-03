@@ -108,8 +108,10 @@ E4 = E.ctype(ObjectArray);
                 import(System.Data);
                 import(System.Data.SqlClient);
                 Data2 = typeof(DataTable);
-                
                 data = new Data2();
+
+                import('SqlNs',System.Data.SqlClient);
+                cmd = new SqlNs.SqlCommand();
 ";
             memory = new Memory();
             Script.Execute(code, memory);
@@ -122,6 +124,7 @@ E4 = E.ctype(ObjectArray);
             Debug.Assert((Type)(memory["Data1"].HostValue) == typeof(System.Data.DataTable));
             Debug.Assert((Type)(memory["Data2"].HostValue) == typeof(System.Data.DataTable));
             Debug.Assert(memory["data"].HostValue is System.Data.DataTable);
+            Debug.Assert(memory["cmd"].HostValue is System.Data.SqlClient.SqlCommand);
 
             //VAL operator overloading
             VAL x = new VAL(12);                     //等价于:  VAL x= new VAL(12);
