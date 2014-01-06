@@ -128,15 +128,15 @@ namespace Tie
                 return DS0[ident];
 
 
-            //if (Constant.HOST_TYPE_AUTO_REGISTER)
-            //{
-            //    Type type = HostType.GetType(ident.Ident);
-            //    if (type != null)
-            //    {
-            //        DS1.Add(ident, VAL.NewHostType(type));
-            //        return DS1[ident];
-            //    }
-            //}
+            if (Constant.HOST_TYPE_AUTO_REGISTER)
+            {
+                Type type = HostType.GetTypeByBriefName(ident.Ident);
+                if (type != null)
+                {
+                    DS1.Add(ident, VAL.NewHostType(type));
+                    return DS1[ident];
+                }
+            }
 
             if (readOnly)
                 return new VAL();

@@ -97,16 +97,35 @@ namespace Tie
         /// <returns></returns>
         public static bool Register(Type[] types, bool briefName)
         {
-            string code = "";
             for(int i=0; i< types.Length; i++)
             {
                 Type type = types[i];
-                 Computer.DS1.Add("$" + i, VAL.NewHostType(type));
+                string[] names = type.FullName.Split(new char[] { '.' });
 
-                code += string.Format("{0}=${1};", type.FullName,i);
+                if (Computer.DS1.ContainsKey(names[0]))
+                {
+                    VAL val = Computer.DS1[names[0]];
+                    VAL.Assign(val, names, 1, VAL.NewHostType(type));
+                }
+                else
+                {
+                    VAL val = new VAL(new VALL());
+                    VAL.Assign(val, names, 1, VAL.NewHostType(type));
+                    Computer.DS1.Add(names[0], val);
+                }
 
                 if (briefName)
-                    code += string.Format("{0}=${1};", type.Name, i);
+                {
+                    if (Computer.DS1.ContainsKey(type.Name))
+                    {
+                        VAL val = Computer.DS1[type.Name];
+                        val[type.Name] = VAL.NewHostType(type);
+                    }
+                    else
+                    {
+                        Computer.DS1.Add(type.Name, VAL.NewHostType(type));
+                    }
+                }
 
 
                 /*
@@ -157,11 +176,6 @@ namespace Tie
                     }
                 }
             }
-
-            Script.Execute(code, Computer.DS1);
-            
-            for (int i = 0; i < types.Length; i++)
-                Computer.DS1.Remove("$" + i);
 
             return true;
         }
@@ -347,7 +361,7 @@ namespace Tie
             return list.ToArray();
         }
 
-        internal static Type GetTypeBySimpleTypeName(string simpleTypeName)
+        internal static Type GetTypeByBriefName(string simpleTypeName)
         {
             foreach(HostImport import in imports.Values)
             { 

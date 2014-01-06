@@ -93,7 +93,7 @@ namespace Tie
         /// <summary>
         /// if true, VM searches unregistered type automatically which may reduce performance
         /// </summary>
-        public static bool HOST_TYPE_AUTO_REGISTER = false;
+        public static bool HOST_TYPE_AUTO_REGISTER = true;
 
         internal const string FUNC_MAKE_ARRAY_TYPE = "$makearraytype";
         internal const string FUNC_FUNCTION = "$function";
