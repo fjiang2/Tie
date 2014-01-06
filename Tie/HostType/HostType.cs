@@ -230,12 +230,11 @@ namespace Tie
         
         #region Add Reference
 
-        //Dictionary<assembly, namespace[])
-        private static Dictionary<Assembly, List<string>> references = new Dictionary<Assembly, List<string>>();
+        private static HostReferences references = new HostReferences();
         //Dictionary<alias, namespace>
         private static Dictionary<string, string> aliases = new Dictionary<string, string>();
         //Dictionary<namespace, Assembly[]>
-        private static Dictionary<string, Assembly[]> imports = new Dictionary<string, Assembly[]>();
+        private static Dictionary<string, HostImport> imports = new Dictionary<string, HostImport>();
 
         /**
          * 
@@ -249,10 +248,15 @@ namespace Tie
         /// <param name="assembly"></param>
         public static void AddReference(Assembly assembly)
         {
-            if (references.ContainsKey(assembly))
+            if (references.IndexOf(assembly) >= 0)
                 return;
 
-            references.Add(assembly, new List<string>());
+            references.Add(assembly);
+
+            foreach (HostImport import in imports.Values)
+            {
+                import.AddReference(assembly);
+            }
         }
 
         /// <summary>
@@ -261,8 +265,15 @@ namespace Tie
         /// <param name="assembly"></param>
         public static void RemoveReference(Assembly assembly)
         {
-            if (references.ContainsKey(assembly))
+            if (references.IndexOf(assembly) >= 0)
+            {
                 references.Remove(assembly);
+                foreach (HostImport import in imports.Values)
+                {
+                    import.RemoveReference(assembly);
+                }
+            }
+
         }
 
         /// <summary>
@@ -279,9 +290,7 @@ namespace Tie
             if (imports.ContainsKey(nameSpace))
                 return;
 
-            imports.Add(nameSpace, assemblies);
-            foreach (Assembly assembly in assemblies)
-                references[assembly].Add(nameSpace);
+            imports.Add(nameSpace, new HostImport(nameSpace, references));
         }
 
         /// <summary>
@@ -313,16 +322,9 @@ namespace Tie
                 nameSpace = import;
             }
 
-
             if (imports.ContainsKey(nameSpace))
             {
-                Assembly[] assemblies = imports[nameSpace];
                 imports.Remove(nameSpace);
-
-                foreach (Assembly assembly in assemblies)
-                {
-                    references[assembly].Remove(nameSpace);
-                }
             }
                 
         }
@@ -330,7 +332,7 @@ namespace Tie
         private static Assembly[] GetAssemblyByNamespace(string ns)
         {
             List<Assembly> list = new List<Assembly>();
-            foreach (Assembly assembly in references.Keys)
+            foreach (Assembly assembly in references)
             {
                 foreach (Type type in assembly.GetExportedTypes())
                 {
@@ -343,6 +345,17 @@ namespace Tie
             }
 
             return list.ToArray();
+        }
+
+        internal static Type GetTypeBySimpleTypeName(string simpleTypeName)
+        {
+            foreach(HostImport import in imports.Values)
+            { 
+                if(import.ContainsKey(simpleTypeName))
+                    return import[simpleTypeName];
+            }
+
+            return null;
         }
 
         #endregion
@@ -365,6 +378,16 @@ namespace Tie
                 return null;
         }
 
+        internal static Type GetType(string ns, string name)
+        {
+            if (!imports.ContainsKey(ns))
+                return null;
+         
+            string typeName = ns + "." + name;
+            Type type = GetType(imports[ns].Assemblies, typeName);
+            return type;
+
+        }
       
         /// <summary>
         ///  GetType("Int32[][]")
@@ -411,7 +434,7 @@ namespace Tie
             //GetType("System.Data.DataTable");
             if (names.Length > 1 && imports.ContainsKey(ns))
             {
-                type = GetType(imports[ns], typeName);
+                type = GetType(imports[ns].Assemblies, typeName);
                 if (type != null)
                     return type;
             }
@@ -441,7 +464,7 @@ namespace Tie
                 foreach (Assembly assemby in AppDomain.CurrentDomain.GetAssemblies()) //在当前的domain中的Assembly中搜索
                     list.Add(assemby);
 #endif
-                foreach (Assembly assemby in references.Keys) //搜索referecne空间
+                foreach (Assembly assemby in references) //搜索referecne空间
                 {
                     if (list.IndexOf(assemby) < 0)
                         list.Add(assemby);
@@ -454,14 +477,14 @@ namespace Tie
             //4: simple type name
             //using System.Data;
             //GetType("DataTable");
-            foreach (KeyValuePair<string, Assembly[]> kvp in imports)
+            foreach (KeyValuePair<string, HostImport> kvp in imports)
             {
                 string import = kvp.Key;
 
                 if (!typeName.StartsWith(import))
                 {
                     string fullTypeName = import + "." + typeName;
-                    type = GetType(kvp.Value, fullTypeName);
+                    type = GetType(kvp.Value.Assemblies, fullTypeName);
                     if (type != null)
                         return type;
                 }
