@@ -69,16 +69,6 @@ namespace Tie
 
 
         /// <summary>
-        /// Register all types of assembly
-        /// </summary>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
-        public static bool Register(Assembly assembly)
-        {
-            return Register(assembly, false);
-        }
-
-        /// <summary>
         /// Register .NET type with brief/short name
         /// </summary>
         /// <param name="type"></param>
@@ -100,32 +90,7 @@ namespace Tie
             for(int i=0; i< types.Length; i++)
             {
                 Type type = types[i];
-                string[] names = type.FullName.Split(new char[] { '.' });
-
-                if (Computer.DS1.ContainsKey(names[0]))
-                {
-                    VAL val = Computer.DS1[names[0]];
-                    VAL.Assign(val, names, 1, VAL.NewHostType(type));
-                }
-                else
-                {
-                    VAL val = new VAL(new VALL());
-                    VAL.Assign(val, names, 1, VAL.NewHostType(type));
-                    Computer.DS1.Add(names[0], val);
-                }
-
-                if (briefName)
-                {
-                    if (Computer.DS1.ContainsKey(type.Name))
-                    {
-                        VAL val = Computer.DS1[type.Name];
-                        val[type.Name] = VAL.NewHostType(type);
-                    }
-                    else
-                    {
-                        Computer.DS1.Add(type.Name, VAL.NewHostType(type));
-                    }
-                }
+                Register(type, type.FullName, briefName);
 
 
                 /*
@@ -180,6 +145,48 @@ namespace Tie
             return true;
         }
 
+        private static void Register(Type type, string typeName, bool briefName)
+        {
+            Memory DS1 = Computer.DS1;
+            VAL obj = VAL.NewHostType(type);
+
+            string[] names = typeName.Split(new char[] { '.' });
+            string names0 = names[0];
+            
+            if (DS1.ContainsKey(names0))
+            {
+                if (names.Length > 1)
+                {
+                    VAL val = DS1[names0];
+                    VAL.Assign(val, names, 1, obj);
+                }
+                else
+                    DS1[names0] = obj;
+            }
+            else
+            {
+                if (names.Length > 1)
+                {
+                    VAL val = new VAL(new VALL());
+                    VAL.Assign(val, names, 1, obj);
+                    DS1.Add(names0, val);
+                }
+                else
+                    DS1.Add(names0, obj);
+                
+            }
+
+            if(briefName)
+            {
+                if(DS1.ContainsKey(type.Name))
+                {
+                    DS1[type.Name] = obj;
+                }
+                else
+                    DS1.Add(type.Name, obj);
+            }
+        }
+
 
         /*
          * 这个函数主要是用于Generic class的Register, 因为Generic class的Name和FullName包含有'字符,
@@ -206,37 +213,15 @@ namespace Tie
         /// <returns></returns>
         public static bool Register(string typeName, Type type)
         {
-            Computer.DS1.Add("$1", VAL.NewHostType(type));
-            Script.Execute(typeName + "=$1;", Computer.DS1);
-            Computer.DS1.Remove("$1");
+            Register(type, typeName, false);
+            //Computer.DS1.Add("$1", VAL.NewHostType(type));
+            //Script.Execute(typeName + "=$1;", Computer.DS1);
+            //Computer.DS1.Remove("$1");
             return true;
         }
 
 
-        /// <summary>
-        /// Register all types of assembly with brief/short name
-        /// </summary>
-        /// <param name="assembly"></param>
-        /// <param name="briefName"></param>
-        /// <returns></returns>
-        public static bool Register(Assembly assembly, bool briefName)
-        {
-            foreach (Type type in assembly.GetExportedTypes())
-            {
-                try
-                {
-                    if (!type.IsNestedPublic)
-                        HostType.Register(type, briefName);
-                }
-                catch (Exception)
-                {
-                    Logger.WriteLine(string.Format("{0} cannot be registed.", type.FullName));
-                    return false;
-                }
-            }
-
-            return true;
-        }
+     
 
   
         #endregion

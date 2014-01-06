@@ -57,8 +57,6 @@ namespace Tie
                                 return new VAL(HostType.Register((Type)host));
                             if (host is Type[])
                                 return new VAL(HostType.Register((Type[])host));
-                            else if (host is Assembly)
-                                return new VAL(HostType.Register((Assembly)host));
                         }
                     }
                     break;
