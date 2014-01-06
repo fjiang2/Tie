@@ -273,6 +273,10 @@ namespace Tie
             {
                 val = VAL.Boxing1(host);
             }
+            else if (host is VAL)
+            {
+                val = (VAL)host;
+            }
             else if (host is IValizable)
             {
                 val = ((IValizable)host).GetValData();
