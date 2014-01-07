@@ -41,6 +41,7 @@ namespace Tie
 
             //Import(typeof(ASCIIEncoding).Namespace);
             Import("System.Text");
+            Import("System.Reflection");
         }
 
         #region Register Type Functions
@@ -69,16 +70,6 @@ namespace Tie
 
 
         /// <summary>
-        /// Register all types of assembly
-        /// </summary>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
-        public static bool Register(Assembly assembly)
-        {
-            return Register(assembly, false);
-        }
-
-        /// <summary>
         /// Register .NET type with brief/short name
         /// </summary>
         /// <param name="type"></param>
@@ -97,16 +88,10 @@ namespace Tie
         /// <returns></returns>
         public static bool Register(Type[] types, bool briefName)
         {
-            string code = "";
             for(int i=0; i< types.Length; i++)
             {
                 Type type = types[i];
-                 Computer.DS1.Add("$" + i, VAL.NewHostType(type));
-
-                code += string.Format("{0}=${1};", type.FullName,i);
-
-                if (briefName)
-                    code += string.Format("{0}=${1};", type.Name, i);
+                Register(type, type.FullName, briefName);
 
 
                 /*
@@ -158,12 +143,49 @@ namespace Tie
                 }
             }
 
-            Script.Execute(code, Computer.DS1);
-            
-            for (int i = 0; i < types.Length; i++)
-                Computer.DS1.Remove("$" + i);
-
             return true;
+        }
+
+        private static void Register(Type type, string typeName, bool briefName)
+        {
+            Memory DS1 = Computer.DS1;
+            VAL obj = VAL.NewHostType(type);
+
+            string[] names = typeName.Split(new char[] { '.' });
+            string names0 = names[0];
+            
+            if (DS1.ContainsKey(names0))
+            {
+                if (names.Length > 1)
+                {
+                    VAL val = DS1[names0];
+                    VAL.Assign(val, names, 1, obj);
+                }
+                else
+                    DS1[names0] = obj;
+            }
+            else
+            {
+                if (names.Length > 1)
+                {
+                    VAL val = new VAL(new VALL());
+                    VAL.Assign(val, names, 1, obj);
+                    DS1.Add(names0, val);
+                }
+                else
+                    DS1.Add(names0, obj);
+                
+            }
+
+            //if (briefName)
+            //{
+            //    if (DS1.ContainsKey(type.Name))
+            //    {
+            //        DS1[type.Name] = obj;
+            //    }
+            //    else
+            //        DS1.Add(type.Name, obj);
+            //}
         }
 
 
@@ -192,37 +214,15 @@ namespace Tie
         /// <returns></returns>
         public static bool Register(string typeName, Type type)
         {
-            Computer.DS1.Add("$1", VAL.NewHostType(type));
-            Script.Execute(typeName + "=$1;", Computer.DS1);
-            Computer.DS1.Remove("$1");
+            Register(type, typeName, false);
+            //Computer.DS1.Add("$1", VAL.NewHostType(type));
+            //Script.Execute(typeName + "=$1;", Computer.DS1);
+            //Computer.DS1.Remove("$1");
             return true;
         }
 
 
-        /// <summary>
-        /// Register all types of assembly with brief/short name
-        /// </summary>
-        /// <param name="assembly"></param>
-        /// <param name="briefName"></param>
-        /// <returns></returns>
-        public static bool Register(Assembly assembly, bool briefName)
-        {
-            foreach (Type type in assembly.GetExportedTypes())
-            {
-                try
-                {
-                    if (!type.IsNestedPublic)
-                        HostType.Register(type, briefName);
-                }
-                catch (Exception)
-                {
-                    Logger.WriteLine(string.Format("{0} cannot be registed.", type.FullName));
-                    return false;
-                }
-            }
-
-            return true;
-        }
+     
 
   
         #endregion
@@ -230,12 +230,11 @@ namespace Tie
         
         #region Add Reference
 
-        //Dictionary<assembly, namespace[])
-        private static Dictionary<Assembly, List<string>> references = new Dictionary<Assembly, List<string>>();
+        private static HostReferences references = new HostReferences();
         //Dictionary<alias, namespace>
         private static Dictionary<string, string> aliases = new Dictionary<string, string>();
         //Dictionary<namespace, Assembly[]>
-        private static Dictionary<string, Assembly[]> imports = new Dictionary<string, Assembly[]>();
+        private static Dictionary<string, HostImport> imports = new Dictionary<string, HostImport>();
 
         /**
          * 
@@ -249,10 +248,15 @@ namespace Tie
         /// <param name="assembly"></param>
         public static void AddReference(Assembly assembly)
         {
-            if (references.ContainsKey(assembly))
+            if (references.IndexOf(assembly) >= 0)
                 return;
 
-            references.Add(assembly, new List<string>());
+            references.Add(assembly);
+
+            foreach (HostImport import in imports.Values)
+            {
+                import.AddReference(assembly);
+            }
         }
 
         /// <summary>
@@ -261,8 +265,15 @@ namespace Tie
         /// <param name="assembly"></param>
         public static void RemoveReference(Assembly assembly)
         {
-            if (references.ContainsKey(assembly))
+            if (references.IndexOf(assembly) >= 0)
+            {
                 references.Remove(assembly);
+                foreach (HostImport import in imports.Values)
+                {
+                    import.RemoveReference(assembly);
+                }
+            }
+
         }
 
         /// <summary>
@@ -279,9 +290,7 @@ namespace Tie
             if (imports.ContainsKey(nameSpace))
                 return;
 
-            imports.Add(nameSpace, assemblies);
-            foreach (Assembly assembly in assemblies)
-                references[assembly].Add(nameSpace);
+            imports.Add(nameSpace, new HostImport(nameSpace, references));
         }
 
         /// <summary>
@@ -313,16 +322,9 @@ namespace Tie
                 nameSpace = import;
             }
 
-
             if (imports.ContainsKey(nameSpace))
             {
-                Assembly[] assemblies = imports[nameSpace];
                 imports.Remove(nameSpace);
-
-                foreach (Assembly assembly in assemblies)
-                {
-                    references[assembly].Remove(nameSpace);
-                }
             }
                 
         }
@@ -330,7 +332,7 @@ namespace Tie
         private static Assembly[] GetAssemblyByNamespace(string ns)
         {
             List<Assembly> list = new List<Assembly>();
-            foreach (Assembly assembly in references.Keys)
+            foreach (Assembly assembly in references)
             {
                 foreach (Type type in assembly.GetExportedTypes())
                 {
@@ -343,6 +345,17 @@ namespace Tie
             }
 
             return list.ToArray();
+        }
+
+        internal static Type GetTypeByBriefName(string simpleTypeName)
+        {
+            foreach(HostImport import in imports.Values)
+            { 
+                if(import.ContainsKey(simpleTypeName))
+                    return import[simpleTypeName];
+            }
+
+            return null;
         }
 
         #endregion
@@ -365,6 +378,16 @@ namespace Tie
                 return null;
         }
 
+        internal static Type GetType(string ns, string name)
+        {
+            if (!imports.ContainsKey(ns))
+                return null;
+         
+            string typeName = ns + "." + name;
+            Type type = GetType(imports[ns].Assemblies, typeName);
+            return type;
+
+        }
       
         /// <summary>
         ///  GetType("Int32[][]")
@@ -411,7 +434,7 @@ namespace Tie
             //GetType("System.Data.DataTable");
             if (names.Length > 1 && imports.ContainsKey(ns))
             {
-                type = GetType(imports[ns], typeName);
+                type = GetType(imports[ns].Assemblies, typeName);
                 if (type != null)
                     return type;
             }
@@ -441,7 +464,7 @@ namespace Tie
                 foreach (Assembly assemby in AppDomain.CurrentDomain.GetAssemblies()) //在当前的domain中的Assembly中搜索
                     list.Add(assemby);
 #endif
-                foreach (Assembly assemby in references.Keys) //搜索referecne空间
+                foreach (Assembly assemby in references) //搜索referecne空间
                 {
                     if (list.IndexOf(assemby) < 0)
                         list.Add(assemby);
@@ -454,14 +477,14 @@ namespace Tie
             //4: simple type name
             //using System.Data;
             //GetType("DataTable");
-            foreach (KeyValuePair<string, Assembly[]> kvp in imports)
+            foreach (KeyValuePair<string, HostImport> kvp in imports)
             {
                 string import = kvp.Key;
 
                 if (!typeName.StartsWith(import))
                 {
                     string fullTypeName = import + "." + typeName;
-                    type = GetType(kvp.Value, fullTypeName);
+                    type = GetType(kvp.Value.Assemblies, fullTypeName);
                     if (type != null)
                         return type;
                 }
