@@ -41,6 +41,7 @@ namespace Tie
 
             //Import(typeof(ASCIIEncoding).Namespace);
             Import("System.Text");
+            Import("System.Reflection");
         }
 
         #region Register Type Functions
@@ -176,15 +177,15 @@ namespace Tie
                 
             }
 
-            if(briefName)
-            {
-                if(DS1.ContainsKey(type.Name))
-                {
-                    DS1[type.Name] = obj;
-                }
-                else
-                    DS1.Add(type.Name, obj);
-            }
+            //if (briefName)
+            //{
+            //    if (DS1.ContainsKey(type.Name))
+            //    {
+            //        DS1[type.Name] = obj;
+            //    }
+            //    else
+            //        DS1.Add(type.Name, obj);
+            //}
         }
 
 

@@ -133,8 +133,13 @@ namespace Tie
                 Type type = HostType.GetTypeByBriefName(ident.Ident);
                 if (type != null)
                 {
-                    DS1.Add(ident, VAL.NewHostType(type));
-                    return DS1[ident];
+                    if (readOnly)
+                        return VAL.NewHostType(type);
+                    else
+                    {
+                        DS1.Add(ident, VAL.NewHostType(type));
+                        return DS1[ident];
+                    }
                 }
             }
 

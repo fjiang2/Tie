@@ -93,6 +93,7 @@ E4 = E.ctype(ObjectArray);
 
             code = @"
                 addreference(Assembly.Load('Tie.UnitTest'));
+                //import('Tie.UnitTest');
                 A = typeof(UnitTest.VALTest).plus(20,30);
                 register(typeof(UnitTest.VALTest));
                 B = UnitTest.VALTest.plus(30,40);
