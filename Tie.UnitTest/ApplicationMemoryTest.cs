@@ -294,6 +294,7 @@ Place.StreetName 	 ""500 Airport Highway""
             HostType.Register(typeof(System.Reflection.BindingFlags));
             System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.IgnoreCase;
             device.SetValue("enum", flags);
+            device.SetValue("enum2", System.Reflection.BindingFlags.ExactBinding);
             device.SetValue("ienum", (int)flags);
 
             device.Save();

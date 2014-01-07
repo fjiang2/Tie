@@ -127,6 +127,22 @@ namespace Tie
             if (DS0.ContainsKey(ident))                        //CPU system level memory
                 return DS0[ident];
 
+
+            if (Constant.HOST_TYPE_AUTO_REGISTER)
+            {
+                Type type = HostType.GetTypeByBriefName(ident.Ident);
+                if (type != null)
+                {
+                    if (readOnly)
+                        return VAL.NewHostType(type);
+                    else
+                    {
+                        DS1.Add(ident, VAL.NewHostType(type));
+                        return DS1[ident];
+                    }
+                }
+            }
+
             if (readOnly)
                 return new VAL();
 
