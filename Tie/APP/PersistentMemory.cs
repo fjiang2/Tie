@@ -200,13 +200,13 @@ namespace Tie
             VAL v = get(variable);
 
 
-            if (v.Undefined || v.IsNull)
-            {
-                return null;
-            }
-            else if (type == typeof(VAL))
+            if (type == typeof(VAL))
             {
                 return v;
+            }
+            else if(v.Undefined || v.IsNull)
+            {
+                return null;
             }
             else
             {
