@@ -283,7 +283,7 @@ namespace Tie
             }
             else if (host is Type)
             {
-                val = VAL.NewScriptType(string.Format("typeof({0})", HostGenericType.FullName((Type)host)));
+                val = VAL.NewScriptType(string.Format("typeof({0})", new HostType(host).FullName));
             }
             else if (host.GetType().IsEnum)            //处理enum常量
             {
