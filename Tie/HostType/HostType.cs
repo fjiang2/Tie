@@ -27,7 +27,7 @@ namespace Tie
     /// <summary>
     /// Represent .NET object Type
     /// </summary>
-    public class HostType
+    public partial class HostType
     {
         static HostType()
         {
