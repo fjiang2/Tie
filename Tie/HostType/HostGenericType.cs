@@ -26,7 +26,23 @@ namespace Tie
             get { return this.type; } 
         }
 
+        public string[] Namespace
+        {
+            get
+            {
+                return type.Namespace.Split(new char[] { '.' });
+            }
+        }
+
         public string FullName
+        {
+            get
+            {
+                return type.Namespace + "." + type.Name;
+            }
+        }
+
+        public string TypeName
         {
             get
             {
@@ -68,7 +84,7 @@ namespace Tie
 
         public override string ToString()
         {
-            return FullName;
+            return TypeName;
         }
     }
 }
