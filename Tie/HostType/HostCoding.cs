@@ -115,7 +115,7 @@ namespace Tie
             return args;
         }
 
-        internal static object[] ConstructorArguments(VAL args)
+        public static object[] ConstructorArguments(VAL args)
         {
             if (args.Size > 0)
                 return args.List.ObjectArray;
@@ -127,45 +127,30 @@ namespace Tie
 
         public static string Encode(object host, bool persistent)
         {
-            Type type;
-            if (host is MethodInfo)
-            {
-                MethodInfo methodInfo = (MethodInfo)host;
-                if(methodInfo.IsStatic)
-                    return methodInfo.ReflectedType.FullName + "." + methodInfo.Name;
-                else
-                    return methodInfo.Name;
-            }
-            else if (host is Type)
-            {
-                type = (Type)host;
-                return string.Format("typeof({0})", type.FullName);
-            }
-            else
-                type = host.GetType();
-
-            if (type.IsEnum)            //处理enum常量
-                return HostOperation.EnumBitFlags(host);
-
-            if (host is DateTime)
-                return string.Format("new {0}({1})", typeof(DateTime).FullName, ((DateTime)host).Ticks);
-                
-
             VAL val = HostValization.Host2Val(host);
             if (persistent)
                 return val.Valor;
-            else
-            {
-                //default contructor      
-                if (GenericType.HasContructor(type, new Type[] { }))
-                     return string.Format("new {0}()", type.FullName);   //有缺省的constructor
 
-                if (type.FullName == host.ToString())
-                    return string.Format("new {0}(...)", type.FullName);
+
+            if (host is MethodInfo)
+            {
+                //TODO: not finished yet
+                MethodInfo methodInfo = (MethodInfo)host;
+                if (methodInfo.IsStatic)
+                    return string.Format("{0} {1}.{2}()", methodInfo.ReturnType.Name, methodInfo.ReflectedType.FullName, methodInfo.Name);
                 else
-                    return string.Format("new {0}({1})", type.FullName, host);
+                    return string.Format("{0} {1}()", methodInfo.ReturnType.Name, methodInfo.Name); 
             }
-    }
+
+            Type type = GenericType.GetHostType(host);
+
+            //default contructor      
+            if (GenericType.HasContructor(type, new Type[] { }))
+                return string.Format("new {0}()", type.FullName);   //有缺省的constructor
+            else
+                return val.Valor;
+
+        }
 
 
         #endregion
