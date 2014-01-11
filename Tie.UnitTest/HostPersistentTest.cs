@@ -18,8 +18,8 @@ namespace UnitTest
     
     class HostDemoClass1
     {
-        public int a;
-        public int b;
+        public int a { get; set; }
+        public int b { get; set; }
 
         public HostDemoClass1()
         {
@@ -30,8 +30,8 @@ namespace UnitTest
 
     class HostDemoClass2 : IValizable
     {
-        public int a;
-        public int b;
+        public int a { get; set; }
+        public int b { get; set; }
 
         public HostDemoClass2(int a, int b)
         {
@@ -57,11 +57,11 @@ namespace UnitTest
 
     class HostDemoClass
     {
-        public HostDemoClass1 class1;
-        public HostDemoClass2 class2;
+        public HostDemoClass1 class1 { get; set; }
+        public HostDemoClass2 class2 { get; set; }
 
-        public HostEnum he = HostEnum.Desktop; 
-        public int a;
+        public HostEnum he = HostEnum.Desktop;
+        public int a { get; set; }
         
         [NonValized]  public string b;
         
@@ -73,8 +73,8 @@ namespace UnitTest
         private Color color1;
 
 
-        // [Valizable("this.GetType().FullName + '.' + this.Name")]            //System.Drawing.Color.Red
-        [Valizable]
+        [Valizable("this.GetType().FullName + '.' + this.Name")]            //System.Drawing.Color.Red
+        //[Valizable]
         public Color Color1
         {
             get
@@ -88,17 +88,17 @@ namespace UnitTest
         }
 
         //[Valizable("this.GetType().FullName + '.' + (this.Name=='0'?'Black':this.Name)")]            //System.Drawing.Color.Red
-        public Color color2;
+        public Color color2 { get; set; }
 
         [Valizable("this.GetType().FullName + '.' + this.Name")]            //System.Drawing.Color.Red
         public Color color3;
 
 
         [Valizable("{Text: this.Text}")]
-        public TextBox textBox1;
+        public TextBox textBox1 { get; set; }
 
         [Valizable(new string[] { "Text", "ReadOnly", "Visible", "Font" })]
-        public TextBox textBox2;
+        public TextBox textBox2;// { get; set; }
 
         [Valizable]
         public string B
@@ -113,8 +113,8 @@ namespace UnitTest
             }
         }
 
-        public Rectangle rect;
-        public Guid guid;
+        public Rectangle rect { get; set; }
+        public Guid guid { get; set; }
 
 
         public HostDemoClass()
@@ -156,11 +156,18 @@ namespace UnitTest
             DS.Add("v", v);
             VAL val = Script.Evaluate("v.classof()", DS);
             VAL valable = Script.Evaluate("v.valize()", DS);
+            
             VAL font = val["textBox2"]["Font"];
+            Debug.Assert(font.HostValue is Font && ((Font)font.HostValue).Name == "MS Gothic");
+
             string fontString = font.Valor;
             VAL fontStyle = font["Style"];
+            Debug.Assert(fontStyle.HostValue is FontStyle && (FontStyle)fontStyle.HostValue == (FontStyle.Bold | FontStyle.Italic));
+
             string fontStyleString = fontStyle.Valor;
             VAL fontUnit = font["Unit"];
+            Debug.Assert(fontUnit.HostValue is GraphicsUnit && (GraphicsUnit)fontUnit.HostValue == GraphicsUnit.Point);
+
             string fontUnitString = fontUnit.Valor;
 
             VAL xxx = v.GetValData();
@@ -171,14 +178,17 @@ namespace UnitTest
 
             string size = VAL.Boxing(new Size(200, 300)).Valor;
 
+            HostType.Register(typeof(Color));
+
             VAL p = Script.Evaluate(persistent);
             VAL j = Script.Evaluate(json);
-            System.Diagnostics.Debug.Assert(p.Valor == j.Valor);
+            Debug.Assert(p.Valor == j.Valor);
 
             p["a"] = new VAL(1000);
             p["Color1"] = VAL.Boxing(Color.SaddleBrown);
             p["textBox1"]["Visible"] = new VAL(false);
-            HostDemoClass obj = (HostDemoClass)HostType.NewInstance(p, new object[]{}); 
+            HostDemoClass obj = (HostDemoClass)HostType.NewInstance(p, new object[]{});
+            Debug.Assert(obj is HostDemoClass);
         
 
             //HOST类型的可变参数不支持

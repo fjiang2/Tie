@@ -153,7 +153,7 @@ namespace Tie
             }
             else if (val.ty == VALTYPE.hostcon)
             {
-                val = HostValization.Host2Valor(val.value);
+                val = HostValization.Host2Val(val.value);
                 if (val.ty == VALTYPE.listcon)
                     o.Write(ToJson(val, "", tab, fmt));
                 else
