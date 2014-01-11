@@ -68,13 +68,13 @@ namespace UnitTest
         public double d;
         public DateTime e;
 
+        [Valizable]
         public int[] Array;
 
         private Color color1;
 
 
         [Valizable("this.GetType().FullName + '.' + this.Name")]            //System.Drawing.Color.Red
-        //[Valizable]
         public Color Color1
         {
             get
@@ -156,7 +156,8 @@ namespace UnitTest
             DS.Add("v", v);
             VAL val = Script.Evaluate("v.classof()", DS);
             VAL valable = Script.Evaluate("v.valize()", DS);
-            
+            Debug.Assert(val["Array"].ToSimpleString() == "1,2,3,4");
+
             VAL font = val["textBox2"]["Font"];
             Debug.Assert(font.HostValue is Font && ((Font)font.HostValue).Name == "MS Gothic");
 

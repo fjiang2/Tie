@@ -22,28 +22,18 @@ using System.IO;
 
 namespace Tie
 {
-    [Flags]
-    enum ExportFormat
-    {
-        QuestionMark = 0x01,        //write question mark
-        WellFormatted = 0x02,       //well-formatted, indent and new line
-        EncodeTypeof = 0x04         //write typeof on the class
-    }
-
     class Serializer
     {
-        public static string ToXml(VAL val, string tag, ExportFormat fmt)
+        public static string ToXml(VAL val, string tag, OutputType fmt)
         {
             return ToXML(val, tag, 0, fmt);
         }
 
 
-        private static string ToXML(VAL val, string tag, int tab, ExportFormat fmt)
+        private static string ToXML(VAL val, string tag, int tab, OutputType fmt)
         {
 
-            //bool quotationMark = (fmt & ExportFormat.QuestionMark) == ExportFormat.QuestionMark;
-            bool formatted = (fmt & ExportFormat.WellFormatted) == ExportFormat.WellFormatted;
-            //bool encodeTypeof = (fmt & ExportFormat.EncodeTypeof) == ExportFormat.EncodeTypeof;
+            bool formatted = (fmt & OutputType.WellFormatted) == OutputType.WellFormatted;
 
             StringWriter o = new StringWriter();
             if (val.IsAssociativeArray())
@@ -73,7 +63,7 @@ namespace Tie
             else
             {
                 o.Write(Indent(tab, formatted)); o.Write("<" + tag + ">"); 
-                o.Write(XmlString(val.ToString2())); 
+                o.Write(XmlString(val.ToSimpleString())); 
                 o.Write("</" + tag + ">");
                 if (formatted) o.WriteLine();
             }
@@ -85,7 +75,7 @@ namespace Tie
 
 
 
-        public static string ToJson(VAL val, string tag,  ExportFormat fmt)
+        public static string ToJson(VAL val, string tag, OutputType fmt)
         {
             if(tag==null || tag=="")
                 return ToJson(val, "", 0, fmt);
@@ -94,14 +84,14 @@ namespace Tie
         }
 
 
-        private static string ToJson(VAL val, string tag, int tab, ExportFormat fmt)
+        private static string ToJson(VAL val, string tag, int tab, OutputType fmt)
         {
         
             StringWriter o = new StringWriter();
 
-            bool quotationMark = (fmt & ExportFormat.QuestionMark) == ExportFormat.QuestionMark;
-            bool formatted = (fmt & ExportFormat.WellFormatted) == ExportFormat.WellFormatted;
-            bool encodeTypeof = (fmt & ExportFormat.EncodeTypeof) == ExportFormat.EncodeTypeof;
+            bool quotationMark = (fmt & OutputType.QuotationMark) == OutputType.QuotationMark;
+            bool formatted = (fmt & OutputType.WellFormatted) == OutputType.WellFormatted;
+            bool encodeTypeof = (fmt & OutputType.Typeof) == OutputType.Typeof;
 
             o.Write(Indent(tab, formatted));
             if (tag != "")

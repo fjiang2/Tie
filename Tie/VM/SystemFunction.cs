@@ -601,7 +601,7 @@ namespace Tie
         {
             StringWriter o = new StringWriter();
             for (int i = 0; i < L.Size; i++)
-                o.Write(L[i].ToString2());
+                o.Write(L[i].ToSimpleString());
 
             Logger.WriteLine(o.ToString());
             return new VAL(L);   //return void
@@ -613,7 +613,7 @@ namespace Tie
             o.Write(System.DateTime.Now);
             o.Write(" ");
             for (int i = 0; i < L.Size; i++)
-                o.Write(L[i].ToString2());
+                o.Write(L[i].ToSimpleString());
 
             Logger.WriteLine(o.ToString());
             return new VAL(L);   //return void
@@ -630,7 +630,7 @@ namespace Tie
                 if (L[i].ty != VALTYPE.listcon)
                     args[i - 1] = L[i].value;  //use C# string.format string control
                 else
-                    args[i - 1] = L[i].ToString2();
+                    args[i - 1] = L[i].ToSimpleString();
 
             string s = string.Format(fmt, args);
             return new VAL(s);
