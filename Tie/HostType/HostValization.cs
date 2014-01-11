@@ -43,20 +43,6 @@ namespace Tie
      * 
      *  .NET class FullName 作为VAL List的Class值
      * 
-     * 
-     *  paths:
-     *                Host2Valor()              Val2Val()           Val2Host()
-     *        Host   ------------->     Valor   -------->    VAL    ---------->    Host
-     *
-     * 
-     *                               Host2Val() 
-     *        Host -------------------------------------->   VAL       
-     * 
-     *                                                   Valor2Host()
-     *                                  Valor   ------------------------------>    Host         
-     * 
-     * 
-     * 
      * */
 
  
@@ -260,16 +246,21 @@ namespace Tie
          * */
         private static VAL Host2Val(object host, VAL val)
         {
-            if (host == null || host is System.DBNull)
+            if (host == null)
             {
                 val = new VAL();
+                return val;
             }
-            else if (host is string || host is char 
-                || host is byte
-                || host is int || host is short || host is long 
-                || host is bool 
-                || host is double || host is float || host is decimal
-                || host is DateTime)
+
+            Type type = host.GetType();
+
+            if (host is string || type.IsPrimitive
+                //|| host is char 
+                //|| host is byte
+                //|| host is int || host is short || host is long 
+                //|| host is bool 
+                //|| host is double || host is float || host is decimal
+                )
             {
                 val = VAL.Boxing1(host);
             }
@@ -285,14 +276,18 @@ namespace Tie
             {
                 val = VAL.NewScriptType(string.Format("typeof({0})", new GenericType(host).TypeName));
             }
-            else if (host.GetType().IsEnum)            //处理enum常量
+            else if (type.IsEnum)            //处理enum常量
             {
                 val = VAL.NewScriptType(HostOperation.EnumBitFlags(host));
             }
-            else if (ValizationMgr.IsRegistered(host.GetType()))
+            else if (host is System.DBNull)
+            {
+                val = new VAL();
+            }
+            else if (ValizationMgr.IsRegistered(type))
             {
                 VAL temp = ValizationMgr.Valize(host);
-                temp.Class = host.GetType().FullName;
+                temp.Class = type.FullName;
                 return temp;
             }
             else if (host is ICollection)
@@ -308,8 +303,8 @@ namespace Tie
                 HostOffset2Val(host, val);
             }
 
-            val.Type = host.GetType();
-            val.Class = host.GetType().FullName;
+            val.Type = type;
+            val.Class = type.FullName;
             return val;
         }
 

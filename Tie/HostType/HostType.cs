@@ -42,6 +42,12 @@ namespace Tie
             //Import(typeof(ASCIIEncoding).Namespace);
             Import("System.Text");
             Import("System.Reflection");
+
+            Valizer.Register<DateTime>(delegate(DateTime d)
+                {
+                    return new VAL(string.Format("new DateTime({0},{1},{2},{3},{4},{5})", d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second));
+                }
+            );
         }
 
         #region Register Type Functions
