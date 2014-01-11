@@ -99,18 +99,18 @@ namespace Tie.Helper
 
                 case "lowercase":
                     if (size == 1)
-                        return new VAL(L0.ToString2().ToLower());
+                        return new VAL(L0.ToSimpleString().ToLower());
                     break;
                 case "uppercase":
                     if (size == 1)
-                        return new VAL(L0.ToString2().ToUpper());
+                        return new VAL(L0.ToSimpleString().ToUpper());
                     break;
 
                 case "substring":
                     if (size == 2 && L0.ty == VALTYPE.stringcon && L1.ty == VALTYPE.intcon)
-                        return new VAL(L0.ToString2().Substring(L1.Intcon));
+                        return new VAL(L0.ToSimpleString().Substring(L1.Intcon));
                     if (size == 3 && L0.ty == VALTYPE.stringcon && L1.ty == VALTYPE.intcon && L2.ty == VALTYPE.intcon)
-                        return new VAL(L0.ToString2().Substring(L1.Intcon, L2.Intcon));
+                        return new VAL(L0.ToSimpleString().Substring(L1.Intcon, L2.Intcon));
                     break;
 
                 case "Date":

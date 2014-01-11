@@ -136,8 +136,8 @@ namespace Tie
 
         private string ToJson(VAL val)
         {
-            return val.ToJson("", ExportFormat.QuestionMark);
-            //return val.ToJson("", ExportFormat.QuestionMark | ExportFormat.EncodeTypeof);
+            return val.ToJson("", OutputType.QuotationMark);
+            //return val.ToJson("", ExportFormat.QuotationMark | ExportFormat.EncodeTypeof);
         }
 
         /// <summary>
