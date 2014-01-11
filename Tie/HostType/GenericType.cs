@@ -4,22 +4,23 @@ using System.Text;
 
 namespace Tie
 {
-    public partial class HostType
+    class GenericType
     {
         Type type;
 
-        public HostType(Type type)
+        public GenericType(Type type)
         {
             this.type = type;
         }
 
-        public HostType(object obj)
+        public GenericType(object obj)
         {
             if (obj is Type)
                 this.type = (Type)obj;
             else
                 this.type = obj.GetType();
         }
+
 
         public Type Type 
         { 
@@ -85,6 +86,64 @@ namespace Tie
         public override string ToString()
         {
             return TypeName;
+        }
+
+
+        //已经host值,来判断是static or not
+        internal static Type GetHostType(object host)
+        {
+            if (host is Type)
+                return (Type)host;
+            else
+                return host.GetType();
+        }
+
+
+        internal static bool HasInterface(Type clss, Type interfce)
+        {
+            if (!interfce.IsInterface)
+                return false;
+
+            Type[] I = clss.GetInterfaces();
+            foreach (Type i in I)
+            {
+                if (i == interfce)
+                    return true;
+            }
+
+            return false;
+
+        }
+
+        /// <summary>
+        /// allow to convert like: 
+        ///     TargetType y = (HostType)x;
+        /// </summary>
+        /// <param name="hostType"></param>
+        /// <param name="targetType"></param>
+        /// <returns></returns>
+        internal static bool IsCompatibleType(Type hostType, Type targetType)
+        {
+            if (hostType == targetType)
+                return true;
+
+            //base class
+            if (hostType.IsSubclassOf(targetType))
+                return true;
+
+            //Nullable<T>
+            if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                return IsCompatibleType(hostType, targetType.GetGenericArguments()[0]);
+
+            //interface
+            if (HasInterface(hostType, targetType))
+                return true;
+
+            //enum
+            if (hostType.IsEnum && targetType == typeof(int) || targetType.IsEnum && hostType == typeof(int))
+                return true;
+
+            return false;
         }
     }
 }

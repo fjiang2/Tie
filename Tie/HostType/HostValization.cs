@@ -85,11 +85,11 @@ namespace Tie
                 return val;
 
             object host = val.HostValue;
-            if (HostType.IsCompatibleType(host.GetType(), type))
+            if (GenericType.IsCompatibleType(host.GetType(), type))
                 return host;
 
             object temp = ValizationMgr.Devalize(val, type);
-            if (temp != null && HostType.IsCompatibleType(temp.GetType(),type))
+            if (temp != null && GenericType.IsCompatibleType(temp.GetType(), type))
                  return temp;
             else
             {
@@ -283,7 +283,7 @@ namespace Tie
             }
             else if (host is Type)
             {
-                val = VAL.NewScriptType(string.Format("typeof({0})", new HostType(host).TypeName));
+                val = VAL.NewScriptType(string.Format("typeof({0})", new GenericType(host).TypeName));
             }
             else if (host.GetType().IsEnum)            //处理enum常量
             {

@@ -6,6 +6,7 @@ using Tie;
 using System.IO;
 using System.Diagnostics;
 using System.IO.Ports;
+using Tie.Helper;
 
 namespace UnitTest
 {
@@ -87,11 +88,11 @@ namespace UnitTest
             Valizer.Register<Guid>(delegate(Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
-                    return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
+                    return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                 },
                 delegate(VAL val)
                 {
-                    byte[] bytes = HostType.HexStringToByteArray(val.Str);
+                    byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                     return new Guid(bytes);
                 }
          );

@@ -14,11 +14,11 @@ namespace Tie.Helper
             Valizer.Register<byte[]>(
                  delegate(byte[] bytes)
                  {
-                     return new VAL("\"" + HostType.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
+                     return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                  },
                  delegate(VAL val)
                  {
-                     byte[] bytes = HostType.HexStringToByteArray(val.Str);
+                     byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                      return bytes;
                  }
             );
@@ -116,11 +116,11 @@ namespace Tie.Helper
             Valizer.Register<Guid>(delegate(Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
-                    return new VAL("\""+HostType.ByteArrayToHexString(bytes)+"\"");     //because this is a string, need quotation marks ""
+                    return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                 },
                 delegate(VAL val)
                 {
-                    byte[] bytes = HostType.HexStringToByteArray(val.Str); 
+                    byte[] bytes = Serialization.HexStringToByteArray(val.Str); 
                     return new Guid(bytes);
                 }
             );

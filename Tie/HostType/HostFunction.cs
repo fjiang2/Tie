@@ -342,7 +342,7 @@ namespace Tie
         //查找method,根据函数名,函数返回类型和参数
         public static MethodInfo methodof(object host, Type returnType, string methodName, Type[] arguments)
         {
-            Type ty = HostType.GetHostType(host);
+            Type ty = GenericType.GetHostType(host);
 
             MemberInfo[] members = ty.GetMember(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
             foreach (MemberInfo member in members)
@@ -399,7 +399,7 @@ namespace Tie
 
         private static PropertyInfo getproperty(object host, Type returnType, string propertyName)
         {
-            Type ty = HostType.GetHostType(host);
+            Type ty = GenericType.GetHostType(host);
 
             if (returnType == null)
                 return ty.GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);

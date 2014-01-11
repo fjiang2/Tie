@@ -27,7 +27,7 @@ namespace Tie
     /// <summary>
     /// Represent .NET object Type
     /// </summary>
-    public partial class HostType
+    public sealed class HostType
     {
         static HostType()
         {
@@ -727,106 +727,7 @@ namespace Tie
 
 
 
-        #region Hex <---> String
-
-        /// <summary>
-        /// Utility function:
-        ///     conver string into byte array
-        /// </summary>
-        /// <param name="hexString"></param>
-        /// <returns></returns>
-        public static byte[] HexStringToByteArray(String hexString)
-        {
-            int numberChars = hexString.Length;
-            byte[] bytes = new byte[numberChars / 2];
-            for (int i = 0; i < numberChars; i += 2)
-            {
-                bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
-            }
-
-            return bytes;
-        }
-
-        /// <summary>
-        /// Utility function:
-        ///     convert byte array into string
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
-        public static string ByteArrayToHexString(byte[] bytes)
-        {
-            char[] c = new char[bytes.Length * 2];
-            byte b;
-            for (int i = 0; i < bytes.Length; ++i)
-            {
-                b = ((byte)(bytes[i] >> 4));
-                c[i * 2] = (char)(b > 9 ? b + 0x37 : b + 0x30);
-
-                b = ((byte)(bytes[i] & 0xF));
-                c[i * 2 + 1] = (char)(b > 9 ? b + 0x37 : b + 0x30);
-            }
-
-            return new string(c);
-        }
-
-
-        #endregion
-
-        //已经host值,来判断是static or not
-        internal static Type GetHostType(object host)
-        {
-            if (host is Type)
-                return (Type)host;
-            else
-                return host.GetType();
-        }
-
-
-        internal static bool HasInterface(Type clss, Type interfce)
-        {
-            if (!interfce.IsInterface)
-                return false;
-
-            Type[] I = clss.GetInterfaces();
-            foreach (Type i in I)
-            {
-                if (i == interfce)
-                    return true;
-            }
-
-            return false;
-
-        }
-
-        /// <summary>
-        /// allow to convert like: 
-        ///     TargetType y = (HostType)x;
-        /// </summary>
-        /// <param name="hostType"></param>
-        /// <param name="targetType"></param>
-        /// <returns></returns>
-        internal static bool IsCompatibleType(Type hostType, Type targetType)
-        {
-            if (hostType == targetType)
-                return true;
-
-            //base class
-            if (hostType.IsSubclassOf(targetType))
-                return true;
-
-            //Nullable<T>
-            if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                return IsCompatibleType(hostType, targetType.GetGenericArguments()[0]);
-
-            //interface
-            if (HostType.HasInterface(hostType, targetType))
-                return true;
-
-            //enum
-            if (hostType.IsEnum && targetType == typeof(int) || targetType.IsEnum && hostType == typeof(int))
-                return true;
-
-            return false;
-        }
+     
+      
     }
 }

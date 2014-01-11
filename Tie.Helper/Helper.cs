@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Tie.Helper
 {
@@ -11,5 +12,8 @@ namespace Tie.Helper
             Script.FunctionChain.Add(PrimitiveType.functions);
             Valization.Register();
         }
+
+
+    
     }
 }
