@@ -530,7 +530,7 @@ namespace Tie
 
                         if (L0.ty == VALTYPE.hostcon && L1.ty == VALTYPE.stringcon)
                         {
-                            Type ty = HostType.GetHostType(host);
+                            Type ty = GenericType.GetHostType(host);
                             FieldInfo fieldInfo = ty.GetField((string)L1.value, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
                             if(fieldInfo == null)
                                 throw new RuntimeException(position, string.Format("Invalid field name: {0}.{1}", ty.FullName, L1.value));
