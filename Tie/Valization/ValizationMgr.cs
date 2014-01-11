@@ -132,8 +132,24 @@ namespace Tie.Valization
             ValizableAttribute[] attributes = (ValizableAttribute[])method.GetCustomAttributes(typeof(ValizableAttribute), true);
             if (attributes.Length != 0)
             {
-                if (attributes[0].valizer != null)      //Field或者Property定义了[Valizable]属性,并且定义了customerized
-                    return (new ScriptValization((string)attributes[0].valizer, null)).Valize(host);
+                object valizer = attributes[0].valizer;
+
+                if (valizer != null)      //Field或者Property定义了[Valizable]属性,并且定义了customerized
+                {
+
+                    if (valizer is string)
+                    {
+                        ScriptValization x = new ScriptValization((string)valizer, null);
+                        return x.Valize(host);
+                    }
+                    else if (valizer is string[])
+                    {
+                        PropertyValization x = new PropertyValization((string[])valizer);
+                        return x.Valize(host);
+                    }
+                    else
+                        throw new TieException("not supported Valizer: {0}", valizer);
+                }
             }
 
             return Valize(host);

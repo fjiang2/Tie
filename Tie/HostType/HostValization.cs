@@ -258,7 +258,7 @@ namespace Tie
          * public 变量, 缺省情况下不转为VAL, 除非设置[Valizable]属性, 只存储简单的属性, 有下标的属性,不考虑
          * 
          * */
-        private static VAL Host2Valor(object host, VAL val)
+        private static VAL Host2Val(object host, VAL val)
         {
             if (host == null || host is System.DBNull)
             {
@@ -300,7 +300,7 @@ namespace Tie
                 val = VAL.Array();
                 foreach (object a in (ICollection)host)
                 {
-                    val.Add(Host2Valor(a, new VAL()));
+                    val.Add(Host2Val(a, new VAL()));
                 }
             }
             else
@@ -315,7 +315,7 @@ namespace Tie
 
         private static void HostOffset2Val(object host, VAL val)
         {
-            FieldInfo[] fields = host.GetType().GetFields(BindingFlags.Instance);
+            FieldInfo[] fields = host.GetType().GetFields();
             foreach (FieldInfo fieldInfo in fields)
             {
                 //Field缺省不转换为VAL 除非设置ValizableAttribute属性
@@ -332,7 +332,7 @@ namespace Tie
                     persistent = VAL.Boxing(fieldValue);
                     if (!fieldInfo.FieldType.IsValueType && persistent.IsHostType)
                     {
-                        persistent = Host2Valor(fieldValue, new VAL());
+                        persistent = Host2Val(fieldValue, new VAL());
                     }
                 }
 
@@ -379,7 +379,7 @@ namespace Tie
                         persistent = VAL.Boxing(propertyValue);
                         if (!propertyInfo.PropertyType.IsValueType && persistent.IsHostType)
                         {
-                            persistent = Host2Valor(propertyValue, new VAL());
+                            persistent = Host2Val(propertyValue, new VAL());
                         }
                     }
                 }
@@ -396,31 +396,16 @@ namespace Tie
         }
 
         //用来输出Persistent对象的,不能回填到函数Val2Host(VAL, object)中, 回填要使用Host2Val(object)的输出
-        public static VAL Host2Valor(object host)
+        public static VAL Host2Val(object host)
         {
             VAL val = new VAL();
             if (host == null)
                 return val;
 
-            return Host2Valor(host, val);
+            return Host2Val(host, val);
         }
 
-        public static VAL Valor2Val(VAL valor)
-        {
-            return Script.Evaluate(valor.Valor);
-        }
 
-        public static VAL Host2Val(object host)
-        {
-            VAL valor = Host2Valor(host);
-            return Valor2Val(valor);
-        }
-
-        public static object Valor2Host(VAL valor, object host)
-        {
-            VAL val = Valor2Val(valor);
-            return Val2HostOffset(val, host);
-        }
-    
+        
     }
 }

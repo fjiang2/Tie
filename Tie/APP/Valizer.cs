@@ -113,7 +113,7 @@ namespace Tie
         /// <returns></returns>
         public static VAL Valize(object obj)
         {
-            VAL val = HostValization.Host2Valor(obj);
+            VAL val = HostValization.Host2Val(obj);
             return val;
         }
 

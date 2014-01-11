@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
 
 namespace Tie
 {
@@ -90,7 +91,7 @@ namespace Tie
 
 
         //已经host值,来判断是static or not
-        internal static Type GetHostType(object host)
+        public static Type GetHostType(object host)
         {
             if (host is Type)
                 return (Type)host;
@@ -99,7 +100,31 @@ namespace Tie
         }
 
 
-        internal static bool HasInterface(Type clss, Type interfce)
+
+        public static bool HasContructor(Type clss, Type[] arguments)
+        {
+            ConstructorInfo[] constructors = clss.GetConstructors();
+            foreach (ConstructorInfo constructorInfo in constructors)
+            {
+                ParameterInfo[] parameters = constructorInfo.GetParameters();
+                if (parameters.Length == arguments.Length)
+                {
+                    int count = 0;
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        if (parameters[i].ParameterType == arguments[i])
+                            count++;
+                    }
+
+                    if (count == arguments.Length)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool HasInterface(Type clss, Type interfce)
         {
             if (!interfce.IsInterface)
                 return false;
@@ -122,7 +147,7 @@ namespace Tie
         /// <param name="hostType"></param>
         /// <param name="targetType"></param>
         /// <returns></returns>
-        internal static bool IsCompatibleType(Type hostType, Type targetType)
+        public static bool IsCompatibleType(Type hostType, Type targetType)
         {
             if (hostType == targetType)
                 return true;

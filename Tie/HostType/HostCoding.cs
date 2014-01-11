@@ -151,13 +151,13 @@ namespace Tie
                 return string.Format("new {0}({1})", typeof(DateTime).FullName, ((DateTime)host).Ticks);
                 
 
-            VAL val = HostValization.Host2Valor(host);
+            VAL val = HostValization.Host2Val(host);
             if (persistent)
                 return val.Valor;
             else
             {
                 //default contructor      
-                if (HostCoding.HasContructor(type, new Type[]{}))
+                if (GenericType.HasContructor(type, new Type[] { }))
                      return string.Format("new {0}()", type.FullName);   //有缺省的constructor
 
                 if (type.FullName == host.ToString())
@@ -341,29 +341,6 @@ namespace Tie
 
 
       
-
-        public static bool HasContructor(Type clss, Type[] arguments)
-        {
-            ConstructorInfo[] constructors = clss.GetConstructors();
-            foreach (ConstructorInfo constructorInfo in constructors)
-            {
-                ParameterInfo[] parameters = constructorInfo.GetParameters();
-                if (parameters.Length == arguments.Length)
-                {
-                    int count = 0;
-                    for (int i = 0; i < parameters.Length; i++ )
-                    {
-                        if (parameters[i].ParameterType == arguments[i])
-                            count++;
-                    }
-                    
-                    if (count == arguments.Length)
-                        return true;
-                }
-            }
-
-            return false;
-        }
 
      
     }
