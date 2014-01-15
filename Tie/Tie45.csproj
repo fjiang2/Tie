@@ -78,8 +78,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>tie.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Tie.ico</ApplicationIcon>
@@ -169,6 +168,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tie.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tie.pfx" />
+    <None Include="tie.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
