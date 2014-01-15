@@ -34,6 +34,7 @@ namespace UnitTest
                  delegate(ContainerControl form)
                  {
                      VAL val = new VAL();
+                     val["BackColor"] = Valizer.Valize(form.BackColor);
                      foreach (Control control in form.Controls)
                      {
                          val.Add(control.Name, Valizer.Valize(control));
@@ -42,6 +43,9 @@ namespace UnitTest
                  },
                 delegate(ContainerControl form, VAL val)
                 {
+                    if (val["BackColor"].Defined)
+                        form.BackColor = Valizer.Devalize<Color>(val["BackColor"]);
+
                     foreach (Control control in form.Controls)
                     {
                         if (val[control.Name].Defined)

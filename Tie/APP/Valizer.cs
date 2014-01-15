@@ -160,6 +160,12 @@ namespace Tie
             return HostValization.Val2Host(val, null, type);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static object Devalize(VAL val, object obj)
         {
             if (obj == null)

@@ -185,7 +185,12 @@ namespace Tie
         /// <returns></returns>
         public T GetValue<T>(string variable)
         {
-            return (T)GetValue(variable, typeof(T));
+            object obj = GetValue(variable, typeof(T));
+            
+            if (obj == null)
+                return default(T);
+            else
+                return (T)obj;
         }
 
 
