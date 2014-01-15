@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{73B981E6-3FC5-411E-92A6-1CFC78B4F983}</ProjectGuid>
+    <ProjectGuid>{0FAD3400-65A1-458F-9280-89925A6F7731}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tie</RootNamespace>
@@ -15,7 +15,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>
@@ -39,28 +39,27 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\Net40\</OutputPath>
-    <BaseIntermediateOutputPath>obj\Debug\Net4\</BaseIntermediateOutputPath>
-    <DefineConstants>TRACE;DEBUG;TIE4</DefineConstants>
+    <OutputPath>bin\Debug\Net20\</OutputPath>
+	<BaseIntermediateOutputPath>obj\Debug\Net20\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Net40\Tie.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Net20\Tie.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\Net40\</OutputPath>
-    <BaseIntermediateOutputPath>obj\Release\Net4\</BaseIntermediateOutputPath>
+    <OutputPath>bin\Release\Net20\</OutputPath>
+	<BaseIntermediateOutputPath>obj\Release\Net20\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Net40\Tie.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Net20\Tie.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Basic|AnyCPU'">
     <OutputPath>bin\Basic\</OutputPath>
@@ -82,69 +81,72 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APP\Coding.cs" />
-    <Compile Include="APP\IValizer.cs" />
     <Compile Include="APP\PersistentMemory.cs" />
+    <Compile Include="APP\Coding.cs" />
     <Compile Include="APP\Valizer.cs" />
-    <Compile Include="Compiler\CodeGeneration.cs" />
     <Compile Include="Compiler\Compiler.cs" />
     <Compile Include="Compiler\CompilingException.cs" />
-    <Compile Include="Compiler\Error.cs" />
-    <Compile Include="Compiler\Expression.cs" />
-    <Compile Include="Compiler\Instruction.cs" />
-    <Compile Include="Compiler\Library.cs" />
-    <Compile Include="Compiler\Logger.cs" />
-    <Compile Include="Compiler\Module.cs" />
+    <Compile Include="Compiler\CodeGeneration.cs" />
     <Compile Include="Compiler\Numeric.cs" />
+    <Compile Include="Compiler\Logger.cs" />
     <Compile Include="Compiler\Operand.cs" />
     <Compile Include="Compiler\Position.cs" />
     <Compile Include="Compiler\SymbolTable.cs" />
-    <Compile Include="Compiler\Token.cs" />
     <Compile Include="HostType\DynamicDelegate.cs" />
     <Compile Include="HostType\GenericArgument.cs" />
     <Compile Include="HostType\GenericArguments.cs" />
-    <Compile Include="HostType\GenericType.cs" />
     <Compile Include="HostType\HostCoding.cs" />
     <Compile Include="HostType\HostFunction.cs" />
+    <Compile Include="HostType\GenericType.cs" />
     <Compile Include="HostType\HostImport.cs" />
     <Compile Include="HostType\HostOperation.cs" />
-    <Compile Include="HostType\HostTypeException.cs" />
     <Compile Include="HostType\HostValization.cs" />
+    <Compile Include="HostType\HostTypeException.cs" />
+    <Compile Include="VM\VAR.cs" />
     <Compile Include="HostType\PersistentAttribute.cs" />
     <Compile Include="HostType\Tuple.cs" />
+    <Compile Include="APP\IValizer.cs" />
+    <Compile Include="Valization\ValizationMgr.cs" />
     <Compile Include="Valization\BaseValization.cs" />
     <Compile Include="Valization\DelegateValization`1.cs" />
     <Compile Include="Valization\InterfaceValization`1.cs" />
     <Compile Include="Valization\PropertyValization.cs" />
     <Compile Include="Valization\ScriptValization.cs" />
-    <Compile Include="Valization\ValizationMgr.cs" />
     <Compile Include="VAL\Serializer.cs" />
     <Compile Include="VAL\Valization.cs" />
     <Compile Include="VAL\VALTYPE.cs" />
     <Compile Include="VM\Computer.cs" />
     <Compile Include="HostType\HostEvent.cs" />
     <Compile Include="HostType\HostType.cs" />
+    <Compile Include="Compiler\Library.cs" />
     <Compile Include="VM\Context.cs" />
     <Compile Include="VM\FunctionChain.cs" />
     <Compile Include="VM\IUserDefinedFunction.cs" />
     <Compile Include="VM\Memory.cs" />
+    <Compile Include="Compiler\Module.cs" />
     <Compile Include="APP\Script.cs" />
     <Compile Include="VM\Runtime.cs" />
     <Compile Include="VM\RuntimeException.cs" />
     <Compile Include="VM\SystemFunction.cs" />
     <Compile Include="VM\CPU.cs" />
+    <Compile Include="Compiler\Error.cs" />
+    <Compile Include="Compiler\Instruction.cs" />
     <Compile Include="Compiler\Constant.cs" />
+    <Compile Include="Compiler\Expression.cs" />
     <Compile Include="Compiler\JParser.cs" />
     <Compile Include="Compiler\JLex.cs" />
     <Compile Include="VM\StackSegment.cs" />
+    <Compile Include="Compiler\Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VM\Register.cs" />
     <Compile Include="VAL\VAL.cs" />
     <Compile Include="VAL\VALL.cs" />
-    <Compile Include="VM\VAR.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Release Notes.txt" />
+    <Content Include="Tie.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -163,9 +165,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Tie.ico" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

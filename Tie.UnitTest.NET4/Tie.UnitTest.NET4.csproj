@@ -68,9 +68,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tie\Tie4.csproj">
+    <ProjectReference Include="..\Tie\Tie40.csproj">
       <Project>{73B981E6-3FC5-411E-92A6-1CFC78B4F983}</Project>
-      <Name>Tie4</Name>
+      <Name>Tie40</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
