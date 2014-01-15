@@ -30,8 +30,8 @@ namespace UnitTest
               );
 
             Valizer.Register<Control>(new string[] { "ForeColor", "BackColor", "Text" });
-            Valizer.Register<Form>(
-                 delegate(Form form)
+            Valizer.Register<ContainerControl>(
+                 delegate(ContainerControl form)
                  {
                      VAL val = new VAL();
                      foreach (Control control in form.Controls)
@@ -40,7 +40,7 @@ namespace UnitTest
                      }
                      return val;
                  },
-                delegate(Form form, VAL val)
+                delegate(ContainerControl form, VAL val)
                 {
                     foreach (Control control in form.Controls)
                     {

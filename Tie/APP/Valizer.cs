@@ -25,7 +25,7 @@ namespace Tie
     /// <summary>
     /// Convert object o VAL format and convert back
     /// </summary>
-    public class Valizer
+    public static class Valizer
     {
         /// <summary>
         /// Register valizer
