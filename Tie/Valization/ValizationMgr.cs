@@ -157,17 +157,17 @@ namespace Tie.Valization
 
 
         //把Val值解析(Devalize)为host, 用于HostValization.Val2Host(..)
-        public static object Devalize(VAL val, Type hostType)
+        public static object Devalize(object host, Type hostType, VAL val)
         {
             if (!registries.ContainsKey(hostType))
                 InvokeGenericRegistry(hostType);
 
              if (registries.ContainsKey(hostType))
              {
-                 return registries[hostType].Devalize(val);
+                 return registries[hostType].Devalize(host, val);
              }
-            
-            return null;
+
+             return null;
         }
 
         

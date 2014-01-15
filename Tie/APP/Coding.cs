@@ -173,12 +173,12 @@ namespace Tie
 
         internal static VAL Run(object instance, string code, Memory memory)
         {
-            memory.Add("$THIS", VAL.Boxing1(instance));
+            memory.Add(Constant.THIS, VAL.Boxing1(instance));
 
             if (code.IndexOf("return") == -1)
-                return Script.Evaluate("$THIS", code, memory, null);
+                return Script.Evaluate(Constant.THIS, code, memory, null);
             else
-                return Script.Execute("$THIS", code, memory, null);
+                return Script.Execute(Constant.THIS, code, memory, null);
         }
 
 

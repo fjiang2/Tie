@@ -7,7 +7,7 @@ namespace Tie.Valization
     abstract class BaseValization
     {
         protected abstract VAL valize(object host);
-        protected abstract object devalize(VAL val);
+        protected abstract object devalize(object host, VAL val);
 
 
         protected BaseValization()
@@ -28,9 +28,9 @@ namespace Tie.Valization
             return val;
         }
 
-        public object Devalize(VAL val)
+        public object Devalize(object host, VAL val)
         {
-            return devalize(val);
+            return devalize(host, val);
         }
 
     }

@@ -6,19 +6,16 @@ namespace Tie.Valization
 {
     class PropertyValization : BaseValization
     {
-        private string[] valizer;
-       // private object devalizer;
+        private string[] members;
 
-
-        public PropertyValization(string[] valizer)
+        public PropertyValization(string[] members)
         {
-            this.valizer = valizer;
+            this.members = members;
         }
 
         protected override VAL valize(object host)
         {
             VAL val;
-            string[] members = (string[])this.valizer;
             string script = "";
             for (int i = 0; i < members.Length; i++)
             {
@@ -36,9 +33,24 @@ namespace Tie.Valization
         }
 
 
-        protected override object devalize(VAL val)
+        protected override object devalize(object host, VAL val)
         {
-             return null;
+            Type type = host.GetType();
+
+            for (int i = 0; i < members.Length; i++)
+            {
+                string propertyName = members[i];
+                VAL x = val[propertyName];
+
+                System.Reflection.PropertyInfo propertyInfo = type.GetProperty(propertyName);
+                if (propertyInfo == null)
+                    continue;
+
+                object obj = Valizer.Devalize(x, propertyInfo.PropertyType);
+                propertyInfo.SetValue(host, obj, null);
+            }
+
+            return host;
         }
     }
 }

@@ -17,15 +17,23 @@ namespace Tie.Valization
 
         protected override VAL valize(object host)
         {
-            VAL val = valizer.Valizer((T)host);
+            VAL val;
+            if (host == null)
+                val = valizer.Valizer(default(T));
+            else
+                val = valizer.Valizer((T)host);
+
             return val;
 
         }
 
 
-        protected override object devalize(VAL val)
+        protected override object devalize(object host, VAL val)
         {
-            return valizer.Devalizer(val);
+            if (host == null)
+                return valizer.Devalizer(default(T), val);
+            else 
+                return valizer.Devalizer((T)host, val);
         }
     }
 }

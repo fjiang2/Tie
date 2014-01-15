@@ -90,7 +90,7 @@ namespace UnitTest
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                 },
-                delegate(VAL val)
+                delegate(Guid guid, VAL val)
                 {
                     byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                     return new Guid(bytes);
@@ -253,7 +253,7 @@ Place.StreetName 	 ""500 Airport Highway""
 
             Valizer.Register<IUrlConfig>(
                     host => new VAL(new object[] { host.Host, host.Protocol, host.Port }),
-                    val => new HttpConfig { Host = val["Host"].Str, Protocol = val["Protocol"].Str, Port = val["Port"].Intcon }
+                    (host, val) => new HttpConfig { Host = val["Host"].Str, Protocol = val["Protocol"].Str, Port = val["Port"].Intcon }
                         );
 
             appConfig.Http.Port = 88;

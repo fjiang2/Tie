@@ -59,7 +59,7 @@ namespace Tie
     
 
         //Deserialize
-        public static object Val2Host(VAL val, Type type)
+        public static object Val2Host(VAL val, object host1, Type type)
         {
             if (val.ty == VALTYPE.nullcon)
                 return null;
@@ -74,7 +74,7 @@ namespace Tie
             if (GenericType.IsCompatibleType(host.GetType(), type))
                 return host;
 
-            object temp = ValizationMgr.Devalize(val, type);
+            object temp = ValizationMgr.Devalize(host1, type, val);
             if (temp != null && GenericType.IsCompatibleType(temp.GetType(), type))
                  return temp;
             else
@@ -111,7 +111,7 @@ namespace Tie
 
         public static object Val2Host(VAL val, object obj)
         {
-             return Val2HostOffset(val, obj);
+            return Val2HostOffset(val, obj);
         }
 
         //Devalize
@@ -129,7 +129,7 @@ namespace Tie
                         if (fieldInfo.FieldType == typeof(VAL))
                             fieldInfo.SetValue(host, p);
                         else
-                            SetValue(host, fieldInfo.FieldType, fieldInfo.Name, p);
+                            SetValue(host, fieldInfo.GetValue(host), fieldInfo.FieldType, fieldInfo.Name, p);
                     }
                 }
                 catch (ArgumentException)
@@ -153,7 +153,7 @@ namespace Tie
                             if (propertyInfo.PropertyType == typeof(VAL))
                                 propertyInfo.SetValue(host, p, null);
                             else
-                                SetValue(host, propertyInfo.PropertyType, propertyInfo.Name, p);
+                                SetValue(host, propertyInfo.GetValue(host, null),  propertyInfo.PropertyType, propertyInfo.Name, p);
                         }
                         else   //CanRead
                         {
@@ -217,9 +217,9 @@ namespace Tie
         }
 
 
-        private static void SetValue(object host, Type type, string offset, VAL val)
+        private static void SetValue(object host, object member, Type type, string offset, VAL val)
         {
-            object temp = ValizationMgr.Devalize(val, type);
+            object temp = ValizationMgr.Devalize(member, type, val);
             if (temp == null)
                 temp = val.HostValue;
 

@@ -30,10 +30,11 @@ namespace Tie
     /// <summary>
     /// delegate fro devalizer
     /// </summary>
+    /// <param name="host"></param>
     /// <param name="val"></param>
     /// <returns></returns>
-    public delegate T Devalizer<T>(VAL val);
-
+    public delegate T Devalizer<T>(T host, VAL val);
+    
 
     /// <summary>
     /// interface of valizer and devalizer
@@ -47,12 +48,14 @@ namespace Tie
         /// <returns></returns>
         VAL Valizer(T host);
 
+
         /// <summary>
         /// prototype of devalizer
         /// </summary>
         /// <param name="val"></param>
+        /// <param name="host"></param>
         /// <returns></returns>
-        T Devalizer(VAL val);
+        T Devalizer(T host, VAL val);
     }
 
 }
