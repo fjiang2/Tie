@@ -91,12 +91,12 @@ namespace Tie.Valization
                     return true;
 
                 //Low Priority
-                foreach (KeyValuePair<Type, BaseValization> kvp in registries)
+                foreach (Type ty in registries.Keys)
                 {
-                    if (type.IsSubclassOf(kvp.Key))
+                    if (type.IsSubclassOf(ty))
                         return true;
 
-                    if (GenericType.HasInterface(type, kvp.Key))
+                    if (GenericType.HasInterface(type, ty))
                         return true; 
                 }
                 
@@ -114,16 +114,55 @@ namespace Tie.Valization
             if (registries.ContainsKey(type))
                 return registries[type];
 
-            //Low Priority
-            foreach (KeyValuePair<Type, BaseValization> kvp in registries)
+            //Find the best matched base type
+            Dictionary<int, Type> ranks = new Dictionary<int, Type>();
+            foreach (Type ty in registries.Keys)
             {
-                if (type.IsSubclassOf(kvp.Key))
-                    return kvp.Value;
+                if (type.IsSubclassOf(ty))
+                {
+                    int rank = 1;
+                    Type x = type;
+                    while (x.BaseType != ty)
+                    {
+                        x = x.BaseType;
+                        rank++;
+                    }
 
-                if (GenericType.HasInterface(type, kvp.Key))
-                    return kvp.Value; 
+                    ranks.Add(rank, ty);
+                }
             }
-         
+
+            if (ranks.Count > 0)
+            {
+                int min = int.MaxValue;
+                foreach (int rank in ranks.Keys)
+                {
+                    if (rank < min)
+                        min = rank;
+                }
+                return registries[ranks[min]];
+            }
+
+
+            //Find the best interface
+            List<Type> list = new List<Type>();
+            foreach (Type ty in registries.Keys)
+            {
+                if (GenericType.HasInterface(type, ty))
+                    list.Add(ty);
+            }
+
+            if (list.Count == 1)
+                return registries[list[0]];
+            else if (list.Count > 1)
+            {
+                string[] interfaces = new string[list.Count];
+                for (int i = 0; i < interfaces.Length; i++)
+                    interfaces[i] = list[i].FullName;
+
+                throw new TieException("ambiguous valization registry interfaces: {0} for type: {1}", string.Join(",", interfaces), type.FullName);
+            }
+
             return null;
         }
 
