@@ -7,6 +7,7 @@ using System.IO;
 using System.Diagnostics;
 using System.IO.Ports;
 using Tie.Helper;
+using System.Windows;
 
 namespace UnitTest
 {
@@ -161,6 +162,7 @@ namespace UnitTest
 
             ApplicationMemoryTest device = new ApplicationMemoryTest(DS);
             device.Load();
+            Size NotExists = device.GetValue<Size>("NotExists");
 
             string code = @"
                Place.Zip = '60015'; 
