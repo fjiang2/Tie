@@ -10,8 +10,8 @@ using System.Resources;
 [assembly: AssemblyDescription("List Processing Script Language  for .NET")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Datum Connect")]
-[assembly: AssemblyProduct("Tie Embedded Script Lanuage")]
-[assembly: AssemblyCopyright("Datum Connect 1991-2011")]
+[assembly: AssemblyProduct("Tie Embedded Script Language")]
+[assembly: AssemblyCopyright("Copyright @ Datum Connect 1991-2013")]
 [assembly: AssemblyTrademark("Tie")]
 [assembly: AssemblyCulture("")]
 
@@ -33,5 +33,7 @@ using System.Resources;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.4")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
+
+//[assembly: InternalsVisibleTo("Tie.UnitTest, PublicKey=002400000480000094000000010971d81975079a49662ced398c742ff186a94")]
