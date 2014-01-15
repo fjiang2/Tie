@@ -33,12 +33,23 @@ namespace Tie
         /// <param name="valizer"></param>
         public static void Register<T>(Valizer<T> valizer)
         {
-            Register<T>(valizer, null);
+            Register<T>(valizer, (Devalizer<T>)null);
         }
 
         /// <summary>
         /// Register valizer and devalizer
         /// </summary>
+        /// <param name="valizer"></param>
+        /// <param name="devalizer"></param>
+        public static void Register<T>(Valizer<T> valizer, PartialDevalizer<T> devalizer)
+        {
+            ValizationMgr.Register(typeof(T), new DelegateValization<T>(valizer, devalizer));
+        }
+
+        /// <summary>
+        /// Register valizer and devalizer
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="valizer"></param>
         /// <param name="devalizer"></param>
         public static void Register<T>(Valizer<T> valizer, Devalizer<T> devalizer)
@@ -135,7 +146,7 @@ namespace Tie
         /// <returns></returns>
         public static T Devalize<T>(VAL val)
         {
-            return (T)Devalize(val, typeof(T));
+            return (T)HostValization.Val2Host(val, null, typeof(T));
         }
 
         /// <summary>
@@ -151,6 +162,9 @@ namespace Tie
 
         public static object Devalize(VAL val, object obj)
         {
+            if (obj == null)
+                return null;
+
             return HostValization.Val2Host(val, obj, obj.GetType());
         }
 

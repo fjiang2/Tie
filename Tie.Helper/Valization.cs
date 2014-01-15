@@ -16,7 +16,7 @@ namespace Tie.Helper
                  {
                      return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                  },
-                 delegate(byte[] x, VAL val)
+                 delegate(VAL val)
                  {
                      byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                      return bytes;
@@ -102,23 +102,25 @@ namespace Tie.Helper
 #endif
 
 
-            Valizer.Register<Rectangle>(delegate(Rectangle rect)
+            Valizer.Register<Rectangle>(
+                delegate(Rectangle rect)
                 {
                     VAL val = VAL.Boxing(new int[] { rect.X, rect.Y, rect.Width, rect.Height });
                     return val;
                 },
-                delegate(Rectangle rect, VAL val)
+                delegate(VAL val)
                 {
                     return new Rectangle(val[0].Intcon, val[1].Intcon, val[2].Intcon, val[3].Intcon);
                 }
             );
 
-            Valizer.Register<Guid>(delegate(Guid guid)
+            Valizer.Register<Guid>(
+                delegate(Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                 },
-                delegate(Guid guid, VAL val)
+                delegate(VAL val)
                 {
                     byte[] bytes = Serialization.HexStringToByteArray(val.Str); 
                     return new Guid(bytes);
@@ -152,7 +154,7 @@ namespace Tie.Helper
                        }
                        return val;
                    },
-                   (host, val) =>
+                   val =>
                    {
                        var list = new List<T>();
                        foreach (var item in val)
@@ -180,7 +182,7 @@ namespace Tie.Helper
 
                        return val;
                    },
-                   (host, val) =>
+                   val =>
                    {
                        var dict = new Dictionary<T1, T2>();
                        foreach (var assoc in val)

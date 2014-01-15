@@ -59,7 +59,7 @@ namespace Tie
     
 
         //Deserialize
-        public static object Val2Host(VAL val, object host1, Type type)
+        public static object Val2Host(VAL val, object host, Type type)
         {
             if (val.ty == VALTYPE.nullcon)
                 return null;
@@ -70,11 +70,11 @@ namespace Tie
             if (type == typeof(VAL))
                 return val;
 
-            object host = val.HostValue;
-            if (GenericType.IsCompatibleType(host.GetType(), type))
-                return host;
+            object hostValue = val.HostValue;
+            if (GenericType.IsCompatibleType(hostValue.GetType(), type))
+                return hostValue;
 
-            object temp = ValizationMgr.Devalize(host1, type, val);
+            object temp = ValizationMgr.Devalize(host, type, val);
             if (temp != null && GenericType.IsCompatibleType(temp.GetType(), type))
                  return temp;
             else
@@ -84,11 +84,11 @@ namespace Tie
                     if (val.ty != VALTYPE.listcon)
                         return null;
 
-                    host = Array.CreateInstance(type.GetElementType(), val.Size);
+                    hostValue = Array.CreateInstance(type.GetElementType(), val.Size);
                     int i = 0;
-                    foreach (object element in (Array)host)
+                    foreach (object element in (Array)hostValue)
                     {
-                        HostOperation.HostTypeAssign(host, new int[] { i }, val[i].HostValue, true);
+                        HostOperation.HostTypeAssign(hostValue, new int[] { i }, val[i].HostValue, true);
                         i++;
                     }
                 }
@@ -96,7 +96,7 @@ namespace Tie
                 {
                     try
                     {
-                        host = Activator.CreateInstance(type, new object[] { });
+                        hostValue = Activator.CreateInstance(type, new object[] { });
                     }
                     catch (Exception)
                     {
@@ -104,7 +104,7 @@ namespace Tie
                     }
                 }
 
-                return Val2HostOffset(val, host);
+                return Val2HostOffset(val, hostValue);
             }
 
         }

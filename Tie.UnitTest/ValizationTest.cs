@@ -18,7 +18,7 @@ namespace UnitTest
                    {
                        return new VAL(string.Format("\"#{0:X2}{1:X2}{2:X2}\"", color.R, color.G, color.B));
                    },
-                   delegate(Color x, VAL val)
+                   delegate(VAL val)
                    {
                        string hexString = (string)val;
                        int red = Convert.ToByte(hexString.Substring(1, 2), 16);
