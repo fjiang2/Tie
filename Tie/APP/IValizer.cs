@@ -28,13 +28,20 @@ namespace Tie
     public delegate VAL Valizer<T>(T host);
 
     /// <summary>
-    /// delegate fro devalizer
+    /// delegate for devalizer, change partial properties of host
     /// </summary>
     /// <param name="host"></param>
     /// <param name="val"></param>
-    /// <returns></returns>
-    public delegate T Devalizer<T>(T host, VAL val);
-    
+    /// <returns>host passed in parameter</returns>
+    public delegate T PartialDevalizer<T>(T host, VAL val);
+
+    /// <summary>
+    /// delegate for devalizer
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="val"></param>
+    /// <returns>new instance</returns>
+    public delegate T Devalizer<T>(VAL val);
 
     /// <summary>
     /// interface of valizer and devalizer

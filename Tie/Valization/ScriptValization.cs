@@ -27,10 +27,10 @@ namespace Tie.Valization
         protected override object devalize(object host, VAL val)
         {
             if (devalizer == null)
-                return host;
+                return null;
 
             Memory DS = new Memory();
-            DS.Add(Constant.THIS, val);
+            DS.Add("value", val);
             VAL x = Script.Run(host, devalizer, DS);
             return x.HostValue;
         }

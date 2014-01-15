@@ -7,12 +7,19 @@ namespace Tie.Valization
     class DelegateValization<T> : BaseValization
     {
         private Valizer<T> valizer;
-        private Devalizer<T> devalizer;
+        private PartialDevalizer<T> devalizer1;
+        private Devalizer<T> devalizer2;
+
+        public DelegateValization(Valizer<T> valizer, PartialDevalizer<T> devalizer)
+        {
+            this.valizer = valizer;
+            this.devalizer1 = devalizer;
+        }
 
         public DelegateValization(Valizer<T> valizer, Devalizer<T> devalizer)
         {
             this.valizer = valizer;
-            this.devalizer = devalizer;
+            this.devalizer2 = devalizer;
         }
 
         protected override VAL valize(object host)
@@ -28,12 +35,17 @@ namespace Tie.Valization
 
         protected override object devalize(object host, VAL val)
         {
-            if (devalizer != null)
+            if (devalizer1 != null)
             {
                 if(host==null)
-                    return devalizer(default(T), val);
+                    return devalizer1(default(T), val);
                 else
-                    return devalizer((T)host, val);
+                    return devalizer1((T)host, val);
+            }
+
+            if (devalizer2 != null)
+            {
+                return devalizer2(val);
             }
 
             return null;

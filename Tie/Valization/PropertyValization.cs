@@ -46,8 +46,18 @@ namespace Tie.Valization
                 if (propertyInfo == null)
                     continue;
 
-                object obj = Valizer.Devalize(x, propertyInfo.PropertyType);
-                propertyInfo.SetValue(host, obj, null);
+                object propertyValue = null;
+                if (propertyInfo.CanRead)
+                {
+                    propertyValue = propertyInfo.GetValue(host, null);
+                }
+
+                if (propertyInfo.CanWrite)
+                {
+                    object obj = HostValization.Val2Host(x, propertyValue, propertyInfo.PropertyType);
+
+                    propertyInfo.SetValue(host, obj, null);
+                }
             }
 
             return host;
