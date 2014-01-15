@@ -85,8 +85,48 @@ namespace Tie.Valization
             if (type.IsGenericType)
                 return genericRegistries.ContainsKey(type.GetGenericTypeDefinition());
             else
-                return registries.ContainsKey(type);
+            {
+                //High Priority
+                if (registries.ContainsKey(type))
+                    return true;
+
+                //Low Priority
+                foreach (KeyValuePair<Type, BaseValization> kvp in registries)
+                {
+                    if (type.IsSubclassOf(kvp.Key))
+                        return true;
+
+                    if (GenericType.HasInterface(type, kvp.Key))
+                        return true; 
+                }
+                
+                return false;
+                
+            }
         }
+
+        private static BaseValization GetValization(Type type)
+        {
+            if (!registries.ContainsKey(type))
+                InvokeGenericRegistry(type);
+
+            //High Priority
+            if (registries.ContainsKey(type))
+                return registries[type];
+
+            //Low Priority
+            foreach (KeyValuePair<Type, BaseValization> kvp in registries)
+            {
+                if (type.IsSubclassOf(kvp.Key))
+                    return kvp.Value;
+
+                if (GenericType.HasInterface(type, kvp.Key))
+                    return kvp.Value; 
+            }
+         
+            return null;
+        }
+
 
         private static void InvokeGenericRegistry(Type type)
         {
@@ -111,12 +151,10 @@ namespace Tie.Valization
 
             Type type = host.GetType();
 
-            if (!registries.ContainsKey(type))
-                InvokeGenericRegistry(type);
-
-            if (registries.ContainsKey(type))
+            BaseValization valization = GetValization(type);
+            if (valization != null)
             {
-                return registries[type].Valize(host);
+                return valization.Valize(host);
             }
 
             return null;
@@ -159,13 +197,12 @@ namespace Tie.Valization
         //把Val值解析(Devalize)为host, 用于HostValization.Val2Host(..)
         public static object Devalize(object host, Type hostType, VAL val)
         {
-            if (!registries.ContainsKey(hostType))
-                InvokeGenericRegistry(hostType);
-
-             if (registries.ContainsKey(hostType))
+            BaseValization valization = GetValization(hostType);
+             if (valization != null)
              {
-                 return registries[hostType].Devalize(host, val);
+                 return valization.Devalize(host, val);
              }
+            
 
              return null;
         }

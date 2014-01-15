@@ -43,7 +43,7 @@ namespace Tie
         /// <param name="devalizer"></param>
         public static void Register<T>(Valizer<T> valizer, PartialDevalizer<T> devalizer)
         {
-            ValizationMgr.Register(typeof(T), new DelegateValization<T>(valizer, devalizer));
+            ValizationMgr.Register(typeof(T), new PartialDelegateValization<T>(valizer, devalizer));
         }
 
         /// <summary>

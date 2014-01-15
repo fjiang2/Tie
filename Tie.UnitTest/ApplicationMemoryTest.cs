@@ -253,8 +253,8 @@ Place.StreetName 	 ""500 Airport Highway""
 
             Valizer.Register<IUrlConfig>(
                     host => new VAL(new object[] { host.Host, host.Protocol, host.Port }),
-                    (host, val) => new HttpConfig { Host = val["Host"].Str, Protocol = val["Protocol"].Str, Port = val["Port"].Intcon }
-                        );
+                    val => new HttpConfig { Host = val[0].Str, Protocol = val[1].Str, Port = val[2].Intcon }
+               );
 
             appConfig.Http.Port = 88;
             device.SetValue("Url", appConfig.Http);
