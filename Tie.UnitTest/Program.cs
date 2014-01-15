@@ -107,6 +107,7 @@ namespace UnitTest
             ParamsTest.main();
             UserDefinedFunctionTest.main();
             ApplicationMemoryTest.main();
+            ValizationTest.main();
         }
     }
 }

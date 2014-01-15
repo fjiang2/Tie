@@ -122,6 +122,7 @@
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserDefinedFunctionTest.cs" />
+    <Compile Include="ValizationTest.cs" />
     <Compile Include="VALTest.cs" />
     <Compile Include="VariableOperatorTest.cs" />
     <Compile Include="XMLTest.cs" />
