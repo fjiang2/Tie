@@ -45,9 +45,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tie\Tie.csproj">
+    <ProjectReference Include="..\Tie\Tie20.csproj">
       <Project>{0fad3400-65a1-458f-9280-89925a6f7731}</Project>
-      <Name>Tie</Name>
+      <Name>Tie20</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
