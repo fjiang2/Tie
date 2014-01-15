@@ -24,12 +24,14 @@ namespace Tie.Valization
         }
 
 
-        protected override object devalize(VAL val)
+        protected override object devalize(object host, VAL val)
         {
             if (devalizer == null)
-                return null;
+                return host;
 
-            VAL x = Script.Run(val, devalizer, new Memory());
+            Memory DS = new Memory();
+            DS.Add(Constant.THIS, val);
+            VAL x = Script.Run(host, devalizer, DS);
             return x.HostValue;
         }
 

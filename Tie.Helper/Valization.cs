@@ -16,7 +16,7 @@ namespace Tie.Helper
                  {
                      return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                  },
-                 delegate(VAL val)
+                 delegate(byte[] x, VAL val)
                  {
                      byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                      return bytes;
@@ -107,7 +107,7 @@ namespace Tie.Helper
                     VAL val = VAL.Boxing(new int[] { rect.X, rect.Y, rect.Width, rect.Height });
                     return val;
                 },
-                delegate(VAL val)
+                delegate(Rectangle rect, VAL val)
                 {
                     return new Rectangle(val[0].Intcon, val[1].Intcon, val[2].Intcon, val[3].Intcon);
                 }
@@ -118,7 +118,7 @@ namespace Tie.Helper
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                 },
-                delegate(VAL val)
+                delegate(Guid guid, VAL val)
                 {
                     byte[] bytes = Serialization.HexStringToByteArray(val.Str); 
                     return new Guid(bytes);
@@ -152,7 +152,7 @@ namespace Tie.Helper
                        }
                        return val;
                    },
-                   val =>
+                   (host, val) =>
                    {
                        var list = new List<T>();
                        foreach (var item in val)
@@ -180,7 +180,7 @@ namespace Tie.Helper
 
                        return val;
                    },
-                   val =>
+                   (host, val) =>
                    {
                        var dict = new Dictionary<T1, T2>();
                        foreach (var assoc in val)
