@@ -29,7 +29,7 @@ namespace UnitTest
                    }
               );
 
-            Valizer.Register<Button>(new string[] { "ForeColor", "BackColor", "Text" });
+            Valizer.Register<Control>(new string[] { "ForeColor", "BackColor", "Text" });
             Valizer.Register<Form>(
                  delegate(Form form)
                  {
