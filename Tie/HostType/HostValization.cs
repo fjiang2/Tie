@@ -83,8 +83,12 @@ namespace Tie
                 {
                     if (val.ty != VALTYPE.listcon)
                         return null;
+                    
+                    if (host != null)
+                        hostValue = host;
+                    else
+                        hostValue = Array.CreateInstance(type.GetElementType(), val.Size);
 
-                    hostValue = Array.CreateInstance(type.GetElementType(), val.Size);
                     int i = 0;
                     foreach (object element in (Array)hostValue)
                     {
@@ -96,7 +100,10 @@ namespace Tie
                 {
                     try
                     {
-                        hostValue = Activator.CreateInstance(type, new object[] { });
+                        if (host != null)
+                            hostValue = host;
+                        else
+                            hostValue = Activator.CreateInstance(type, new object[] { });
                     }
                     catch (Exception)
                     {
