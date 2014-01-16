@@ -146,24 +146,6 @@ namespace Tie
         }
 
 
-        internal static bool ValidIdent(string id)
-        {
-            int i = 0;
-            char ch = id[i++];
-
-            if (!char.IsLetter(ch) && ch != '_')
-                return false;
-
-            while (i < id.Length)
-            {
-                ch = id[i++];
-
-                if (ch != '_' && !char.IsLetterOrDigit(ch))
-                    return false;
-            }
-
-            return true;
-        }
 
 
         internal static string ToIdent(string s)

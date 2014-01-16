@@ -37,6 +37,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileMemory.cs" />
+    <Compile Include="DbMemory.cs" />
     <Compile Include="Serialization.cs" />
     <Compile Include="Valization.cs" />
     <Compile Include="Extension.cs" />

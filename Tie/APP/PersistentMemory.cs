@@ -25,7 +25,7 @@ namespace Tie
     /// <summary>
     /// 
     /// </summary>
-    public abstract class BasePersistentMemory
+    public abstract class PersistentMemory
     {
         /// <summary>
         /// 
@@ -35,7 +35,7 @@ namespace Tie
         /// <summary>
         /// 
         /// </summary>
-        protected BasePersistentMemory()
+        protected PersistentMemory()
             : this(new Memory())
         {
         }
@@ -44,7 +44,7 @@ namespace Tie
         /// 
         /// </summary>
         /// <param name="memory"></param>
-        protected BasePersistentMemory(Memory memory)
+        protected PersistentMemory(Memory memory)
         {
             this.memory = memory;
         }
@@ -54,7 +54,7 @@ namespace Tie
         /// </summary>
         /// <param name="variable"></param>
         /// <returns></returns>
-        protected VAL GetVal(string variable)
+        protected VAL GetVAL(string variable)
         {
             VAL val;
             VAR var = new VAR(variable);
@@ -75,7 +75,7 @@ namespace Tie
         /// <returns></returns>
         public bool ContainsVariable(string variable)
         {
-            VAL v = GetVal(variable);
+            VAL v = GetVAL(variable);
             return v.Defined;
         }
 
@@ -97,7 +97,7 @@ namespace Tie
         /// <returns></returns>
         public object GetValue(string variable)
         {
-            VAL v = GetVal(variable);
+            VAL v = GetVAL(variable);
 
             if (v.IsNull)
                 return null;
@@ -130,7 +130,7 @@ namespace Tie
         /// <returns></returns>
         public object GetValue(string variable, Type type)
         {
-            VAL v = GetVal(variable);
+            VAL v = GetVAL(variable);
 
 
             if (type == typeof(VAL))
@@ -156,7 +156,7 @@ namespace Tie
         /// <returns></returns>
         public object GetValue(string variable, object host)
         {
-            VAL v = GetVal(variable);
+            VAL v = GetVAL(variable);
             HostValization.Val2Host(v, host);
             return host;
         }
@@ -175,237 +175,5 @@ namespace Tie
     }
     
     
-    /// <summary>
-    /// used to serialize memory to persistent device, such as database server or text file
-    /// varible can be simple varible or composite varible, such as "X.a", "X.a.b"
-    /// </summary>
-    public abstract class PersistentMemory  : BasePersistentMemory
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        protected PersistentMemory()
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="memory"></param>
-        protected PersistentMemory(Memory memory)
-            :base(memory)
-        {
-        }
-
-        #region Adjust Variable and Value based on the maximum capacity of persistent device
-      
-
-        private static string AdujstVariableName(string variable, int maxLength)
-        {
-            string[] nameSpace = variable.Split(new char[] { '.' });
-            int n = nameSpace.Length - 1;
-
-            while (n > 0)
-            {
-                string ns = "";
-                for (int i = 0; i < n - 1; i++)
-                    ns += nameSpace[i] + ".";
-
-                ns += nameSpace[n - 1];
-
-                if (ns.Length <= maxLength)
-                    return ns;
-
-                n--;
-            }
-
-            return null;
-        }
-
-
-        private void Adjust(Dictionary<string, string> storage, string variable, VAL val)
-        {
-            if (variable.Length > MaxVariableSpaceLength)
-            {
-                string var = AdujstVariableName(variable, MaxVariableSpaceLength);
-                if (var == null)
-                    throw new TieException("variable \"{0}\"  is oversize on persistent device", variable);
-
-                val = GetVal(var);
-                string json = ToJson(val);
-                if (json.Length > MaxValueSpaceLength)
-                    throw new TieException("value of variable \"{0}\" is oversize on persistent device", variable);
-                
-                storage.Add(var, json);
-                return;
-            }
-            else
-            {
-                string json = ToJson(val);
-                if (json.Length <= MaxValueSpaceLength)
-                {
-                    storage.Add(variable, json);
-                    return;
-                }
-                else
-                {
-                    if (val.IsAssociativeArray())
-                    {
-                        foreach (VAL v in val)
-                        {
-                            VAL v0 = v[0];
-                            VAL v1 = v[1];
-
-                            if (VAR.ValidIdent(v0.Str))
-                                Adjust(storage, string.Format("{0}.{1}", variable, v0.Str), v1);
-                            else
-                                Adjust(storage, string.Format("{0}[\"{1}\"]", variable, v0.Str), v1);
-                        }
-                    }
-                    else
-                    {
-                        throw new TieException("value of variable \"{0}\" is oversize on persistent device", variable);
-                    }
-
-                }
-            }
-        }
-
-        #endregion
-
-
-
-      
-        private string ToJson(VAL val)
-        {
-            return val.ToJson("", OutputType.QuotationMark);
-            //return val.ToJson("", ExportFormat.QuotationMark | ExportFormat.EncodeTypeof);
-        }
-
-      
-        /// <summary>
-        /// variable or value is oversize
-        /// </summary>
-        /// <param name="variable"></param>
-        /// <param name="message"></param>
-        protected virtual void OversizeHandler(string variable, string message)
-        {
-            Logger.WriteLine(string.Format("{0} at variable {1} of class {2}", message, variable, this.GetType().FullName)); 
-        }
-
-        /// <summary>
-        /// invalid variable/value pair in persistent device
-        /// </summary>
-        /// <param name="variable"></param>
-        /// <param name="message"></param>
-        protected virtual void InvalidVariableHandler(string variable, string message)
-        {
-            Logger.WriteLine(string.Format("{0} at variable {1} of class {2}", message, variable, this.GetType().FullName)); 
-        }
-
-
-        /// <summary>
-        /// Save variables into persistent device
-        /// </summary>
-        /// <param name="variables"></param>
-        public void Save(IEnumerable<VAR> variables)
-        {
-            Dictionary<string, string> storage = new Dictionary<string, string>();
-
-            foreach (VAR variable in variables)
-            {
-                string ident = variable.Ident;
-
-                if (ident.StartsWith("System") || ident.StartsWith("Microsoft"))
-                    continue;
-
-                VAL val = GetVal(ident);
-
-                if (val.IsNull || val.Undefined)
-                    continue;
-
-                try
-                {
-                    Adjust(storage, ident, val);
-                }
-                catch (TieException ex)
-                {
-                   OversizeHandler(ident, ex.Message);
-                }
-            }
-
-            WriteMemory(storage);
-            
-        }
-
-        /// <summary>
-        /// Save all varibles into persistent device
-        /// </summary>
-        public void Save()
-        {
-            Save(memory.DS.Keys);
-        }
-
-        /// <summary>
-        /// Load variable/pair from persistent device
-        /// </summary>
-        /// <param name="variables"></param>
-        public void Load(IEnumerable<string> variables)
-        {
-            IEnumerable<KeyValuePair<string, string>> storage = ReadMemory(variables);
-            Load(storage);
-        }
-
-        /// <summary>
-        /// Load all varibles from persistent device
-        /// </summary>
-        public void Load()
-        {
-            IEnumerable<KeyValuePair<string, string>> storage = ReadMemory(new string[]{});
-            Load(storage);
-        }
-
-        private void Load(IEnumerable<KeyValuePair<string, string>> storage)
-        {
-            foreach (KeyValuePair<string, string> kvp in storage)
-            {
-                try
-                {
-                    Script.Execute(string.Format("{0}={1};", kvp.Key, kvp.Value), memory);
-                }
-                catch (TieException ex)
-                {
-                    InvalidVariableHandler(kvp.Key, ex.Message);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Maximum length of variable name string
-        /// </summary>
-        protected abstract int MaxVariableSpaceLength { get; }
-
-        /// <summary>
-        /// Maximum length of value string
-        /// </summary>
-        protected abstract int MaxValueSpaceLength { get; }
-
-     
-        /// <summary>
-        /// Read values from persistent device by variables. Read all if variables is empty
-        /// caution: Keys are dynamic generated based on length of Key/Value space.
-        /// </summary>
-        /// <param name="variables">varibles must be in Key FIELD of persistent device</param>
-        /// <returns></returns>
-        protected abstract IEnumerable<KeyValuePair<string, string>> ReadMemory(IEnumerable<string> variables);
-
-        /// <summary>
-        /// Write varibles/value pair into persistent device
-        /// </summary>
-        /// <param name="pairs"></param>
-        protected abstract void WriteMemory(IEnumerable<KeyValuePair<string,string>> pairs);
-
-
-      
-    }
+  
 }
