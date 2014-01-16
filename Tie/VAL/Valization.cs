@@ -31,7 +31,8 @@ namespace Tie
         ///     needed to valize the target object.
         /// </summary>
         /// <returns></returns>
-        VAL GetValData();
+        VAL GetVAL();
+        void SetVAL(VAL val);
     }
 
 

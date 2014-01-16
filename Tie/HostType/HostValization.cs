@@ -56,8 +56,8 @@ namespace Tie
             return instance;
         }
 
-    
 
+        #region Val -> Host
         //Deserialize
         public static object Val2Host(VAL val, object host, Type type)
         {
@@ -73,6 +73,12 @@ namespace Tie
             object hostValue = val.HostValue;
             if (GenericType.IsCompatibleType(hostValue.GetType(), type))
                 return hostValue;
+
+            else if (host is IValizable)
+            {
+                ((IValizable)host).SetVAL(val);
+                return host;
+            }
 
             object temp = ValizationMgr.Devalize(host, type, val);
             if (temp != null && GenericType.IsCompatibleType(temp.GetType(), type))
@@ -238,7 +244,11 @@ namespace Tie
             else
                 HostOperation.HostTypeAssign(host, offset, temp, true);
         }
+        
+        #endregion
 
+
+        #region Host -> Val
         /**
          * Valize
          * 
@@ -277,15 +287,11 @@ namespace Tie
             }
             else if (host is IValizable)
             {
-                val = ((IValizable)host).GetValData();
+                val = ((IValizable)host).GetVAL();
             }
             else if (host is Type)
             {
                 val = VAL.NewScriptType(string.Format("typeof({0})", new GenericType(host).TypeName));
-            }
-            else if (type.IsEnum)            //处理enum常量
-            {
-                val = VAL.NewScriptType(HostOperation.EnumBitFlags(host));
             }
             else if (host is System.DBNull)
             {
@@ -296,6 +302,10 @@ namespace Tie
                 VAL temp = ValizationMgr.Valize(host);
                 temp.Class = type.FullName;
                 return temp;
+            }
+            else if (type.IsEnum)            //处理enum常量
+            {
+                val = VAL.NewScriptType(HostOperation.EnumBitFlags(host));
             }
             else if (host is ICollection)
             {
@@ -407,7 +417,8 @@ namespace Tie
             return Host2Val(host, val);
         }
 
+        #endregion
 
-        
+
     }
 }
