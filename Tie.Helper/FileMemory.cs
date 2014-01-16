@@ -44,13 +44,14 @@ namespace Tie.Helper
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
+            File.Move(fileName, fileName + ".bak");
             using (StreamWriter sw = new StreamWriter(fileName))
             {
                 foreach (VAR variable in variables)
                 {
                     string ident = (string)variable;
 
-                    if (ident.StartsWith("System") || ident.StartsWith("Microsoft"))
+                    if (ident.StartsWith("System") || ident.StartsWith("Microsoft") || ident.StartsWith("Tie"))
                         continue;
 
                     VAL val = GetVAL(ident);

@@ -145,7 +145,11 @@ namespace Tie
         /// <returns></returns>
         public static T Devalize<T>(VAL val)
         {
-            return (T)HostValization.Val2Host(val, null, typeof(T));
+            object obj = HostValization.Val2Host(val, null, typeof(T));
+            if (obj == null)
+                return default(T);
+            else
+                return (T)obj;
         }
 
         /// <summary>
