@@ -77,7 +77,7 @@ namespace UnitTest
         }
     }
 
-    class ApplicationMemoryTest : PersistentMemory
+    class ApplicationMemoryTest : DbMemory
     {
         string fileName = "c:\\temp\\TestFile.txt";
 
