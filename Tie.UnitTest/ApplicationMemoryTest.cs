@@ -79,7 +79,7 @@ namespace UnitTest
 
     class ApplicationMemoryTest : DbMemory
     {
-        string fileName = "c:\\temp\\TestFile.txt";
+        const string fileName = "c:\\temp\\DbMemory.txt";
 
 
         public ApplicationMemoryTest(Memory memory)
@@ -239,7 +239,7 @@ Place.StreetName 	 ""500 Airport Highway""
             System.Drawing.Color color = device.GetValue<System.Drawing.Color>("Color");
             Debug.Assert(color == System.Drawing.Color.Red);
 
-            device.ValColWidh = 400;
+            //device.ValColWidh = 400;
             HostType.Register(typeof(Parity));
             HostType.Register(typeof(StopBits));
             AppConfig appConfig = new AppConfig();
@@ -325,7 +325,18 @@ Place.StreetName 	 ""500 Airport Highway""
             Debug.Assert(flags == System.Reflection.BindingFlags.IgnoreCase);
 
             Valizer.Unregister(typeof(Dictionary<,>));
+
+
+
+            FileMemory fm = new FileMemory("c:\\temp\\FileMemory.txt", DS);
+            fm.Save();
+            DS.Clear();
+            fm.Load();
+            
             Logger.Close();
+
+
+
         }
 
 

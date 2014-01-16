@@ -188,7 +188,7 @@ namespace Tie.Helper
         /// <summary>
         /// Save all varibles into persistent device
         /// </summary>
-        public void Save()
+        public override void Save()
         {
             Save(memory.DS.Keys);
         }
@@ -206,7 +206,7 @@ namespace Tie.Helper
         /// <summary>
         /// Load all varibles from persistent device
         /// </summary>
-        public void Load()
+        public override void Load()
         {
             IEnumerable<KeyValuePair<string, string>> storage = ReadMemory(new string[] { });
             Load(storage);

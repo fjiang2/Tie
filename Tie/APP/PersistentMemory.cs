@@ -161,8 +161,16 @@ namespace Tie
             return host;
         }
 
+        /// <summary>
+        /// Save memory from persistent device
+        /// </summary>
+        public abstract void Save();
 
-     
+
+        /// <summary>
+        /// Load memory from persistent device
+        /// </summary>
+        public abstract void Load();
         
         /// <summary>
         /// 
