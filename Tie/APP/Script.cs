@@ -726,6 +726,7 @@ namespace Tie
         /// Debug handler, when breakpoint is reached, debug handler is invoked
         /// </summary>
         /// <param name="breakpoint">Address of break point</param>
+        /// <param name="cursor"></param>
         /// <param name="info">CPU registers/stacks infomation is passed in</param>
         /// <param name="DS2">Shared data segment</param>
         public delegate void DebugHandler(int breakpoint, int cursor, string info, Memory DS2);

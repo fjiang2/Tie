@@ -20,8 +20,15 @@ using System.Text;
 
 namespace Tie
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class TieException : Exception
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         public TieException(string message)
             : base(message)
         { 
@@ -41,7 +48,9 @@ namespace Tie
     public abstract class PositionException : TieException
     {
        
-
+        /// <summary>
+        /// 
+        /// </summary>
         protected Position position;
         
         /// <summary>

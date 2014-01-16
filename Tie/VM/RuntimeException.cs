@@ -27,9 +27,11 @@ namespace Tie
     /// </summary>
     public class RuntimeException : PositionException
     {
+
         /// <summary>
         /// Initializes a new instance of the Exception class.
         /// </summary>
+        /// <param name="position"></param>
         /// <param name="message"></param>
         protected RuntimeException(Position position, string message)
             : base("RUNTIME " + message, position)
@@ -53,9 +55,11 @@ namespace Tie
     /// </summary>
     public class FunctionNotFoundException : RuntimeException
     {
+    
         /// <summary>
         /// Initializes a new instance of the Exception class.
         /// </summary>
+        /// <param name="position"></param>
         /// <param name="message"></param>
         internal FunctionNotFoundException(Position position, string message)
             : base(position, message)

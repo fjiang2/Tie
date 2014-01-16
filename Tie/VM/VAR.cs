@@ -21,10 +21,17 @@ using System.Text;
 
 namespace Tie
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public sealed class VAR : IComparable, IComparable<string>, IEquatable<VAR>
     {
         private string ident;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ident"></param>
         public VAR(string ident)
         {
             this.ident = ident;
@@ -38,53 +45,101 @@ namespace Tie
             get { return this.ident; }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return ident.GetHashCode();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             return ident.Equals(((VAR)obj).ident);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public bool Equals(VAR obj)
         {
             return ident.Equals(obj.ident);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id1"></param>
+        /// <param name="id2"></param>
+        /// <returns></returns>
         public static bool operator ==(VAR id1, VAR id2)
         {
             return id1.ident.Equals(id2.ident);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id1"></param>
+        /// <param name="id2"></param>
+        /// <returns></returns>
         public static bool operator !=(VAR id1, VAR id2)
         {
             return !(id1 == id2);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ident"></param>
+        /// <returns></returns>
         public static explicit operator string(VAR ident)
         {
             return ident.ident;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static implicit operator VAR(string str)
         {
             return new VAR(str);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public int CompareTo(object obj)
         {
             return this.ident.CompareTo(obj);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public int CompareTo(string other)
         {
             return this.ident.CompareTo(other);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return this.ident;
