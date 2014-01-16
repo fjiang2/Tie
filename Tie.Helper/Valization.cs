@@ -86,7 +86,7 @@ namespace Tie.Helper
 
 
 
-  
+
 
 #if VERSION2            
       
@@ -122,23 +122,15 @@ namespace Tie.Helper
                 },
                 delegate(VAL val)
                 {
-                    byte[] bytes = Serialization.HexStringToByteArray(val.Str); 
+                    byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                     return new Guid(bytes);
                 }
             );
 
 
-            Valizer.Register(typeof(List<>), typeof(Valization)
-                     .GetMethod("RegisterList",
-                     System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
-             ));
-
-
-            Valizer.Register(typeof(Dictionary<,>), typeof(Valization)
-                      .GetMethod("RegistrDictionary",
-                      System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
-              ));
-
+            Valizer.Register(typeof(List<>), typeof(Valization).GetMethod("RegisterList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
+            Valizer.Register(typeof(Dictionary<,>), typeof(Valization).GetMethod("RegistrDictionary", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
+            Valizer.Register(typeof(Enum), typeof(Valization).GetMethod("RegisterEnum", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
         }
 
 
@@ -195,5 +187,22 @@ namespace Tie.Helper
                    }
                    );
         }
+
+
+        private static void RegisterEnum<T>()
+        {
+            Valizer.Register<T>(
+                   host =>
+                   {
+                       return new VAL(Convert.ToInt32(host));
+                   },
+                   val =>
+                   {
+                       return (T)Enum.ToObject(typeof(T), val.Intcon);
+                   }
+               );
+        }
+
+
     }
 }

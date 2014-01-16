@@ -44,7 +44,13 @@ namespace Tie.Helper
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            File.Move(fileName, fileName + ".bak");
+            string bak = fileName + ".bak";
+            if (File.Exists(bak))
+                File.Delete(bak);
+
+            if (File.Exists(fileName))
+                File.Move(fileName, fileName + ".bak");
+
             using (StreamWriter sw = new StreamWriter(fileName))
             {
                 foreach (VAR variable in variables)

@@ -46,12 +46,16 @@ namespace UnitTest
             this.b = val["b"].Intcon;
         }
 
-        public VAL GetValData()
+        public VAL GetVAL()
         { 
             VAL val = new VAL();
             val["a"] = new VAL(a);
             val["b"] = new VAL(b);
             return val;
+        }
+
+        public void SetVAL(VAL val)
+        { 
         }
     }
 
@@ -165,13 +169,16 @@ namespace UnitTest
             VAL fontStyle = font["Style"];
             Debug.Assert(fontStyle.HostValue is FontStyle && (FontStyle)fontStyle.HostValue == (FontStyle.Bold | FontStyle.Italic));
 
+            FontStyle style = FontStyle.Bold;
+            VAL ttt = Valizer.Valize(style);
+
             string fontStyleString = fontStyle.Valor;
             VAL fontUnit = font["Unit"];
             Debug.Assert(fontUnit.HostValue is GraphicsUnit && (GraphicsUnit)fontUnit.HostValue == GraphicsUnit.Point);
 
             string fontUnitString = fontUnit.Valor;
 
-            VAL xxx = v.GetValData();
+            VAL xxx = v.GetVAL();
 
             string persistent = v.Valor;
             string json = v.ToExJson();
