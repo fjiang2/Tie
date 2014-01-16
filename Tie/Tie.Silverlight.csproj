@@ -48,6 +48,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -60,16 +61,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>Bin\Release\SilverLight\Tie.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Basic|AnyCPU'">
     <OutputPath>bin\Basic\</OutputPath>
     <NoConfig>true</NoConfig>
     <NoStdLib>true</NoStdLib>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Extend|AnyCPU'">
     <OutputPath>bin\Extend\</OutputPath>
     <NoConfig>true</NoConfig>
     <NoStdLib>true</NoStdLib>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -85,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APP\IValizer.cs" />
-    <Compile Include="APP\PersistentMemory.cs" />
     <Compile Include="APP\Valizer.cs" />
     <Compile Include="Compiler\CodeGeneration.cs" />
     <Compile Include="Compiler\Error.cs" />

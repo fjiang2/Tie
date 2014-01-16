@@ -82,7 +82,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APP\PersistentMemory.cs" />
     <Compile Include="APP\Coding.cs" />
     <Compile Include="APP\Valizer.cs" />
     <Compile Include="Compiler\Compiler.cs" />
