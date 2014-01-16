@@ -61,7 +61,7 @@ namespace Tie
                     }
                     break;
 
-                    /**
+                    /*
                      * add reference
                      * */
                 case "addreference":
@@ -76,7 +76,7 @@ namespace Tie
                     }
                     break;
 
-                    /***
+                    /*
                      * using System.Data => import(System.Data)
                      * using SD = System.Data => import("SD", System.Data)
                      * */

@@ -101,7 +101,6 @@ namespace Tie
         /// <summary>
         /// Register valizer by class's members
         /// </summary>
-        /// <param name="type"></param>
         /// <param name="valizerMembers"></param>
         public static void Register<T>(string[] valizerMembers)
         {

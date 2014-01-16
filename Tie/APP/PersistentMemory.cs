@@ -23,23 +23,178 @@ using System.Text;
 namespace Tie
 {
     /// <summary>
-    /// used to serialize memory to persistent device, such as database server or text file
-    /// varible can be simple varible or composite varible, such as "X.a", "X.a.b"
+    /// 
     /// </summary>
-    public abstract class PersistentMemory 
+    public abstract class BasePersistentMemory
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected Memory memory;
 
-        protected PersistentMemory()
-            :this( new Memory())
+        /// <summary>
+        /// 
+        /// </summary>
+        protected BasePersistentMemory()
+            : this(new Memory())
         {
         }
 
-        protected PersistentMemory(Memory memory)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="memory"></param>
+        protected BasePersistentMemory(Memory memory)
         {
             this.memory = memory;
+        }
 
-         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        protected VAL GetVal(string variable)
+        {
+            VAL val;
+            VAR var = new VAR(variable);
+
+            //simple varible
+            if (memory.ContainsKey(var))
+                val = memory.DS[var];
+            else
+                val = Script.Evaluate(variable, memory); //composite varible
+
+            return val;
+        }
+
+        /// <summary>
+        /// check if varible is defined
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public bool ContainsVariable(string variable)
+        {
+            VAL v = GetVal(variable);
+            return v.Defined;
+        }
+
+        /// <summary>
+        /// assign value to variable
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="v"></param>
+        public void SetValue(string variable, object v)
+        {
+            VAL val = Valizer.Valize(v);
+            Script.Execute(string.Format("{0}={1};", variable, val.Valor), memory);
+        }
+
+        /// <summary>
+        /// return value, variable="X.a"
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public object GetValue(string variable)
+        {
+            VAL v = GetVal(variable);
+
+            if (v.IsNull)
+                return null;
+            else
+                return v.value;
+        }
+
+        /// <summary>
+        /// return value by varible
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public T GetValue<T>(string variable)
+        {
+            object obj = GetValue(variable, typeof(T));
+
+            if (obj == null)
+                return default(T);
+            else
+                return (T)obj;
+        }
+
+
+        /// <summary>
+        /// return value of variable, type must have default constructor
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public object GetValue(string variable, Type type)
+        {
+            VAL v = GetVal(variable);
+
+
+            if (type == typeof(VAL))
+            {
+                return v;
+            }
+            else if (v.Undefined || v.IsNull)
+            {
+                return null;
+            }
+            else
+            {
+                return Valizer.Devalize(v, type);
+            }
+
+        }
+
+        /// <summary>
+        /// return value of varible, host is instantiated which is used for interface type of object
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="host"></param>
+        /// <returns></returns>
+        public object GetValue(string variable, object host)
+        {
+            VAL v = GetVal(variable);
+            HostValization.Val2Host(v, host);
+            return host;
+        }
+
+
+     
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return memory.ToString();
+        }
+    }
+    
+    
+    /// <summary>
+    /// used to serialize memory to persistent device, such as database server or text file
+    /// varible can be simple varible or composite varible, such as "X.a", "X.a.b"
+    /// </summary>
+    public abstract class PersistentMemory  : BasePersistentMemory
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected PersistentMemory()
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="memory"></param>
+        protected PersistentMemory(Memory memory)
+            :base(memory)
+        {
         }
 
         #region Adjust Variable and Value based on the maximum capacity of persistent device
@@ -76,7 +231,7 @@ namespace Tie
                 if (var == null)
                     throw new TieException("variable \"{0}\"  is oversize on persistent device", variable);
 
-                val = get(var);
+                val = GetVal(var);
                 string json = ToJson(val);
                 if (json.Length > MaxValueSpaceLength)
                     throw new TieException("value of variable \"{0}\" is oversize on persistent device", variable);
@@ -120,120 +275,14 @@ namespace Tie
 
 
 
-        private VAL get(string variable)
-        {
-            VAL val;
-            VAR var = new VAR(variable);
-            
-            //simple varible
-            if (memory.ContainsKey(var))
-                val = memory.DS[var];
-            else
-                val = Script.Evaluate(variable, memory); //composite varible
-
-            return val;
-        }
-
+      
         private string ToJson(VAL val)
         {
             return val.ToJson("", OutputType.QuotationMark);
             //return val.ToJson("", ExportFormat.QuotationMark | ExportFormat.EncodeTypeof);
         }
 
-        /// <summary>
-        /// check if varible is defined
-        /// </summary>
-        /// <param name="variable"></param>
-        /// <returns></returns>
-        public bool ContainsVariable(string variable)
-        {
-            VAL v = get(variable);
-            return v.Defined;
-        }
-
-        /// <summary>
-        /// assign value to variable
-        /// </summary>
-        /// <param name="variable"></param>
-        /// <param name="v"></param>
-        public void SetValue(string variable, object v)
-        {
-            VAL val = Valizer.Valize(v);
-            Script.Execute(string.Format("{0}={1};", variable, val.Valor), memory);
-        }
-
-        /// <summary>
-        /// return value, variable="X.a"
-        /// </summary>
-        /// <param name="variable"></param>
-        /// <returns></returns>
-        public object GetValue(string variable)
-        {
-            VAL v = get(variable);
-
-            if (v.IsNull)
-                return null;
-            else
-                return v.value;
-        }
-
-        /// <summary>
-        /// return value by varible
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable"></param>
-        /// <returns></returns>
-        public T GetValue<T>(string variable)
-        {
-            object obj = GetValue(variable, typeof(T));
-            
-            if (obj == null)
-                return default(T);
-            else
-                return (T)obj;
-        }
-
-
-        /// <summary>
-        /// return value of variable, type must have default constructor
-        /// </summary>
-        /// <param name="variable"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public object GetValue(string variable, Type type)
-        {
-            VAL v = get(variable);
-
-
-            if (type == typeof(VAL))
-            {
-                return v;
-            }
-            else if(v.Undefined || v.IsNull)
-            {
-                return null;
-            }
-            else
-            {
-                return Valizer.Devalize(v, type);
-            }
-
-        }
-
-        /// <summary>
-        /// return value of varible, host is instantiated which is used for interface type of object
-        /// </summary>
-        /// <param name="variable"></param>
-        /// <param name="host"></param>
-        /// <returns></returns>
-        public object GetValue(string variable, object host)
-        {
-            VAL v = get(variable);
-            HostValization.Val2Host(v, host);
-            return host;
-        }
-
-
+      
         /// <summary>
         /// variable or value is oversize
         /// </summary>
@@ -270,7 +319,7 @@ namespace Tie
                 if (ident.StartsWith("System") || ident.StartsWith("Microsoft"))
                     continue;
 
-                VAL val = get(ident);
+                VAL val = GetVal(ident);
 
                 if (val.IsNull || val.Undefined)
                     continue;
@@ -357,13 +406,6 @@ namespace Tie
         protected abstract void WriteMemory(IEnumerable<KeyValuePair<string,string>> pairs);
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return memory.ToString();
-        }
+      
     }
 }

@@ -209,11 +209,13 @@ namespace Tie
          * 
          */
 
+        /*
+         * ex:
+         *  C#: using UsingAlias = NameSpace2.MyClass<int>;
+         *  Tie: Register("UsingAlias", typeof(NameSpace2.MyClass<int>);
+        */
         /// <summary>
         /// Using alias directive for a generic class. 
-        /// ex:
-        ///     C#: using UsingAlias = NameSpace2.MyClass<int>;
-        ///    Tie: Register("UsingAlias", typeof(NameSpace2.MyClass<int>);
         /// </summary>
         /// <param name="typeName">type name in script</param>
         /// <param name="type">generic type</param>
