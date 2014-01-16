@@ -190,7 +190,7 @@ namespace Tie.Helper
         /// </summary>
         public override void Save()
         {
-            Save(memory.DS.Keys);
+            Save(memory.Keys);
         }
 
         /// <summary>

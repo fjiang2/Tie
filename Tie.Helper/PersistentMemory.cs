@@ -1,26 +1,9 @@
-﻿//--------------------------------------------------------------------------------------------------//
-//                                                                                                  //
-//        Tie                                                                                       //
-//                                                                                                  //
-//          Copyright(c) Datum Connect Inc.                                                         //
-//                                                                                                  //
-// This source code is subject to terms and conditions of the Datum Connect Software License. A     //
-// copy of the license can be found in the License.html file at the root of this distribution. If   //
-// you cannot locate the  Datum Connect Software License, please send an email to                   //
-// support@datconn.com. By using this source code in any fashion, you are agreeing to be bound      //
-// by the terms of the Datum Connect Software License.                                              //
-//                                                                                                  //
-// You must not remove this notice, or any other, from this software.                               //
-//                                                                                                  //
-//                                                                                                  //
-//--------------------------------------------------------------------------------------------------//
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tie
+namespace Tie.Helper
 {
     /// <summary>
     /// 
@@ -56,13 +39,11 @@ namespace Tie
         /// <returns></returns>
         protected VAL GetVAL(string variable)
         {
-            VAL val;
             VAR var = new VAR(variable);
 
             //simple varible
-            if (memory.ContainsKey(var))
-                val = memory.DS[var];
-            else
+            VAL val = memory[var];
+            if (!val.Defined)
                 val = Script.Evaluate(variable, memory); //composite varible
 
             return val;
@@ -157,7 +138,7 @@ namespace Tie
         public object GetValue(string variable, object host)
         {
             VAL v = GetVAL(variable);
-            HostValization.Val2Host(v, host);
+            Valizer.Devalize(v, host);
             return host;
         }
 

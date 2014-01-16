@@ -85,7 +85,6 @@
   <ItemGroup>
     <Compile Include="APP\Coding.cs" />
     <Compile Include="APP\IValizer.cs" />
-    <Compile Include="APP\PersistentMemory.cs" />
     <Compile Include="APP\Valizer.cs" />
     <Compile Include="Compiler\CodeGeneration.cs" />
     <Compile Include="Compiler\Compiler.cs" />

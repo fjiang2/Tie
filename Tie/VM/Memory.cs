@@ -26,7 +26,7 @@ namespace Tie
     /// <summary>
     /// Variable dictionary
     /// </summary>
-    public class Memory
+    public sealed class Memory 
     {
         Dictionary<VAR, VAL> ds = new Dictionary<VAR, VAL>();
 
@@ -112,7 +112,7 @@ namespace Tie
         /// <summary>
         /// Dictionary of varible
         /// </summary>
-        public Dictionary<VAR, VAL> DS
+        internal Dictionary<VAR, VAL> DS
         {
             get
             {
@@ -140,7 +140,17 @@ namespace Tie
             }
         }
 
-       
+        /// <summary>
+        /// all variables name in memory
+        /// </summary>
+        public ICollection<VAR> Keys
+        {
+            get
+            {
+                return ds.Keys;
+            }
+        }
+
         internal bool ContainsKey(VAR key)
         {
             return ds.ContainsKey(key);
