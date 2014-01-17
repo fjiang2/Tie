@@ -72,7 +72,8 @@ namespace Tie.Helper
             if (v.Undefined || v.IsNull)
                 return;
 
-            Script.Execute(string.Format("{0}={1};", variable, v.Valor), memory);
+            //Script.Execute(string.Format("{0}={1};", variable, v.Valor), memory);
+            Script.Execute(string.Format("{0}={1};", variable, v.ToJson()), memory);
         }
 
         /// <summary>
