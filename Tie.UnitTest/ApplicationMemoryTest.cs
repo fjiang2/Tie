@@ -91,7 +91,7 @@ namespace UnitTest
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                 },
-                delegate(Guid guid, VAL val)
+                delegate(VAL val)
                 {
                     byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                     return new Guid(bytes);

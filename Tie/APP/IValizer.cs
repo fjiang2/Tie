@@ -33,7 +33,7 @@ namespace Tie
     /// <param name="host"></param>
     /// <param name="val"></param>
     /// <returns>host passed in parameter</returns>
-    public delegate T PartialDevalizer<T>(T host, VAL val);
+    public delegate T PartialDevalizer<T>(T host, Type hostType, VAL val);
 
     /// <summary>
     /// delegate for devalizer

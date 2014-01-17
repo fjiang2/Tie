@@ -171,6 +171,11 @@ namespace UnitTest
 
             FontStyle style = FontStyle.Bold;
             VAL ttt = Valizer.Valize(style);
+            Debug.Assert(ttt.Str == "\"Bold\"");
+            style = Valizer.Devalize<FontStyle>(ttt);
+            Debug.Assert(style == FontStyle.Bold);
+
+            Valizer.Unregister(typeof(Enum));
 
             string fontStyleString = fontStyle.Valor;
             VAL fontUnit = font["Unit"];
