@@ -39,7 +39,6 @@ namespace Tie.Helper
               (host, type, val) =>
               {
                   string s = val.Str;
-                  s = s.Substring(1, s.Length - 2);
                   string[] L = s.Split(new char[] { ',' });
                   if (L.Length == 1)
                       return (Enum)Enum.Parse(type, s);

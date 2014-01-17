@@ -31,6 +31,7 @@ namespace Tie
     /// delegate for devalizer, change partial properties of host
     /// </summary>
     /// <param name="host"></param>
+    /// <param name="hostType">hostType could be subclass of typeof(T)</param>
     /// <param name="val"></param>
     /// <returns>host passed in parameter</returns>
     public delegate T PartialDevalizer<T>(T host, Type hostType, VAL val);

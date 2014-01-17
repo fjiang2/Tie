@@ -305,7 +305,7 @@ namespace Tie
             }
             else if (type.IsEnum)            //处理enum常量
             {
-                val = VAL.NewScriptType(HostOperation.EnumBitFlags(host));
+                val = VAL.NewEnumType((Enum)host);
             }
             else if (host is ICollection)
             {

@@ -675,12 +675,19 @@ namespace Tie
 
 
         //返回用 ｜ 分隔的enum字符串
-        public static string EnumBitFlags(object host)
+        public static string EnumBitFlags(object host, OutputType format)
         {
             Type type = host.GetType();
+            bool typeofMark = (format & OutputType.Typeof) == OutputType.Typeof;
 
-            if(Enum.IsDefined(type,host))
-                return string.Format("{0}.{1}", type.FullName, host);
+            string fullName = type.FullName;
+            if (typeofMark)
+                fullName = string.Format("typeof({0})", type.FullName);
+
+            if (Enum.IsDefined(type, host))
+            {
+                    return string.Format("{0}.{1}", fullName, host);
+            }
 
             string s = "";
 
@@ -694,7 +701,7 @@ namespace Tie
                 {
                     if (s != "")
                         s += "|";
-                    s += string.Format("{0}.{1}", type.FullName, Enum.ToObject(type, offset).ToString());
+                    s += string.Format("{0}.{1}", fullName, Enum.ToObject(type, offset).ToString());
                 }
             }
 

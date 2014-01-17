@@ -173,7 +173,8 @@ namespace UnitTest
             Tie.Helper.Helper.DefineEnumAsString();
             FontStyle style = FontStyle.Bold;
             VAL ttt = Valizer.Valize(style);
-            Debug.Assert(ttt.Str == "\"Bold\"");
+            Debug.Assert(ttt.Valor == "\"Bold\"");
+            ttt = Script.Evaluate(ttt.Valor);
             style = Valizer.Devalize<FontStyle>(ttt);
             Debug.Assert(style == FontStyle.Bold);
             Valizer.Unregister(typeof(Enum));
@@ -183,6 +184,7 @@ namespace UnitTest
             style = FontStyle.Bold;
             ttt = Valizer.Valize(style);
             Debug.Assert(ttt.Intcon == 1);
+            ttt = Script.Evaluate(ttt.Valor);
             style = Valizer.Devalize<FontStyle>(ttt);
             Debug.Assert(style == FontStyle.Bold);
             Valizer.Unregister(typeof(Enum));
@@ -197,15 +199,15 @@ namespace UnitTest
             VAL xxx = v.GetVAL();
 
             string persistent = v.Valor;
-            string json = v.ToExJson();
-
-
+            string exjson = v.ToExJson();
+            string json = v.ToJson();
+            
             string size = VAL.Boxing(new Size(200, 300)).Valor;
 
             HostType.Register(typeof(Color));
 
             VAL p = Script.Evaluate(persistent);
-            VAL j = Script.Evaluate(json);
+            VAL j = Script.Evaluate(exjson);
             Debug.Assert(p.Valor == j.Valor);
 
             p["a"] = new VAL(1000);
