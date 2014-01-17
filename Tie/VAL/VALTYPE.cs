@@ -93,6 +93,11 @@ namespace Tie
         scriptcon = 21,
 
         /// <summary>
+        /// value for enum
+        /// </summary>
+        enumcon = 22,
+
+        /// <summary>
         /// value: address in the memory
         /// </summary>
         addrcon = 30,
