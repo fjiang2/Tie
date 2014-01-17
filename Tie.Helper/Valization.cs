@@ -127,40 +127,7 @@ namespace Tie.Helper
                 }
             );
 
-            //Valizer.Register<Enum>(
-            //       host =>
-            //       {
-            //           return new VAL(Convert.ToInt32(host));
-            //       },
-            //       val =>
-            //       {
-            //           return (Enum)Enum.ToObject(typeof(Enum), val.Intcon);
-            //       }
-            //   );
-
-            Valizer.Register<Enum>(
-              host =>
-              {
-                  return new VAL("\""+host.ToString()+"\"");
-              },
-              (host, type, val) =>
-              {
-                  string s = val.Str;
-                  s = s.Substring(1, s.Length-2);
-                  string[] L = s.Split(new char[] { ',' });
-                  if (L.Length == 1)
-                      return (Enum)Enum.Parse(type, s);
-                  else
-                  {
-                      int E = 0;
-                      for(int i=0; i<L.Length; i++)
-                      {
-                          E +=  Convert.ToInt32(Enum.Parse(type, L[i].Trim()));
-                      }
-                      return (Enum)Enum.ToObject(typeof(Enum), E);
-                  }
-              }
-            );
+         
 
             Valizer.Register(typeof(List<>), typeof(Valization).GetMethod("RegisterList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
             Valizer.Register(typeof(Dictionary<,>), typeof(Valization).GetMethod("RegistrDictionary", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
@@ -220,7 +187,6 @@ namespace Tie.Helper
                    }
                    );
         }
-
 
 
     }

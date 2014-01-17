@@ -169,13 +169,24 @@ namespace UnitTest
             VAL fontStyle = font["Style"];
             Debug.Assert(fontStyle.HostValue is FontStyle && (FontStyle)fontStyle.HostValue == (FontStyle.Bold | FontStyle.Italic));
 
+
+            Tie.Helper.Helper.DefineEnumAsString();
             FontStyle style = FontStyle.Bold;
             VAL ttt = Valizer.Valize(style);
             Debug.Assert(ttt.Str == "\"Bold\"");
             style = Valizer.Devalize<FontStyle>(ttt);
             Debug.Assert(style == FontStyle.Bold);
-
             Valizer.Unregister(typeof(Enum));
+
+
+            Tie.Helper.Helper.DefineEnumAsInteger();
+            style = FontStyle.Bold;
+            ttt = Valizer.Valize(style);
+            Debug.Assert(ttt.Intcon == 1);
+            style = Valizer.Devalize<FontStyle>(ttt);
+            Debug.Assert(style == FontStyle.Bold);
+            Valizer.Unregister(typeof(Enum));
+
 
             string fontStyleString = fontStyle.Valor;
             VAL fontUnit = font["Unit"];
