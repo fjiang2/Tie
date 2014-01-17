@@ -64,11 +64,15 @@ namespace Tie.Helper
         /// assign value to variable
         /// </summary>
         /// <param name="variable"></param>
-        /// <param name="v"></param>
-        public void SetValue(string variable, object v)
+        /// <param name="obj"></param>
+        public void SetValue(string variable, object obj)
         {
-            VAL val = Valizer.Valize(v);
-            Script.Execute(string.Format("{0}={1};", variable, val.Valor), memory);
+            VAL v = Valizer.Valize(obj);
+            
+            if (v.Undefined || v.IsNull)
+                return;
+
+            Script.Execute(string.Format("{0}={1};", variable, v.Valor), memory);
         }
 
         /// <summary>
@@ -80,7 +84,7 @@ namespace Tie.Helper
         {
             VAL v = GetVAL(variable);
 
-            if (v.IsNull)
+            if (v.Undefined || v.IsNull)
                 return null;
             else
                 return v.value;
@@ -138,6 +142,12 @@ namespace Tie.Helper
         public object GetValue(string variable, object host)
         {
             VAL v = GetVAL(variable);
+            
+            if (v.Undefined || v.IsNull)
+            {
+                return null;
+            }
+
             Valizer.Devalize(v, host);
             return host;
         }
