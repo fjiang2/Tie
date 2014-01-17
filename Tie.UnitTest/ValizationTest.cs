@@ -41,7 +41,7 @@ namespace UnitTest
                      }
                      return val;
                  },
-                delegate(ContainerControl form, VAL val)
+                delegate(ContainerControl form, Type type, VAL val)
                 {
                     if (val["BackColor"].Defined)
                         form.BackColor = Valizer.Devalize<Color>(val["BackColor"]);

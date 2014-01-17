@@ -24,7 +24,7 @@ namespace Tie.Valization
         }
 
 
-        protected override object devalize(object host, VAL val)
+        protected override object devalize(object host, Type hostType, VAL val)
         {
             if (devalizer == null)
                 return null;

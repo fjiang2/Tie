@@ -239,7 +239,7 @@ namespace Tie.Valization
             BaseValization valization = GetValization(hostType);
              if (valization != null)
              {
-                 return valization.Devalize(host, val);
+                 return valization.Devalize(host, hostType, val);
              }
             
 
