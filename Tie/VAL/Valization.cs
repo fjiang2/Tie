@@ -27,11 +27,16 @@ namespace Tie
     public interface IValizable
     {
         /// <summary>
-        /// Populates a ValizationInfo with the data
+        /// Populates data
         ///     needed to valize the target object.
         /// </summary>
         /// <returns></returns>
         VAL GetVAL();
+        
+        /// <summary>
+        /// update target object with valized value
+        /// </summary>
+        /// <param name="val"></param>
         void SetVAL(VAL val);
     }
 

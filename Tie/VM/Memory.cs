@@ -96,18 +96,49 @@ namespace Tie
             return oldValue;
         }
 
+
         /// <summary>
-        /// Add memory variable
+        /// Add a value to element
+        ///     e.g. 
+        ///     Tie: Place.City.Zip = 20341;
+        ///      C#: Add(new string[]{"Place", "City", "Zip"}, new VAL(20341));
         /// </summary>
-        /// <param name="spacename"></param>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public VAL Add(string spacename, Memory source)
+        /// <param name="names"></param>
+        /// <param name="val"></param>
+        public void Add(string[] names, VAL val)
         {
-            VAL v = Assemble(source);
-            this.Add(new VAR(spacename), v);
-            return v;
+            if (val.Undefined || val.IsNull)
+                return;
+
+            if (names.Length ==0)
+                return;
+
+            VAR _var = new VAR(names[0]);
+            VAL _val;
+
+            if (this.ContainsKey(_var))
+            {
+                if (names.Length > 1)
+                {
+                    _val = this[_var];
+                    VAL.Assign(_val, names, 1, val);
+                }
+                else
+                    this[_var] = val;
+            }
+            else
+            {
+                if (names.Length > 1)
+                {
+                    _val = new VAL(new VALL());
+                    VAL.Assign(_val, names, 1, val);
+                    this.Add(_var, _val);
+                }
+                else
+                    this.Add(_var, val);
+            }
         }
+
 
         /// <summary>
         /// Dictionary of varible
