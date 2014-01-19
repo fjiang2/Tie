@@ -158,30 +158,31 @@ namespace Tie
             VAL obj = VAL.NewHostType(type);
 
             string[] names = typeName.Split(new char[] { '.' });
-            string names0 = names[0];
+            DS1.Add(names, obj);
+            //string names0 = names[0];
             
-            if (DS1.ContainsKey(names0))
-            {
-                if (names.Length > 1)
-                {
-                    VAL val = DS1[names0];
-                    VAL.Assign(val, names, 1, obj);
-                }
-                else
-                    DS1[names0] = obj;
-            }
-            else
-            {
-                if (names.Length > 1)
-                {
-                    VAL val = new VAL(new VALL());
-                    VAL.Assign(val, names, 1, obj);
-                    DS1.Add(names0, val);
-                }
-                else
-                    DS1.Add(names0, obj);
+            //if (DS1.ContainsKey(names0))
+            //{
+            //    if (names.Length > 1)
+            //    {
+            //        VAL val = DS1[names0];
+            //        VAL.Assign(val, names, 1, obj);
+            //    }
+            //    else
+            //        DS1[names0] = obj;
+            //}
+            //else
+            //{
+            //    if (names.Length > 1)
+            //    {
+            //        VAL val = new VAL(new VALL());
+            //        VAL.Assign(val, names, 1, obj);
+            //        DS1.Add(names0, val);
+            //    }
+            //    else
+            //        DS1.Add(names0, obj);
                 
-            }
+            //}
 
             if (briefName && !Constant.HOST_TYPE_AUTO_REGISTER)
             {
