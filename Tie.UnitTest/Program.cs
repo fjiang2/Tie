@@ -71,7 +71,7 @@ namespace UnitTest
       
 
             Helper.Start();
-
+            MemoryTest.main();
             OperatorTest.main();
             LambdaExpressionTest.main();
             GenericTest.main();

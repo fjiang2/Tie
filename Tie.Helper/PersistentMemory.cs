@@ -39,14 +39,16 @@ namespace Tie.Helper
         /// <returns></returns>
         protected VAL GetVAL(string variable)
         {
-            VAR var = new VAR(variable);
+            //VAR var = new VAR(variable);
 
-            //simple varible
-            VAL val = memory[var];
-            if (!val.Defined)
-                val = Script.Evaluate(variable, memory); //composite varible
+            ////simple varible
+            //VAL val = memory[var];
+            //if (!val.Defined)
+            //    val = Script.Evaluate(variable, memory); //composite varible
 
-            return val;
+            //return val;
+
+            return memory.GetValue(variable);
         }
 
         /// <summary>
@@ -72,8 +74,7 @@ namespace Tie.Helper
             if (v.Undefined || v.IsNull)
                 return;
 
-            string[] names = variable.Split(new char[] { '.' });
-            memory.Add(names, v);
+            memory.SetValue(variable, v);
             //Script.Execute(string.Format("{0}={1};", variable, v.ToJson()), memory);
         }
 

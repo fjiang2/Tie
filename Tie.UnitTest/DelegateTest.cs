@@ -107,7 +107,7 @@ namespace UnitTest
                 return s+x;
             };
 
-            DS.Clear();
+            DS.RemoveAll();
             DS.Add("test", VAL.NewHostType(test));
             DS.Add("impl", VAL.NewHostType(impl));
             DS.Add("dPlus", VAL.NewHostType(dPlus));

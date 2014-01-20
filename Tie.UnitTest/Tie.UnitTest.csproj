@@ -100,6 +100,7 @@
     <Compile Include="JSONTest.cs" />
     <Compile Include="LambdaExpressionTest.cs" />
     <Compile Include="MathTest.cs" />
+    <Compile Include="MemoryTest.cs" />
     <Compile Include="MultidimensionalArrayTest.cs" />
     <Compile Include="OperatorTest.cs" />
     <Compile Include="ParamsTest.cs" />

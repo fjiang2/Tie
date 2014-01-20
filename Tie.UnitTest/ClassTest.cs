@@ -47,7 +47,7 @@ namespace UnitTest
              * 
              * 
              * */
-            Script.CommonMemory.Clear();
+            Script.CommonMemory.RemoveAll();
             Script script = new Script("unknown");
             script.DS = new Memory();
 

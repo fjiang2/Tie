@@ -96,7 +96,7 @@ namespace UnitTest
             HostType.SetObjectProperties(tb, myDS["textbox"]);
 
 
-            myDS.Clear();
+            myDS.RemoveAll();
             HostType.Register(typeof(TextBox));
             code = @"{
                             //tb = new System.Windows.Forms.TextBox();
