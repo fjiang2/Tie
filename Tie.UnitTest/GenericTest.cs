@@ -88,7 +88,7 @@ namespace UnitTest
                 list = typeof(System.Collections.Generic.List<>);
             ";
             
-            DS.Clear();
+            DS.RemoveAll();
             Script.Execute(code, DS);
 
             Debug.Assert(DS["Int1"].value.Equals(typeof(int[])));

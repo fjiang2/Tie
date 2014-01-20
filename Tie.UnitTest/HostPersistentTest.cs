@@ -225,7 +225,7 @@ namespace UnitTest
            
             HostType.Register(typeof(System.String));
 
-            DS.Clear();
+            DS.RemoveAll();
             Script.Execute(code, DS);
             System.Diagnostics.Debug.Assert(
                    DS["textBox"]["Text"].Str == "Hello World"
@@ -274,7 +274,7 @@ listBox.Items[0] = 'XXXX';
 }
 ";
 
-            DS.Clear();
+            DS.RemoveAll();
             ListBox listBox1 = new ListBox();
             VAL val = Script.Evaluate(code2);
             HostType.SetObjectProperties(listBox1, val);
@@ -324,7 +324,7 @@ listBox.Items[0] = 'XXXX';
             val = VAL.NewHostType(listBox1);
             string valor = val.Valor;
             string json = val.ToExJson();
-            DS.Clear();
+            DS.RemoveAll();
 
             
         }

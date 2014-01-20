@@ -178,7 +178,7 @@ namespace UnitTest
                A = new int[][] { {1,2}, {3,4}, {5,6}};
             ";
 
-            DS.Clear();
+            DS.RemoveAll();
             Script.Execute(code, DS);
 
             device.VarColWidh = 16;
@@ -212,7 +212,7 @@ Place.StreetName 	 ""500 Airport Highway""
             }
 
 
-            DS.Clear();
+            DS.RemoveAll();
             System.Windows.Size size = new System.Windows.Size(10, 20);
             device.SetValue("Size", size);
             device.SetValue("Today", DateTime.Today);
@@ -222,7 +222,7 @@ Place.StreetName 	 ""500 Airport Highway""
             device.SetValue("Color", System.Drawing.Color.Red); //Valizer defined in HostTypeHelper.cs
             device.Save();
 
-            DS.Clear();
+            DS.RemoveAll();
             device.Load();
             size = device.GetValue<System.Windows.Size>("Size");
             Debug.Assert(size.Width == 10 && size.Height == 20);
@@ -247,7 +247,7 @@ Place.StreetName 	 ""500 Airport Highway""
             device.SetValue("AppConfig", appConfig);
             device.Save();
 
-            DS.Clear();
+            DS.RemoveAll();
             device.Load();
             appConfig = device.GetValue<AppConfig>("AppConfig");
             Debug.Assert(appConfig.Http.Port == 80);
@@ -301,7 +301,7 @@ Place.StreetName 	 ""500 Airport Highway""
             device.SetValue("ienum", (int)flags);
 
             device.Save();
-            DS.Clear();
+            DS.RemoveAll();
             device.Load();
             
             IUrlConfig url = device.GetValue<IUrlConfig>("Url");
@@ -330,7 +330,7 @@ Place.StreetName 	 ""500 Airport Highway""
 
             FileMemory fm = new FileMemory("c:\\temp\\FileMemory.txt", DS);
             fm.Save();
-            DS.Clear();
+            DS.RemoveAll();
             fm.Load();
             
             Logger.Close();

@@ -42,7 +42,7 @@ namespace UnitTest
               S = { 'A','B','C'};
             ";
 
-            DS.Clear();
+            DS.RemoveAll();
             Script.Execute(code, DS);
             System.Diagnostics.Debug.Assert((string)DS["S1"].HostValue == "A12");
             System.Diagnostics.Debug.Assert((string)DS["S2"].HostValue == "24");

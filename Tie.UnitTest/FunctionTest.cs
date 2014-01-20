@@ -67,7 +67,7 @@ namespace UnitTest
        
             ";
 
-            DS.Clear();
+            DS.RemoveAll();
             FunctionTest coo = new FunctionTest();
             DS.Add("coo", VAL.NewHostType(coo));
             Script.Execute(code, DS);
@@ -105,7 +105,7 @@ namespace UnitTest
             sum7 = L.((A).(plus))();
             ";
 
-            DS.Clear();
+            DS.RemoveAll();
             Script.Execute(code, DS);
             Debug.Assert(DS["sum1"].Intcon == 55);
             Debug.Assert(DS["sum2"].Intcon == 6);
@@ -136,7 +136,7 @@ namespace UnitTest
              count  = merge({1,2,3,4,5}, 'size', 100);   //C类函数: system function, size 是TIE的系统函数,用字符串传入,相当于size({1,2,3,4,5}+100
             ";
 
-            DS.Clear();
+            DS.RemoveAll();
             Script.Execute(code, DS);
             Debug.Assert(DS["sum"].Intcon == 115, "high-level function:");
             Debug.Assert(DS["count"].Intcon == 105, "high-level function:");
@@ -178,7 +178,7 @@ namespace UnitTest
               ";
           
 
-            DS.Clear();
+            DS.RemoveAll();
             Script.Execute(code, DS);
             System.Diagnostics.Debug.Assert(DS["sum1"].Intcon == 450);
             System.Diagnostics.Debug.Assert(DS["sum2"].Intcon == 50);

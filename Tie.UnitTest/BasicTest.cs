@@ -36,7 +36,7 @@ namespace UnitTest
 
             Logger.Close();
             Logger.Open("c:\\temp\\tie.log");
-            Script.CommonMemory.Clear();
+            Script.CommonMemory.RemoveAll();
             HostType.Register(typeof(AnchorStyles));
 
             TextBox textBox = new TextBox();
@@ -159,7 +159,7 @@ namespace UnitTest
             Console.WriteLine("encode AssessmentPlace[-1]={0}", x);
 
 
-            Script.CommonMemory.Clear();
+            Script.CommonMemory.RemoveAll();
 
 
             VAL dt = Script.Evaluate("write(DateTime(2000,12,31,6,59,59))");

@@ -10,7 +10,7 @@ namespace UnitTest
     {
         public static void main()
         {
-            Script.CommonMemory.Clear();
+            Script.CommonMemory.RemoveAll();
             Script script = new Script("UnitTest", 500);
             Memory DS2 = new Memory();
             script.DS = DS2;
@@ -24,7 +24,7 @@ namespace UnitTest
             script.VolatileExecute(code);
             Debug.Assert(script.DS["c"].Intcon == 20, "statement: if(..).. else ..");
             Debug.Assert(script.DS["d"].Intcon == 10, "statement: if(..).. else ..");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
 
             code = @"
@@ -37,7 +37,7 @@ namespace UnitTest
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Intcon == 5050, "statement: for loop");
             Debug.Assert(script.DS["i"].Intcon == 101, "statement: for loop");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
 
             code = @"
@@ -48,7 +48,7 @@ namespace UnitTest
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Intcon == 5050, "statement: for loop");
             Debug.Assert(script.DS["i"].Undefined, "statement: for loop");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
 
 
@@ -60,7 +60,7 @@ namespace UnitTest
             ";
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Intcon == 55, "statement: while loop");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
             code = @"
             sum=0;
@@ -72,7 +72,7 @@ namespace UnitTest
             while(i<=10);";
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Intcon == 55, "statement: do while");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
             code = @"
             sum=0;
@@ -87,7 +87,7 @@ namespace UnitTest
 
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Intcon == 55, "statement: foreach");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
             string[] array = {"a", "b","c"};
             code = @"
@@ -99,7 +99,7 @@ namespace UnitTest
             script.DS.AddHostObject("L", array);
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Str == "abc", "statement: foreach");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
 
             code = @"
@@ -117,7 +117,7 @@ namespace UnitTest
             script.DS["ty"] = new VAL("A");
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Intcon == 102, "statement: switch");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
 
             code = @"
@@ -135,7 +135,7 @@ namespace UnitTest
             ";
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Intcon == 55, "function:");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
 
             code = @"
@@ -163,7 +163,7 @@ namespace UnitTest
 
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Intcon == 115, "high-level function:");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
 
             code = @"
@@ -187,7 +187,7 @@ namespace UnitTest
             script.VolatileExecute(code);
             Debug.Assert(DS["VAR"].Intcon == 20, "HostType function pointer");
             Debug.Assert(DS["@VAR1"].Str == "VAL1", "HostType function pointer");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
 
             code = @"
@@ -200,7 +200,7 @@ namespace UnitTest
             ";
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Intcon == 150, "function");
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
             HostType.Register(typeof(IFormattable));
            // HostType.Register(typeof(System.Collections.IEnumerable));  //这个可以不注册,因为is指令知道后面跟的一定是Type
@@ -223,7 +223,7 @@ namespace UnitTest
             Debug.Assert(script.DS["b4"].Boolcon == true);
             Debug.Assert(script.DS["b5"].Boolcon == true);
 
-            script.DS.Clear();
+            script.DS.RemoveAll();
 
             code = @"
              L = {10, 20, 30};
@@ -232,7 +232,7 @@ namespace UnitTest
             ";
             script.VolatileExecute(code);
             Debug.Assert(script.DS["b1"] == script.DS["b2"], "element in List");
-            script.DS.Clear();
+            script.DS.RemoveAll();
             
 
             code = @"
@@ -258,7 +258,7 @@ namespace UnitTest
             Debug.Assert(script.DS["stringFormat"].Str == ":::A=20.30:B", "unbounded arguments");
             VAL stringFormat = script.InvokeFunction("Format", new object[] { ":::", "{0}={1}.{2}:{3}", "A", 20, 30, "B" });
             Debug.Assert(script.DS["stringFormat"] == stringFormat, "variable arguments");
-            script.DS.Clear();
+            script.DS.RemoveAll();
             script.RemoveModule(); 
 
             //Logger.Close();

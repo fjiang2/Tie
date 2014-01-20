@@ -15,7 +15,7 @@ namespace UnitTest
              * 
              * 
              * */
-            Script.CommonMemory.Clear();
+            Script.CommonMemory.RemoveAll();
             Memory myDS = new Memory();
             string code = @"{
 //                        tb.Name = 'tbEdit';

@@ -49,6 +49,8 @@ namespace Tie
             }
         }
 
+        #region Add to Memory
+
         /// <summary>
         /// Add host object variable
         /// </summary>
@@ -97,20 +99,100 @@ namespace Tie
         }
 
 
+      
+
+        #endregion
+
+
+        /// <summary>
+        /// Dictionary of varible
+        /// </summary>
+        internal Dictionary<VAR, VAL> DS
+        {
+            get
+            {
+                return ds;
+            }
+        }
+
+
+        internal bool ContainsKey(VAR key)
+        {
+            return ds.ContainsKey(key);
+        }
+
+
+        /// <summary>
+        /// Get value by variable name
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public VAL this[VAR key]
+        {
+            get
+            {
+                if (ds.ContainsKey(key))
+                    return ds[key];
+               else
+                   return VAL.NewVoidType(); 
+            }
+            set
+            {
+                Add(key, value);              //ds[key] = value;
+            }
+        }
+
+        #region GetValue/SetValue
+
+        /// <summary>
+        /// return value from memory.
+        ///   e.g. GetValue("Place.City.Zip");
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public VAL GetValue(string variable)
+        {
+            string[] names = variable.Split(new char[] { '.' });
+            
+            if (names.Length == 0)
+                return VAL.NewVoidType();
+            
+            VAR _var = new VAR(names[0]);
+
+            VAL _val = this[_var];
+
+            if (names.Length == 1)
+                return _val;
+
+            int i=1;
+            while(i < names.Length)
+            {
+                _val = _val[names[i]];
+                if (_val.Undefined)
+                    return _val;
+
+                i++;
+            }
+            
+            return _val;
+        }
+
         /// <summary>
         /// Add a value to element
         ///     e.g. 
         ///     Tie: Place.City.Zip = 20341;
-        ///      C#: Add(new string[]{"Place", "City", "Zip"}, new VAL(20341));
+        ///      C#: SetValue("Place.City.Zip", new VAL(20341));
         /// </summary>
         /// <param name="names"></param>
         /// <param name="val"></param>
-        public void Add(string[] names, VAL val)
+        public void SetValue(string variable, VAL val)
         {
             if (val.Undefined || val.IsNull)
                 return;
 
-            if (names.Length ==0)
+            string[] names = variable.Split(new char[] { '.' });
+
+            if (names.Length == 0)
                 return;
 
             VAR _var = new VAR(names[0]);
@@ -139,37 +221,47 @@ namespace Tie
             }
         }
 
-
         /// <summary>
-        /// Dictionary of varible
+        /// Remove element
+        ///     e.g.
+        ///     RemoveValue("Place.City");
         /// </summary>
-        internal Dictionary<VAR, VAL> DS
+        /// <param name="variable"></param>
+        public void RemoveValue(string variable)
         {
-            get
+            string[] names = variable.Split(new char[] { '.' });
+
+            if (names.Length == 0)
+                return;
+
+            VAR _var = new VAR(names[0]);
+
+            VAL _val = this[_var];
+
+            if (names.Length == 1)
             {
-                return ds;
+                this.Remove(_var);
+                return;
             }
+
+            int i = 1;
+            while (i < names.Length -1)
+            {
+                _val = _val[names[i]];
+                
+                if (_val.Undefined)
+                    return;
+
+                i++;
+            }
+            
+            _val.Remove(names[names.Length - 1]);
+
         }
 
-        /// <summary>
-        /// Get value by variable name
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public VAL this[VAR key]
-        {
-            get
-            {
-                if (ds.ContainsKey(key))
-                    return ds[key];
-               else
-                   return VAL.NewVoidType(); 
-            }
-            set
-            {
-                Add(key, value);              //ds[key] = value;
-            }
-        }
+ 
+        #endregion
+
 
         /// <summary>
         /// all variables name in memory
@@ -182,18 +274,17 @@ namespace Tie
             }
         }
 
-        internal bool ContainsKey(VAR key)
-        {
-            return ds.ContainsKey(key);
-        }
+
+        #region Remove/RemoveAll
 
         /// <summary>
         /// Clear varible dictionary
         /// </summary>
-        public void Clear()
+        public void RemoveAll()
         {
             ds.Clear();
         }
+
 
         /// <summary>
         /// Remove a variable
@@ -207,7 +298,31 @@ namespace Tie
 
             return false;
         }
-        
+
+        #endregion
+
+
+        /// <summary>
+        /// Clear void or null value
+        /// </summary>
+        /// <param name="key"></param>
+        public void ClearNullorVoid(VAR key)
+        {
+            if (!ContainsKey(key))
+                return;
+
+            VAL dict = this[key];
+            
+            if (dict.Undefined || dict.IsNull)
+                Remove(key);
+
+
+            dict.ClearNullorVoid();
+        }
+
+      
+
+
         
         /// <summary>
         ///   Converts the value of this instance to a System.String.

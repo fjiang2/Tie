@@ -26,7 +26,7 @@ namespace UnitTest
                A = new int[][] { {1,2}, {3,4}, {5,6}};
             ";
 
-            DS.Clear();
+            DS.RemoveAll();
             Script.Execute(code, DS);
             System.Diagnostics.Debug.Assert((string)DS["I0"].Valor == "{1,2,3}");
             System.Diagnostics.Debug.Assert((string)DS["I1"].Valor == "{1,2,3}.typeof(System.Int32[])");

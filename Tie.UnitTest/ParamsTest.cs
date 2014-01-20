@@ -106,7 +106,7 @@ namespace UnitTest
                 s3= foo(1,2);
                 s4= foo('Me');
             ";
-            DS.Clear();
+            DS.RemoveAll();
             Script.Execute(code, DS);
             System.Diagnostics.Debug.Assert(DS["s1"].Intcon == 0);
             System.Diagnostics.Debug.Assert(DS["s2"].Intcon == 1);
@@ -118,7 +118,7 @@ namespace UnitTest
                 s2 = UnitTest.ParamsTest.Format('{0}+{1}+{2}',1,2,3);
                 s3 = string.Format('{0}+{1}+{2}',1,2,3);
             ";
-            DS.Clear();
+            DS.RemoveAll();
             HostType.Register(typeof(ParamsTest));
             Script.Execute(code, DS);
             System.Diagnostics.Debug.Assert(DS["s1"].Str == "Test:1+2+3");
