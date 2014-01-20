@@ -74,8 +74,9 @@ namespace Tie.Helper
             if (v.Undefined || v.IsNull)
                 return;
 
-            memory.SetValue(variable, v);
-            //Script.Execute(string.Format("{0}={1};", variable, v.ToJson()), memory);
+            //v.ty = VALTYPE.listcon;
+            //memory.SetValue(variable, v);
+            Script.Execute(string.Format("{0}={1};", variable, v.ToJson()), memory);
         }
 
         /// <summary>

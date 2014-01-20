@@ -55,6 +55,13 @@ namespace UnitTest
             ds.ClearNullorVoid("A");
             val = ds["A"];
             Debug.Assert(val.ToString() == "{{\"a\",1},{\"b\",2},{\"D\",{{\"a\",1}}}}");
+
+            ds.RemoveAll();
+            code = "A.B.C = {1, 2, 3}.typeof('SET');";
+            //code = "A.B.C = {1, 2, 3};";
+            Script.Execute(code, ds);
+            //ds.SetValue("A.B.C", new VAL(10));
+            ds.SetValue("A.B.C", new VAL(20));
        }
     }
 }
