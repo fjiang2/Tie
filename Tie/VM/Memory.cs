@@ -183,7 +183,7 @@ namespace Tie
         ///     Tie: Place.City.Zip = 20341;
         ///      C#: SetValue("Place.City.Zip", new VAL(20341));
         /// </summary>
-        /// <param name="names"></param>
+        /// <param name="variable"></param>
         /// <param name="val"></param>
         public void SetValue(string variable, VAL val)
         {
@@ -196,28 +196,28 @@ namespace Tie
                 return;
 
             VAR _var = new VAR(names[0]);
-            VAL _val;
 
-            if (this.ContainsKey(_var))
+            if (names.Length == 1)
             {
-                if (names.Length > 1)
+                if (this.ContainsKey(_var))
+                    this[_var] = val;
+                else
+                    this.Add(_var, val);
+            }
+            else
+            {
+                VAL _val;
+                if (this.ContainsKey(_var))
                 {
                     _val = this[_var];
                     VAL.Assign(_val, names, 1, val);
                 }
                 else
-                    this[_var] = val;
-            }
-            else
-            {
-                if (names.Length > 1)
                 {
                     _val = new VAL(new VALL());
                     VAL.Assign(_val, names, 1, val);
                     this.Add(_var, _val);
                 }
-                else
-                    this.Add(_var, val);
             }
         }
 
