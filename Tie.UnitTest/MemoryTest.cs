@@ -58,10 +58,29 @@ namespace UnitTest
 
             ds.RemoveAll();
             code = "A.B.C = {1, 2, 3}.typeof('SET');";
-            //code = "A.B.C = {1, 2, 3};";
             Script.Execute(code, ds);
-            //ds.SetValue("A.B.C", new VAL(10));
+            Debug.Assert(ds["A"]["B"]["C"][2].Intcon == 3);
             ds.SetValue("A.B.C", new VAL(20));
+            Debug.Assert(ds["A"]["B"]["C"].Intcon == 20);
+            val = ds.GetValue("A.B.C");
+            Debug.Assert(val.Intcon == 20);
+
+            ds.RemoveAll();
+            Script.Execute("X=A.B;", ds);
+            //variable A.B will create void automatically
+            Debug.Assert(ds["A"].ToString() == "{{\"B\",void}}");
+
+            val = new VAL();
+            val["A"] = new VAL();   //must be new VAL()
+            val["A"]["B"] = new VAL();
+            val["A"]["B"]["C"] = new VAL();
+            val["A"]["B"]["C"]["D"] = new VAL(500);
+            Debug.Assert(val["A"]["B"]["C"]["D"].Intcon == 500);
+            
+            val = new VAL();
+            val["A"]["B"]["C"]["D"] = new VAL(500);
+            Debug.Assert(val["A"]["B"]["C"]["D"].Undefined);
+            
        }
     }
 }
