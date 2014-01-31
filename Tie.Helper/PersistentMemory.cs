@@ -32,6 +32,8 @@ namespace Tie.Helper
             this.memory = memory;
         }
 
+        protected bool IsDirty;
+
         /// <summary>
         /// 
         /// </summary>
@@ -77,6 +79,7 @@ namespace Tie.Helper
             //v.ty = VALTYPE.listcon;
             //memory.SetValue(variable, v);
             Script.Execute(string.Format("{0}={1};", variable, v.ToJson()), memory);
+            this.IsDirty = true;
         }
 
         /// <summary>
