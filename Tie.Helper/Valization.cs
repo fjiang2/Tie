@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.IO;
 using Tie;
 
 namespace Tie.Helper
@@ -10,6 +11,8 @@ namespace Tie.Helper
     {
         public static void Register()
         {
+          
+
 
             Valizer.Register<byte[]>(
                  delegate(byte[] bytes)
@@ -22,6 +25,22 @@ namespace Tie.Helper
                      return bytes;
                  }
             );
+
+
+            Valizer.Register<Stream>(
+             delegate(Stream stream)
+             {
+                 byte[] bytes = new byte[stream.Length];
+                 stream.Read(bytes, 0, bytes.Length);
+                 return Valizer.Valize(bytes);
+             },
+             delegate(Stream stream, Type type, VAL val)
+             {
+                 byte[] bytes = Valizer.Devalize<byte[]>(val);
+                 stream.Write(bytes, 0, bytes.Length);
+                 return stream;
+             }
+          );
 
 
             Valizer.Register<Size>(delegate(Size size)

@@ -6,6 +6,7 @@ using Tie;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
+using System.IO;
 
 namespace UnitTest
 {
@@ -89,6 +90,34 @@ namespace UnitTest
             Valizer.Devalize(val, form);
             Debug.Assert(button1.ForeColor.R == Color.Black.R && button1.ForeColor.G == Color.Black.G && button1.ForeColor.B == Color.Black.B);
             Debug.Assert(button2.Text == "Cancel");
+
+
+            string text1 = "ABCDEDF12345678";
+            StreamWriter writer = new StreamWriter("c:\\temp\\tietest1.txt");
+            writer.Write(text1);
+            writer.Close();
+
+            using (FileStream fileStream = new FileStream("c:\\temp\\tietest1.txt", FileMode.Open))
+            {
+                //Valize
+                VAL x1 = Valizer.Valize(fileStream);
+                
+                //Save to JSON device
+                string json1 = x1.ToJson();
+             
+                //Load from JSON device
+                VAL x2 = Script.Evaluate(json1);
+
+                //Devalize
+                MemoryStream memoryStream = new MemoryStream();
+                Valizer.Devalize(x2, memoryStream);
+
+                //verify
+                memoryStream.Position = 0;
+                StreamReader reader = new StreamReader(memoryStream);
+                string text2 = reader.ReadToEnd();
+                Debug.Assert(text1 == text2);
+            }
         }
     }
 }
