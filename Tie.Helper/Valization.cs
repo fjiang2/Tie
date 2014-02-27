@@ -159,6 +159,12 @@ namespace Tie.Helper
                    host =>
                    {
                        var val = new VAL();
+                       
+                       if (host == null)
+                       {
+                           return VAL.Array(0);
+                       }
+
                        foreach (var item in host)
                        {
                            val.Add(Valizer.Valize(item));
@@ -168,7 +174,10 @@ namespace Tie.Helper
                    val =>
                    {
                        var list = new List<T>();
-                       foreach (var item in val)
+                       if (val.IsNull)
+                           return list;
+
+                       foreach (VAL item in val)
                        {
                            list.Add(Valizer.Devalize<T>(item));
                        }
