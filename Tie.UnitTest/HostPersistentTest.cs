@@ -170,7 +170,7 @@ namespace UnitTest
             Debug.Assert(fontStyle.HostValue is FontStyle && (FontStyle)fontStyle.HostValue == (FontStyle.Bold | FontStyle.Italic));
 
 
-            Tie.Helper.Helper.DefineEnumAsString();
+            Tie.Helper.Helper.RegisterEnumAs<string>();
             FontStyle style = FontStyle.Bold;
             VAL ttt = Valizer.Valize(style);
             Debug.Assert(ttt.Valor == "\"Bold\"");
@@ -184,7 +184,7 @@ namespace UnitTest
             Valizer.Unregister(typeof(Enum));
 
 
-            Tie.Helper.Helper.DefineEnumAsInteger();
+            Tie.Helper.Helper.RegisterEnumAs<int>();
             style = FontStyle.Bold;
             ttt = Valizer.Valize(style);
             Debug.Assert(ttt.Intcon == 1);
