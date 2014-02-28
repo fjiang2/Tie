@@ -71,6 +71,8 @@ namespace UnitTest
       
 
             Helper.Start();
+            ValizationExamples.RegisterDemo();
+
             MemoryTest.main();
             OperatorTest.main();
             LambdaExpressionTest.main();
