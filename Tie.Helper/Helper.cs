@@ -21,9 +21,16 @@ namespace Tie.Helper
                    {
                        return new VAL(Convert.ToInt32(host));
                    },
-                   val =>
+                   (host, type, val) =>
                    {
-                       return (Enum)Enum.ToObject(typeof(Enum), val.Intcon);
+                       try
+                       {
+                           return (Enum)Enum.ToObject(typeof(Enum), val.Intcon);
+                       }
+                       catch (Exception)
+                       {
+                           return (Enum)Activator.CreateInstance(type);
+                       }
                    }
                );
         }
@@ -40,16 +47,26 @@ namespace Tie.Helper
               {
                   string s = val.Str;
                   string[] L = s.Split(new char[] { ',' });
-                  if (L.Length == 1)
-                      return (Enum)Enum.Parse(type, s);
-                  else
+                  try
                   {
-                      int E = 0;
-                      for (int i = 0; i < L.Length; i++)
+                      if (L.Length == 1)
                       {
-                          E += Convert.ToInt32(Enum.Parse(type, L[i].Trim()));
+                          return (Enum)Enum.Parse(type, s);
                       }
-                      return (Enum)Enum.ToObject(typeof(Enum), E);
+                      else
+                      {
+                          int E = 0;
+                          for (int i = 0; i < L.Length; i++)
+                          {
+                              E += Convert.ToInt32(Enum.Parse(type, L[i].Trim()));
+                          }
+                          return (Enum)Enum.ToObject(typeof(Enum), E);
+                      }
+                  }
+                  catch (Exception)
+                  {
+                      //return default value if str is not Enum type any more
+                      return (Enum)Activator.CreateInstance(type);
                   }
               }
             );

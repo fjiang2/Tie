@@ -137,11 +137,11 @@ namespace Tie.Helper
                 delegate(Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
-                    return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
+                    return Valizer.Valize(bytes);
                 },
                 delegate(VAL val)
                 {
-                    byte[] bytes = Serialization.HexStringToByteArray(val.Str);
+                    byte[] bytes = Valizer.Devalize<byte[]>(val);
                     return new Guid(bytes);
                 }
             );

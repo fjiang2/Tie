@@ -177,6 +177,10 @@ namespace UnitTest
             ttt = Script.Evaluate(ttt.Valor);
             style = Valizer.Devalize<FontStyle>(ttt);
             Debug.Assert(style == FontStyle.Bold);
+
+            style = Valizer.Devalize<FontStyle>(new VAL("Fake"));
+            Debug.Assert(style == FontStyle.Regular, "Fake is not FontStyle");
+
             Valizer.Unregister(typeof(Enum));
 
 
