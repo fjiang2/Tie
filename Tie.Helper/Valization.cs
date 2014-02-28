@@ -158,12 +158,10 @@ namespace Tie.Helper
             Valizer.Register<List<T>>(
                    host =>
                    {
-                       var val = new VAL();
-                       
                        if (host == null)
-                       {
-                           return VAL.Array(0);
-                       }
+                           return new VAL();
+
+                       var val = VAL.Array();
 
                        foreach (var item in host)
                        {
@@ -173,9 +171,10 @@ namespace Tie.Helper
                    },
                    val =>
                    {
-                       var list = new List<T>();
                        if (val.IsNull)
-                           return list;
+                           return null;
+
+                       var list = new List<T>();
 
                        foreach (VAL item in val)
                        {
@@ -191,7 +190,11 @@ namespace Tie.Helper
             Valizer.Register<Dictionary<T1, T2>>(
                    host =>
                    {
-                       var val = new VAL();
+                       if (host == null)
+                           return new VAL();
+
+                       var val = VAL.Array();
+
                        foreach (var kvp in host)
                        {
                            VAL assoc = new VAL();
@@ -204,6 +207,9 @@ namespace Tie.Helper
                    },
                    val =>
                    {
+                       if (val.IsNull)
+                           return null;
+
                        var dict = new Dictionary<T1, T2>();
                        foreach (var assoc in val)
                        {

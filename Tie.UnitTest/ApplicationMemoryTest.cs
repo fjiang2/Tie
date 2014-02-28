@@ -271,6 +271,10 @@ Place.StreetName 	 ""500 Airport Highway""
             list.Add(10); list.Add(20); list.Add(30);
             device.SetValue("list", list);
 
+
+            List<int> emptylist = new List<int>();
+            device.SetValue("emptylist", emptylist);
+
             /**
              * 
              * Dictionary<T1, T2>
@@ -311,6 +315,9 @@ Place.StreetName 	 ""500 Airport Highway""
             Debug.Assert(list[1] == 20);
             dict = device.GetValue<Dictionary<string, int>>("dict");
             Debug.Assert(dict["B"] == 2);
+
+            emptylist = device.GetValue<List<int>>("emptylist");
+            Debug.Assert(emptylist.Count == 0);
 
 
             nbool = device.GetValue<bool?>("nullable");
