@@ -114,17 +114,30 @@ namespace Tie.Helper
 
                        return val;
                    },
-                   val =>
+                   (host, type, val) =>
                    {
                        if (val.IsNull)
                            return null;
 
-                       var dict = new Dictionary<T1, T2>();
+                       Dictionary<T1, T2> dict;
+                       if (host != null)
+                           dict = host;
+                       else
+                           dict = new Dictionary<T1, T2>();
+
                        foreach (var assoc in val)
                        {
-                           dict.Add(
-                               Valizer.Devalize<T1>(assoc[0]), 
-                               Valizer.Devalize<T2>(assoc[1]));
+                           T1 key = Valizer.Devalize<T1>(assoc[0]);
+                           T2 value = Valizer.Devalize<T2>(assoc[1]);
+
+                           if (dict.ContainsKey(key))
+                           {
+                               dict[key] = value;
+                           }
+                           else
+                           {
+                               dict.Add(key, value);
+                           }
                        }
                        return dict;
                    }
