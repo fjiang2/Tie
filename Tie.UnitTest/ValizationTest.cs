@@ -54,7 +54,7 @@ namespace UnitTest
                             Valizer.Devalize(val[control.Name], control);
                         }
                     }
-                    
+
                     return form;
                 }
               );
@@ -101,10 +101,10 @@ namespace UnitTest
             {
                 //Valize
                 VAL x1 = Valizer.Valize(fileStream);
-                
+
                 //Save to JSON device
                 string json1 = x1.ToJson();
-             
+
                 //Load from JSON device
                 VAL x2 = Script.Evaluate(json1);
 
@@ -121,6 +121,24 @@ namespace UnitTest
 
             var args = Script.Evaluate("new { UserId = 999+20, Name=\"Jane\" + 3}");
             Debug.Assert(args.ToString() == "{{\"UserId\",1019},{\"Name\",\"Jane3\"}}");
+
+            Script.FunctionChain.Add(
+                (string func, VAL parameters, Memory DS)
+                =>
+                {
+                    if (func == "Area111")
+                    {
+                        string name1 = parameters[1].GetName();
+                        string name2 = parameters[2].GetName();
+                        Debug.Assert(name1 == "userId" && name2=="Name");
+                        return new VAL();
+                    }
+                    else
+                        return null;
+                }
+            );
+            var code1 = "XXX.Area111(userId = 10 +20, Name='Jane')";
+            var x = Script.Evaluate(code1, new Memory());
         }
     }
 }
