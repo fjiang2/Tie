@@ -118,6 +118,9 @@ namespace UnitTest
                 string text2 = reader.ReadToEnd();
                 Debug.Assert(text1 == text2);
             }
+
+            var args = Script.Evaluate("new { UserId = 999+20, Name=\"Jane\" + 3}");
+            Debug.Assert(args.ToString() == "{{\"UserId\",1019},{\"Name\",\"Jane3\"}}");
         }
     }
 }

@@ -204,7 +204,7 @@ namespace Tie
         {
             switch (lex.sy)
             {
-                case SYMBOL.LP: 
+                case SYMBOL.LP:
                     int index = lex.Index();
                     lex.InSymbol();
                     if (lex.sy == SYMBOL.RP)        //Lambda Expression 零个参数 () => x+20
@@ -222,7 +222,7 @@ namespace Tie
                     {
                         string[] args = new string[32];         //保存arguments变量
                         int argc = 0;
-                        while (lex.sy == SYMBOL.identsy)                        
+                        while (lex.sy == SYMBOL.identsy)
                         {
                             args[argc++] = lex.sym.id;
                             lex.InSymbol();
@@ -237,39 +237,39 @@ namespace Tie
                             lex.InSymbol();
                         else
                             goto L1;
-                       
+
                         if (lex.sy == SYMBOL.GOESTO)
                         {
                             ((JParser)this).e_lambda(args, argc);
                             return true;
                         }
-                        
+
                     L1:
-                       lex.InSymbol(index); //失败,回溯
+                        lex.InSymbol(index); //失败,回溯
                     }
-                    
-                    s_exp1();  
+
+                    s_exp1();
 
                     expect(SYMBOL.RP);
                     if (       //强制类型转换
-                           lex.sy == SYMBOL.identsy   || lex.sy == SYMBOL.THIS      || lex.sy == SYMBOL.BASE
-                        || lex.sy == SYMBOL.LP        || lex.sy == SYMBOL.LC        || lex.sy == SYMBOL.LB
-                        || lex.sy == SYMBOL.nullsy    || lex.sy == SYMBOL.intcon
-                        || lex.sy == SYMBOL.floatcon  || lex.sy == SYMBOL.stringcon
-                        || lex.sy == SYMBOL.truesy    || lex.sy == SYMBOL.falsesy
+                           lex.sy == SYMBOL.identsy || lex.sy == SYMBOL.THIS || lex.sy == SYMBOL.BASE
+                        || lex.sy == SYMBOL.LP || lex.sy == SYMBOL.LC || lex.sy == SYMBOL.LB
+                        || lex.sy == SYMBOL.nullsy || lex.sy == SYMBOL.intcon
+                        || lex.sy == SYMBOL.floatcon || lex.sy == SYMBOL.stringcon
+                        || lex.sy == SYMBOL.truesy || lex.sy == SYMBOL.falsesy
                         )
-                       {
-                            s_exp1();
-                            s_call(Constant.FUNC_CAST_TYPE_VALUE, 2);
-                       }
+                    {
+                        s_exp1();
+                        s_call(Constant.FUNC_CAST_TYPE_VALUE, 2);
+                    }
                     break;
 
-                case SYMBOL.intcon: 
-                case SYMBOL.floatcon: 
+                case SYMBOL.intcon:
+                case SYMBOL.floatcon:
                 case SYMBOL.stringcon:
-                case SYMBOL.nullsy: 
-                case SYMBOL.VOID: 
-                case SYMBOL.truesy: 
+                case SYMBOL.nullsy:
+                case SYMBOL.VOID:
+                case SYMBOL.truesy:
                 case SYMBOL.falsesy: gen.emit(INSTYPE.MOV, new Operand(new Numeric(lex.sy, lex.sym))); lex.InSymbol(); break;
 
                 case SYMBOL.LC: lex.InSymbol(); gen.emit(INSTYPE.MARK); s_expr1(); expect(SYMBOL.RC); gen.emit(INSTYPE.END); break;
@@ -280,7 +280,33 @@ namespace Tie
                 case SYMBOL.VAR: ((JParser)this).e_decl(); break;
 
                 case SYMBOL.NEW:
-                    if (s_instance())  //如果不是new object()
+                    lex.InSymbol();
+                    if (lex.sy == SYMBOL.LC) //匿名class, 例如:new {Id=100, Name="Jane"}
+                    {
+                        gen.emit(INSTYPE.MARK);
+                        lex.InSymbol();
+
+                        while (lex.sy == SYMBOL.identsy)
+                        {
+                            string ident = lex.sym.id;
+                            gen.emit(INSTYPE.MARK);
+                            Operand x = new Operand(new Numeric(ident));
+                            gen.emit(INSTYPE.MOV, x);
+                            lex.InSymbol();
+                            
+                            expect(SYMBOL.EQUAL);
+
+                            s_exp1();
+                            gen.emit(INSTYPE.END);
+
+                            if (lex.sy == SYMBOL.COMMA)
+                                lex.InSymbol();
+                        }
+
+                        expect(SYMBOL.RC);
+                        gen.emit(INSTYPE.END);
+                    }
+                    else if (s_instance())  //如果不是new object()
                     {
                         int operand = 1;
                         if (lex.sy == SYMBOL.LC)    //双操作符
@@ -986,7 +1012,6 @@ namespace Tie
       * */
         public bool s_instance()
         {
-            lex.InSymbol();
             s_var(true);
 
             if (gen.IV[gen.IP - 1].cmd == INSTYPE.SP)     //指令CALL后面,一定是指令SP
