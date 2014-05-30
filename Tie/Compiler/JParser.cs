@@ -157,6 +157,7 @@ namespace Tie
                     gen.emit(INSTYPE.THIS);
                     gen.emit(INSTYPE.MOV, Operand.Ident(Expression.BASE_INSTANCE));
                     gen.emit(INSTYPE.OFS);
+                    lex.InSymbol();
                     s_instance();
                     gen.emit(INSTYPE.STO1);
                 }

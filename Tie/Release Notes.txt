@@ -29,6 +29,9 @@
   1. Host的operator overloading
   2. 从多个相容的overloading methods中选择一个最优的
 
+05/30/2014
+ 支持C#的匿名class,例如: var a = new {Id=100, Name="Jane"};
+
 12/20/2013
   add class PersistentMemory to support Host object serialization
 
