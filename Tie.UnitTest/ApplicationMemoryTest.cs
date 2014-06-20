@@ -331,7 +331,7 @@ Place.StreetName 	 ""500 Airport Highway""
             flags = device.GetValue<System.Reflection.BindingFlags>("ienum");
             Debug.Assert(flags == System.Reflection.BindingFlags.IgnoreCase);
 
-            Valizer.Unregister(typeof(Dictionary<,>));
+            //Valizer.Unregister(typeof(Dictionary<,>));
 
 
 
