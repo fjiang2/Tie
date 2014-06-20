@@ -139,6 +139,17 @@ namespace UnitTest
             );
             var code1 = "XXX.Area111(userId = 10 +20, Name='Jane')";
             var x = Script.Evaluate(code1, new Memory());
+
+            Dictionary<Type, bool> dict = new Dictionary<Type, bool>();
+            dict.Add(typeof(int), true);
+            dict.Add(typeof(string), false);
+
+            VAL vDict = Valizer.Valize(dict);
+            string j1 = vDict.ToJson();
+
+            dict.Clear();
+
+            dict = Valizer.Devalize < Dictionary<Type, bool>>(Script.Evaluate(j1));
         }
     }
 }
