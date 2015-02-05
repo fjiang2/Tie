@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Dynamic;
 
 namespace Tie.Helper
 {
     /// <summary>
     /// 
     /// </summary>
-    public abstract class PersistentMemory
+    public abstract class PersistentMemory : DynamicObject
     {
         /// <summary>
         /// 
@@ -177,6 +178,39 @@ namespace Tie.Helper
         public override string ToString()
         {
             return memory.ToString();
+        }
+
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+
+            VAL val = memory.GetValue(binder.Name);
+            if (val.Undefined)
+            {
+                memory.Add(binder.Name, val);
+                result = new Val(val);
+                return true;
+            }
+
+            object hostValue = val.HostValue;
+
+            if (hostValue == null || hostValue is string || hostValue.GetType().IsValueType)
+            {
+                result = hostValue;
+                return true;
+            }
+            else
+            {
+                result = new Val(val);
+            }
+
+            return true;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            SetValue(binder.Name, value);
+            return true;
         }
     }
     
