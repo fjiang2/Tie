@@ -180,6 +180,11 @@ namespace Tie.Helper
             return memory.ToString();
         }
 
+        public bool Exists(string variable)
+        {
+            VAL val = memory.GetValue(variable);
+            return val.Defined;
+        }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
@@ -188,7 +193,7 @@ namespace Tie.Helper
             if (val.Undefined)
             {
                 memory.Add(binder.Name, val);
-                result = new Val(val);
+                result = new DynamicVal(val);
                 return true;
             }
 
@@ -201,7 +206,7 @@ namespace Tie.Helper
             }
             else
             {
-                result = new Val(val);
+                result = new DynamicVal(val);
             }
 
             return true;
@@ -212,6 +217,9 @@ namespace Tie.Helper
             SetValue(binder.Name, value);
             return true;
         }
+
+        public readonly static DynamicVal Empty = new DynamicVal(new VAL { ty = VALTYPE.voidcon });
+
     }
     
     

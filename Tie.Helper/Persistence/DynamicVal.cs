@@ -7,10 +7,12 @@ using System.Dynamic;
 
 namespace Tie.Helper
 {
-    public class Val : DynamicObject
+    public class DynamicVal : DynamicObject
     {
-        private VAL val;
-        public Val(VAL val)
+
+        private readonly VAL val;
+
+        public DynamicVal(VAL val)
         {
             this.val = val;
         }
@@ -23,7 +25,7 @@ namespace Tie.Helper
                 VAL a = new VAL();
                 a.ty = VALTYPE.voidcon;
                 val[binder.Name] = a;
-                result = new Val(a);
+                result = new DynamicVal(a);
                 return true;
             }
 
@@ -37,7 +39,7 @@ namespace Tie.Helper
             }
             else
             {
-                result = new Val(element);
+                result = new DynamicVal(element);
             }
 
             return true;
@@ -49,9 +51,9 @@ namespace Tie.Helper
             if (val.Undefined)
                 val.ty = VALTYPE.nullcon;
 
-            if (value is Val)
+            if (value is DynamicVal)
             {
-                val[binder.Name] = ((Val)value).val;
+                val[binder.Name] = ((DynamicVal)value).val;
             }
             else
             {
@@ -61,5 +63,32 @@ namespace Tie.Helper
             return true;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is DynamicVal))
+                return false;
+
+            DynamicVal v1 = obj as DynamicVal;
+
+            if (v1.val.Undefined && this.val.Undefined)
+                return true;
+
+            return v1.val.Equals(this.val);
+        }
+
+        public static bool operator ==(DynamicVal val1, DynamicVal val2)
+        {
+            return val1.Equals(val2);
+        }
+
+        public static bool operator !=(DynamicVal val1, DynamicVal val2)
+        {
+            return !(val1 == val2);
+        }
+
+        public override string ToString()
+        {
+            return this.val.ToString();
+        }
     }
 }
