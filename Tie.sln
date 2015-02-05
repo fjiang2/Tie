@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie45", "Tie\Tie45.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie451", "Tie\Tie451.csproj", "{EB36F027-0A2C-4FF2-9FF4-6D44F8BC7CB1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7BE026F2-8686-46A2-BD28-1553DCABA077}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Helper.Tests", "tests\Tie.Helper.Tests\Tie.Helper.Tests.csproj", "{DFE04763-A699-4933-8242-0F5448B029CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Basic|Any CPU = Basic|Any CPU
@@ -237,8 +241,31 @@ Global
 		{EB36F027-0A2C-4FF2-9FF4-6D44F8BC7CB1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EB36F027-0A2C-4FF2-9FF4-6D44F8BC7CB1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EB36F027-0A2C-4FF2-9FF4-6D44F8BC7CB1}.Release|x86.ActiveCfg = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Basic|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Basic|Any CPU.Build.0 = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Basic|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Basic|Mixed Platforms.Build.0 = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Basic|x86.ActiveCfg = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Extend|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Extend|Any CPU.Build.0 = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Extend|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Extend|Mixed Platforms.Build.0 = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Extend|x86.ActiveCfg = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DFE04763-A699-4933-8242-0F5448B029CA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DFE04763-A699-4933-8242-0F5448B029CA} = {7BE026F2-8686-46A2-BD28-1553DCABA077}
 	EndGlobalSection
 EndGlobal
