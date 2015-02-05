@@ -89,6 +89,35 @@ namespace Tie.Helper.Tests
         }
 
         [Fact]
+        public void GetValueUndefinedKey()
+        {
+            dynamic obj = config.UndefinedKey;
+
+            // Assert
+            Assert.Equal(obj, config.Empty);
+        }
+
+        [Fact]
+        public void CompareUndefinedValue()
+        {
+            dynamic obj = config.UndefinedKey;
+
+            bool result = obj == config.Empty;
+
+            // Assert
+            Assert.Equal(result, true);
+        }
+
+        [Fact]
+        public void GetValueUndefinedKey2()
+        {
+            object obj = config.UndefinedKey.A;
+
+            // Assert
+            Assert.Equal(obj, config.Empty);
+        }
+
+        [Fact]
         public void SetValueString()
         {
             config.TempDirectory = "c:\\temp";
