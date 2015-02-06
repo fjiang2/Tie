@@ -115,13 +115,18 @@ namespace Tie
             for (int i = 0; i < len; i++)
                 dParameterTypes[i+1] = dParemeters[i].ParameterType;
 
-
+#if !SILVERLIGHT
             DynamicMethod dynamicMethod = new DynamicMethod(
                 Constant.FUNC_CON_INSTANCE_INVOKE,
                 dMethod.ReturnType,
                 dParameterTypes,
                 target.GetType());  //把DynamicMethod关联到target的class
-
+#else
+            DynamicMethod dynamicMethod = new DynamicMethod(
+                Constant.FUNC_CON_INSTANCE_INVOKE,
+                dMethod.ReturnType,
+                dParameterTypes); 
+#endif
             ILGenerator il = dynamicMethod.GetILGenerator(256);
 
             //定义局部变量 

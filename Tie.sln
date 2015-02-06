@@ -1,6 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7BE026F2-8686-46A2-BD28-1553DCABA077}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B4E1E895-034D-4F23-82CC-90405AFA1637}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie20", "Tie\Tie20.csproj", "{0FAD3400-65A1-458F-9280-89925A6F7731}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest", "Tie.UnitTest\Tie.UnitTest.csproj", "{77E4EE61-D572-423B-8E14-6855CD01861A}"
@@ -21,13 +27,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie45", "Tie\Tie45.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie451", "Tie\Tie451.csproj", "{EB36F027-0A2C-4FF2-9FF4-6D44F8BC7CB1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7BE026F2-8686-46A2-BD28-1553DCABA077}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Helper.Tests", "tests\Tie.Helper.Tests\Tie.Helper.Tests.csproj", "{DFE04763-A699-4933-8242-0F5448B029CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Tests", "Tie.Tests\Tie.Tests.csproj", "{5FC0F49D-2765-47F6-8FA0-2E8422A9CAB3}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B4E1E895-034D-4F23-82CC-90405AFA1637}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Samples", "samples\Tie.Samples\Tie.Samples.csproj", "{73F63DE9-6E15-45A4-A3AC-72451B1F3542}"
 EndProject
