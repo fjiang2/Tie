@@ -1,0 +1,89 @@
+{
+Version: 2.0,
+Title :  "Input Date Range",
+Size: new System.Drawing.Size(500, 300),
+
+Parameters : 
+  { Date1 : "dtpDate1.Value",
+    Date2 : "dtpDate2.Value",
+	Category : "lbCategory.SelectedItem.isnull('unknown')"
+  },
+
+Controls:
+   [
+     {  Class:"System.Windows.Forms.Label",   
+        Text:"Date From",
+        Location : new System.Drawing.Point(60, 40),
+     },
+     {
+        Class: "System.Windows.Forms.DateTimePicker",
+        Value: Date1.isnull(DateTime(2010,1,1)),
+        Name: "dtpDate1",
+        Size: new System.Drawing.Size(240, 20),
+        Location : new System.Drawing.Point(160, 40),
+		ValueChanged : delegate(sender, e) 
+			{ 
+				if(sender.Value > DateTime(2011,1,1)) 
+					error(sender, "Date must < 1/1/2011"); 
+			    else
+				    error(sender);			//Clear error
+			}
+     },
+     
+	 {
+       Class: "System.Windows.Forms.Label",
+       Text: "Date To",
+       Location : new System.Drawing.Point(60, 80),
+     },
+     {
+       Class: "System.Windows.Forms.DateTimePicker",
+       Value: Date2.isnull(DateTime(2010,10,3)),
+       Name: "dtpDate2",
+       Size:  new System.Drawing.Size(240, 20),
+       Location : new System.Drawing.Point(160, 80),
+	   ValueChanged : delegate(sender, e) 
+			{ 
+				if(sender.Value < dtpDate1.Value) 
+					error(sender, "[Date to] must > [Date from]"); 
+			    else
+				    error(sender);			//Clear error
+			}
+     },
+
+
+	 {
+       Class: "System.Windows.Forms.Label",
+       Text: "Category",
+       Location : new System.Drawing.Point(60, 120),
+     },
+     {
+       Class: "System.Windows.Forms.ListBox",
+       SelectedItem: Category.isnull("Green"),
+       Name: "lbCategory",
+       Items: ["Red", "Green", "Yellow"],
+       Size:  new System.Drawing.Size(240, 20),
+       Location : new System.Drawing.Point(160, 120)
+     },
+
+     {
+       Class: "System.Windows.Forms.Button",
+       Name: "btnSave",
+       Text: "Save",
+	   Click: delegate(sender,e)		 //MessageBox must be registered.
+		   {
+		     lbCategory.Items.Add("Clicked");
+		     System.Windows.Forms.MessageBox.Show("A new item is added into ListBox. Category = "+lbCategory.SelectedItem, "Button [Save] is clicked.");
+		   }, 
+       Size:  new System.Drawing.Size(120, 30),
+       Location : new System.Drawing.Point(100, 160)
+     }
+
+  ],
+
+  Rules:
+      function() 
+        {
+		  if(dtpDate2.Value < dtpDate1.Value) 
+			 error(dtpDate2, "[Date to] must > [Date from]");  
+		}
+}

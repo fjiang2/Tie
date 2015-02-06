@@ -1,0 +1,83 @@
+        /*
+        * 
+        * 
+        * user Interface(Window Form)
+        *     +--------------------------------------------+
+        *     |                                            |
+        *     |   ID: ______________                       |
+        *     |   Date From: ____________                  |
+        *     |   Date To: _____________                   |
+        *     |                                            |
+        *     |               [OK]         [Cancel]        |
+        *     |                                            |
+        *     |                                            |
+        *     +--------------------------------------------+
+        * 
+        * 
+        * 
+        * */
+
+
+   form = new System.Windows.Forms.Form();
+
+   buttonClick = function(sender,e)
+    {
+        switch(sender.Text)
+            {
+            case "OK": //result of criteria form
+                Result.ID = tbID.Text;
+                Result.Date1 = dtDate1.Value;
+                Result.Date2 = dtDate2.Value;
+                break;
+            case "Cancel":
+                Result =null;
+                break;
+            }
+            form.Close();
+    };
+
+
+    var x=20;
+    var y=40;
+    var i;
+    var title = {"ID", "Date From", "Date To"};
+
+    for(i=0;i<3;i++)
+    {
+        var label = new System.Windows.Forms.Label();
+        label.Location = new System.Drawing.Point(x, y+40*i);
+        label.AutoSize = true;
+        label.Text = title[i];
+        form.Controls.Add(label);
+    }
+
+
+    tbID = new System.Windows.Forms.TextBox();
+    tbID.Location = new System.Drawing.Point(x+100, y+40*0);
+    tbID.Text = initialValue.ID;
+    form.Controls.Add(tbID);
+
+    dtDate1 = new System.Windows.Forms.DateTimePicker();
+    dtDate1.Location = new System.Drawing.Point(x+100, y+40*1);
+    dtDate1.Value = initialValue.Date[0];
+    form.Controls.Add(dtDate1);
+
+    dtDate2 = new System.Windows.Forms.DateTimePicker();
+    dtDate2.Location = new System.Drawing.Point(x+100, y+40*2);
+    dtDate2.Value = initialValue.Date[1];
+    form.Controls.Add(dtDate2);
+
+    title = {"OK", "Cancel"};
+    for(i=0;i<2;i++)
+    {
+        var button = new System.Windows.Forms.Button();
+        button.Location = new System.Drawing.Point(50+100*i, 200);
+        button.Size = new System.Drawing.Size(80, 24);
+        button.Text = title[i];
+        button.Click += buttonClick;
+        button.DialogResult = i==0? System.Windows.Forms.DialogResult.OK : System.Windows.Forms.DialogResult.Cancel;
+        form.Controls.Add(button);
+    }
+
+    form.Text = "Search Engine Demo";
+    form.Size = new System.Drawing.Size(400,300);

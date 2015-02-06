@@ -1,0 +1,91 @@
+	/*
+	*
+	* Example of Searching
+	*    WPF Window
+	*
+	* user Interface(WPF Form)
+	*     +--------------------------------------------+
+	*     |                                            |
+	*     |   ID: ______________                       |
+	*     |   Date From: ____________                  |
+	*     |   Date To: _____________                   |
+	*     |                                            |
+	*     |               [OK]         [Cancel]        |
+	*     |                                            |
+	*     |                                            |
+	*     +--------------------------------------------+
+	*
+	*
+	*
+	* */
+
+		form = new System.Windows.Window();
+		form.Content = new System.Windows.Controls.Grid(); 
+    
+		buttonClick = function(sender,e)
+		{
+			switch(sender.Content)
+				{
+				case "OK": 
+					Result.ID = tbID.Text;
+					Result.Date1 = dtDate[0].SelectedDate;
+					Result.Date2 = dtDate[1].SelectedDate;
+					form.DialogResult = true;
+					break;
+				case "Cancel": 
+					Result =null;
+					form.DialogResult = false;
+					break;
+				}
+				form.Close();
+		};    
+
+                
+		var x=20;
+		var y=40;
+		var i;  
+		var title = {"ID", "Date From", "Date To"};
+                
+		for(i=0;i<3;i++) 
+		{
+			var label = new System.Windows.Controls.Label();
+			label.Margin = new System.Windows.Thickness(x, y+40*i, 0, 0);
+			label.Content = title[i];
+			form.Content.Children.Add(label);
+		}
+
+
+		tbID = new System.Windows.Controls.TextBox();
+		tbID.Margin = new System.Windows.Thickness(x+100, y+40*0,0,0);
+		tbID.Text = initialValue.ID;    
+		tbID.Width = 115.0;
+		tbID.Height = 28.0;
+	tbID.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+		form.Content.Children.Add(tbID); 
+
+		for(i=0;i<2;i++) 
+		{
+			dtDate[i] = new System.Windows.Controls.DatePicker();
+			dtDate[i].Margin = new System.Windows.Thickness(x+100, y+40*(i+1),0,0);
+			dtDate[i].SelectedDate = initialValue.Date[i];
+			dtDate[i].Width = 115.0;
+			dtDate[i].Height = 28.0;
+			dtDate[i].VerticalAlignment = System.Windows.VerticalAlignment.Top;
+			form.Content.Children.Add(dtDate[i]); 
+		}
+
+		title = {"OK", "Cancel"};
+		for(i=0;i<2;i++) 
+		{
+			var button = new System.Windows.Controls.Button();
+			button.Margin = new System.Windows.Thickness(50+200*i, 200, 0, 0);
+			button.Height = 28.0;
+			button.Width = 100.0;
+			button.Content = title[i];
+			button.Click += buttonClick;
+			form.Content.Children.Add(button); 
+		}  
+
+		form.Title = "Search Criteria Demo";
+		form.Width = 400.0;
+		form.Height = 300.0;
