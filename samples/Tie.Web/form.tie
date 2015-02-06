@@ -1,0 +1,70 @@
+/***
+*
+*   ASP.NET
+*
+*/
+                buttonClick = function(sender,e)
+                {
+                    switch(sender.Text)
+                     {
+                       case 'OK': 
+                            Result.ID = tbID.Text;
+                            Result.Date1 = System.DateTime.Parse(dtDate[0].Text);
+                            Result.Date2 = System.DateTime.Parse(dtDate[1].Text);
+                            page.ShowResult(VAL(Result));
+                            break;
+                       case 'Cancel': 
+                            Result =null;
+                            page.ClearResult();
+                            break;
+                     }
+                };    
+
+                table = new System.Web.UI.WebControls.Table();
+
+                var i;  
+                var title = {'ID', 'Date From', 'Date To'};
+                
+                for(i=0;i<4;i++)
+                {
+                    tableRow[i] = new System.Web.UI.WebControls.TableRow();
+                    table.Controls.Add(tableRow[i]);
+                }  
+                
+
+                for(i=0;i<3;i++) 
+                { 
+                   var tableCell = new System.Web.UI.WebControls.TableCell();
+                   var label = new System.Web.UI.WebControls.Label();
+                   label.Text = title[i];
+                   tableCell.Controls.Add(label);
+                   tableRow[i].Controls.Add(tableCell); 
+                }
+
+
+                tableCell = new System.Web.UI.WebControls.TableCell();
+                tbID = new System.Web.UI.WebControls.TextBox();
+                tbID.Text = initialValue.ID;    
+                tableCell.Controls.Add(tbID);
+                tableRow[0].Controls.Add(tableCell); 
+
+                for(i=0;i<2;i++) 
+                {
+                  tableCell = new System.Web.UI.WebControls.TableCell();
+                  dtDate[i] = new System.Web.UI.WebControls.TextBox();
+                  if(dtDate[i].Text=='')
+                    dtDate[i].Text = HostType(initialValue.Date[i]).ToString('MM/dd/yyyy');
+                  tableCell.Controls.Add(dtDate[i]);
+                  tableRow[i+1].Controls.Add(tableCell); 
+                }  
+
+                title = {'OK', 'Cancel'};
+                for(i=0;i<2;i++) 
+                {
+                   tableCell = new System.Web.UI.WebControls.TableCell();
+                   var button = new System.Web.UI.WebControls.Button();
+                   button.Text = title[i];
+                   button.Click += buttonClick;
+                   tableCell.Controls.Add(button);
+                   tableRow[3].Controls.Add(tableCell); 
+                }

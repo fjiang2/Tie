@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="SilverlightApplicationDemo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="250" d:DesignWidth="368" xmlns:dataInput="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.Input">
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="209,212,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
+        <dataInput:Label Height="50" HorizontalAlignment="Left" Margin="69,100,0,0" Name="label1" VerticalAlignment="Top" Width="100" />
+    </Grid>
+</UserControl>
