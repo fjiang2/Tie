@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Tie</id>
+        <version>2.0.0.13</version>
+        <title>Tie</title>
+        <authors>datconn</authors>
+        <licenseUrl>http://tie.codeplex.com/license</licenseUrl>
+        <projectUrl>http://tie.codeplex.com</projectUrl>
+        <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=tie&amp;DownloadId=331680&amp;Build=20841</iconUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>C# statement/expression interpreter 
+Tie is dynamic language(script) which accepts C# statement/expression syntax and JavaScript like function and class syntax. Include lexical analysis, parser and virtual machine(VM) 
+Script, such method or event handler,  is a simple .Net string which can be saved into SQL Server 
+Support script debug, breakpoint, log. 
+Middleware, high performance, compact size</description>
+        <summary>C# statement/expression interpreter</summary>
+        <releaseNotes>02/10/2015 
+1. added .net4.52 release</releaseNotes>
+    </metadata>
+    <files>
+        <file src="..\Tie\bin\Release\net20\Tie.dll" target="lib\net20\Tie.dll" />
+        <file src="..\Tie\bin\Release\net20\Tie.XML" target="lib\net20\Tie.XML" />
+        <file src="..\Tie\bin\Release\net30\Tie.dll" target="lib\net30\Tie.dll" />
+        <file src="..\Tie\bin\Release\net30\Tie.XML" target="lib\net30\Tie.XML" />
+        <file src="..\Tie\bin\Release\net35\Tie.dll" target="lib\net35\Tie.dll" />
+        <file src="..\Tie\bin\Release\net35\Tie.XML" target="lib\net35\Tie.XML" />
+        <file src="..\Tie\bin\Release\net40\Tie.dll" target="lib\net40\Tie.dll" />
+        <file src="..\Tie\bin\Release\net40\Tie.XML" target="lib\net40\Tie.XML" />
+        <file src="..\Tie\bin\Release\net45\Tie.dll" target="lib\net45\Tie.dll" />
+        <file src="..\Tie\bin\Release\net45\Tie.XML" target="lib\net45\Tie.XML" />
+        <file src="..\Tie\bin\Release\net451\Tie.dll" target="lib\net451\Tie.dll" />
+        <file src="..\Tie\bin\Release\net451\Tie.XML" target="lib\net451\Tie.XML" />
+    </files>
+</package>
