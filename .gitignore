@@ -13,3 +13,8 @@
 /Tie.Tests/obj/Debug
 /Tie.UnitTest/obj/Debug
 /samples/Tie.Wpf.SearchEngine/obj/x86/Debug
+/tests/Tie.Tests/obj/Debug
+/tests/Tie.UnitTest/obj/Debug
+/Tie.Helper/bin/Debug
+/tests/Tie.UnitTest/bin/Debug
+/tests/Tie.UnitTest.NET4/obj/x86/Debug
