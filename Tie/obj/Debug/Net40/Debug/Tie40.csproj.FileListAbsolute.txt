@@ -1,0 +1,6 @@
+D:\devel\GitHub\Tie\Tie\bin\Debug\Net40\Tie.xml
+D:\devel\GitHub\Tie\Tie\bin\Debug\Net40\Tie.dll
+D:\devel\GitHub\Tie\Tie\bin\Debug\Net40\Tie.pdb
+D:\devel\GitHub\Tie\Tie\obj\Debug\Net40\Debug\Tie40.csprojResolveAssemblyReference.cache
+D:\devel\GitHub\Tie\Tie\obj\Debug\Net40\Debug\Tie.dll
+D:\devel\GitHub\Tie\Tie\obj\Debug\Net40\Debug\Tie.pdb

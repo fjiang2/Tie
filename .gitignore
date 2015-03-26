@@ -1,0 +1,15 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/samples/Tie.Helper.Samples/obj/Debug
+/samples/Tie.Samples/obj/Debug
+/tests/Tie.Helper.Tests/obj/Debug
+/Tie/obj/Debug/Net30/Debug
+/Tie/obj/Debug/Net45/Debug
+/Tie/obj/Debug/Net451/Debug
+/Tie/obj/Debug/SilverLight/Debug
+/Tie.Helper/obj/Debug
+/Tie.Tests/obj/Debug
+/Tie.UnitTest/obj/Debug
+/samples/Tie.Wpf.SearchEngine/obj/x86/Debug

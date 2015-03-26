@@ -1,0 +1,2262 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tie</name>
+    </assembly>
+    <members>
+        <member name="T:Tie.Script">
+            <summary>
+            Operate TIE script code.
+            </summary>
+        </member>
+        <member name="M:Tie.Script.Evaluate(System.String)">
+            <summary>
+            Evaluate expression 
+            </summary>
+            <param name="expression"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.Evaluate(System.String,Tie.Memory)">
+            <summary>
+            Evaluate expression in the memory indicated
+            </summary>
+            <param name="code"></param>
+            <param name="memory"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.Evaluate(System.String,Tie.Memory,Tie.IUserDefinedFunction)">
+            <summary>
+            Evaluate expression in the memory. the functions in expression are defined in .NET  
+            </summary>
+            <param name="code"></param>
+            <param name="memory"></param>
+            <param name="userFunc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.Evaluate(System.String,System.String,Tie.Memory,Tie.IUserDefinedFunction)">
+            <summary>
+            Evaluate expression, keyword "this" can be used in the expression.
+            </summary>
+            <param name="scope">the value of "this" </param>
+            <param name="code"></param>
+            <param name="memory"></param>
+            <param name="userFunc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.InvokeFunction(Tie.Memory,Tie.VAL,System.String,System.Object[],Tie.IUserDefinedFunction)">
+            <summary>
+            invoke a Tie script global function or method
+            </summary>
+            <param name="memory"></param>
+            <param name="instance"></param>
+            <param name="function">function definiton, e.g. "function(a,b) { return a+b;}" </param>
+            <param name="parameters"></param>
+            <param name="userFunc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.Execute(System.String,Tie.Memory)">
+            <summary>
+            Execute statements
+            </summary>
+            <param name="code"></param>
+            <param name="memory"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.Execute(System.String,System.String,Tie.Memory)">
+            <summary>
+            Execute statements
+            </summary>
+            <param name="scope">value of keyword "this"</param>
+            <param name="code"></param>
+            <param name="memory"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.Execute(System.String,Tie.Memory,Tie.IUserDefinedFunction)">
+            <summary>
+            Execute statements by using user defined .NET function
+            </summary>
+            <param name="code"></param>
+            <param name="memory"></param>
+            <param name="userFunc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.Execute(System.String,System.String,Tie.Memory,Tie.IUserDefinedFunction)">
+            <summary>
+            Execute statements by using user defined .NET function and scope "this"
+            </summary>
+            <param name="scope"></param>
+            <param name="code">value of keyword "this"</param>
+            <param name="memory"></param>
+            <param name="userFunc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.Run(System.String,System.String,Tie.Memory,Tie.IUserDefinedFunction)">
+            <summary>
+            Evaluate expression or Execute statements 
+            </summary>
+            <param name="scope"></param>
+            <param name="code"></param>
+            <param name="memory"></param>
+            <param name="userFunc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.#ctor">
+            <summary>
+            Initializes a new instance of the Tie.Script class, using dynamically created GUID as module name.
+            CODE segment size = 16K
+            CODE will be destoryed once the instance is deconstructed
+            </summary>
+        </member>
+        <member name="M:Tie.Script.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the Tie.Script class, using dynamically created GUID as module name.
+            CODE will be destoryed once the instance is deconstructed
+            </summary>
+            <param name="moduleSize">Code segment size </param>
+        </member>
+        <member name="M:Tie.Script.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the Tie.Script class
+            CODE segment size = 16K
+            CODE will be destoryed once the instance is deconstructed
+            </summary>
+            <param name="moduleName">Script module name</param>
+        </member>
+        <member name="M:Tie.Script.#ctor(System.String,System.Int32)">
+            <summary>
+            Initializes a new instance of the Tie.Script class
+            CODE will be destoryed once the instance is deconstructed
+            </summary>
+            <param name="moduleName">Module name</param>
+            <param name="moduleSize">Code segment size</param>
+        </member>
+        <member name="M:Tie.Script.#ctor(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Initializes a new instance of the Tie.Script class
+            </summary>
+            <param name="moduleName">Module name</param>
+            <param name="moduleSize">Code segment size</param>
+            <param name="destroyed">indicate CODE is destroyed or not</param>
+        </member>
+        <member name="M:Tie.Script.SyncInstance(Tie.Memory,System.Object,System.Boolean)">
+            <summary>
+            Synchronize class's internal Fields/Properties/Methods between HOST and Data Segment
+            </summary>
+            <param name="DS">Data segment(DS)</param>
+            <param name="instance">Host instance</param>
+            <param name="toHost">true: synchronize from DS to Host, false: synchrnize from Host to DS</param>
+        </member>
+        <member name="M:Tie.Script.Dispose">
+            <summary>
+            Destroy instance
+            </summary>
+        </member>
+        <member name="M:Tie.Script.Finalize">
+            <summary>
+            Dispose object
+            </summary>
+        </member>
+        <member name="M:Tie.Script.Close">
+            <summary>
+            explicit dispose instance
+            </summary>
+        </member>
+        <member name="M:Tie.Script.CreateInstance(System.String,System.Object[])">
+            <summary>
+            Create Tie class instance
+            </summary>
+            <param name="className">class name</param>
+            <param name="parameters">parameters of constructor</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.InvokeFunction(System.String,System.Object[])">
+            <summary>
+            Invoke Tie function
+            </summary>
+            <param name="funcName">function name</param>
+            <param name="parameters">parameters of function</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.InvokeMethod(Tie.VAL,System.String,System.Object[])">
+            <summary>
+            Invoke method of Tie script class
+            </summary>
+            <param name="instance">instance of class</param>
+            <param name="methodName">method name</param>
+            <param name="parameters">method parameters</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.InvokeFunction(Tie.VAL,Tie.VAL,System.Object[])">
+             
+             这个函数,
+              1. CreateInstance 为$class
+              2. 调用gobal 或者 static 函数$function
+              3. 调用$class的method
+              
+             上面的3个函数都是调用这个函数的.
+            
+            <summary>
+            Create class instance,invoke global function or method of class  
+            </summary>
+            <param name="instance"></param>
+            <param name="funcEntry"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.InvokeChainedFunction(System.String,System.Object[])">
+            <summary>
+            Invoke function defined in the function chains
+            </summary>
+            <param name="funcName">function name</param>
+            <param name="parameters">parameters of function</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.InvokeFunction(Tie.Memory,Tie.VAL,Tie.VAL,System.Object[])">
+            <summary>
+            Invoke method in the data segment
+            </summary>
+            <param name="memory">data segment</param>
+            <param name="instance">instance of Tie class</param>
+            <param name="funcEntry">method entry</param>
+            <param name="parameters">parameters of method</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.CreateInstance(Tie.Memory,Tie.VAL,System.Object[])">
+            <summary>
+            Invoke Tie function in the data segment
+            </summary>
+            <param name="memory">data segment</param>
+            <param name="func">function entry</param>
+            <param name="parameters">parameters of function</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.InvokeChainedFunction(Tie.Memory,System.String,System.Object[])">
+            <summary>
+             Invoke function defined in the function chains
+            </summary>
+            <param name="memory"></param>
+            <param name="funcName">function name</param>
+            <param name="parameters">function signatrue</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.InvokeHostMethod(System.Object,System.String,System.Object[])">
+            不支持函数重载:
+            
+            调用.net host的函数,不管是private还是public, 
+             
+            
+            容许调用静态函数
+              这个时候,instance为Type, 如: InvokeHostFunction(typeof(System.Convert), "ToInt32", ...); 
+              
+            
+            
+            <summary>
+            Invoke .NET private or public method(static method)
+            </summary>
+            <param name="instance">either instance or class Type</param>
+            <param name="methodName"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.Execute(System.String)">
+            <summary>
+            Execute tie script statements and CodeBlock is resident
+            </summary>
+            <param name="src">source code</param>
+        </member>
+        <member name="M:Tie.Script.Execute(System.String,System.Object)">
+            <summary>
+            Execute tie script statements with Host instance synchronized,and CodeBlock is resident
+            keyword this in the script pointer to host instance
+            </summary>
+            <param name="src">source code</param>
+            <param name="instance">Host instance</param>
+        </member>
+        <member name="M:Tie.Script.Execute(System.String,System.Boolean)">
+            <summary>
+            Execute tie script statements 
+            </summary>
+            <param name="src">source code</param>
+            <param name="overwritten">true: existed CodeBlock is overwritten</param>
+        </member>
+        <member name="M:Tie.Script.ResidentEvaluate(System.String)">
+            <summary>
+            Evaluate an expression, CodeBlock is resident
+            </summary>
+            <param name="src">source code expression</param>
+            <returns>value of expression</returns>
+        </member>
+        <member name="M:Tie.Script.ExecuteFromFile(System.String)">
+            <summary>
+            Execute source code from a file
+            </summary>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:Tie.Script.VolatileExecute(System.String)">
+            <summary>
+            Execute code and then CodeBlock is thrown away
+            </summary>
+            <param name="src">Source code statements</param>
+        </member>
+        <member name="M:Tie.Script.VolatileExecute(System.String,System.Object)">
+            <summary>
+            Execute code and then CodeBlock is thrown away
+            keyword (this) in the script pointer to host instance
+            </summary>
+            <param name="src">Source code statements</param>
+            <param name="instance">Host instance</param>
+        </member>
+        <member name="M:Tie.Script.VolatileEvaluate(System.String)">
+            <summary>
+            Evaluate expression and then CodeBlock is thrown away
+            </summary>
+            <param name="src">Souce code expression</param>
+            <returns>Value of expression</returns>
+        </member>
+        <member name="M:Tie.Script.Compile(System.String,System.Boolean)">
+            <summary>
+            Compile source code statement, one module may include many code blocks
+            </summary>
+            <param name="src">Source code statements</param>
+            <param name="overwritten">true: overwrite existed code blocks in the module, false: append to existed code blocks</param>
+            <returns>Entry of code segment</returns>
+        </member>
+        <member name="M:Tie.Script.Run(System.Int32)">
+            <summary>
+            Run Codeblock from address entry 
+            </summary>
+            <param name="entry"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Script.RemoveModule">
+            <summary>
+            Remove current module from library
+            </summary>
+        </member>
+        <member name="M:Tie.Script.ClearLibrary">
+            <summary>
+            Clear all modules in the library
+            </summary>
+        </member>
+        <member name="M:Tie.Script.ClearEventHandler">
+            <summary>
+            Clear event handlers
+            </summary>
+        </member>
+        <member name="F:Tie.Script.cpu">
+            用例: 每一行都停顿
+            
+             int line = 1;
+             if(script.DebugStart(src))
+                 while(script.DebugContinue(line++, handler));
+            
+            
+        </member>
+        <member name="M:Tie.Script.DebugStart(System.String)">
+            <summary>
+            Debug Tie script
+            </summary>
+            <param name="src"></param>
+            <returns>source code statements</returns>
+        </member>
+        <member name="M:Tie.Script.DebugContinue(System.Int32,Tie.Script.DebugHandler)">
+            <summary>
+            Run code, stop at breakpoint indicated, and debug handler is invoked
+            </summary>
+            <param name="breakpoint">address of break point</param>
+            <param name="debugHandler">debug handler</param>
+            <returns></returns>
+        </member>
+        <member name="P:Tie.Script.ModuleName">
+            <summary>
+            Get module name
+            </summary>
+        </member>
+        <member name="P:Tie.Script.DS">
+            <summary>
+            Get data segment of this instance
+            </summary>
+        </member>
+        <member name="P:Tie.Script.Scope">
+            <summary>
+            Set/Get scope of script.
+            code piece may be a part of class code.
+            e.g.
+                code piece: 
+                    this.x = 20;
+                the value of (this)above is defined by property (Scope)
+            </summary>
+        </member>
+        <member name="P:Tie.Script.UserFunction">
+            <summary>
+            Tie script functions extension. Tie will call functions defined in the (UserFunction)
+            </summary>
+        </member>
+        <member name="P:Tie.Script.SystemMemory">
+            <summary>
+            System level memory (Data Segment), this is restricted to use 
+            </summary>
+        </member>
+        <member name="P:Tie.Script.CommonMemory">
+            <summary>
+            Shared memory (Data Segment) used by all scripts
+            </summary>
+        </member>
+        <member name="P:Tie.Script.FunctionChain">
+            <summary>
+            Fuction chain used to implement tie script functions by .NET code
+            </summary>
+        </member>
+        <member name="P:Tie.Script.RemoveEventHandlerSupported">
+            <summary>
+             Remove event handler is supported or not. System default is not supported.
+            </summary>
+        </member>
+        <member name="T:Tie.Script.DebugHandler">
+            <summary>
+            Debug handler, when breakpoint is reached, debug handler is invoked
+            </summary>
+            <param name="breakpoint">Address of break point</param>
+            <param name="cursor"></param>
+            <param name="info">CPU registers/stacks infomation is passed in</param>
+            <param name="DS2">Shared data segment</param>
+        </member>
+        <member name="T:Tie.Valizer`1">
+            <summary>
+            delegate for valizer
+            </summary>
+            <param name="host"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tie.PartialDevalizer`1">
+            <summary>
+            delegate for devalizer, change partial properties of host
+            </summary>
+            <param name="host"></param>
+            <param name="hostType">hostType could be subclass of typeof(T)</param>
+            <param name="val"></param>
+            <returns>host passed in parameter</returns>
+        </member>
+        <member name="T:Tie.Devalizer`1">
+            <summary>
+            delegate for devalizer
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="val"></param>
+            <returns>new instance</returns>
+        </member>
+        <member name="T:Tie.IValizer`1">
+            <summary>
+            interface of valizer and devalizer
+            </summary>
+        </member>
+        <member name="M:Tie.IValizer`1.Valizer(`0)">
+            <summary>
+            prototype of valizer
+            </summary>
+            <param name="host"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.IValizer`1.Devalizer(`0,Tie.VAL)">
+            <summary>
+            prototype of devalizer
+            </summary>
+            <param name="val"></param>
+            <param name="host"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tie.Valizer">
+            <summary>
+            Convert object o VAL format and convert back
+            </summary>
+        </member>
+        <member name="M:Tie.Valizer.Register``1(Tie.Valizer{``0})">
+            <summary>
+            Register valizer
+            </summary>
+            <param name="valizer"></param>
+        </member>
+        <member name="M:Tie.Valizer.Register``1(Tie.Valizer{``0},Tie.PartialDevalizer{``0})">
+            <summary>
+            Register valizer and devalizer
+            </summary>
+            <param name="valizer"></param>
+            <param name="devalizer"></param>
+        </member>
+        <member name="M:Tie.Valizer.Register``1(Tie.Valizer{``0},Tie.Devalizer{``0})">
+            <summary>
+            Register valizer and devalizer
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="valizer"></param>
+            <param name="devalizer"></param>
+        </member>
+        <member name="M:Tie.Valizer.Register``1(Tie.IValizer{``0})">
+            <summary>
+            Register Valizer by object interface
+            </summary>
+            <param name="valizer"></param>
+        </member>
+        <member name="M:Tie.Valizer.Register``1(System.String)">
+            <summary>
+            Register valizer script 
+            </summary>
+            <param name="valizerScript"></param>
+        </member>
+        <member name="M:Tie.Valizer.Register(System.Type,System.Reflection.MethodInfo)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <param name="genericMethod">must be static method without arguments</param>
+        </member>
+        <member name="M:Tie.Valizer.Register(System.Type,System.Reflection.MethodInfo,System.Object,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <param name="genericMethod"></param>
+            <param name="obj">If a method is static,this argument is ignored</param>
+            <param name="parameters">An argument list for the invoked method</param>
+        </member>
+        <member name="M:Tie.Valizer.Register``1(System.String[])">
+            <summary>
+            Register valizer by class's members
+            </summary>
+            <param name="valizerMembers"></param>
+        </member>
+        <member name="M:Tie.Valizer.Unregister(System.Type)">
+            <summary>
+            Unregister valizer
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Tie.Valizer.Valize(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Valizer.Devalize(Tie.VAL)">
+            <summary>
+            
+            </summary>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Valizer.Devalize``1(Tie.VAL)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Valizer.Devalize(Tie.VAL,System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="val"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Valizer.Devalize(Tie.VAL,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="val"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tie.CodeGeneration">
+            <summary>
+            Code generator
+            </summary>
+        </member>
+        <member name="T:Tie.TieException">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tie.TieException.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Tie.PositionException">
+            <summary>
+            Exception occurs on the position of source code.
+            </summary>
+        </member>
+        <member name="F:Tie.PositionException.position">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tie.PositionException.#ctor(System.String,Tie.Position)">
+            <summary>
+            Initializes a new instance of the Exception class.
+            </summary>
+            <param name="message"></param>
+            <param name="position"></param>
+        </member>
+        <member name="P:Tie.PositionException.Position">
+            <summary>
+            returns position error occured
+            </summary>
+        </member>
+        <member name="T:Tie.CompilingException">
+            <summary>
+              Represents errors that occur during compiling.
+            </summary>
+        </member>
+        <member name="M:Tie.CompilingException.#ctor(System.String,Tie.Position)">
+            <summary>
+            Initializes a new instance of the Exception class.
+            </summary>
+            <param name="message"></param>
+            <param name="position"></param>
+        </member>
+        <member name="M:Tie.Expression.s_instance">
+            返回false: 
+             格式为 new Circle(...) 
+             或者 new new System.Windows.Forms.Label()
+             
+            返回true:
+              格式为 new int[]
+              或者 其他的情况 new T
+            
+            
+        </member>
+        <member name="M:Tie.Library.CompileModule(System.String@,System.Int32,System.String,System.String,Tie.CodeType,Tie.CodeMode)">
+            <summary>
+            Compile module
+            </summary>
+            <param name="moduleName"></param>
+            <param name="moduleSize"></param>
+            <param name="scope"></param>
+            <param name="codePiece"></param>
+            <param name="codeType"></param>
+            <param name="overwritten"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tie.LOGTARGET">
+            <summary>
+            Log target device
+            </summary>
+        </member>
+        <member name="F:Tie.LOGTARGET.NullWriter">
+            <summary>
+            null device
+            </summary>
+        </member>
+        <member name="F:Tie.LOGTARGET.Console">
+            <summary>
+            default console
+            </summary>
+        </member>
+        <member name="F:Tie.LOGTARGET.StringWriter">
+            <summary>
+            memory string writer
+            </summary>
+        </member>
+        <member name="F:Tie.LOGTARGET.File">
+            <summary>
+            file device
+            </summary>
+        </member>
+        <member name="T:Tie.Logger">
+            <summary>
+            System log class
+            </summary>
+        </member>
+        <member name="M:Tie.Logger.Open(Tie.LOGTARGET)">
+            <summary>
+            Open log device
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="M:Tie.Logger.Open(System.String)">
+            <summary>
+            Open log file
+            </summary>
+            <param name="logFileName"></param>
+        </member>
+        <member name="M:Tie.Logger.Close">
+            <summary>
+            Close log device
+            </summary>
+        </member>
+        <member name="P:Tie.Logger.Buffer">
+            <summary>
+            log string
+            </summary>
+        </member>
+        <member name="T:Tie.Logger.WriteLineHandler">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Tie.Numeric">
+            <summary>
+            Numeric, logical, lexical operands
+            </summary>
+        </member>
+        <member name="T:Tie.Position">
+            <summary>
+            Represents location in the source code
+            </summary>
+        </member>
+        <member name="M:Tie.Position.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="moduleName"></param>
+            <param name="codePiece">search CodePiece on the Libray if codePiece == null </param>
+        </member>
+        <member name="M:Tie.Position.ToString">
+            <summary>
+            location string
+            </summary>
+        </member>
+        <member name="P:Tie.Position.ModuleName">
+            <summary>
+            Module name
+            </summary>
+        </member>
+        <member name="P:Tie.Position.CodePiece">
+            <summary>
+            Source code script
+            </summary>
+        </member>
+        <member name="P:Tie.Position.Cursor">
+            <summary>
+            current cursor in source code
+            </summary>
+        </member>
+        <member name="M:Tie.DynamicDelegate.InstanceDelegate(System.Type,System.Object,System.Reflection.FieldInfo,System.Reflection.MethodInfo)">
+            把函数public static object xxxx(object target, object[] arguments);
+            转为任意类型的delegate
+            
+            
+            参考:
+             http://msdn.microsoft.com/en-us/library/z43fsh67.aspx
+            
+             下面产生的code相当于:
+            public int FuncconInvoke(string arg0, int arg1, ...)
+            {
+              object[] args = new object[] { arg0, arg1, ...};
+              object ret = CallFunc(target.funcField, args);
+              return (int)ret;
+            }
+            
+            把DynamicMethod中用到的变量放到functionField中
+            真正的DynamicMethod的实现函数是
+                 public static object methodAdapter(target.funcField, object[] args)
+                 
+            
+            
+        </member>
+        <member name="M:Tie.GenericType.IsCompatibleType(System.Type,System.Type)">
+            <summary>
+            allow to convert like: 
+                TargetType y = (HostType)x;
+            </summary>
+            <param name="hostType"></param>
+            <param name="targetType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.HostCoding.ToHostArray(System.Object[])">
+            如果是.NET普通的数组,那么返回的是特定数组类型,而不是object[]类型, 譬如string[], int[],
+            因为.NET 不接受这样的cast:
+                string[] stringArray = (string[])objectArray;
+            
+            
+        </member>
+        <member name="M:Tie.HostCoding.CommonBaseClass(System.Object[])">
+            
+            假如list中的所有元素都是相同类型的,或者同一个class继承下来的
+            找出数组相同的base class
+            
+            
+        </member>
+        <member name="M:Tie.HostCoding.CommonInterface(System.Object[])">
+            
+            假如list中的所有元素都是从实现了同一个interface
+            
+            找出实现了相同的interace的Type
+            
+            
+            
+        </member>
+        <member name="M:Tie.HostCoding.CommonInterface(System.Type[],System.Type[])">
+            
+            找出相同的interaces
+            
+            
+        </member>
+        <member name="M:Tie.HostOperation.HostTypeOffset(Tie.VAL,Tie.VAL,Tie.OffsetType)">
+            取出.NET object的属性
+            如:
+                 this[string]
+                 this[int]
+                 this.property
+            
+            
+        </member>
+        <member name="T:Tie.HostTypeException">
+            <summary>
+             Represents errors that occur during host object operation.
+            </summary>
+        </member>
+        <member name="M:Tie.HostTypeException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the Exception class.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Tie.HostTypeValueNotMatchedException">
+            <summary>
+            Represents errors that Host value is not matached.
+            </summary>
+        </member>
+        <member name="M:Tie.HostTypeValueNotMatchedException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the Exception class.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Tie.HostValization.Host2Val(System.Object,Tie.VAL)">
+            Valize
+            
+            
+            抽取.net class instance的变量和属性值,保存到VAL中,反之亦然
+            
+            如果instance支持IValizable interface, 那么直接call GetValData()
+            否则:
+            public 属性, 缺省情况下被转换为VAL, 除非设置[NonValized]属性
+            public 变量, 缺省情况下不转为VAL, 除非设置[Valizable]属性, 只存储简单的属性, 有下标的属性,不考虑
+            
+            
+        </member>
+        <member name="T:Tie.NonValizedAttribute">
+            <summary>
+            Represents non valized attributes.
+            </summary>
+        </member>
+        <member name="T:Tie.ValizableAttribute">
+            <summary>
+            Represents valizable attributes.
+            </summary>
+        </member>
+        <member name="M:Tie.ValizableAttribute.#ctor">
+            <summary>
+            initialize instance
+            </summary>
+        </member>
+        <member name="M:Tie.ValizableAttribute.#ctor(System.String)">
+            <summary>
+            initialize instance by valizer
+            </summary>
+            <param name="valizer"></param>
+        </member>
+        <member name="M:Tie.ValizableAttribute.#ctor(System.String,System.String)">
+            <summary>
+            initialize instance by valizer and devalizer
+            </summary>
+            <param name="valizer"></param>
+            <param name="devalizer"></param>
+        </member>
+        <member name="M:Tie.ValizableAttribute.#ctor(System.String[])">
+            <summary>
+             initialize instance by members of class
+            </summary>
+            <param name="members"></param>
+        </member>
+        <member name="T:Tie.Valization.PartialDelegateValization`1">
+            <summary>
+            typeof(T) may not be equal to hostType. typeof(T) could be base class of hostType
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Tie.Valization.ValizationMgr">
+            
+            用来支持已经存在的class的Valization
+            譬如对System.Windows.Forms.TextBox的Valization
+            
+            定义用来产生class实例的script
+            
+            
+            
+        </member>
+        <member name="T:Tie.IValizable">
+            <summary>
+             Allows an object to control its own valization and devalization.
+            </summary>
+        </member>
+        <member name="M:Tie.IValizable.GetVAL">
+            <summary>
+            Populates data
+                needed to valize the target object.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.IValizable.SetVAL(Tie.VAL)">
+            <summary>
+            update target object with valized value
+            </summary>
+            <param name="val"></param>
+        </member>
+        <member name="T:Tie.VALTYPE">
+            <summary>
+            represent VAL type
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.voidcon">
+            <summary>
+            value: void 
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.nullcon">
+            <summary>
+            value: null
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.boolcon">
+            <summary>
+            boolean: true or false
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.intcon">
+            <summary>
+            value: integer, short, byte
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.doublecon">
+            <summary>
+            value: double, float, single
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.stringcon">
+            <summary>
+            value: string, support UNICODE
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.decimalcon">
+            <summary>
+            value: decimal, long
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.listcon">
+            <summary>
+            value: list, associative array
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.funccon">
+            <summary>
+            value: function
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.classcon">
+            <summary>
+            value: class
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.hostcon">
+            <summary>
+            value: .net object
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.scriptcon">
+            <summary>
+            value: script code
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.enumcon">
+            <summary>
+            value for enum
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.addrcon">
+            <summary>
+            value: address in the memory
+            </summary>
+        </member>
+        <member name="F:Tie.VALTYPE.identcon">
+            <summary>
+            value: offset of structure
+            </summary>
+        </member>
+        <member name="T:Tie.Computer">
+            <summary>
+            Compiler and Virtual Machine
+            CPU has 3-level predefined variable,
+                0: System Level
+                1: User global variable for all users
+                2: User temp variable in user's space
+            </summary>
+        </member>
+        <member name="T:Tie.HostType">
+            <summary>
+            Represent .NET object Type
+            </summary>
+        </member>
+        <member name="M:Tie.HostType.Register(System.Type)">
+            <summary>
+            Register .NET type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.HostType.Register(System.Type[])">
+            <summary>
+            Register multiple .NET types
+            </summary>
+            <param name="types"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.HostType.Register(System.Type,System.Boolean)">
+            <summary>
+            Register .NET type with brief/short name
+            </summary>
+            <param name="type"></param>
+            <param name="briefName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.HostType.Register(System.Type[],System.Boolean)">
+            <summary>
+            Register multiple .NET types with brief/short name
+            </summary>
+            <param name="types"></param>
+            <param name="briefName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.HostType.Register(System.String,System.Type)">
+            <summary>
+            Using alias directive for a generic class. 
+            </summary>
+            <param name="typeName">type name in script</param>
+            <param name="type">generic type</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.HostType.AddReference(System.Reflection.Assembly)">
+            
+              AddReference(Assembly.Load("System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"));
+              AddReference(Assembly.Load("System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
+              
+            
+            <summary>
+            
+            </summary>
+            <param name="assembly"></param>
+        </member>
+        <member name="M:Tie.HostType.RemoveReference(System.Reflection.Assembly)">
+            <summary>
+            Remove added reference. Do nothing if assembly is not added before
+            </summary>
+            <param name="assembly"></param>
+        </member>
+        <member name="M:Tie.HostType.Import(System.String)">
+            <summary>
+            using System.Data; 
+                is equivalent to Import("System.Data");
+            </summary>
+            <param name="nameSpace"></param>
+        </member>
+        <member name="M:Tie.HostType.Import(System.String,System.String)">
+            <summary>
+                 C#: using SysData = System.Data;
+                Tie: Import("SysData", "System.Data");
+            </summary>
+            <param name="aliasName"></param>
+            <param name="nameSpace"></param>
+        </member>
+        <member name="M:Tie.HostType.RemoveImport(System.String)">
+            <summary>
+            Remove imported namespace, do nothing if namespace is not added before
+            </summary>
+            <param name="nameSpace">either namespace alias or namespace</param>
+        </member>
+        <member name="M:Tie.HostType.NewInstance(System.String,System.Object[])">
+            <summary>
+            new instance of class
+            </summary>
+            <param name="className">class name</param>
+            <param name="constructorargs">constructor arguments</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.HostType.GetType(System.String)">
+            <summary>
+             GetType("Int32[][]")
+             GetType("System.DateTime")
+             GetType("Dictionary`2")
+            </summary>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.HostType.NewInstance(Tie.VAL,System.Object[])">
+            <summary>
+            New instance by persistent data
+            </summary>
+            <param name="valor"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.HostType.SetObjectProperties(System.Object,Tie.VAL)">
+            <summary>
+            Set object properties by persistent data
+            </summary>
+            <param name="host"></param>
+            <param name="properties"></param>
+        </member>
+        <member name="T:Tie.FunctionChain">
+            <summary>
+            Function chain, the late added function will be invoked first
+            </summary>
+        </member>
+        <member name="M:Tie.FunctionChain.Add(System.String,Tie.Function1)">
+            <summary>
+            Add one function into chain with delegate implmentation
+            </summary>
+            <param name="func">function name</param>
+            <param name="body">function body</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.FunctionChain.Add(Tie.Functionn)">
+            <summary>
+            Add multiple functions into chain with delegate implementation
+            </summary>
+            <param name="func">function</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.FunctionChain.Add(Tie.IUserDefinedFunction)">
+            <summary>
+            Add function into chain with interface implementation
+            </summary>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.FunctionChain.Remove">
+            <summary>
+            Remove last added function from chain, it is equivalent to (dequeue)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.FunctionChain.Remove(System.String)">
+            <summary>
+            Remove function from chain
+            </summary>
+            <param name="func">function name</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.FunctionChain.Remove(Tie.Functionn)">
+            <summary>
+            Remove function from chain
+            </summary>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.FunctionChain.Remove(Tie.IUserDefinedFunction)">
+            <summary>
+            Remove function from chain
+            </summary>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tie.IUserDefinedFunction">
+            <summary>
+            User defined function must implement IUserDefinedFunction
+            </summary>
+        </member>
+        <member name="M:Tie.IUserDefinedFunction.Function(System.String,Tie.VAL,Tie.Memory)">
+            <summary>
+             return null if function is defined which give a chance to call SystemFunction
+            </summary>
+            <param name="func">function name</param>
+            <param name="parameters">function arguments</param>
+            <param name="DS">data segment memory</param>
+            <returns></returns>
+        </member>
+        <member name="T:Tie.Function1">
+            <summary>
+            define a function body
+            </summary>
+            <param name="Parameters"></param>
+            <param name="DS"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tie.Functionn">
+            <summary>
+            define multiple functions 
+            </summary>
+            <param name="func"></param>
+            <param name="Parameters"></param>
+            <param name="DS"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tie.Memory">
+            <summary>
+            Variable dictionary
+            </summary>
+        </member>
+        <member name="M:Tie.Memory.#ctor">
+            <summary>
+            Initializes a new instance
+            </summary>
+        </member>
+        <member name="M:Tie.Memory.#ctor(Tie.VAL)">
+            <summary>
+            Initializes a new instance by associative array
+            </summary>
+            <param name="dict"></param>
+        </member>
+        <member name="M:Tie.Memory.AddHostObject(Tie.VAR,System.Object)">
+            <summary>
+            Add host object variable
+            </summary>
+            <param name="key"></param>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Memory.AddObject(Tie.VAR,System.Object)">
+            <summary>
+            Add object variable into data segment
+            </summary>
+            <param name="key"></param>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Memory.Add(Tie.VAR,Tie.VAL)">
+            <summary>
+            Add VAL variable 
+            </summary>
+            <param name="key"></param>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Memory.GetValue(System.String)">
+            <summary>
+            return value from memory.
+              e.g. GetValue("Place.City.Zip");
+            </summary>
+            <param name="variable"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Memory.SetValue(System.String,Tie.VAL)">
+            <summary>
+            Add a value to element
+                e.g. 
+                Tie: Place.City.Zip = 20341;
+                 C#: SetValue("Place.City.Zip", new VAL(20341));
+            </summary>
+            <param name="variable"></param>
+            <param name="val"></param>
+        </member>
+        <member name="M:Tie.Memory.RemoveValue(System.String)">
+            <summary>
+            Remove element
+                e.g.
+                RemoveValue("Place.City");
+            </summary>
+            <param name="variable"></param>
+        </member>
+        <member name="M:Tie.Memory.RemoveAll">
+            <summary>
+            Clear varible dictionary
+            </summary>
+        </member>
+        <member name="M:Tie.Memory.Remove(Tie.VAR)">
+            <summary>
+            Remove a variable
+            </summary>
+            <param name="key">varible name</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Memory.ClearNullorVoid(Tie.VAR)">
+            <summary>
+            Clear void or null value
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:Tie.Memory.ToString">
+            <summary>
+              Converts the value of this instance to a System.String.
+            </summary>
+            <returns> A string whose value is the same as this instance.</returns>
+        </member>
+        <member name="M:Tie.Memory.CompressKeyNames(System.Collections.Generic.IEnumerable{Tie.VAR})">
+            <summary>
+            compress varible names, some varibles may belong to one
+            </summary>
+            <param name="keyNames"></param>
+            <returns>varible name list</returns>
+        </member>
+        <member name="M:Tie.Memory.CopyBlock(System.Collections.Generic.IEnumerable{Tie.VAR})">
+            <summary>
+            Copy some varibles into new varible dictionary
+            </summary>
+            <param name="compactedKeyNames"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.Memory.RemoveValueUnchangedBlock(Tie.Memory)">
+            <summary>
+            Remove unchanged varibles
+            </summary>
+            <param name="referenceMemory">reference varibles</param>
+        </member>
+        <member name="M:Tie.Memory.op_Explicit(Tie.Memory)~Tie.VAL">
+            <summary>
+            explicit convert varible dictionary into VAL associative array
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Tie.Memory.DS">
+            <summary>
+            Dictionary of varible
+            </summary>
+        </member>
+        <member name="P:Tie.Memory.Item(Tie.VAR)">
+            <summary>
+            Get value by variable name
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Tie.Memory.Keys">
+            <summary>
+            all variables name in memory
+            </summary>
+        </member>
+        <member name="T:Tie.RuntimeException">
+            <summary>
+             Exception occurs on script executed
+            </summary>
+        </member>
+        <member name="M:Tie.RuntimeException.#ctor(Tie.Position,System.String)">
+            <summary>
+            Initializes a new instance of the Exception class.
+            </summary>
+            <param name="position"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:Tie.FunctionNotFoundException">
+            <summary>
+            Exception occurs when function is not found
+            </summary>
+        </member>
+        <member name="M:Tie.FunctionNotFoundException.#ctor(Tie.Position,System.String)">
+            <summary>
+            Initializes a new instance of the Exception class.
+            </summary>
+            <param name="position"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:Tie.SystemFunction">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tie.CPU.SysFuncCallByAddr(Tie.VAL)">
+             函数有3类
+               1.A类函数, TIE script定义的User Function
+               2.B类函数, .NET DLL库中的函数
+               3.C类函数, TIE定义的系统函数,和Function Chain中的函数
+            
+            
+            
+        </member>
+        <member name="M:Tie.CPU.SysFuncCall(System.Object,Tie.VAL,Tie.VAL,System.Boolean)">
+            
+             这里的func可能是int(A类函数入口地址),也可能是string(B或C类函数)
+             如果是A类函数, func为int, proc是函数入口, func = proc.Intcon;
+             如果是B类函数, func为string,proc有值, func = proc.Str;
+             如果是C类函数, func为函数名字, 那么proc为nullcon
+            
+            
+        </member>
+        <member name="M:Tie.CPU.NewInstance(Tie.VAL)">
+            用于NEW指令
+            
+            new instance 产生对象实例
+            
+            1. 产生Tie实例   
+            2. 产生.Net 对象实例, 如: new System.Windows.Form.Label();
+            3. 产生usercon类型的list
+            
+            
+            
+        </member>
+        <member name="T:Tie.Constant">
+            <summary>
+            TIE configuration parameters
+            </summary>
+        </member>
+        <member name="F:Tie.Constant.MAX_STRING_SIZE">
+            <summary>
+            Default maximum length of string variable
+            </summary>
+        </member>
+        <member name="F:Tie.Constant.MAX_SRC_COL">
+            <summary>
+            Default maximum #columns of source code
+            </summary>
+        </member>
+        <member name="F:Tie.Constant.MAX_SRC_LINE">
+            <summary>
+            Default maximum #lines of source code
+            </summary>
+        </member>
+        <member name="F:Tie.Constant.MAX_INSTRUCTION_NUM">
+            <summary>
+            Default maximum code segment size
+            </summary>
+        </member>
+        <member name="F:Tie.Constant.MAX_SYMBOL_TABLE_SIZE">
+            <summary>
+            Maximum symbol table size, used by compiler
+            </summary>
+        </member>
+        <member name="F:Tie.Constant.MAX_STACK">
+            <summary>
+            Maximum stack size in virtual machine, used by local variable, recursive function calls and etc.
+            </summary>
+        </member>
+        <member name="F:Tie.Constant.MAX_EXTRA">
+            <summary>
+            Maximum Extra size in virtual machine, used Tie class
+            </summary>
+        </member>
+        <member name="F:Tie.Constant.MAX_EXCEPTION">
+            <summary>
+            Maximum #nested exceptions in try...catch...
+            </summary>
+        </member>
+        <member name="F:Tie.Constant.MAX_CPU_REG_NUM">
+            <summary>
+            Maximum #registers in CPU
+            </summary>
+        </member>
+        <member name="F:Tie.Constant.HOST_TYPE_AUTO_REGISTER">
+            <summary>
+            if true, VM searches unregistered type automatically which may reduce performance
+            </summary>
+        </member>
+        <member name="T:Tie.JParser">
+            <summary>
+            Parse CodePiece
+            </summary>
+        </member>
+        <member name="M:Tie.JParser.s_sent">
+            1: continue
+            0: end
+            -1: is not statement
+            
+            
+        </member>
+        <member name="T:Tie.VAL">
+            <summary>
+            Any data in the Tie is VAL
+            </summary>
+        </member>
+        <member name="F:Tie.VAL.value">
+            <summary>
+            internal value of VAL
+            </summary>
+        </member>
+        <member name="F:Tie.VAL.ty">
+            <summary>
+            type of value
+            </summary>
+        </member>
+        <member name="M:Tie.VAL.GetVAL">
+            <summary>
+            IValizable function.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.SetVAL(Tie.VAL)">
+            <summary>
+            
+            </summary>
+            <param name="val"></param>
+        </member>
+        <member name="M:Tie.VAL.Clone">
+            <summary>
+            reates a new object that is a copy of the current instance.
+            </summary>
+            <returns> A new object that is a copy of this instance.</returns>
+        </member>
+        <member name="M:Tie.VAL.CompareTo(Tie.VAL)">
+             <summary>
+             Compares the current instance with another object of the same type and returns
+                 an integer that indicates whether the current instance precedes, follows,
+                 or occurs in the same position in the sort order as the other object.
+             </summary>
+             <param name="v">An object to compare with this instance.</param>
+             <returns>A 32-bit signed integer that indicates the relative order of the objects
+                 being compared. The return value has these meanings: Value Meaning Less than
+                 zero This instance is less than obj. Zero This instance is equal to obj.
+                 Greater than zero This instance is greater than obj.
+            </returns>
+        </member>
+        <member name="M:Tie.VAL.Equals(Tie.VAL)">
+            <summary>
+             Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <param name="o"> An object to compare with this object.</param>
+            <returns>true if the current object is equal to the other parameter; otherwise, false.</returns>
+        </member>
+        <member name="M:Tie.VAL.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Create instance from SerializationInfo
+            </summary>
+            <param name="info"></param>
+            <param name="ctxt"></param>
+        </member>
+        <member name="M:Tie.VAL.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+             Serialization function.
+            </summary>
+            <param name="info"></param>
+            <param name="ctxt"></param>
+        </member>
+        <member name="M:Tie.VAL.#ctor">
+            <summary>
+            create instance with value = null
+            </summary>
+        </member>
+        <member name="M:Tie.VAL.#ctor(System.Boolean)">
+            <summary>
+            create instance with value = boolean
+            </summary>
+            <param name="b"></param>
+        </member>
+        <member name="M:Tie.VAL.#ctor(System.Int32)">
+            <summary>
+            create instance with value = integer
+            </summary>
+            <param name="i"></param>
+        </member>
+        <member name="M:Tie.VAL.#ctor(System.Double)">
+            <summary>
+            create instance with value = double
+            </summary>
+            <param name="d"></param>
+        </member>
+        <member name="M:Tie.VAL.#ctor(System.Decimal)">
+            <summary>
+            create instance with value = decimal
+            </summary>
+            <param name="d"></param>
+        </member>
+        <member name="M:Tie.VAL.#ctor(System.String)">
+            <summary>
+            create instance with value = string
+            </summary>
+            <param name="str"></param>
+        </member>
+        <member name="M:Tie.VAL.NewHostType(System.Object)">
+            <summary>
+            create instance with value = .NET object
+            </summary>
+            <param name="host"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.#ctor(Tie.Memory)">
+            <summary>
+            create instance with value = varible dictionary
+            </summary>
+            <param name="memory"></param>
+        </member>
+        <member name="M:Tie.VAL.#ctor(System.Array)">
+            <summary>
+            create instance with value = Jagged Array
+            </summary>
+            <param name="A"></param>
+        </member>
+        <member name="M:Tie.VAL.Boxing(System.Object)">
+            <summary>
+            Box any object into VAL, support multiple dimension array
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.Boxing1(System.Object)">
+            <summary>
+            Box any object into VAL without support array
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.UnBoxing(Tie.VAL)">
+            <summary>
+            Unbox VAL to .NET host object
+            </summary>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_LogicalNot(Tie.VAL)">
+            <summary>
+            not operator, support operator overloading in host object
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_UnaryNegation(Tie.VAL)">
+            <summary>
+            negative operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <returns>return reversed list if v1 is list</returns>
+        </member>
+        <member name="M:Tie.VAL.op_UnaryPlus(Tie.VAL)">
+            <summary>
+             positive operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Addition(Tie.VAL,Tie.VAL)">
+            <summary>
+            + operator, support operator overloading in host object
+                add eventhandler
+                concatenate 2 lists
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Subtraction(Tie.VAL,Tie.VAL)">
+            <summary>
+             - operator, support operator overloading in host object
+                remove v2 elements from v1 if v1 is list
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Multiply(Tie.VAL,Tie.VAL)">
+            <summary>
+            * operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Division(Tie.VAL,Tie.VAL)">
+            <summary>
+            / operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Modulus(Tie.VAL,Tie.VAL)">
+            <summary>
+            % operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Equality(Tie.VAL,Tie.VAL)">
+            <summary>
+            == operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_GreaterThan(Tie.VAL,Tie.VAL)">
+            <summary>
+            > operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_LessThan(Tie.VAL,Tie.VAL)">
+            <summary>
+            Less than operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_GreaterThanOrEqual(Tie.VAL,Tie.VAL)">
+            <summary>
+            >= operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_LessThanOrEqual(Tie.VAL,Tie.VAL)">
+            <summary>
+            less and equal than operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Inequality(Tie.VAL,Tie.VAL)">
+            <summary>
+            != operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.Equals(System.Object)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.GetHashCode">
+            <summary>
+            Returns hash code
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_OnesComplement(Tie.VAL)">
+            <summary>
+            ~ operator
+            </summary>
+            <param name="v1"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_BitwiseOr(Tie.VAL,Tie.VAL)">
+            <summary>
+            bitwise or operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_BitwiseAnd(Tie.VAL,Tie.VAL)">
+            <summary>
+            bitwise and operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_ExclusiveOr(Tie.VAL,Tie.VAL)">
+            <summary>
+            bitwise xor operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_LeftShift(Tie.VAL,System.Int32)">
+            <summary>
+            bitwise left shift operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_RightShift(Tie.VAL,System.Int32)">
+            <summary>
+            bitwise right shift operator, support operator overloading in host object
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.Array(System.Int32[])">
+            <summary>
+            Make multiple dimension array
+            </summary>
+            <param name="args">ranks</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.IsAssociativeArray">
+            <summary>
+            is associative array?
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.Add(Tie.VAL)">
+            <summary>
+            Add element into list
+            </summary>
+            <param name="val"></param>
+        </member>
+        <member name="M:Tie.VAL.Add(System.String,System.Object)">
+            <summary>
+            add a key value pair to associative array
+            </summary>
+            <param name="key"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.Remove(System.String)">
+            <summary>
+            remove key value pair from associative array
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:Tie.VAL.ClearNullorVoid">
+            <summary>
+            Remove null/void key-value-pair in associative array
+            </summary>
+        </member>
+        <member name="M:Tie.VAL.ToString">
+            <summary>
+              Converts the value of this instance to a System.String. display all format
+              Print null, quotation mark, typeof
+            </summary>
+            <returns> A string whose value is the same as this instance.</returns>
+        </member>
+        <member name="M:Tie.VAL.ToSimpleString">
+            <summary>
+            display to end user
+            Print no null, no quotation mark, no typeof
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.ToString(System.String)">
+            <summary>
+            return string with format
+            ex:
+                L = {1,"a", null};
+                L.ToString("PN")=> {1,a,null}
+                L.ToString("QPN")     => {1,"a",null}
+                L.ToString("QPNT")    => {1,"a",null}.typof(object[])
+                L.ToString("N")       => 1,a,null
+                L.ToString("")        => 1,a,
+            </summary>
+            <param name="format">Q:Quotation Mark |N: null | T: typeof | P: Parentheses</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.ToExJson">
+            <summary>
+            convert instance to JSON
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.ToJson(System.String)">
+            <summary>
+            convert instance to JSON
+            </summary>
+            <param name="tag">root tag</param>
+            <returns>compact JSON string</returns>
+        </member>
+        <member name="M:Tie.VAL.ToJson">
+            <summary>
+            convert instance to JSON
+            </summary>
+            <returns>well-formatted JSON string</returns>
+        </member>
+        <member name="M:Tie.VAL.ToXml(System.String)">
+            <summary>
+            Convert instance to XML
+            </summary>
+            <param name="tag"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.CopyTo(Tie.VAL[],System.Int32)">
+            <summary>
+            Copies the entire list to a compatible one-dimensional
+            array, starting at the specified index of the target array.
+            </summary>
+            <param name="array"></param>
+            <param name="arrayIndex"></param>
+        </member>
+        <member name="M:Tie.VAL.Clear">
+            <summary>
+            clear list
+            </summary>
+        </member>
+        <member name="M:Tie.VAL.Contains(Tie.VAL)">
+            <summary>
+            list contains item?
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.Remove(Tie.VAL)">
+            <summary>
+            removes item from list
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Boolean">
+            <summary>
+            explicit convert to boolean
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.String">
+            <summary>
+            explicit convert to string
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Int32">
+            <summary>
+            explicit convert to int
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Double">
+            <summary>
+            explicit convert to double
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Decimal">
+            <summary>
+            explicit convert to decimal
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Object[]">
+            <summary>
+            explicit convert to object array
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~Tie.Memory">
+            <summary>
+            explicit convert to varible dictionary
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Char">
+            <summary>
+            explicit convert to char
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Byte">
+            <summary>
+            explicit convert to byte
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.SByte">
+            <summary>
+            explicit convert to sbyte
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Int16">
+            <summary>
+            explicit convert to short
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.UInt16">
+            <summary>
+            explicit convert to ushort
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.UInt32">
+            <summary>
+            explicit convert to uint
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Int64">
+            <summary>
+            explicit convert to long
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.UInt64">
+            <summary>
+            explicit convert to ulong
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Single">
+            <summary>
+            explicit convert to float
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.DateTime">
+            <summary>
+            explicit convert to DateTime
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.DBNull">
+            <summary>
+            explicit convert to System.DBNull
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.Assign(System.String,Tie.VAL)">
+            <summary>
+            Assign("A.B.C.D", new VAL(0))
+            </summary>
+            <param name="ns"></param>
+            <param name="val"></param>
+        </member>
+        <member name="M:Tie.VAL.GetName">
+            <summary>
+            return variable name assigned to this value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Tie.VAL.Item(System.Int32)">
+            <summary>
+            returns i-th element of list
+            </summary>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Tie.VAL.Item(System.String)">
+            <summary>
+            returns value by key in associative array
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Tie.VAL.Item(Tie.VAL)">
+            <summary>
+            returns offset of value, either property or array of host object
+            </summary>
+            <param name="arr"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Tie.VAL.Str">
+            <summary>
+            returns string value
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Intcon">
+            <summary>
+            returns integet value
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Doublecon">
+            <summary>
+            returns double value
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Decimalcon">
+            <summary>
+            returns decimal value
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Boolcon">
+            <summary>
+            returns boolean value
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Size">
+            <summary>
+            returns number of elements of list, if not list, returns -1
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Defined">
+            <summary>
+            value is defined
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Undefined">
+            <summary>
+            value is not defined
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsNull">
+            <summary>
+            is null?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsBool">
+            <summary>
+            is boolean?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsHostType">
+            <summary>
+            is host type object?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsInt">
+            <summary>
+            is integer?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsList">
+            <summary>
+            is list value?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsDouble">
+            <summary>
+            is double?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsDecimal">
+            <summary>
+            is decimal?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsFunction">
+            <summary>
+            is user defined function?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsClass">
+            <summary>
+            is user defined class?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsTrue">
+            <summary>
+            is boolean and true?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsFalse">
+            <summary>
+            is boolean and false?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.ObjectArray">
+            <summary>
+            returns object array
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Valor">
+            <summary>
+            returns instance string used for persistence purpose
+            Print null, quotation mark, typeof and valized value
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Count">
+            <summary>
+            returns count of list
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.IsReadOnly">
+            <summary>
+            always returns true
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.HostValue">
+            <summary>
+            returns Host value
+            </summary>
+        </member>
+        <member name="T:Tie.VAR">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tie.VAR.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="ident"></param>
+        </member>
+        <member name="M:Tie.VAR.GetHashCode">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAR.Equals(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAR.Equals(Tie.VAR)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAR.op_Equality(Tie.VAR,Tie.VAR)">
+            <summary>
+            
+            </summary>
+            <param name="id1"></param>
+            <param name="id2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAR.op_Inequality(Tie.VAR,Tie.VAR)">
+            <summary>
+            
+            </summary>
+            <param name="id1"></param>
+            <param name="id2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAR.op_Explicit(Tie.VAR)~System.String">
+            <summary>
+            
+            </summary>
+            <param name="ident"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAR.op_Implicit(System.String)~Tie.VAR">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAR.CompareTo(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAR.CompareTo(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAR.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

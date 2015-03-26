@@ -312,6 +312,10 @@ namespace Tie
                                     stab[k++] = '\n';
                                     break;
 
+                                case 'r':
+                                    stab[k++] = '\r';
+                                    break;
+
                                 case 't':
                                     stab[k++] = '\t';
                                     break;
