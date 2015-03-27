@@ -25,3 +25,6 @@
 /tests/Tie.Helper.Tests/bin/Release
 /tests/Tie.UnitTest/bin/Release
 /tests/Tie.UnitTest.NET4/bin/Release
+/tests/Tie.Tests/bin/Release
+/tests/Tie.Tests/obj/Release
+/packages
