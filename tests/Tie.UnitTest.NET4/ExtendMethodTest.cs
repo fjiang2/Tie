@@ -90,7 +90,7 @@ namespace Tie.UnitTest.NET4
 
             ExtendMethodTest test = new ExtendMethodTest();
             string t1 = test.Times<int[]>(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
-            DS.Clear();
+            DS.RemoveAll();
             DS.Add("test", VAL.NewHostType(test));
             code = @"
             //t1 = test.Times<int[]>(new int[] {1,2,3},new int[] {4,5,6});    
@@ -124,7 +124,7 @@ namespace Tie.UnitTest.NET4
 
             ";
 
-            DS.Clear();
+            DS.RemoveAll();
             DS.Add("currentVideoGames", VAL.Boxing(currentVideoGames));
             Script.Execute(code, DS);
 

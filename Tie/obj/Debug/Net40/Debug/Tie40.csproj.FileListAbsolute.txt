@@ -4,3 +4,9 @@ D:\devel\GitHub\Tie\Tie\bin\Debug\Net40\Tie.pdb
 D:\devel\GitHub\Tie\Tie\obj\Debug\Net40\Debug\Tie40.csprojResolveAssemblyReference.cache
 D:\devel\GitHub\Tie\Tie\obj\Debug\Net40\Debug\Tie.dll
 D:\devel\GitHub\Tie\Tie\obj\Debug\Net40\Debug\Tie.pdb
+C:\devel\GitHub\Tie\Tie\bin\Debug\Net40\Tie.xml
+C:\devel\GitHub\Tie\Tie\bin\Debug\Net40\Tie.dll
+C:\devel\GitHub\Tie\Tie\bin\Debug\Net40\Tie.pdb
+C:\devel\GitHub\Tie\Tie\obj\Debug\Net40\Debug\Tie40.csprojResolveAssemblyReference.cache
+C:\devel\GitHub\Tie\Tie\obj\Debug\Net40\Debug\Tie.dll
+C:\devel\GitHub\Tie\Tie\obj\Debug\Net40\Debug\Tie.pdb
