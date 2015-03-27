@@ -40,3 +40,7 @@
 /tests/Tie.Helper.Tests/bin/Debug
 /tests/Tie.UnitTest.NET4/bin/Debug
 /tests/Tie.Tests/bin/Debug
+/samples/Tie.Form.DataDriven/obj/x86/Debug
+/samples/Tie.Form.SearchEngine/obj/x86/Release
+/samples/Tie.Form.Subclass/obj/x86/Release
+/tests/Tie.UnitTest/obj
