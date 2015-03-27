@@ -66,7 +66,7 @@ namespace WpfApplicationDemo
             sw.WriteLine();
             sw.WriteLine("SQL Criteria Parameter:");
             for (int i = 0; i < result.Size; i++)
-                sw.WriteLine(string.Format("@{0}={1}", result[i][0].ToString2(), result[i][1]));
+                sw.WriteLine(string.Format("@{0}={1}", result[i][0].ToSimpleString(), result[i][1]));
 
             sw.WriteLine();
             sw.WriteLine("DataTable retrieved from SQL Server:");

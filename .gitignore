@@ -28,3 +28,15 @@
 /tests/Tie.Tests/bin/Release
 /tests/Tie.Tests/obj/Release
 /packages
+/samples/Tie.Form.Samples/bin/Debug
+/samples/Tie.Form.Samples/obj/Debug
+/samples/Tie.Form.SearchEngine/bin/Debug
+/samples/Tie.Form.SearchEngine/obj/x86/Debug
+/samples/Tie.Form.Subclass/bin/Debug
+/samples/Tie.Form.Subclass/obj/x86/Debug
+/samples/Tie.Helper.Samples/bin/Debug
+/samples/Tie.Samples/bin/Debug
+/samples/Tie.Wpf.SearchEngine/bin/Debug
+/tests/Tie.Helper.Tests/bin/Debug
+/tests/Tie.UnitTest.NET4/bin/Debug
+/tests/Tie.Tests/bin/Debug

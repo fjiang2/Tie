@@ -50,9 +50,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tie">
-      <HintPath>..\..\Tie C#\Tie\bin\Debug\Tie.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -89,6 +86,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="form.tie" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Tie\Tie20.csproj">
+      <Project>{0fad3400-65a1-458f-9280-89925a6f7731}</Project>
+      <Name>Tie20</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
