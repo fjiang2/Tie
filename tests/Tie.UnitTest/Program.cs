@@ -83,7 +83,6 @@ namespace UnitTest
 
             PropertyTest.main();
             FunctionTest.main(); 
-            ArrayTest.main();
             CastTest.main();
             HostPersistentTest.main();
             HostPersistentTest.main2();

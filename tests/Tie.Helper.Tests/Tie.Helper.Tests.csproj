@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="ApplicationMemoryTest.cs" />
     <Compile Include="DbMemoryFacts.cs" />
+    <Compile Include="ExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

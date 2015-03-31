@@ -19,55 +19,28 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Reflection;
+using System.Diagnostics.Contracts;
 
-#if !SILVERLIGHT 
 namespace Tie.Helper
 {
-    static class Extension
+    public static class Extension
     {
-        static bool designMode = false;
-
-        private static string FindIndexedProcessName(int pid)
+        public static VAL ToVAL(this object obj)
         {
-            var processName = Process.GetProcessById(pid).ProcessName;
-            var processesByName = Process.GetProcessesByName(processName);
-            string processIndexdName = null;
+            Contract.Ensures(obj != null);
 
-            for (var index = 0; index < processesByName.Length; index++)
+            Type type = obj.GetType();
+
+            VAL val = VAL.Array();
+
+            foreach (PropertyInfo propertyInfo in type.GetProperties())
             {
-                processIndexdName = index == 0 ? processName : processName + "#" + index;
-                var processId = new PerformanceCounter("Process", "ID Process", processIndexdName);
-                if (Convert.ToInt32(processId.NextValue()).Equals(pid))
-                {
-                    return processIndexdName;
-                }
+                val.Add(propertyInfo.Name, propertyInfo.GetValue(obj));
             }
 
-            return processIndexdName;
-        }
-
-        private static Process FindPidFromIndexedProcessName(string indexedProcessName)
-        {
-            var parentId = new PerformanceCounter("Process", "Creating Process ID", indexedProcessName);
-            return Process.GetProcessById((int)parentId.NextValue());
-        }
-
-        public static Process ParentProcess(Process process)
-        {
-            return FindPidFromIndexedProcessName(FindIndexedProcessName(process.Id));
-        }
-
-        public static bool DesignMode()
-        {
-            if (designMode)
-                return true;
-
-            Process p = ParentProcess(Process.GetCurrentProcess());
-            designMode = p.ProcessName == "devenv" || p.ProcessName == "msvsmon" || p.ProcessName== "WebDev.WebServer";
-            return designMode;
-                
+            return val;
         }
     }
 
 }
-#endif

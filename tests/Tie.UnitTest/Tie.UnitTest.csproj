@@ -88,7 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationMemoryTest.cs" />
-    <Compile Include="ArrayTest.cs" />
     <Compile Include="BasicTest.cs" />
     <Compile Include="CastTest.cs" />
     <Compile Include="ClassTest.cs" />
