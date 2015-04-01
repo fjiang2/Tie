@@ -69,5 +69,19 @@ namespace Tie.Tests
             Assert.Equal(val1.ToString(), val2.ToString());
         }
 
+        [Fact]
+        public void AnonymousNetClass()
+        {
+            // Arrange
+            var code1 = new { Name="1000 SH 6", City = "Sugar Land", State = "TX", Zip = "77578"};
+            string code2 = "{ Name : '1000 SH 6', City : 'Sugar Land', State : 'TX', Zip : '77578'}";
+
+            // Act
+            var val1 = Valizer.Valize(code1);
+            var val2 = Script.Evaluate(code2);
+
+            // Assert
+            Assert.Equal(val1.ToJson(null), val2.ToJson(null));
+        }
     }
 }

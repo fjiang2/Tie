@@ -130,6 +130,7 @@ namespace Tie
         //Devalize
         private static object Val2HostOffset(VAL val, object host)
         {
+#if GET_FIELDS
             FieldInfo[] fields = host.GetType().GetFields();
             foreach (FieldInfo fieldInfo in fields)
             {
@@ -152,7 +153,7 @@ namespace Tie
                 { 
                 }
             }
-
+#endif
             PropertyInfo[] properties = host.GetType().GetProperties();
             foreach (PropertyInfo propertyInfo in properties)
             {
@@ -176,10 +177,10 @@ namespace Tie
                                 IList array = (IList)prop;
                                 int count = array.Count;
                                 object phost = p.HostValue;
-                                if (phost is ICollection)       //不管p是HostType还是VALTYPE.listcon,他们的HostValue都是数组
+                                if (phost is IEnumerable && !(phost is string))       //不管p是HostType还是VALTYPE.listcon,他们的HostValue都是数组
                                 {
                                     //Host的Collection值
-                                    ICollection collection = (ICollection)phost;
+                                    IEnumerable collection = (IEnumerable)phost;
                                     int i = 0;
                                     foreach (object x in collection)
                                     {
@@ -307,10 +308,10 @@ namespace Tie
             {
                 val = VAL.NewEnumType((Enum)host);
             }
-            else if (host is ICollection)
+            else if (host is IEnumerable && !(host is string))
             {
                 val = VAL.Array();
-                foreach (object a in (ICollection)host)
+                foreach (object a in (IEnumerable)host)
                 {
                     val.Add(Host2Val(a, new VAL()));
                 }
@@ -327,6 +328,8 @@ namespace Tie
 
         private static void HostOffset2Val(object host, VAL val)
         {
+
+#if GET_FIELDS
             FieldInfo[] fields = host.GetType().GetFields();
             foreach (FieldInfo fieldInfo in fields)
             {
@@ -350,7 +353,7 @@ namespace Tie
 
                 val[fieldInfo.Name] = persistent;
             }
-
+#endif
             PropertyInfo[] properties = host.GetType().GetProperties();
             foreach (PropertyInfo propertyInfo in properties)
             {
@@ -359,11 +362,11 @@ namespace Tie
                 if (A.Length != 0)
                     continue;
 
-                if (!(propertyInfo.CanRead && propertyInfo.CanWrite))
-                    continue;
-
-                //if (!propertyInfo.CanRead)
+                //if (!(propertyInfo.CanRead && propertyInfo.CanWrite))
                 //    continue;
+
+                if (!propertyInfo.CanRead)
+                    continue;
 
                 if (IsStatic(propertyInfo))
                     continue;
@@ -377,9 +380,9 @@ namespace Tie
 
                 if ((object)persistent == null)
                 {
-                    if (propertyValue is ICollection)
+                    if (propertyValue is IEnumerable && !(propertyValue is string))
                     {
-                        ICollection collection = (ICollection)propertyValue;
+                        IEnumerable collection = (IEnumerable)propertyValue;
                         persistent = VAL.Array();
                         foreach (object obj in collection)
                         {
