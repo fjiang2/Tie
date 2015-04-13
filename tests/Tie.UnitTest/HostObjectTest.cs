@@ -84,7 +84,7 @@ namespace UnitTest
 
 
             Script.Execute(code, myDS);
-            Label label1 = (Label)myDS["label1"].value;
+            Label label1 = (Label)myDS["label1"].Value;
 
             string x = myDS["label1"].ToString();
             x = myDS["color"].ToString();

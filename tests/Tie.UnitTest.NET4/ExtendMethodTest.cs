@@ -129,7 +129,7 @@ namespace Tie.UnitTest.NET4
             Script.Execute(code, DS);
 
 
-            var subset2 = (IEnumerable<object>)DS["subset2"].value;
+            var subset2 = (IEnumerable<object>)DS["subset2"].Value;
             VAL s2 = VAL.Array();
             foreach (var game in subset2)
             {

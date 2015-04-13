@@ -91,13 +91,13 @@ namespace UnitTest
             DS.RemoveAll();
             Script.Execute(code, DS);
 
-            Debug.Assert(DS["Int1"].value.Equals(typeof(int[])));
-            Debug.Assert(DS["Type1"].value.Equals(typeof(Type[])));
-            Debug.Assert(DS["Type2"].value.Equals(typeof(Type[])));
-            Debug.Assert(DS["single"].value is BorderStyle);
-            Debug.Assert(DS["red"].value.Equals(System.Drawing.Color.Red));
-            Debug.Assert(DS["dict"].value.Equals(typeof(Dictionary<,>)));
-            Debug.Assert(DS["list"].value.Equals(typeof(List<>)));
+            Debug.Assert(DS["Int1"].Value.Equals(typeof(int[])));
+            Debug.Assert(DS["Type1"].Value.Equals(typeof(Type[])));
+            Debug.Assert(DS["Type2"].Value.Equals(typeof(Type[])));
+            Debug.Assert(DS["single"].Value is BorderStyle);
+            Debug.Assert(DS["red"].Value.Equals(System.Drawing.Color.Red));
+            Debug.Assert(DS["dict"].Value.Equals(typeof(Dictionary<,>)));
+            Debug.Assert(DS["list"].Value.Equals(typeof(List<>)));
         
         }
     }

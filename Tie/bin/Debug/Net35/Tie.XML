@@ -1217,24 +1217,24 @@
             <summary>
             Add host object variable
             </summary>
-            <param name="key"></param>
-            <param name="v"></param>
+            <param name="name"></param>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:Tie.Memory.AddObject(Tie.VAR,System.Object)">
             <summary>
             Add object variable into data segment
             </summary>
-            <param name="key"></param>
-            <param name="v"></param>
+            <param name="name"></param>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:Tie.Memory.Add(Tie.VAR,Tie.VAL)">
             <summary>
             Add VAL variable 
             </summary>
-            <param name="key"></param>
-            <param name="v"></param>
+            <param name="name"></param>
+            <param name="val"></param>
             <returns></returns>
         </member>
         <member name="M:Tie.Memory.GetValue(System.String)">
@@ -1272,27 +1272,20 @@
             <summary>
             Remove a variable
             </summary>
-            <param name="key">varible name</param>
+            <param name="name">varible name</param>
             <returns></returns>
         </member>
         <member name="M:Tie.Memory.ClearNullorVoid(Tie.VAR)">
             <summary>
             Clear void or null value
             </summary>
-            <param name="key"></param>
+            <param name="name"></param>
         </member>
         <member name="M:Tie.Memory.ToString">
             <summary>
               Converts the value of this instance to a System.String.
             </summary>
             <returns> A string whose value is the same as this instance.</returns>
-        </member>
-        <member name="M:Tie.Memory.CompressKeyNames(System.Collections.Generic.IEnumerable{Tie.VAR})">
-            <summary>
-            compress varible names, some varibles may belong to one
-            </summary>
-            <param name="keyNames"></param>
-            <returns>varible name list</returns>
         </member>
         <member name="M:Tie.Memory.CopyBlock(System.Collections.Generic.IEnumerable{Tie.VAR})">
             <summary>
@@ -1307,11 +1300,19 @@
             </summary>
             <param name="referenceMemory">reference varibles</param>
         </member>
+        <member name="M:Tie.Memory.IsUndefined(Tie.VAR,Tie.VAL)">
+            <summary>
+            return default value when property is undefined, otherwise return this value
+            </summary>
+            <param name="name"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
         <member name="M:Tie.Memory.op_Explicit(Tie.Memory)~Tie.VAL">
             <summary>
             explicit convert varible dictionary into VAL associative array
             </summary>
-            <param name="x"></param>
+            <param name="memory"></param>
             <returns></returns>
         </member>
         <member name="P:Tie.Memory.DS">
@@ -1323,10 +1324,10 @@
             <summary>
             Get value by variable name
             </summary>
-            <param name="key"></param>
+            <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="P:Tie.Memory.Keys">
+        <member name="P:Tie.Memory.Names">
             <summary>
             all variables name in memory
             </summary>
@@ -1577,6 +1578,23 @@
             create instance with value = Jagged Array
             </summary>
             <param name="A"></param>
+        </member>
+        <member name="F:Tie.VAL.NULL">
+            <summary>
+            constant NULL 
+            </summary>
+        </member>
+        <member name="F:Tie.VAL.VOID">
+            <summary>
+            constant VOID
+            </summary>
+        </member>
+        <member name="M:Tie.VAL.UpdateObject(Tie.VALTYPE,System.Object)">
+            <summary>
+            update this object
+            </summary>
+            <param name="ty"></param>
+            <param name="value"></param>
         </member>
         <member name="M:Tie.VAL.Boxing(System.Object)">
             <summary>
@@ -2034,6 +2052,23 @@
             return variable name assigned to this value
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.IsUndefined(System.String,Tie.VAL)">
+            <summary>
+            return default value when property is undefined, otherwise return this value
+            </summary>
+            <param property="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Tie.VAL.VALTYPE">
+            <summary>
+            get this value's type
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Value">
+            <summary>
+            internal value of VAL
+            </summary>
         </member>
         <member name="P:Tie.VAL.Item(System.Int32)">
             <summary>

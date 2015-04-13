@@ -2146,6 +2146,11 @@
             get this value's type
             </summary>
         </member>
+        <member name="P:Tie.VAL.Value">
+            <summary>
+            internal value of VAL
+            </summary>
+        </member>
         <member name="P:Tie.VAL.Item(System.Int32)">
             <summary>
             returns i-th element of list

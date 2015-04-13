@@ -266,7 +266,7 @@ listBox.Items.Add(1234);
 listBox.Items[0] = 'XXXX';
 ";
             Script.Execute(code1, DS);
-            ListBox lb = (ListBox)DS["listBox"].value;
+            ListBox lb = (ListBox)DS["listBox"].Value;
             object obj = lb.Items[0];
             Debug.Assert(obj.Equals("XXXX"), "Collection");
 

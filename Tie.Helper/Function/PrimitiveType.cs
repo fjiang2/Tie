@@ -21,7 +21,7 @@ namespace Tie.Helper
                 case "char":
                     if (size == 1)
                     {
-                        L0.UpdateObject(VALTYPE.stringcon, System.Convert.ToChar(L0.value));
+                        L0.UpdateObject(VALTYPE.stringcon, System.Convert.ToChar(L0.Value));
                         return L0;
                     }
                     break;
@@ -29,7 +29,7 @@ namespace Tie.Helper
                 case "float":
                     if (size == 1)
                     {
-                        L0.UpdateObject(VALTYPE.doublecon, System.Convert.ToSingle(L0.value));
+                        L0.UpdateObject(VALTYPE.doublecon, System.Convert.ToSingle(L0.Value));
                         return L0;
                     }
                     break;
@@ -37,7 +37,7 @@ namespace Tie.Helper
                 case "decimal":
                     if (size == 1)
                     {
-                        L0.UpdateObject(VALTYPE.doublecon, System.Convert.ToDecimal(L0.value));
+                        L0.UpdateObject(VALTYPE.doublecon, System.Convert.ToDecimal(L0.Value));
                         return L0;
                     }
                     break;
@@ -45,7 +45,7 @@ namespace Tie.Helper
                 case "double":
                     if (size == 1)
                     {
-                        L0.UpdateObject(VALTYPE.doublecon, System.Convert.ToDouble(L0.value));
+                        L0.UpdateObject(VALTYPE.doublecon, System.Convert.ToDouble(L0.Value));
                         return L0;
                     }
                     break;
@@ -53,7 +53,7 @@ namespace Tie.Helper
                 case "byte":
                     if (size == 1)
                     {
-                        L0.UpdateObject(VALTYPE.intcon, System.Convert.ToByte(L0.value));
+                        L0.UpdateObject(VALTYPE.intcon, System.Convert.ToByte(L0.Value));
                         return L0;
                     }
                     break;
@@ -62,7 +62,7 @@ namespace Tie.Helper
                 case "int32":
                     if (size == 1)
                     {
-                        L0.UpdateObject(VALTYPE.intcon, System.Convert.ToInt32(L0.value));
+                        L0.UpdateObject(VALTYPE.intcon, System.Convert.ToInt32(L0.Value));
                         return L0;
                     }
                     break;
@@ -70,7 +70,7 @@ namespace Tie.Helper
                 case "int16":
                     if (size == 1)
                     {
-                        L0.UpdateObject(VALTYPE.intcon, System.Convert.ToInt16(L0.value));
+                        L0.UpdateObject(VALTYPE.intcon, System.Convert.ToInt16(L0.Value));
                         return L0;
                     }
                     break;
@@ -78,7 +78,7 @@ namespace Tie.Helper
                 case "int64":
                     if (size == 1)
                     {
-                        L0.UpdateObject(VALTYPE.intcon, System.Convert.ToInt64(L0.value));
+                        L0.UpdateObject(VALTYPE.intcon, System.Convert.ToInt64(L0.Value));
                         return L0;
                     }
                     break;

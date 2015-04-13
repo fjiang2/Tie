@@ -95,7 +95,7 @@ namespace Tie.Helper
             if (v.Undefined || v.IsNull)
                 return null;
             else
-                return v.value;
+                return v.Value;
         }
 
         /// <summary>

@@ -96,7 +96,7 @@ namespace Tie.Tests
 
             // Assert
             Assert.Equal((int)DS["a"], 2);
-            Assert.Equal(DS["b"].value, 2);
+            Assert.Equal(DS["b"].Value, 2);
             Assert.Equal((double)DS["b"], 2.0);
         }
 
