@@ -192,6 +192,33 @@ namespace Tie.Helper
 
             return val;
         }
+
+
+        /// <summary>
+        /// compress varible names, some varibles may belong to one
+        /// </summary>
+        /// <param name="names"></param>
+        /// <returns>varible name list</returns>
+        public static IEnumerable<VAR> CompressKeyNames(IEnumerable<VAR> names)
+        {
+            StringBuilder code = new StringBuilder("{");
+            foreach (VAR name in names)
+                code.Append((string)name).Append("=0;");
+            code.Append("}");
+
+            Memory DS = new Memory();
+            Script.Execute(code.ToString(), DS);
+
+            List<VAR> compressedNames = new List<VAR>();
+            foreach (VAR name in DS.Names)
+            {
+                compressedNames.Add(name);
+            }
+
+            return compressedNames;
+        }
+
+
     }
 
 }

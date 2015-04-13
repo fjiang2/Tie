@@ -28,7 +28,7 @@ namespace Tie
     /// </summary>
     public sealed class Memory 
     {
-        Dictionary<VAR, VAL> ds = new Dictionary<VAR, VAL>();
+        private Dictionary<VAR, VAL> ds = new Dictionary<VAR, VAL>();
 
         /// <summary>
         /// Initializes a new instance
@@ -54,46 +54,46 @@ namespace Tie
         /// <summary>
         /// Add host object variable
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="v"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public VAL AddHostObject(VAR key, object v)
+        public VAL AddHostObject(VAR name, object value)
         {
-            return Add(key, VAL.NewHostType(v));
+            return Add(name, VAL.NewHostType(value));
         }
 
    
         /// <summary>
         /// Add object variable into data segment
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="v"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public VAL AddObject(VAR key, object v)
+        public VAL AddObject(VAR name, object value)
         {
-            return Add(key, VAL.Boxing1(v));
+            return Add(name, VAL.Boxing1(value));
         }
 
      
         /// <summary>
         /// Add VAL variable 
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="v"></param>
+        /// <param name="name"></param>
+        /// <param name="val"></param>
         /// <returns></returns>
-        public VAL Add(VAR key, VAL v)
+        public VAL Add(VAR name, VAL val)
         {
             bool removed = false;
             VAL oldValue = null;
 
-            if (ds.ContainsKey(key))
+            if (ds.ContainsKey(name))
             {
-                oldValue = ds[key];
-                removed = ds.Remove(key);
+                oldValue = ds[name];
+                removed = ds.Remove(name);
             }
 
-            v.name = key.Ident;
-            ds.Add(key, v);
+            val.name = name.Ident;
+            ds.Add(name, val);
 
             return oldValue;
         }
@@ -107,7 +107,7 @@ namespace Tie
         /// <summary>
         /// Dictionary of varible
         /// </summary>
-        internal Dictionary<VAR, VAL> DS
+        internal IDictionary<VAR, VAL> DS
         {
             get
             {
@@ -116,29 +116,29 @@ namespace Tie
         }
 
 
-        internal bool ContainsKey(VAR key)
+        internal bool ContainsKey(VAR name)
         {
-            return ds.ContainsKey(key);
+            return ds.ContainsKey(name);
         }
 
 
         /// <summary>
         /// Get value by variable name
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
-        public VAL this[VAR key]
+        public VAL this[VAR name]
         {
             get
             {
-                if (ds.ContainsKey(key))
-                    return ds[key];
+                if (ds.ContainsKey(name))
+                    return ds[name];
                else
                    return VAL.NewVoidType(); 
             }
             set
             {
-                Add(key, value);              //ds[key] = value;
+                Add(name, value);              //ds[name] = value;
             }
         }
 
@@ -266,7 +266,7 @@ namespace Tie
         /// <summary>
         /// all variables name in memory
         /// </summary>
-        public ICollection<VAR> Keys
+        public IEnumerable<VAR> Names
         {
             get
             {
@@ -289,12 +289,12 @@ namespace Tie
         /// <summary>
         /// Remove a variable
         /// </summary>
-        /// <param name="key">varible name</param>
+        /// <param name="name">varible name</param>
         /// <returns></returns>
-        public bool Remove(VAR key)
+        public bool Remove(VAR name)
         {
-            if (ds.ContainsKey(key))
-                return ds.Remove(key);
+            if (ds.ContainsKey(name))
+                return ds.Remove(name);
 
             return false;
         }
@@ -305,19 +305,18 @@ namespace Tie
         /// <summary>
         /// Clear void or null value
         /// </summary>
-        /// <param name="key"></param>
-        public void ClearNullorVoid(VAR key)
+        /// <param name="name"></param>
+        public void ClearNullorVoid(VAR name)
         {
-            if (!ContainsKey(key))
+            if (!ContainsKey(name))
                 return;
 
-            VAL dict = this[key];
+            VAL dict = this[name];
             
             if (dict.Undefined || dict.IsNull)
-                Remove(key);
-
-
-            dict.ClearNullorVoid();
+                Remove(name);
+            else
+                dict.ClearNullorVoid();
         }
 
       
@@ -353,30 +352,6 @@ namespace Tie
 
 
 
-        //压缩KeyNames,合并结构分量类型的变量
-        /// <summary>
-        /// compress varible names, some varibles may belong to one
-        /// </summary>
-        /// <param name="keyNames"></param>
-        /// <returns>varible name list</returns>
-        public static IEnumerable<VAR> CompressKeyNames(IEnumerable<VAR> keyNames)
-        {
-            StringBuilder code = new StringBuilder("{");
-            foreach (VAR key in keyNames)
-                code.Append(key.Ident).Append("=0;");
-            code.Append("}");
-
-            Memory SS = new Memory();
-            Computer.Run("", code.ToString(), CodeType.statements, new Context(SS));
-
-            List<VAR> compactedKeyNames = new List<VAR>();
-            foreach (VAR key in SS.DS.Keys)
-            {
-                compactedKeyNames.Add(key);
-            }
-
-            return compactedKeyNames;
-        }
 
         //从DS中抽取keyNames的值
         /// <summary>
@@ -388,13 +363,13 @@ namespace Tie
         {
 
             Memory XS = new Memory();
-            foreach (VAR key in compactedKeyNames)
+            foreach (VAR name in compactedKeyNames)
             {
-                if (DS.ContainsKey(key))
+                if (DS.ContainsKey(name))
                 {
-                    VAL x = DS[key];
+                    VAL x = DS[name];
                     if (x.ty != VALTYPE.nullcon)
-                        XS.Add(key, x);
+                        XS.Add(name, x);
                 }
             }
             return XS;
@@ -414,16 +389,29 @@ namespace Tie
             return;
         }
 
-     
+      
+        /// <summary>
+        /// return default value when property is undefined, otherwise return this value
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public VAL IsUndefined(VAR name, VAL defaultValue)
+        {
+            if (DS.ContainsKey(name))
+                return DS[name];
+            else
+                return defaultValue;
+        }
 
         /// <summary>
         /// explicit convert varible dictionary into VAL associative array
         /// </summary>
-        /// <param name="x"></param>
+        /// <param name="memory"></param>
         /// <returns></returns>
-        public static explicit operator VAL(Memory x)
+        public static explicit operator VAL(Memory memory)
         {
-            return new VAL(x);
+            return new VAL(memory);
         }
 
     }

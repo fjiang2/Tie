@@ -76,7 +76,7 @@ namespace Tie.Helper
         /// </summary>
         public override void Save()
         {
-            Save(memory.Keys);
+            Save(memory.Names);
         }
 
         /// <summary>

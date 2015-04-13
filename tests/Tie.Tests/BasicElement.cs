@@ -83,5 +83,23 @@ namespace Tie.Tests
             // Assert
             Assert.Equal(val1.ToJson(null), val2.ToJson(null));
         }
+
+        [Fact]
+        public void TestCastValue()
+        {
+            // Arrange
+            var code1 = "a=2.3; b=(int)a;";
+
+            // Act
+            var DS = new Memory();
+            var val2 = Script.Execute(code1, DS);
+
+            // Assert
+            Assert.Equal((int)DS["a"], 2);
+            Assert.Equal(DS["b"].value, 2);
+            Assert.Equal((double)DS["b"], 2.0);
+        }
+
+    
     }
 }
