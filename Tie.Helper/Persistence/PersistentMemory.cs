@@ -218,7 +218,7 @@ namespace Tie.Helper
             return true;
         }
 
-        public readonly static DynamicVal Empty = new DynamicVal(new VAL { ty = VALTYPE.voidcon });
+        public readonly static DynamicVal Empty = new DynamicVal(VAL.VOID);
 
     }
     

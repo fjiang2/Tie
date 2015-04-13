@@ -244,7 +244,7 @@ namespace UnitTest
             ";
             VAL result = Script.Execute(code, DS);
             System.Diagnostics.Debug.Assert(result.ToString() == "{1,3}");
-            System.Diagnostics.Debug.Assert(DS["C"].ty == VALTYPE.voidcon);
+            System.Diagnostics.Debug.Assert(DS["C"].VALTYPE == VALTYPE.voidcon);
             Logger.Close();
         
         }

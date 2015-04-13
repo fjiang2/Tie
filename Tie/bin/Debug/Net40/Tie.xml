@@ -1579,6 +1579,23 @@
             </summary>
             <param name="A"></param>
         </member>
+        <member name="F:Tie.VAL.NULL">
+            <summary>
+            constant NULL 
+            </summary>
+        </member>
+        <member name="F:Tie.VAL.VOID">
+            <summary>
+            constant VOID
+            </summary>
+        </member>
+        <member name="M:Tie.VAL.UpdateObject(Tie.VALTYPE,System.Object)">
+            <summary>
+            update this object
+            </summary>
+            <param name="ty"></param>
+            <param name="value"></param>
+        </member>
         <member name="M:Tie.VAL.Boxing(System.Object)">
             <summary>
             Box any object into VAL, support multiple dimension array
@@ -2042,6 +2059,11 @@
             </summary>
             <param property="defaultValue"></param>
             <returns></returns>
+        </member>
+        <member name="P:Tie.VAL.VALTYPE">
+            <summary>
+            get this value's type
+            </summary>
         </member>
         <member name="P:Tie.VAL.Item(System.Int32)">
             <summary>

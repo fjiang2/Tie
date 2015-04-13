@@ -112,7 +112,7 @@ b8 = !(12 < 3.1);
             DBNull dbnull = (DBNull)nil;
             nil = VAL.Boxing(DBNull.Value);
 
-            Debug.Assert(nil.ty == VALTYPE.nullcon && nil.value == typeof(DBNull));
+            Debug.Assert(nil.VALTYPE == VALTYPE.nullcon && nil.value == typeof(DBNull));
         }
     }
 }

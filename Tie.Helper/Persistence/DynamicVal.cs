@@ -21,9 +21,9 @@ namespace Tie.Helper
         {
             if (val.Undefined)
             {
-                val.ty = VALTYPE.nullcon;
+                val.UpdateObject(VALTYPE.nullcon, null);
                 VAL a = new VAL();
-                a.ty = VALTYPE.voidcon;
+                a.UpdateObject(VALTYPE.voidcon, null);
                 val[binder.Name] = a;
                 result = new DynamicVal(a);
                 return true;
@@ -49,7 +49,7 @@ namespace Tie.Helper
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
             if (val.Undefined)
-                val.ty = VALTYPE.nullcon;
+                val.UpdateObject(VALTYPE.nullcon, null);
 
             if (value is DynamicVal)
             {
