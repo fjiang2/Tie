@@ -892,6 +892,34 @@
             
             
         </member>
+        <member name="T:Tie.Member">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tie.Member.#ctor(System.String,Tie.VAL)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Tie.Member.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Tie.Member.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Tie.Member.Value">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Tie.IValizable">
             <summary>
              Allows an object to control its own valization and devalization.
@@ -1808,19 +1836,26 @@
             </summary>
             <param name="val"></param>
         </member>
-        <member name="M:Tie.VAL.Add(System.String,System.Object)">
+        <member name="M:Tie.VAL.AddMember(System.String,System.Object)">
             <summary>
-            add a key value pair to associative array
+            add a key value member to associative array
             </summary>
-            <param name="key"></param>
+            <param name="name"></param>
             <param name="obj"></param>
             <returns></returns>
         </member>
-        <member name="M:Tie.VAL.Remove(System.String)">
+        <member name="M:Tie.VAL.AddMember(Tie.Member)">
             <summary>
-            remove key value pair from associative array
+            add a key value member to associative array
             </summary>
-            <param name="key"></param>
+            <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tie.VAL.RemoveMember(System.String)">
+            <summary>
+            remove key value member from associative array
+            </summary>
+            <param name="name"></param>
         </member>
         <member name="M:Tie.VAL.ClearNullorVoid">
             <summary>
@@ -2184,6 +2219,11 @@
         <member name="P:Tie.VAL.IsFalse">
             <summary>
             is boolean and false?
+            </summary>
+        </member>
+        <member name="P:Tie.VAL.Members">
+            <summary>
+            return associative array
             </summary>
         </member>
         <member name="P:Tie.VAL.ObjectArray">

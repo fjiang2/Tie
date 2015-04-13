@@ -187,7 +187,7 @@ namespace Tie.Helper
 
             foreach (PropertyInfo propertyInfo in type.GetProperties())
             {
-                val.Add(propertyInfo.Name, propertyInfo.GetValue(obj));
+                val.AddMember(propertyInfo.Name, propertyInfo.GetValue(obj));
             }
 
             return val;

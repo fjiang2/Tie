@@ -118,6 +118,9 @@
     <Compile Include="Valization\PropertyValization.cs" />
     <Compile Include="Valization\ScriptValization.cs" />
     <Compile Include="Valization\ValizationMgr.cs" />
+    <Compile Include="VAL\HandlerActionType.cs" />
+    <Compile Include="VAL\Member.cs" />
+    <Compile Include="VAL\OutputType.cs" />
     <Compile Include="VAL\Serializer.cs" />
     <Compile Include="VAL\Valization.cs" />
     <Compile Include="VAL\VALTYPE.cs" />

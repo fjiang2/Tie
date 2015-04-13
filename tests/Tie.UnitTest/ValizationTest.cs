@@ -38,7 +38,7 @@ namespace UnitTest
                      val["BackColor"] = Valizer.Valize(form.BackColor);
                      foreach (Control control in form.Controls)
                      {
-                         val.Add(control.Name, Valizer.Valize(control));
+                         val.AddMember(control.Name, Valizer.Valize(control));
                      }
                      return val;
                  },

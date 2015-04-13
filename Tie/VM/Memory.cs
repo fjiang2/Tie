@@ -254,8 +254,8 @@ namespace Tie
 
                 i++;
             }
-            
-            _val.Remove(names[names.Length - 1]);
+
+            _val.RemoveMember(names[names.Length - 1]);
 
         }
 

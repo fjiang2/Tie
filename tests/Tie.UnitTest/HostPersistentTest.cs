@@ -316,7 +316,7 @@ listBox.Items[0] = 'XXXX';
             list.Add("F");
 
             val = new VAL();
-            val.Add("Items", VAL.NewHostType(list));
+            val.AddMember("Items", VAL.NewHostType(list));
             HostType.SetObjectProperties(listBox1, val);
             string s = "";
             foreach (object x in listBox1.Items)

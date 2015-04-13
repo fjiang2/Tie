@@ -44,5 +44,9 @@
 /samples/Tie.Form.SearchEngine/obj/x86/Release
 /samples/Tie.Form.Subclass/obj/x86/Release
 /tests/Tie.UnitTest/obj
-Tie/bin/Debug/Net40/Tie.xml
 Tie/bin/Debug/Net20/Tie.XML
+Tie/bin/Debug/Net30/Tie.XML
+Tie/bin/Debug/Net35/Tie.XML
+Tie/bin/Debug/Net40/Tie.xml
+Tie/bin/Debug/Net45/Tie.xml
+Tie/bin/Debug/Net451/Tie.xml

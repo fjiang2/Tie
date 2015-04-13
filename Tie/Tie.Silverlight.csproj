@@ -109,6 +109,9 @@
     <Compile Include="HostType\PersistentAttribute.cs" />
     <Compile Include="HostType\Tuple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VAL\HandlerActionType.cs" />
+    <Compile Include="VAL\Member.cs" />
+    <Compile Include="VAL\OutputType.cs" />
     <Compile Include="VM\VAR.cs" />
   </ItemGroup>
   <ItemGroup>

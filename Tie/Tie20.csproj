@@ -102,6 +102,9 @@
     <Compile Include="HostType\HostOperation.cs" />
     <Compile Include="HostType\HostValization.cs" />
     <Compile Include="HostType\HostTypeException.cs" />
+    <Compile Include="VAL\HandlerActionType.cs" />
+    <Compile Include="VAL\Member.cs" />
+    <Compile Include="VAL\OutputType.cs" />
     <Compile Include="VM\VAR.cs" />
     <Compile Include="HostType\PersistentAttribute.cs" />
     <Compile Include="HostType\Tuple.cs" />
