@@ -393,16 +393,24 @@ namespace Tie
         /// <summary>
         /// return default value when property is undefined, otherwise return this value
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public VAL IsUndefined(VAR name, VAL defaultValue)
+        public T GetValue<T>(VAR name, T defaultValue = default(T))
         {
             if (DS.ContainsKey(name))
-                return DS[name];
-            else
-                return defaultValue;
+            {
+                VAL val = DS[name];
+                if (val.HostValue is T)
+                    return (T)val.HostValue;
+                else if (typeof(T).IsEnum && val.HostValue is int)
+                    return (T)val.HostValue;
+            }
+
+            return defaultValue;
         }
+
 
         /// <summary>
         /// explicit convert varible dictionary into VAL associative array

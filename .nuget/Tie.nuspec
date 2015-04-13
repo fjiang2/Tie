@@ -16,9 +16,11 @@ Support script debug, breakpoint, log.
 Middleware, high performance, compact size</description>
         <summary>C# statement/expression interpreter</summary>
         <releaseNotes>
-          03/26/2015 v.2Na.0.0.12
+          04/13/2015 v.2.0.0.14
+          1. new features: add Memory.GetValue and VAL.GetMember
+          03/26/2015 v.2.0.0.13
           1. bug fixes: error on compile string having char '\r'
-          02/10/2015 v2.0.0.13
+          02/10/2015 v2.0.0.12
           1. added .net4.51 release
         </releaseNotes>
     </metadata>
