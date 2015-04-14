@@ -357,13 +357,13 @@ namespace Tie
         /// <summary>
         /// Copy some varibles into new varible dictionary
         /// </summary>
-        /// <param name="compactedKeyNames"></param>
+        /// <param name="names"></param>
         /// <returns></returns>
-        public Memory CopyBlock(IEnumerable<VAR> compactedKeyNames)
+        public Memory CopyBlock(IEnumerable<VAR> names)
         {
 
             Memory XS = new Memory();
-            foreach (VAR name in compactedKeyNames)
+            foreach (VAR name in names)
             {
                 if (DS.ContainsKey(name))
                 {
@@ -379,7 +379,7 @@ namespace Tie
         /// Remove unchanged varibles
         /// </summary>
         /// <param name="referenceMemory">reference varibles</param>
-        public void RemoveValueUnchangedBlock(Memory referenceMemory)
+        public void RemoveUnchangedBlock(Memory referenceMemory)
         {
             foreach (KeyValuePair<VAR, VAL> kvp in DS)
             {

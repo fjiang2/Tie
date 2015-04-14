@@ -1389,10 +1389,10 @@
             <summary>
             Copy some varibles into new varible dictionary
             </summary>
-            <param name="compactedKeyNames"></param>
+            <param name="names"></param>
             <returns></returns>
         </member>
-        <member name="M:Tie.Memory.RemoveValueUnchangedBlock(Tie.Memory)">
+        <member name="M:Tie.Memory.RemoveUnchangedBlock(Tie.Memory)">
             <summary>
             Remove unchanged varibles
             </summary>

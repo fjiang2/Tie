@@ -49,7 +49,8 @@ form.MyProp1 = 100;
             Memory DS2 = new Memory();
             Script.Execute(code, DS2);
 
-            System.Diagnostics.Debug.Assert(DS2["form"].ToString() ==
+            var _form = DS2["form"];
+            System.Diagnostics.Debug.Assert(_form.ToString() ==
                 "{{\"$base\",{{\"$base\",new System.Windows.Forms.Form()},{\"MyProp1\",100}}},{\"MyProp2\",20}}", "Subclass");
 
             VAL form = DS2["form"];

@@ -229,7 +229,22 @@ namespace Tie
                     }
                     break;
 
-                    
+
+                /*
+                * 
+                * return name of value
+                * 
+                * */
+                case "nameof":
+                    if (size == 1)
+                    {
+                        if (L0.name == null)
+                            return new VAL();
+                        else
+                            return new VAL(L0.name);
+                    }
+                    break;
+
                 /*
                  *  1.返回Persistent字符串
                  * 

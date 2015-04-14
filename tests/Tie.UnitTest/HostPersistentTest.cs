@@ -66,14 +66,15 @@ namespace UnitTest
 
         public HostEnum he = HostEnum.Desktop;
         public int a { get; set; }
-        
-        [NonValized]  public string b;
-        
-        public double d;
-        public DateTime e;
+
+        [NonValized]
+        public string b { get; set; }
+
+        public double d { get; set; }
+        public DateTime e { get; set; }
 
         [Valizable]
-        public int[] Array;
+        public int[] Array { get; set; }
 
         private Color color1;
 
@@ -102,7 +103,7 @@ namespace UnitTest
         public TextBox textBox1 { get; set; }
 
         [Valizable(new string[] { "Text", "ReadOnly", "Visible", "Font" })]
-        public TextBox textBox2;// { get; set; }
+        public TextBox textBox2 { get; set; }
 
         [Valizable]
         public string B
