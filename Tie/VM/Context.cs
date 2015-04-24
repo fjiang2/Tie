@@ -118,13 +118,13 @@ namespace Tie
 
         public  VAL GetVAL(VAR ident, bool readOnly)
         {
-            if (DS2 != null && DS2.ContainsKey(ident))         //user temp variable
+            if (DS2 != null && DS2.Exists(ident))         //user temp variable
                 return DS2[ident];
 
-            if (DS1 != null && DS1.ContainsKey(ident))         //user global variable
+            if (DS1 != null && DS1.Exists(ident))         //user global variable
                 return DS1[ident];
 
-            if (DS0.ContainsKey(ident))                        //CPU system level memory
+            if (DS0.Exists(ident))                        //CPU system level memory
                 return DS0[ident];
 
 

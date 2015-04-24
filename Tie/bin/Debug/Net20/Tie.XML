@@ -2328,7 +2328,7 @@
         </member>
         <member name="P:Tie.VAL.IsReadOnly">
             <summary>
-            always returns true
+            always returns false
             </summary>
         </member>
         <member name="P:Tie.VAL.HostValue">

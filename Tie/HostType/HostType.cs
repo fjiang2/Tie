@@ -115,7 +115,7 @@ namespace Tie
                         string name = methodInfo.Name;
 
                         //如果有overloading的函数,以数组方式保存全部的methodInfo
-                        if (Computer.DS1.ContainsKey(name))
+                        if (Computer.DS1.Exists(name))
                         {
                             List<MethodInfo> L = new List<MethodInfo>();
                             object m = Computer.DS1[name].value;
@@ -161,7 +161,7 @@ namespace Tie
            
             if (briefName && !Constant.HOST_TYPE_AUTO_REGISTER)
             {
-                if (DS1.ContainsKey(type.Name))
+                if (DS1.Exists(type.Name))
                 {
                     DS1[type.Name] = obj;
                 }

@@ -116,7 +116,7 @@ namespace Tie
         }
 
 
-        internal bool ContainsKey(VAR name)
+        internal bool Exists(VAR name)
         {
             return ds.ContainsKey(name);
         }
@@ -199,7 +199,7 @@ namespace Tie
 
             if (names.Length == 1)
             {
-                if (this.ContainsKey(_var))
+                if (this.Exists(_var))
                     this[_var] = val;
                 else
                     this.Add(_var, val);
@@ -207,7 +207,7 @@ namespace Tie
             else
             {
                 VAL _val;
-                if (this.ContainsKey(_var))
+                if (this.Exists(_var))
                 {
                     _val = this[_var];
                     VAL.Assign(_val, names, 1, val);
@@ -308,7 +308,7 @@ namespace Tie
         /// <param name="name"></param>
         public void ClearNullorVoid(VAR name)
         {
-            if (!ContainsKey(name))
+            if (!Exists(name))
                 return;
 
             VAL dict = this[name];
