@@ -55,7 +55,7 @@ namespace Tie
         }
 
         /// <summary>
-        /// 
+        /// obj is VAR type
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -117,13 +117,13 @@ namespace Tie
         }
 
         /// <summary>
-        /// 
+        /// obj is VAR type
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         public int CompareTo(object obj)
         {
-            return this.ident.CompareTo(obj);
+            return this.ident.CompareTo(((VAR)obj).ident);
         }
 
         /// <summary>

@@ -1319,10 +1319,10 @@
             <summary>
             Copy some varibles into new varible dictionary
             </summary>
-            <param name="compactedKeyNames"></param>
+            <param name="names"></param>
             <returns></returns>
         </member>
-        <member name="M:Tie.Memory.RemoveValueUnchangedBlock(Tie.Memory)">
+        <member name="M:Tie.Memory.RemoveUnchangedBlock(Tie.Memory)">
             <summary>
             Remove unchanged varibles
             </summary>
@@ -1932,33 +1932,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Tie.VAL.CopyTo(Tie.VAL[],System.Int32)">
-            <summary>
-            Copies the entire list to a compatible one-dimensional
-            array, starting at the specified index of the target array.
-            </summary>
-            <param name="array"></param>
-            <param name="arrayIndex"></param>
-        </member>
-        <member name="M:Tie.VAL.Clear">
-            <summary>
-            clear list
-            </summary>
-        </member>
-        <member name="M:Tie.VAL.Contains(Tie.VAL)">
-            <summary>
-            list contains item?
-            </summary>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tie.VAL.Remove(Tie.VAL)">
-            <summary>
-            removes item from list
-            </summary>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
         <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Boolean">
             <summary>
             explicit convert to boolean
@@ -2240,16 +2213,6 @@
             Print null, quotation mark, typeof and valized value
             </summary>
         </member>
-        <member name="P:Tie.VAL.Count">
-            <summary>
-            returns count of list
-            </summary>
-        </member>
-        <member name="P:Tie.VAL.IsReadOnly">
-            <summary>
-            always returns true
-            </summary>
-        </member>
         <member name="P:Tie.VAL.HostValue">
             <summary>
             returns Host value
@@ -2274,7 +2237,7 @@
         </member>
         <member name="M:Tie.VAR.Equals(System.Object)">
             <summary>
-            
+            obj is VAR type
             </summary>
             <param name="obj"></param>
             <returns></returns>
@@ -2318,7 +2281,7 @@
         </member>
         <member name="M:Tie.VAR.CompareTo(System.Object)">
             <summary>
-            
+            obj is VAR type
             </summary>
             <param name="obj"></param>
             <returns></returns>

@@ -28,9 +28,9 @@ namespace UnitTest
             json["B"] = new VAL(2);
             json.AddMember("C", 3);
             Debug.Assert(json["C"].Intcon == 3);
-            Debug.Assert(json.Count == 3);
+            Debug.Assert(json.Size == 3);
             json.RemoveMember("B");
-            Debug.Assert(json.Count == 2);
+            Debug.Assert(json.Size == 2);
 
             string code = @"
 SET='SET';

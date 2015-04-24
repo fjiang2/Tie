@@ -66,7 +66,7 @@ namespace Tie.Helper
                 if (!L.IsList)
                     continue;
 
-                if (L.Count >= 2)
+                if (L.Size >= 2)
                 {
                     object x1 = typeof(T1) == typeof(VAL) ? L[0] : L[0].HostValue;
                     object x2 = typeof(T2) == typeof(VAL) ? L[1] : L[1].HostValue;
