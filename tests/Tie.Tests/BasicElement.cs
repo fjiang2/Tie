@@ -100,6 +100,22 @@ namespace Tie.Tests
             Assert.Equal((double)DS["b"], 2.0);
         }
 
-    
+        [Fact]
+        public void TestStringGetCharArray()
+        {
+            // Arrange
+            var code1 = "S='abc'; a=S[0]; b=S[1]; c=S[3]; d=S[-1]; ";
+
+            // Act
+            var DS = new Memory();
+            var val2 = Script.Execute(code1, DS);
+
+            // Assert
+            Assert.Equal(DS["a"].Value, "a");
+            Assert.Equal(DS["b"].Value, "b");
+            Assert.Equal(DS["c"], VAL.VOID);
+            Assert.Equal(DS["d"], VAL.VOID);
+        }
+      
     }
 }
