@@ -12,6 +12,20 @@ namespace UnitTest
         public static void main()
         {
 
+
+            Valizer.Register<Form>(
+            delegate(Form wform)
+            {
+                return new VAL(typeof(Form).FullName);
+            },
+            delegate(Form wform, Type type, VAL val)
+            {
+                return new Form();
+            }
+         );
+
+
+
             string code = @"
 MyForm1 = class(text)
 {
