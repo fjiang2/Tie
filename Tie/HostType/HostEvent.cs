@@ -184,7 +184,7 @@ namespace Tie
                 if (DS2 == null)
                     return null;
 
-                if (!DS2.ContainsKey(EVENT_HANDLER_NAME))
+                if (!DS2.Exists(EVENT_HANDLER_NAME))
                     DS2.AddHostObject(EVENT_HANDLER_NAME, new Dictionary<EventInfo, Delegate>());
 
                 return (Dictionary<EventInfo, Delegate>)DS2[EVENT_HANDLER_NAME].value;
@@ -230,7 +230,7 @@ namespace Tie
 
         public static void ClearEventHandler(Memory DS2)
         {
-            if (DS2.ContainsKey(HostEvent.EVENT_HANDLER_NAME))
+            if (DS2.Exists(HostEvent.EVENT_HANDLER_NAME))
                 DS2.Remove(HostEvent.EVENT_HANDLER_NAME);
         }
 
