@@ -116,6 +116,28 @@ namespace Tie.Tests
             Assert.Equal(DS["c"], VAL.VOID);
             Assert.Equal(DS["d"], VAL.VOID);
         }
+
+
+        [Fact]
+        public void TestAssociativeVAL()
+        {
+            // Arrange
+            var code1 = "{A:'abc', B:1, C:true}";
+
+            // Act
+            var val = Script.Evaluate(code1);
+
+            // Assert
+            Dictionary<string, object> dict = new Dictionary<string,object>();
+            foreach (Member m in val.Members)
+            {
+                dict.Add(m.Name, m.Value.Value);
+            }
+
+            Assert.Equal(dict["A"], "abc");
+            Assert.Equal(dict["B"], 1);
+            Assert.Equal(dict["C"], true);
+        }
       
     }
 }
