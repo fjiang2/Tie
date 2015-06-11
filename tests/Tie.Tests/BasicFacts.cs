@@ -30,7 +30,18 @@ namespace Tie.Tests
             Assert.Equal(builder.ToString(), val.Str);
         }
 
-      
+      [Fact]
+        public void TestTokenize()
+        {
+          //Arrange
+            string path = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools /all";
+            
+          //Act
+          IEnumerable<string> L = Script.Tokenize(path);
+
+          //Assert
+          Assert.Equal(string.Join("|", L), @"C|:|\|Program|Files|(|x86|)|\|Microsoft|Visual|Studio|12.0|\|Common7|\|Tools|/|all");
+        }
 
     }
 }

@@ -566,6 +566,7 @@ namespace Tie
 
                 case '#': tok.sy = SYMBOL.DIRECTIVE; NextCh(); break;
 
+                case '\\': tok.sy = SYMBOL.DELIMITER; NextCh(); break;
                 case '$':
                     //cerr<<"error letter:"<<ch<<" has already skip";
                     error.OnError(24); NextCh();
@@ -698,6 +699,11 @@ namespace Tie
             {
                 return tok.opr;
             }
+        }
+
+        public Token token 
+        { 
+            get { return this.tok; } 
         }
 
         protected virtual void set_index(int index)
