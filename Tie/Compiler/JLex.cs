@@ -567,7 +567,7 @@ namespace Tie
                 case '#': tok.sy = SYMBOL.DIRECTIVE; NextCh(); break;
 
                 case '\\': tok.sy = SYMBOL.DELIMITER; NextCh(); break;
-                case '$':
+                default :
                     //cerr<<"error letter:"<<ch<<" has already skip";
                     error.OnError(24); NextCh();
                     goto L1;

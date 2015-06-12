@@ -100,6 +100,13 @@
             <param name="userFunc"></param>
             <returns></returns>
         </member>
+        <member name="M:Tie.Script.Tokenize(System.String)">
+            <summary>
+            Tokenizers are used to break a string down into a stream of terms or tokens. 
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
         <member name="M:Tie.Script.#ctor">
             <summary>
             Initializes a new instance of the Tie.Script class, using dynamically created GUID as module name.
@@ -737,6 +744,51 @@
             current cursor in source code
             </summary>
         </member>
+        <member name="T:Tie.tokty">
+            <summary>
+            Token Type used on Tokenizer
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.number">
+            <summary>
+            number is int, double, float,...
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.identsy">
+            <summary>
+            like variable name
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.stringcon">
+            <summary>
+            string constant
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.symbol">
+            <summary>
+            symbol like: +,-,++,>=
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.keyword">
+            <summary>
+            reserved keyword in c/c++
+            </summary>
+        </member>
+        <member name="T:Tie.token">
+            <summary>
+            define a token 
+            </summary>
+        </member>
+        <member name="F:Tie.token.ty">
+            <summary>
+            token type
+            </summary>
+        </member>
+        <member name="F:Tie.token.tok">
+            <summary>
+            token itself
+            </summary>
+        </member>
         <member name="M:Tie.DynamicDelegate.InstanceDelegate(System.Type,System.Object,System.Reflection.FieldInfo,System.Reflection.MethodInfo)">
             把函数public static object xxxx(object target, object[] arguments);
             转为任意类型的delegate
@@ -1319,19 +1371,20 @@
             <summary>
             Copy some varibles into new varible dictionary
             </summary>
-            <param name="compactedKeyNames"></param>
+            <param name="names"></param>
             <returns></returns>
         </member>
-        <member name="M:Tie.Memory.RemoveValueUnchangedBlock(Tie.Memory)">
+        <member name="M:Tie.Memory.RemoveUnchangedBlock(Tie.Memory)">
             <summary>
             Remove unchanged varibles
             </summary>
             <param name="referenceMemory">reference varibles</param>
         </member>
-        <member name="M:Tie.Memory.IsUndefined(Tie.VAR,Tie.VAL)">
+        <member name="M:Tie.Memory.GetValue``1(Tie.VAR,``0)">
             <summary>
             return default value when property is undefined, otherwise return this value
             </summary>
+            <typeparam name="T"></typeparam>
             <param name="name"></param>
             <param name="defaultValue"></param>
             <returns></returns>
@@ -1857,6 +1910,15 @@
             </summary>
             <param name="name"></param>
         </member>
+        <member name="M:Tie.VAL.GetMemeber``1(System.String,``0)">
+            <summary>
+            return default value when property is undefined, otherwise return this value
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="name"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
         <member name="M:Tie.VAL.ClearNullorVoid">
             <summary>
             Remove null/void key-value-pair in associative array
@@ -1920,33 +1982,6 @@
             <summary>
             Returns an enumerator that iterates
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tie.VAL.CopyTo(Tie.VAL[],System.Int32)">
-            <summary>
-            Copies the entire list to a compatible one-dimensional
-            array, starting at the specified index of the target array.
-            </summary>
-            <param name="array"></param>
-            <param name="arrayIndex"></param>
-        </member>
-        <member name="M:Tie.VAL.Clear">
-            <summary>
-            clear list
-            </summary>
-        </member>
-        <member name="M:Tie.VAL.Contains(Tie.VAL)">
-            <summary>
-            list contains item?
-            </summary>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tie.VAL.Remove(Tie.VAL)">
-            <summary>
-            removes item from list
-            </summary>
-            <param name="item"></param>
             <returns></returns>
         </member>
         <member name="M:Tie.VAL.op_Explicit(Tie.VAL)~System.Boolean">
@@ -2086,13 +2121,6 @@
             <summary>
             return variable name assigned to this value
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tie.VAL.IsUndefined(System.String,Tie.VAL)">
-            <summary>
-            return default value when property is undefined, otherwise return this value
-            </summary>
-            <param property="defaultValue"></param>
             <returns></returns>
         </member>
         <member name="P:Tie.VAL.VALTYPE">
@@ -2237,16 +2265,6 @@
             Print null, quotation mark, typeof and valized value
             </summary>
         </member>
-        <member name="P:Tie.VAL.Count">
-            <summary>
-            returns count of list
-            </summary>
-        </member>
-        <member name="P:Tie.VAL.IsReadOnly">
-            <summary>
-            always returns true
-            </summary>
-        </member>
         <member name="P:Tie.VAL.HostValue">
             <summary>
             returns Host value
@@ -2271,7 +2289,7 @@
         </member>
         <member name="M:Tie.VAR.Equals(System.Object)">
             <summary>
-            
+            obj is VAR type
             </summary>
             <param name="obj"></param>
             <returns></returns>
@@ -2315,7 +2333,7 @@
         </member>
         <member name="M:Tie.VAR.CompareTo(System.Object)">
             <summary>
-            
+            obj is VAR type
             </summary>
             <param name="obj"></param>
             <returns></returns>

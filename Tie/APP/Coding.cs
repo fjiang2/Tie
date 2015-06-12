@@ -186,21 +186,20 @@ namespace Tie
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static IEnumerable<string> Tokenize(string text)
+        public static IEnumerable<token> Tokenize(string text)
         {
             Position pos = new Position("tokenize", text);
             Error error = new Error(pos);
             StringLex lex = new StringLex(text, error);
-            List<string> L = new List<string>();
+            List<token> L = new List<token>();
             while (lex.InSymbol())     //没有字符可读
             {
-                string t = lex.token.ToSimpleString();
+                token t = new token(lex.token.ty, lex.token.ToSimpleString());
                 L.Add(t);
             }
 
             return L;
         }
-
     }
 
 

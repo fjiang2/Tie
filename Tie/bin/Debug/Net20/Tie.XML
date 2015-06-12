@@ -1575,6 +1575,51 @@
             
             
         </member>
+        <member name="T:Tie.tokty">
+            <summary>
+            Token Type used on Tokenizer
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.number">
+            <summary>
+            number is int, double, float,...
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.identsy">
+            <summary>
+            like variable name
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.stringcon">
+            <summary>
+            string constant
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.symbol">
+            <summary>
+            symbol like: +,-,++,>=
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.keyword">
+            <summary>
+            reserved keywords in c/c++
+            </summary>
+        </member>
+        <member name="T:Tie.token">
+            <summary>
+            define a token 
+            </summary>
+        </member>
+        <member name="F:Tie.token.ty">
+            <summary>
+            token type
+            </summary>
+        </member>
+        <member name="F:Tie.token.tok">
+            <summary>
+            token itself
+            </summary>
+        </member>
         <member name="T:Tie.VAL">
             <summary>
             Any data in the Tie is VAL

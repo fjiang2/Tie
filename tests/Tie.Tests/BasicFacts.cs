@@ -19,10 +19,10 @@ namespace Tie.Tests
             var builder = new StringBuilder();
             builder.AppendLine("line1");
             builder.AppendLine("line2");
-            
+
             VAL str = new VAL(builder.ToString());
             string json = str.ToJson();
-            
+
             // Act
             VAL val = Script.Evaluate(json);
 
@@ -30,17 +30,30 @@ namespace Tie.Tests
             Assert.Equal(builder.ToString(), val.Str);
         }
 
-      [Fact]
+        [Fact]
         public void TestTokenize()
         {
-          //Arrange
+            //Arrange
             string path = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools /all";
-            
-          //Act
-          IEnumerable<string> L = Script.Tokenize(path);
 
-          //Assert
-          Assert.Equal(string.Join("|", L), @"C|:|\|Program|Files|(|x86|)|\|Microsoft|Visual|Studio|12.0|\|Common7|\|Tools|/|all");
+            //Act
+            IEnumerable<token> L = Script.Tokenize(path);
+
+            //Assert
+            Assert.Equal(string.Join("|", L.Select(x=>x.tok)), @"C|:|\|Program|Files|(|x86|)|\|Microsoft|Visual|Studio|12.0|\|Common7|\|Tools|/|all");
+        }
+
+        [Fact]
+        public void TestTokenizeString()
+        {
+            //Arrange
+            string path = "\"C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\Tools\" /all";
+
+            //Act
+            IEnumerable<token> L = Script.Tokenize(path);
+
+            //Assert
+            Assert.Equal(string.Join("|", L.Select(x => x.tok)), @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools|/|all");
         }
 
     }

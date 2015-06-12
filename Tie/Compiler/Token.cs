@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------------------//
+Ôªø//--------------------------------------------------------------------------------------------------//
 //                                                                                                  //
 //        Tie                                                                                       //
 //                                                                                                  //
@@ -23,7 +23,58 @@ using System.IO;
 
 namespace Tie
 {
+    /// <summary>
+    /// Token Type used on Tokenizer
+    /// </summary>
+    public enum tokty
+    { 
+        /// <summary>
+        /// number is int, double, float,...
+        /// </summary>
+        number,
 
+        /// <summary>
+        /// like variable name
+        /// </summary>
+        identsy,
+
+        /// <summary>
+        /// string constant
+        /// </summary>
+        stringcon,
+
+        /// <summary>
+        /// symbol like: +,-,++,>=
+        /// </summary>
+        symbol,
+
+        /// <summary>
+        /// reserved keywords in c/c++
+        /// </summary>
+        keyword
+    }
+
+    /// <summary>
+    /// define a token 
+    /// </summary>
+    public struct token
+    {
+        /// <summary>
+        /// token type
+        /// </summary>
+        public readonly tokty ty;
+
+        /// <summary>
+        /// token itself
+        /// </summary>
+        public readonly string tok;
+
+        internal token(tokty ty, string tok)
+        {
+            this.ty = ty;
+            this.tok = tok;
+        }
+    }
 
 
 
@@ -64,7 +115,7 @@ namespace Tie
 
 	localsy, staticsy,friendsy,
 	atsy,constsy,typesy,charcon,deletesy,
-    NOP     //◊Ó∫Û“ª∏ˆtoken
+    NOP     //ÊúÄÂêé‰∏Ä‰∏™token
 	
  }
 
@@ -123,6 +174,8 @@ namespace Tie
             this.opr = opr;
         }
 
+        public tokty ty;
+
         private String encode(OutputType ot)
         {
             bool quotationMark = (ot & OutputType.QuotationMark) == OutputType.QuotationMark;
@@ -130,24 +183,35 @@ namespace Tie
             bool persistent = (ot & OutputType.Valization) == OutputType.Valization;
             bool hostMark = (ot & OutputType.Host) == OutputType.Host;
 
+            ty = tokty.symbol;
+
             //search keyword
             for (int i = 0; i < Constant.NKW; i++)
             {
                 if (sy == JLex.Key[i].ksy)
+                {
+                    ty = tokty.keyword;
                     return JLex.Key[i].key;
+                }
             }
 
             StringWriter o = new StringWriter();
             switch (sy)
             {
-                case SYMBOL.intcon: o.Write(sym.inum); break;
-                case SYMBOL.floatcon: 
+                case SYMBOL.intcon:
+                    ty = tokty.number;
+                    o.Write(sym.inum); 
+                    break;
+                
+                case SYMBOL.floatcon:
+                    ty = tokty.number;
                     o.Write(sym.fnum);
                     if (Math.Ceiling(sym.fnum) == sym.fnum)
                             o.Write(".0");
                     break;
 
                 case SYMBOL.stringcon:
+                    ty = tokty.stringcon;
                     if (quotationMark)
                         o.Write("\"{0}\"", sym.stab); 
                     else
@@ -155,6 +219,7 @@ namespace Tie
                     break;
 
                 case SYMBOL.identsy:
+                    ty = tokty.identsy;
                     if (persistent)
                         o.Write("${0}", sym.id);
                     else

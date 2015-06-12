@@ -100,6 +100,13 @@
             <param name="userFunc"></param>
             <returns></returns>
         </member>
+        <member name="M:Tie.Script.Tokenize(System.String)">
+            <summary>
+            Tokenizers are used to break a string down into a stream of terms or tokens. 
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
         <member name="M:Tie.Script.#ctor">
             <summary>
             Initializes a new instance of the Tie.Script class, using dynamically created GUID as module name.
@@ -735,6 +742,51 @@
         <member name="P:Tie.Position.Cursor">
             <summary>
             current cursor in source code
+            </summary>
+        </member>
+        <member name="T:Tie.tokty">
+            <summary>
+            Token Type used on Tokenizer
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.number">
+            <summary>
+            number is int, double, float,...
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.identsy">
+            <summary>
+            like variable name
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.stringcon">
+            <summary>
+            string constant
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.symbol">
+            <summary>
+            symbol like: +,-,++,>=
+            </summary>
+        </member>
+        <member name="F:Tie.tokty.keyword">
+            <summary>
+            reserved keyword in c/c++
+            </summary>
+        </member>
+        <member name="T:Tie.token">
+            <summary>
+            define a token 
+            </summary>
+        </member>
+        <member name="F:Tie.token.ty">
+            <summary>
+            token type
+            </summary>
+        </member>
+        <member name="F:Tie.token.tok">
+            <summary>
+            token itself
             </summary>
         </member>
         <member name="M:Tie.DynamicDelegate.InstanceDelegate(System.Type,System.Object,System.Reflection.FieldInfo,System.Reflection.MethodInfo)">
