@@ -1575,39 +1575,49 @@
             
             
         </member>
-        <member name="T:Tie.symty">
+        <member name="T:Tie.tokty">
             <summary>
             Token Type used on Tokenizer
             </summary>
         </member>
-        <member name="F:Tie.symty.number">
+        <member name="F:Tie.tokty.number">
             <summary>
             number is int, double, float,...
             </summary>
         </member>
-        <member name="F:Tie.symty.identsy">
+        <member name="F:Tie.tokty.identsy">
             <summary>
             like variable name
             </summary>
         </member>
-        <member name="F:Tie.symty.stringcon">
+        <member name="F:Tie.tokty.stringcon">
             <summary>
             string constant
             </summary>
         </member>
-        <member name="F:Tie.symty.symbol">
+        <member name="F:Tie.tokty.symbol">
             <summary>
             symbol like: +,-,++,>=
             </summary>
         </member>
-        <member name="F:Tie.symty.keyword">
+        <member name="F:Tie.tokty.keyword">
             <summary>
-            reserved keyword in c/c++
+            reserved keywords in c/c++
             </summary>
         </member>
         <member name="T:Tie.token">
             <summary>
             define a token 
+            </summary>
+        </member>
+        <member name="F:Tie.token.ty">
+            <summary>
+            token type
+            </summary>
+        </member>
+        <member name="F:Tie.token.tok">
+            <summary>
+            token itself
             </summary>
         </member>
         <member name="T:Tie.VAL">

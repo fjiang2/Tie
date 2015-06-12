@@ -9,3 +9,4 @@ C:\devel\GitHub\Tie\Tie\bin\Debug\Net20\Tie.dll
 C:\devel\GitHub\Tie\Tie\bin\Debug\Net20\Tie.pdb
 C:\devel\GitHub\Tie\Tie\obj\Debug\Net20\Debug\Tie.dll
 C:\devel\GitHub\Tie\Tie\obj\Debug\Net20\Debug\Tie.pdb
+C:\devel\GitHub\Tie\Tie\obj\Debug\Net20\Debug\Tie20.csprojResolveAssemblyReference.cache

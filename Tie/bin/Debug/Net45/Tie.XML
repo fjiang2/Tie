@@ -771,7 +771,7 @@
         </member>
         <member name="F:Tie.tokty.keyword">
             <summary>
-            reserved keyword in c/c++
+            reserved keywords in c/c++
             </summary>
         </member>
         <member name="T:Tie.token">

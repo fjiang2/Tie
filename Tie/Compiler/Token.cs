@@ -69,10 +69,15 @@ namespace Tie
         /// </summary>
         public readonly string tok;
 
-        internal token(tokty ty, string tok)
+        internal token(string tok, tokty ty)
         {
             this.ty = ty;
             this.tok = tok;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}:{1}", ty, tok);
         }
     }
 
@@ -174,9 +179,7 @@ namespace Tie
             this.opr = opr;
         }
 
-        public tokty ty;
-
-        private String encode(OutputType ot)
+        private String encode(OutputType ot, out tokty ty)
         {
             bool quotationMark = (ot & OutputType.QuotationMark) == OutputType.QuotationMark;
             bool nullMark = (ot & OutputType.NullMark) == OutputType.NullMark;
@@ -319,14 +322,18 @@ namespace Tie
             return o.ToString();
         }
 
-        public string ToSimpleString()
+        public token ToToken()
         {
-            return encode(OutputType.Nothing);
+            tokty ty;
+            string tok = encode(OutputType.Nothing, out ty);
+            return new token(tok, ty);
 
         }
+
         public override String ToString()
         {
-            return encode(OutputType.QuotationMark | OutputType.Parentheses | OutputType.NullMark);
+            tokty ty;
+            return encode(OutputType.QuotationMark | OutputType.Parentheses | OutputType.NullMark, out ty);
         }
 
     }

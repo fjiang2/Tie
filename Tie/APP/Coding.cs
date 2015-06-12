@@ -194,8 +194,7 @@ namespace Tie
             List<token> L = new List<token>();
             while (lex.InSymbol())     //没有字符可读
             {
-                token t = new token(lex.token.ty, lex.token.ToSimpleString());
-                L.Add(t);
+                L.Add(lex.token.ToToken());
             }
 
             return L;
