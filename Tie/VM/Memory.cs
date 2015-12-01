@@ -389,19 +389,21 @@ namespace Tie
             return;
         }
 
-      
+
         /// <summary>
         /// return default value when property is undefined, otherwise return this value
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
+        /// <param name="variable"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public T GetValue<T>(VAR name, T defaultValue = default(T))
+        public T GetValue<T>(string variable, T defaultValue = default(T))
         {
-            if (DS.ContainsKey(name))
+            VAL val = GetValue(variable);
+            if (val.Defined)
             {
-                VAL val = DS[name];
+                if (typeof(T) == typeof(VAL))
+                    return (T)(object)val;
                 if (val.HostValue is T)
                     return (T)val.HostValue;
                 else if (typeof(T).IsEnum && val.HostValue is int)
