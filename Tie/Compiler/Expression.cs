@@ -306,7 +306,7 @@ namespace Tie
                         expect(SYMBOL.RC);
                         gen.emit(INSTYPE.END);
                     }
-                    else if (s_instance())  //如果不是new object()
+                    else if (s_decl_instance())  //如果不是new object()
                     {
                         int operand = 1;
                         if (lex.sy == SYMBOL.LC)    //双操作符
@@ -682,48 +682,7 @@ namespace Tie
             switch (lex.sy)
             {
                 case SYMBOL.LB:
-                    lex.InSymbol();
-                    if (lex.sy == SYMBOL.RB)
-                    {
-                        s_call(Constant.FUNC_MAKE_ARRAY_TYPE, 1);
-
-                        //技术性的插入一个空指令NOP, 是因为上面的s_call(....) emit了一个CALL指令,
-                        //如果new一个数组的话, 如new int[], 跟new Circle(), 最后2句都是CALL/SP指令,分不清楚
-                        //所以: new int[]的指令是  CALL/SP/NOP
-                        //参照JExpression.s_instance()
-                        gen.emit(INSTYPE.NOP);          
-                        lex.InSymbol();
-                    }
-                    else if (lex.sy == SYMBOL.COMMA)    //多维数组
-                    {
-                        int rank = 1;
-                        do
-                        {
-                            rank++;
-                            lex.InSymbol();
-                        }
-                        while (lex.sy == SYMBOL.COMMA);
-                        expect(SYMBOL.RB);
-                        gen.emit(INSTYPE.MOV, new Operand(new Numeric(rank)));
-                        s_call(Constant.FUNC_MAKE_ARRAY_TYPE, 2);
-                        gen.emit(INSTYPE.NOP);          //技术性的插入一个空指令NOP. 参照上面的注释
-                    }
-                    else
-                    {
-                        //支持多维数组和多维属性   this[i,j,k];
-                        int L0 = gen.emit(INSTYPE.NOP);
-                        s_exp1();                   //至少得有一个下标
-                        if (lex.sy == SYMBOL.COMMA)
-                        {
-                            gen.remit(L0, INSTYPE.MARK);
-                            lex.InSymbol();
-                            s_expr1();
-                            gen.emit(INSTYPE.END);
-                        }
-
-                        expect(SYMBOL.RB);
-                        gen.emit(INSTYPE.ARR);
-                    }
+                    s_decl_array();
                     break;
 
                 case SYMBOL.STRUCTOP:
@@ -764,85 +723,88 @@ namespace Tie
                      *      
                      **/
                     if (lex.opr == SYMBOL2.LSS)
-                    {
+                        s_decl_generic(typevar, compvar);
 
-                        Operand generic;
-
-                        if (compvar)
-                            generic = gen.IV[gen.IP - 2].operand;
-                        else
-                            generic = gen.IV[gen.IP - 1].operand;
-
-
-                        if (generic.ty != OPRTYPE.identcon)
-                        {
-                            if (typevar)
-                                error.OnError(2);              //ident expected
-                            else
-                                return true;        //因为到这里没有lex任何新的token,所以不需要完全TRACEBACK
-                        }
-
-                        //移去最后一个MOV ident 和 OFS, 目的是为了extend method做准备
-                        if (compvar)
-                            gen.IP -= 2;                //##删除的2条指令
-                        else
-                            gen.IP -= 1;                //##删除的1条指令
-
-                        int index = lex.Index();
-                        int IP = gen.IP;
-
-                        lex.InSymbol();
-                        int L0 = gen.emit(INSTYPE.MARK);
-                        s_var(true);                   //至少得有一个Type
-                        int count = 1;
-                        while(lex.sy == SYMBOL.COMMA)   //如果这种情况, Dictionary<,> 那么MARK和END之间为空
-                        {
-                            lex.InSymbol();
-                            s_var(true);
-                            count++;
-                        }
-                        gen.emit(INSTYPE.END);
-                        
-                        if (lex.sy == SYMBOL.RELOP && lex.opr == SYMBOL2.GTR)
-                            lex.InSymbol();
-                        else if (lex.sy == SYMBOL.SHIFTOP && lex.opr == SYMBOL2.SHR)    //把>> SHR 替换成2个 > GTR, 用掉一个,还有1个
-                        {
-                            lex.Traceback(lex.Index(), new Token(SYMBOL.RELOP, SYMBOL2.GTR));  //插入一个> GTR
-                        }
-                        else
-                        {
-                            if (typevar)
-                                error.OnError(54);     // '>' expected
-                            else
-                                goto TRACEBACK;
-                        }
-
-                        //如果typevar=true,那么一定要加`count的
-                        //如果不是,那么继续判断是不是generic method, which 后面会跟着函数参数(....)
-                        //用LP来预判后面是不是s_func_arg(..)可能不够充分, 如果是method,那么generic不加`符号
-                        if (typevar || lex.sy != SYMBOL.LP)    
-                            generic.value = (string)generic.value + '`' + count;    
-
-                        gen.emit(INSTYPE.GNRC, generic);    
-                        break;
-
-                    TRACEBACK:
-                        lex.Traceback(index,  new Token(SYMBOL.RELOP, SYMBOL2.LSS));
-                        gen.IP = IP;
-                        //恢复被删除的指令, 见上面的注释: ##删除的2条指令
-                        gen.emit(INSTYPE.MOV, generic);
-                        if (compvar)
-                            gen.emit(INSTYPE.OFS);
-
-                        return true;
-                    }
-                    else
-                        return true;
+                    return true;
 
                 default:
                     return true;
             }
             goto L1;
+        }
+
+        private void s_decl_generic(bool typevar, bool compvar)
+        {
+            Operand generic;
+
+            if (compvar)
+                generic = gen.IV[gen.IP - 2].operand;
+            else
+                generic = gen.IV[gen.IP - 1].operand;
+
+
+            if (generic.ty != OPRTYPE.identcon)
+            {
+                if (typevar)
+                    error.OnError(2);              //ident expected
+                else
+                    return;        //因为到这里没有lex任何新的token,所以不需要完全TRACEBACK
+            }
+
+            //移去最后一个MOV ident 和 OFS, 目的是为了extend method做准备
+            if (compvar)
+                gen.IP -= 2;                //##删除的2条指令
+            else
+                gen.IP -= 1;                //##删除的1条指令
+
+            int index = lex.Index();
+            int IP = gen.IP;
+
+            lex.InSymbol();
+            int L0 = gen.emit(INSTYPE.MARK);
+            s_var(true);                   //至少得有一个Type
+            int count = 1;
+            while (lex.sy == SYMBOL.COMMA)   //如果这种情况, Dictionary<,> 那么MARK和END之间为空
+            {
+                lex.InSymbol();
+                s_var(true);
+                count++;
+            }
+            gen.emit(INSTYPE.END);
+
+            if (lex.sy == SYMBOL.RELOP && lex.opr == SYMBOL2.GTR)
+                lex.InSymbol();
+            else if (lex.sy == SYMBOL.SHIFTOP && lex.opr == SYMBOL2.SHR)    //把>> SHR 替换成2个 > GTR, 用掉一个,还有1个
+            {
+                lex.Traceback(lex.Index(), new Token(SYMBOL.RELOP, SYMBOL2.GTR));  //插入一个> GTR
+            }
+            else
+            {
+                if (typevar)
+                    error.OnError(54);     // '>' expected
+                else
+                {
+                    //TRACEBACK:
+                    lex.Traceback(index, new Token(SYMBOL.RELOP, SYMBOL2.LSS));
+                    gen.IP = IP;
+                    //恢复被删除的指令, 见上面的注释: ##删除的2条指令
+                    gen.emit(INSTYPE.MOV, generic);
+                    if (compvar)
+                        gen.emit(INSTYPE.OFS);
+
+                    return;
+                }
+            }
+
+            //如果typevar=true,那么一定要加`count的
+            //如果不是,那么继续判断是不是generic method, which 后面会跟着函数参数(....)
+            //用LP来预判后面是不是s_func_arg(..)可能不够充分, 如果是method,那么generic不加`符号
+            if (typevar || lex.sy != SYMBOL.LP)
+                generic.value = (string)generic.value + '`' + count;
+
+            gen.emit(INSTYPE.GNRC, generic);
+
+            return;
         }
 
         #endregion
@@ -1025,7 +987,142 @@ namespace Tie
         }
 
 
-        
+      /**
+      * 返回false: 
+      *  格式为 new Circle(...) 
+      *  或者 new new System.Windows.Forms.Label()
+      *  
+      * 返回true:
+      *   格式为 new int[]
+      *   或者 其他的情况 new T
+      * 
+      * */
+        public bool s_decl_instance()
+        {
+            if (lex.sy != SYMBOL.identsy)
+                error.OnError(2);              //ident expected
+
+            string ident = lex.sym.id;
+            lex.InSymbol();
+
+            Operand x = Operand.Ident(ident);
+            gen.emit(INSTYPE.MOV, x);//LOAD
+
+            bool compvar = false;  //name space
+            while (lex.sy == SYMBOL.STRUCTOP)
+            {
+                compvar = true;
+                SYMBOL2 Opr = lex.opr;
+                lex.InSymbol();
+                if (lex.sy == SYMBOL.identsy)
+                {
+                    x = Operand.Ident(lex.sym.id);
+                    gen.emit(INSTYPE.MOV, x);//LOAD
+                    lex.InSymbol();
+                }
+                else
+                    expect(SYMBOL.identsy);
+
+                switch (Opr)
+                {
+                    case SYMBOL2.DOT: gen.emit(INSTYPE.OFS); break;
+                    case SYMBOL2.ARROW: gen.emit(INSTYPE.OFS); break;
+                }
+            }
+
+
+            /***
+             * 支持Genric class如:new System.Collections.Generic.Dictionary<string, int>(...)
+             * 以及Generic method 如: Add<string>("abc");
+             * typevar 
+             *      true: generic class
+             *      false: generic method
+             *      
+             **/
+            if (lex.sy == SYMBOL.RELOP && lex.opr == SYMBOL2.LSS)
+            {
+                s_decl_generic(true, compvar);
+            }
+
+
+            if (lex.sy == SYMBOL.LP)     //Call    ex.System.Math.sin(30) ==> sin(System.Math,30)
+            {
+                s_funcarg(compvar, -1);
+                if (gen.IV[gen.IP - 1].cmd == INSTYPE.SP)     //指令CALL后面,一定是指令SP
+                {
+                    gen.remit(gen.IP - 2, INSTYPE.NEW);       //普通对象 new Circle()    CALL/SP
+                    return false;
+                }
+                else if (gen.IV[gen.IP - 1].cmd == INSTYPE.ESO)
+                {
+                    gen.remit(gen.IP - 3, INSTYPE.NEW);       //带有名字空间的对象 new System.Windows.Forms.Label()   CALL/SP/ESO
+                    return false;
+                }
+
+                return true;
+            }
+
+            /***
+            * new 数组
+            *      new int[2,3]
+            *      new List<int>[20]
+            **/
+            while (lex.sy == SYMBOL.LB)
+            {
+                s_decl_array();
+            }
+
+            return true;
+        }
+
+        private void s_decl_array()
+        {
+            lex.InSymbol();
+            if (lex.sy == SYMBOL.RB)
+            {
+                s_call(Constant.FUNC_MAKE_ARRAY_TYPE, 1);
+
+                //技术性的插入一个空指令NOP, 是因为上面的s_call(....) emit了一个CALL指令,
+                //如果new一个数组的话, 如new int[], 跟new Circle(), 最后2句都是CALL/SP指令,分不清楚
+                //所以: new int[]的指令是  CALL/SP/NOP
+                //参照JExpression.s_instance()
+                gen.emit(INSTYPE.NOP);
+                lex.InSymbol();
+            }
+            else if (lex.sy == SYMBOL.COMMA)    //多维数组
+            {
+                int rank = 1;
+                do
+                {
+                    rank++;
+                    lex.InSymbol();
+                }
+                while (lex.sy == SYMBOL.COMMA);
+                expect(SYMBOL.RB);
+                gen.emit(INSTYPE.MOV, new Operand(new Numeric(rank)));
+                s_call(Constant.FUNC_MAKE_ARRAY_TYPE, 2);
+                gen.emit(INSTYPE.NOP);          //技术性的插入一个空指令NOP. 参照上面的注释
+            }
+            else
+            {
+                //支持多维数组和多维属性   this[i,j,k];
+                int L0 = gen.emit(INSTYPE.NOP);
+                s_exp1();                   //至少得有一个下标
+                if (lex.sy == SYMBOL.COMMA)
+                {
+                    gen.remit(L0, INSTYPE.MARK);
+                    lex.InSymbol();
+                    s_expr1();
+                    gen.emit(INSTYPE.END);
+                }
+
+                expect(SYMBOL.RB);
+                gen.emit(INSTYPE.ARR);
+            }
+        }
+
+
+
         #region +=, ++, --, #scope
 
         void repeatvar()	//i+=2  =>  i=i+2

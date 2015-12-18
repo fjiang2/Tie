@@ -164,7 +164,7 @@ namespace UnitTest
             Debug.Assert(val["Array"].ToSimpleString() == "1,2,3,4");
 
             VAL font = val["textBox2"]["Font"];
-            Debug.Assert(font.HostValue is Font && ((Font)font.HostValue).Name == "MS Gothic");
+            Debug.Assert(font.HostValue is Font && ((Font)font.HostValue).Name == "Microsoft Sans Serif");
 
             string fontString = font.Valor;
             VAL fontStyle = font["Style"];

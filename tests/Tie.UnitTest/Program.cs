@@ -57,6 +57,7 @@ namespace UnitTest
 
         static void Main(string[] args)
         {
+            DataSetTest.main();
 
             HostType.Register(new Type[]
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Data;
 using Tie;
 
 namespace Tie.Helper
@@ -10,13 +11,13 @@ namespace Tie.Helper
     {
         public static void Register()
         {
-          
+
             Valizer.Register<byte[]>(
-                 delegate(byte[] bytes)
+                 delegate (byte[] bytes)
                  {
                      return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                  },
-                 delegate(VAL val)
+                 delegate (VAL val)
                  {
                      byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                      return bytes;
@@ -25,13 +26,13 @@ namespace Tie.Helper
 
 
             Valizer.Register<Stream>(
-             delegate(Stream stream)
+             delegate (Stream stream)
              {
                  byte[] bytes = new byte[stream.Length];
                  stream.Read(bytes, 0, bytes.Length);
                  return Valizer.Valize(bytes);
              },
-             delegate(Stream stream, Type type, VAL val)
+             delegate (Stream stream, Type type, VAL val)
              {
                  byte[] bytes = Valizer.Devalize<byte[]>(val);
                  stream.Write(bytes, 0, bytes.Length);
@@ -41,22 +42,25 @@ namespace Tie.Helper
 
 
             Valizer.Register<Guid>(
-                delegate(Guid guid)
+                delegate (Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
                     return Valizer.Valize(bytes);
                 },
-                delegate(VAL val)
+                delegate (VAL val)
                 {
                     byte[] bytes = Valizer.Devalize<byte[]>(val);
                     return new Guid(bytes);
                 }
             );
 
-         
+
 
             Valizer.Register(typeof(List<>), typeof(Valization).GetMethod("RegisterList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
             Valizer.Register(typeof(Dictionary<,>), typeof(Valization).GetMethod("RegistrDictionary", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
+
+            Valizer.Register<DataSet>(_ds => ToVal(_ds), (host, type, _xml) => ToDataSet(host, type, _xml));
+
         }
 
 
@@ -211,6 +215,57 @@ namespace Tie.Helper
         #endregion
 
 
-    
+        #region DataSet 
+
+        private static VAL ToVal(DataSet ds)
+        {
+            string xml = ToXml(ds);
+            string code = new VAL(xml).ToString();
+            code = string.Format("new {0}().classof({1})", typeof(DataSet).FullName, code);
+            return new VAL(code);
+        }
+
+        private static DataSet ToDataSet(DataSet ds, Type type, VAL xml)
+        {
+            return ToDataSet(ds, (string)xml);
+        }
+
+        private static DataSet ToDataSet(DataSet ds, string xml)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            using (StreamWriter writer = new StreamWriter(stream))
+            {
+                writer.Write(xml);
+                writer.Flush();
+                stream.Position = 0;
+
+                try
+                {
+                    ds.ReadXml(stream, XmlReadMode.ReadSchema);
+                }
+                catch (Exception)
+                {
+                    throw new Exception(xml);
+                }
+            }
+            return ds;
+        }
+
+        private static string ToXml(DataSet ds)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                ds.WriteXml(stream, XmlWriteMode.WriteSchema);
+                stream.Flush();
+                stream.Position = 0;
+
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        #endregion
     }
 }

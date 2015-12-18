@@ -210,8 +210,8 @@ namespace Tie
 
                 /*
                  * 1.   Host.classof();    返回host object的可以persistent的VAL对象
-                 * 2.   Host.classof(persistent);   用来初始化host object
-                 * 
+                 * 2.   Host.classof({prop1:val1, prop2:val2,....});  属性Map 用来初始化host object
+                 * 3.   Host.classof("valor");   字符串序列valor,json,xml用来初始化host object
                  * */
                 case "classof":
                     if (size == 1)
@@ -219,13 +219,19 @@ namespace Tie
                         if (L0.ty == VALTYPE.hostcon)
                             return HostValization.Host2Val(L0.value);
                     }
-                    else if (size == 2)
+                    else if (size == 2 && L0.ty == VALTYPE.hostcon)
                     {
-                        if (L0.ty == VALTYPE.hostcon && L1.ty == VALTYPE.listcon)            //1.
+                        if (L1.ty == VALTYPE.listcon)
                         {
                             HostValization.Val2Host(L1, L0.value);
                             return L0;
                         }
+                        else if (L0.value != null)
+                        {
+                            HostValization.Val2Host(L1, L0.value, L0.value.GetType());
+                            return L0;
+                        }
+                        return L0;
                     }
                     break;
 
