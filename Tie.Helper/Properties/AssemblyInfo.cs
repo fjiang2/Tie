@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Datconn")]
 [assembly: AssemblyProduct("Tie.Helper")]
-[assembly: AssemblyCopyright("Copyright © Datonn 2015")]
+[assembly: AssemblyCopyright("Copyright © Datconn 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

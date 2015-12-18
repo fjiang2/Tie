@@ -76,6 +76,11 @@ namespace Tie.Helper
             return v1.val.Equals(this.val);
         }
 
+        public override int GetHashCode()
+        {
+            return val.GetHashCode();
+        }
+
         public static bool operator ==(DynamicVal val1, DynamicVal val2)
         {
             return val1.Equals(val2);

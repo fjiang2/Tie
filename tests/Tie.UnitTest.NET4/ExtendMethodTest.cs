@@ -155,7 +155,7 @@ namespace Tie.UnitTest.NET4
             //DS.Clear();
             //VAL ret3 = Coding.Execute("", code, DS, null);
 
-            IQueryable<string> a;
+            //IQueryable<string> a;
         }
     }
 }

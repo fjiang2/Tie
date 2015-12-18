@@ -97,8 +97,6 @@ b8 = !(12 < 3.1);
             int i1 = 20;
             uint u1 = 40;
             long i2 = i1 + u1;
-            long l1 = 20;
-            ulong l2 = 30;
             decimal d = 30.0M;
 
             int xd = (int)(20 - (double)d);
@@ -112,7 +110,7 @@ b8 = !(12 < 3.1);
             DBNull dbnull = (DBNull)nil;
             nil = VAL.Boxing(DBNull.Value);
 
-            Debug.Assert(nil.VALTYPE == VALTYPE.nullcon && nil.Value == typeof(DBNull));
+            Debug.Assert(nil.VALTYPE == VALTYPE.nullcon && nil.Value.Equals(typeof(DBNull)));
         }
     }
 }

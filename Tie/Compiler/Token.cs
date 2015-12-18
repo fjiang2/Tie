@@ -75,6 +75,10 @@ namespace Tie
             this.tok = tok;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("{0}:{1}", ty, tok);
