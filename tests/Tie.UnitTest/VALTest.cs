@@ -23,6 +23,22 @@ namespace UnitTest
         public static void main()
         {
 
+            string code1 = @"
+a.b.c.d=12;
+a.b.c.f=1;
+a.b.x='X';
+a.b.g={1,2,3};
+a.e=31;
+A.c=true;
+B=2.3;
+";
+
+            Memory mem = new Memory();
+            Script.Execute(code1, mem);
+            string code2 = mem.ToScript();
+            string json2 = mem["A"].ToJson();
+            Debug.Assert(code2 == "a.e = 31;\r\na.b.g = {1,2,3};\r\na.b.x = \"X\";\r\na.b.c.f = 1;\r\na.b.c.d = 12;\r\nA.c = true;\r\nB = 2.3;\r\n");
+
             VAL json = new VAL();
             json["A"] = new VAL(1);
             json["B"] = new VAL(2);

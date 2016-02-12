@@ -132,9 +132,9 @@
       <Project>{d57f9724-d273-4631-b068-72949a7bb8b3}</Project>
       <Name>Tie.Helper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Tie\Tie20.csproj">
-      <Project>{0FAD3400-65A1-458F-9280-89925A6F7731}</Project>
-      <Name>Tie20</Name>
+    <ProjectReference Include="..\..\Tie\Tie45.csproj">
+      <Project>{4832f819-7735-4b2a-a6c0-216ebc745676}</Project>
+      <Name>Tie45</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

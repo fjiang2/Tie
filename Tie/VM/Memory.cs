@@ -26,7 +26,7 @@ namespace Tie
     /// <summary>
     /// Variable dictionary
     /// </summary>
-    public sealed class Memory 
+    public sealed class Memory
     {
         private Dictionary<VAR, VAL> ds = new Dictionary<VAR, VAL>();
 
@@ -42,7 +42,7 @@ namespace Tie
         /// </summary>
         /// <param name="dict"></param>
         public Memory(VAL dict)
-        { 
+        {
             for (int i = 0; i < dict.Size; i++)
             {
                 Add(new VAR(dict[i][0].Str), dict[i][1]);
@@ -62,7 +62,7 @@ namespace Tie
             return Add(name, VAL.NewHostType(value));
         }
 
-   
+
         /// <summary>
         /// Add object variable into data segment
         /// </summary>
@@ -74,7 +74,7 @@ namespace Tie
             return Add(name, VAL.Boxing1(value));
         }
 
-     
+
         /// <summary>
         /// Add VAL variable 
         /// </summary>
@@ -99,7 +99,7 @@ namespace Tie
         }
 
 
-      
+
 
         #endregion
 
@@ -133,8 +133,8 @@ namespace Tie
             {
                 if (ds.ContainsKey(name))
                     return ds[name];
-               else
-                   return VAL.NewVoidType(); 
+                else
+                    return VAL.NewVoidType();
             }
             set
             {
@@ -153,10 +153,10 @@ namespace Tie
         public VAL GetValue(string variable)
         {
             string[] names = variable.Split(new char[] { '.' });
-            
+
             if (names.Length == 0)
                 return VAL.NewVoidType();
-            
+
             VAR _var = new VAR(names[0]);
 
             VAL _val = this[_var];
@@ -164,8 +164,8 @@ namespace Tie
             if (names.Length == 1)
                 return _val;
 
-            int i=1;
-            while(i < names.Length)
+            int i = 1;
+            while (i < names.Length)
             {
                 _val = _val[names[i]];
                 if (_val.Undefined)
@@ -173,7 +173,7 @@ namespace Tie
 
                 i++;
             }
-            
+
             return _val;
         }
 
@@ -245,10 +245,10 @@ namespace Tie
             }
 
             int i = 1;
-            while (i < names.Length -1)
+            while (i < names.Length - 1)
             {
                 _val = _val[names[i]];
-                
+
                 if (_val.Undefined)
                     return;
 
@@ -259,7 +259,7 @@ namespace Tie
 
         }
 
- 
+
         #endregion
 
 
@@ -312,17 +312,17 @@ namespace Tie
                 return;
 
             VAL dict = this[name];
-            
+
             if (dict.Undefined || dict.IsNull)
                 Remove(name);
             else
                 dict.ClearNullorVoid();
         }
 
-      
 
 
-        
+
+
         /// <summary>
         ///   Converts the value of this instance to a System.String.
         /// </summary>
@@ -338,6 +338,69 @@ namespace Tie
             return code.ToString();
         }
 
+        /// <summary>
+        /// Generate assignment statemnts for all variables
+        /// </summary>
+        /// <returns></returns>
+        public string ToScript()
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach (KeyValuePair<VAR, VAL> kvp in DS)
+            {
+                if (kvp.Value.ty == VALTYPE.nullcon)
+                    continue;
+
+                var root = kvp.Value;
+                if (!IsTree(root))
+                {
+                    builder.AppendFormat("{0} = {1};", kvp.Key, root).AppendLine();
+                    continue;
+                }
+
+                Stack<VAL> stack = new Stack<VAL>();
+                stack.Push(root);
+                while (stack.Count != 0)
+                {
+                    var node = stack.Pop();
+
+                    if (IsTree(node))
+                    {
+                        foreach (var child in node)
+                        {
+                            stack.Push(child);
+                        }
+                    }
+                    else
+                    {
+                        if (node.IsList && node.Size == 2 && node[0].ty == VALTYPE.stringcon)  // leaf
+                            builder.AppendFormat("{0}{1}.{2} = {3};", kvp.Key, Join(stack.ToArray()), node[0].Str, node[1]).AppendLine();
+                        //    else             // internal node
+                        //        builder.AppendFormat("{0}{1} = {2};", kvp.Key, Join(stack.ToArray()), node).AppendLine();
+                    }
+                }
+            }
+
+            return builder.ToString();
+        }
+
+        private static bool IsTree(VAL node)
+        {
+            return
+                node.IsAssociativeArray()       //variable is root
+                || (node.Size == 2 && node[1].IsAssociativeArray()); //is tree
+        }
+
+        private static string Join(VAL[] A)
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int i = A.Length - 1; i >= 0; i--)
+            {
+                if (A[i].ty == VALTYPE.stringcon)
+                    builder.Append(".").Append(A[i].Str);
+            }
+
+            return builder.ToString();
+        }
 
         internal static VAL Assemble(Memory memory)
         {
