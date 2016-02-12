@@ -1409,6 +1409,12 @@
             </summary>
             <returns> A string whose value is the same as this instance.</returns>
         </member>
+        <member name="M:Tie.Memory.ToScript">
+            <summary>
+            Generate assignment statemnts for all variables
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Tie.Memory.CopyBlock(System.Collections.Generic.IEnumerable{Tie.VAR})">
             <summary>
             Copy some varibles into new varible dictionary
@@ -1630,6 +1636,12 @@
             <summary>
             token itself
             </summary>
+        </member>
+        <member name="M:Tie.token.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Tie.VAL">
             <summary>

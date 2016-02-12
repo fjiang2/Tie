@@ -1407,6 +1407,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Tie.Memory.ToScript(System.Collections.Generic.IEnumerable{Tie.VAR})">
+            <summary>
+            Generate assignment statemnts for selected variables
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Tie.Memory.CopyBlock(System.Collections.Generic.IEnumerable{Tie.VAR})">
             <summary>
             Copy some varibles into new varible dictionary

@@ -338,22 +338,34 @@ namespace Tie
             return code.ToString();
         }
 
+
         /// <summary>
         /// Generate assignment statemnts for all variables
         /// </summary>
         /// <returns></returns>
         public string ToScript()
         {
+            return ToScript(ds.Keys);
+        }
+
+        /// <summary>
+        /// Generate assignment statemnts for selected variables
+        /// </summary>
+        /// <returns></returns>
+        public string ToScript(IEnumerable<VAR> names)
+        {
             StringBuilder builder = new StringBuilder();
-            foreach (KeyValuePair<VAR, VAL> kvp in DS)
+            foreach (VAR name in names)
             {
-                if (kvp.Value.ty == VALTYPE.nullcon)
+                VAL val = ds[name];
+
+                if (val.ty == VALTYPE.nullcon)
                     continue;
 
-                var root = kvp.Value;
+                var root = val;
                 if (!IsTree(root))
                 {
-                    builder.AppendFormat("{0} = {1};", kvp.Key, root).AppendLine();
+                    builder.AppendFormat("{0} = {1};", name, root).AppendLine();
                     continue;
                 }
 
@@ -373,7 +385,7 @@ namespace Tie
                     else
                     {
                         if (node.IsList && node.Size == 2 && node[0].ty == VALTYPE.stringcon)  // leaf
-                            builder.AppendFormat("{0}{1}.{2} = {3};", kvp.Key, Join(stack.ToArray()), node[0].Str, node[1]).AppendLine();
+                            builder.AppendFormat("{0}{1}.{2} = {3};", name, Join(stack.ToArray()), node[0].Str, node[1]).AppendLine();
                         //    else             // internal node
                         //        builder.AppendFormat("{0}{1} = {2};", kvp.Key, Join(stack.ToArray()), node).AppendLine();
                     }
@@ -382,6 +394,7 @@ namespace Tie
 
             return builder.ToString();
         }
+
 
         private static bool IsTree(VAL node)
         {

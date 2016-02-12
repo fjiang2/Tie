@@ -11,7 +11,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Datum Connect")]
 [assembly: AssemblyProduct("Tie Embedded Script Language")]
-[assembly: AssemblyCopyright("Copyright @ Datum Connect 1991-2015")]
+[assembly: AssemblyCopyright("Copyright @ Datum Connect 1991-2016")]
 [assembly: AssemblyTrademark("Tie")]
 [assembly: AssemblyCulture("")]
 
@@ -32,8 +32,8 @@ using System.Resources;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("2.0.1.0")]
-[assembly: AssemblyFileVersion("2.0.1.0")]
+[assembly: AssemblyVersion("2.0.2.0")]
+[assembly: AssemblyFileVersion("2.0.2.0")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
 
 //[assembly: InternalsVisibleTo("Tie.UnitTest, PublicKey=002400000480000094000000010971d81975079a49662ced398c742ff186a94")]

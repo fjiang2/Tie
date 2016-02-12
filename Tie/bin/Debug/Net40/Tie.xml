@@ -800,6 +800,12 @@
             token itself
             </summary>
         </member>
+        <member name="M:Tie.token.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Tie.DynamicDelegate.InstanceDelegate(System.Type,System.Object,System.Reflection.FieldInfo,System.Reflection.MethodInfo)">
             把函数public static object xxxx(object target, object[] arguments);
             转为任意类型的delegate
@@ -1394,6 +1400,12 @@
               Converts the value of this instance to a System.String.
             </summary>
             <returns> A string whose value is the same as this instance.</returns>
+        </member>
+        <member name="M:Tie.Memory.ToScript">
+            <summary>
+            Generate assignment statemnts for all variables
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Tie.Memory.CopyBlock(System.Collections.Generic.IEnumerable{Tie.VAR})">
             <summary>
