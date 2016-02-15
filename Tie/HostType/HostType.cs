@@ -32,7 +32,7 @@ namespace Tie
         static HostType()
         {
             AddReference(typeof(object).Assembly);
-            
+
             //Import(typeof(object).Namespace);
             Import("System");
 
@@ -43,7 +43,7 @@ namespace Tie
             Import("System.Text");
             Import("System.Reflection");
 
-            Valizer.Register<DateTime>(delegate(DateTime d)
+            Valizer.Register<DateTime>(delegate (DateTime d)
                 {
                     return new VAL(string.Format("new DateTime({0},{1},{2},{3},{4},{5})", d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second));
                 }
@@ -94,7 +94,7 @@ namespace Tie
         /// <returns></returns>
         public static bool Register(Type[] types, bool briefName)
         {
-            for(int i=0; i< types.Length; i++)
+            for (int i = 0; i < types.Length; i++)
             {
                 Type type = types[i];
                 Register(type, type.FullName, briefName);
@@ -106,7 +106,7 @@ namespace Tie
                  *   IEnumerable, IQueryable 都有Where方法
                  * 
                  * */
-                if (type.IsClass && type.IsAbstract && type.IsSealed)   
+                if (type.IsClass && type.IsAbstract && type.IsSealed)
                 {
                     MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);   //静态函数
                     foreach (MethodInfo methodInfo in methods)
@@ -123,11 +123,11 @@ namespace Tie
                                 L.Add((MethodInfo)m);
                             else if (m is MethodInfo[])
                                 L.AddRange((MethodInfo[])m);
-                            else                                   
+                            else
                             {
                                 //可能其他的变量名,碰巧和extend methods的名字是一样的
-                                RuntimeException.Warning("{0}.{1}(...) conflict with variable/function {2} during extend method registering", type.FullName, name, Computer.DS1[name]);        
-                                continue;   
+                                RuntimeException.Warning("{0}.{1}(...) conflict with variable/function {2} during extend method registering", type.FullName, name, Computer.DS1[name]);
+                                continue;
                             }
 
                             if (L.IndexOf(methodInfo) == -1)
@@ -158,7 +158,7 @@ namespace Tie
             VAL obj = VAL.NewHostType(type);
 
             DS1.SetValue(typeName, obj);
-           
+
             if (briefName && !Constant.HOST_TYPE_AUTO_REGISTER)
             {
                 if (DS1.Exists(type.Name))
@@ -206,12 +206,12 @@ namespace Tie
         }
 
 
-     
 
-  
+
+
         #endregion
 
-        
+
         #region Add Reference
 
         private static HostReferences references = new HostReferences();
@@ -300,7 +300,7 @@ namespace Tie
         public static void RemoveImport(string nameSpace)
         {
             if (aliases.ContainsKey(nameSpace))
-            { 
+            {
                 string import = aliases[nameSpace];
                 aliases.Remove(nameSpace);
                 nameSpace = import;
@@ -310,7 +310,7 @@ namespace Tie
             {
                 imports.Remove(nameSpace);
             }
-                
+
         }
 
         private static Assembly[] GetAssemblyByNamespace(string ns)
@@ -333,9 +333,9 @@ namespace Tie
 
         internal static Type GetTypeByBriefName(string simpleTypeName)
         {
-            foreach(HostImport import in imports.Values)
-            { 
-                if(import.ContainsKey(simpleTypeName))
+            foreach (HostImport import in imports.Values)
+            {
+                if (import.ContainsKey(simpleTypeName))
                     return import[simpleTypeName];
             }
 
@@ -346,7 +346,7 @@ namespace Tie
 
 
         #region GetClassType() + NewInstance()
-        
+
         /// <summary>
         /// new instance of class
         /// </summary>
@@ -357,7 +357,7 @@ namespace Tie
         {
             Type type = GetType(className);
             if (type != null)
-                   return Activator.CreateInstance(type, constructorargs);
+                return Activator.CreateInstance(type, constructorargs);
             else
                 return null;
         }
@@ -366,13 +366,13 @@ namespace Tie
         {
             if (!imports.ContainsKey(ns))
                 return null;
-         
+
             string typeName = ns + "." + name;
             Type type = GetType(imports[ns].Assemblies, typeName);
             return type;
 
         }
-      
+
         /// <summary>
         ///  GetType("Int32[][]")
         ///  GetType("System.DateTime")
@@ -410,7 +410,7 @@ namespace Tie
         private static Type GetSimpleType(string typeName)
         {
             Type type = null;
-            
+
             string[] names = typeName.Split(new char[] { '.' });
             string ns = string.Join(".", names, 0, names.Length - 1);
 
@@ -474,7 +474,7 @@ namespace Tie
                 }
             }
 
-            //4.根据class名字来推断assemblyName,然后返回
+            //5.根据class名字来推断assemblyName,然后返回
             type = GetDefaultAssemblyType(typeName);
             if (type != null)
                 return type;
@@ -490,12 +490,27 @@ namespace Tie
                 type = assembly.GetType(typeName);
                 if (type != null)
                     return type;
+
+                //check nested type
+                string[] names = typeName.Split('.');
+                if (names.Length >= 2)
+                {
+                    string ty = string.Join(".", names, 0, names.Length - 1);
+                    type = assembly.GetType(ty);
+                    if (type != null)
+                    {
+                        string name = names[names.Length - 1];
+                        type = type.GetNestedType(name);
+                        if (type != null)
+                            return type;
+                    }
+                }
             }
 
             return null;
         }
 
-   
+
         //根据class name来判断assembly的名字
         private static Type GetDefaultAssemblyType(string className)
         {
@@ -527,7 +542,7 @@ namespace Tie
             return null;
         }
 
-          
+
         #endregion
 
 
@@ -535,7 +550,7 @@ namespace Tie
         #region Property Extraction
 
 
-        
+
         /// <summary>
         /// New instance by persistent data
         /// </summary>
@@ -574,7 +589,7 @@ namespace Tie
 
 
 
-     
-      
+
+
     }
 }

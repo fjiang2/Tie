@@ -166,7 +166,25 @@ namespace UnitTest
 
             Debug.Assert(p.A[0] == 10000);
             Debug.Assert(p.AA[0,1,1] == 4444);
-            
+
+
+            string myDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var x = typeof(Environment.SpecialFolder);
+            HostType.Register(typeof(System.Environment));
+
+            //check nested type
+
+            code = "typeof(System.Environment.SpecialFolder)";
+            VAL sp= Script.Evaluate(code);
+            Debug.Assert(sp.ToString() == "typeof(System.Environment+SpecialFolder)");
+
+            code = @"
+                GetFolderPath = typeof(Environment).methodof(typeof(string), 'GetFolderPath', {typeof(Environment.SpecialFolder)} ); 
+                myDocument = GetFolderPath(typeof(System.Environment.SpecialFolder).MyDocuments);";
+
+            DS = new Memory();
+            Script.Execute(code, DS);
+
             Logger.Close();
         }
     }
