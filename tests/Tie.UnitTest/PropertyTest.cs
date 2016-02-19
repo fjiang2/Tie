@@ -179,11 +179,16 @@ namespace UnitTest
             Debug.Assert(sp.ToString() == "typeof(System.Environment+SpecialFolder)");
 
             code = @"
-                GetFolderPath = typeof(Environment).methodof(typeof(string), 'GetFolderPath', {typeof(Environment.SpecialFolder)} ); 
-                myDocument = GetFolderPath(typeof(System.Environment.SpecialFolder).MyDocuments);";
+                Environment = typeof(Environment);
+                SpecialFolder = typeof(Environment.SpecialFolder);
+                GetFolderPath = Environment.methodof(typeof(string), 'GetFolderPath', {SpecialFolder} ); 
+                myDocument = GetFolderPath(SpecialFolder.MyDocuments);";
 
             DS = new Memory();
             Script.Execute(code, DS);
+
+            code = @"typeof(System.Environment).GetFolderPath(typeof(System.Environment.SpecialFolder).MyDocuments)";
+            sp = Script.Evaluate(code);
 
             Logger.Close();
         }

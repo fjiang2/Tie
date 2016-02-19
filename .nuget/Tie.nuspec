@@ -16,7 +16,7 @@ Support script debug, breakpoint, log.
 Middleware, high performance, compact size</description>
         <summary>C# statement/expression interpreter</summary>
         <releaseNotes>
-          2/14/2015 v.2.0.2.0
+          2/14/2016 v.2.0.2.0
           1.Method ToScript in class Memory can export C# assignment code
           2.bug fixes: cannot return nested type
           
@@ -47,5 +47,7 @@ Middleware, high performance, compact size</description>
         <file src="..\Tie\bin\Release\net45\Tie.XML" target="lib\net45\Tie.XML" />
         <file src="..\Tie\bin\Release\net451\Tie.dll" target="lib\net451\Tie.dll" />
         <file src="..\Tie\bin\Release\net451\Tie.XML" target="lib\net451\Tie.XML" />
+        <file src="..\Tie\bin\Release\net452\Tie.dll" target="lib\net452\Tie.dll" />
+        <file src="..\Tie\bin\Release\net452\Tie.XML" target="lib\net452\Tie.XML" />
     </files>
 </package>
