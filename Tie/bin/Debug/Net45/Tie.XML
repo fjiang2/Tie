@@ -576,6 +576,15 @@
             <param name="obj"></param>
             <returns></returns>
         </member>
+        <member name="M:Tie.Valizer.Devalize``1(Tie.VAL,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="val"></param>
+            <param name="anonymous"></param>
+            <returns></returns>
+        </member>
         <member name="T:Tie.CodeGeneration">
             <summary>
             Code generator

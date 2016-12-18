@@ -23,7 +23,7 @@
         </releaseNotes>
         <dependencies>
             <group targetFramework=".NETFramework4.5">
-                <dependency id="Tie" version="2.0.1.0" />
+                <dependency id="Tie" version="2.0.2.1" />
             </group>
         </dependencies>
     </metadata>

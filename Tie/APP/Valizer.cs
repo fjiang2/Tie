@@ -177,5 +177,21 @@ namespace Tie
             return HostValization.Val2Host(val, obj, obj.GetType());
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <param name="anonymous"></param>
+        /// <returns></returns>
+        public static T Devalize<T>(VAL val, T anonymous)
+        {
+            object obj = HostValization.Val2Host(val, (object)anonymous, typeof(T));
+            if (obj == null)
+                return default(T);
+            else
+                return (T)obj;
+        }
     }
 }
