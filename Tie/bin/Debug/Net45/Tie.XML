@@ -560,6 +560,15 @@
             <param name="val"></param>
             <returns></returns>
         </member>
+        <member name="M:Tie.Valizer.Devalize``1(Tie.VAL,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="val"></param>
+            <param name="anonymous"></param>
+            <returns></returns>
+        </member>
         <member name="M:Tie.Valizer.Devalize(Tie.VAL,System.Type)">
             <summary>
             
@@ -574,15 +583,6 @@
             </summary>
             <param name="val"></param>
             <param name="obj"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tie.Valizer.Devalize``1(Tie.VAL,``0)">
-            <summary>
-            
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="val"></param>
-            <param name="anonymous"></param>
             <returns></returns>
         </member>
         <member name="T:Tie.CodeGeneration">

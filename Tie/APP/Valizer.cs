@@ -31,7 +31,7 @@ namespace Tie
         /// Register valizer
         /// </summary>
         /// <param name="valizer"></param>
-        public static void Register<T>(Valizer<T> valizer)
+        public static void Register<T>(this Valizer<T> valizer)
         {
             Register<T>(valizer, (Devalizer<T>)null);
         }
@@ -41,7 +41,7 @@ namespace Tie
         /// </summary>
         /// <param name="valizer"></param>
         /// <param name="devalizer"></param>
-        public static void Register<T>(Valizer<T> valizer, PartialDevalizer<T> devalizer)
+        public static void Register<T>(this Valizer<T> valizer, PartialDevalizer<T> devalizer)
         {
             ValizationMgr.Register(typeof(T), new PartialDelegateValization<T>(valizer, devalizer));
         }
@@ -52,7 +52,7 @@ namespace Tie
         /// <typeparam name="T"></typeparam>
         /// <param name="valizer"></param>
         /// <param name="devalizer"></param>
-        public static void Register<T>(Valizer<T> valizer, Devalizer<T> devalizer)
+        public static void Register<T>(this Valizer<T> valizer, Devalizer<T> devalizer)
         {
             ValizationMgr.Register(typeof(T), new DelegateValization<T>(valizer, devalizer));
         }
@@ -61,7 +61,7 @@ namespace Tie
         /// Register Valizer by object interface
         /// </summary>
         /// <param name="valizer"></param>
-        public static void Register<T>(IValizer<T> valizer)
+        public static void Register<T>(this IValizer<T> valizer)
         {
             ValizationMgr.Register(typeof(T), new InterfaceValization<T>(valizer));
         }
@@ -70,7 +70,7 @@ namespace Tie
         /// Register valizer script 
         /// </summary>
         /// <param name="valizerScript"></param>
-        public static void Register<T>(string valizerScript)
+        public static void Register<T>(this string valizerScript)
         {
             ValizationMgr.Register(typeof(T), new ScriptValization(valizerScript, null));
         }
@@ -80,7 +80,7 @@ namespace Tie
         /// </summary>
         /// <param name="type"></param>
         /// <param name="genericMethod">must be static method without arguments</param>
-        public static void Register(Type type, MethodInfo genericMethod)
+        public static void Register(this Type type, MethodInfo genericMethod)
         {
             ValizationMgr.Register(type, genericMethod, null, null);
         }
@@ -92,7 +92,7 @@ namespace Tie
         /// <param name="genericMethod"></param>
         /// <param name="obj">If a method is static,this argument is ignored</param>
         /// <param name="parameters">An argument list for the invoked method</param>
-        public static void Register(Type type, MethodInfo genericMethod, object obj, object[] parameters)
+        public static void Register(this Type type, MethodInfo genericMethod, object obj, object[] parameters)
         {
             ValizationMgr.Register(type, genericMethod, obj, parameters);
         }
@@ -102,7 +102,7 @@ namespace Tie
         /// Register valizer by class's members
         /// </summary>
         /// <param name="valizerMembers"></param>
-        public static void Register<T>(string[] valizerMembers)
+        public static void Register<T>(this string[] valizerMembers)
         {
             ValizationMgr.Register(typeof(T), new PropertyValization(valizerMembers));
         }
@@ -111,7 +111,7 @@ namespace Tie
         /// Unregister valizer
         /// </summary>
         /// <param name="type"></param>
-        public static void Unregister(Type type)
+        public static void Unregister(this Type type)
         {
             ValizationMgr.Unregister(type);
         }
@@ -121,7 +121,7 @@ namespace Tie
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static VAL Valize(object obj)
+        public static VAL Valize(this object obj)
         {
             VAL val = HostValization.Host2Val(obj);
             return val;
@@ -132,7 +132,7 @@ namespace Tie
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static object Devalize(VAL val)
+        public static object Devalize(this VAL val)
         {
             return val.HostValue;
         }
@@ -143,7 +143,7 @@ namespace Tie
         /// <typeparam name="T"></typeparam>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static T Devalize<T>(VAL val)
+        public static T Devalize<T>(this VAL val)
         {
             object obj = HostValization.Val2Host(val, null, typeof(T));
             if (obj == null)
@@ -155,10 +155,26 @@ namespace Tie
         /// <summary>
         /// 
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <param name="anonymous"></param>
+        /// <returns></returns>
+        public static T Devalize<T>(this VAL val, T anonymous)
+        {
+            object obj = HostValization.Val2Host(val, (object)anonymous, typeof(T));
+            if (obj == null)
+                return default(T);
+            else
+                return (T)obj;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="val"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static object Devalize(VAL val, Type type)
+        public static object Devalize(this VAL val, Type type)
         {
             return HostValization.Val2Host(val, null, type);
         }
@@ -169,29 +185,13 @@ namespace Tie
         /// <param name="val"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static object Devalize(VAL val, object obj)
+        public static object Devalize(this VAL val, object obj)
         {
             if (obj == null)
                 return null;
 
             return HostValization.Val2Host(val, obj, obj.GetType());
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="val"></param>
-        /// <param name="anonymous"></param>
-        /// <returns></returns>
-        public static T Devalize<T>(VAL val, T anonymous)
-        {
-            object obj = HostValization.Val2Host(val, (object)anonymous, typeof(T));
-            if (obj == null)
-                return default(T);
-            else
-                return (T)obj;
-        }
+        
     }
 }

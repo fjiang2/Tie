@@ -490,7 +490,7 @@ namespace Tie
                 type = assembly.GetType(typeName);
                 if (type != null)
                     return type;
-
+#if !SILVERLIGHT
                 //check nested type
                 string[] names = typeName.Split('.');
                 if (names.Length >= 2)
@@ -505,6 +505,7 @@ namespace Tie
                             return type;
                     }
                 }
+#endif
             }
 
             return null;

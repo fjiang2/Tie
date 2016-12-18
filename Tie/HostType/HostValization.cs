@@ -79,7 +79,7 @@ namespace Tie
                 ((IValizable)host).SetVAL(val);
                 return host;
             }
-
+            //如果是匿名class
             else if (CheckIfAnonymousType(type))
             {
                 PropertyInfo[] properties = type.GetProperties();
@@ -89,13 +89,15 @@ namespace Tie
                 foreach (PropertyInfo propertyInfo in properties)
                 {
                     VAL p = val[propertyInfo.Name];
-                    if (p.Defined)
+
+                    //处理匿名内嵌class
+                    if (CheckIfAnonymousType(propertyInfo.PropertyType))
                     {
-                        args[i] = p.HostValue;
+                        args[i] = Val2Host(p, null, propertyInfo.PropertyType);
                     }
                     else
                     {
-                        args[i] = null;
+                        args[i] = p.Defined ? p.HostValue : null;
                     }
 
                     i++;
@@ -400,7 +402,9 @@ namespace Tie
                 val[fieldInfo.Name] = persistent;
             }
 #endif
-            PropertyInfo[] properties = host.GetType().GetProperties();
+            Type type = host.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            bool isAnomymous = CheckIfAnonymousType(type);
             foreach (PropertyInfo propertyInfo in properties)
             {
                 //Property缺省情况下转为VAL, 除非设置NonValizedAttribute属性, 只存储简单的属性, 有下标的属性,不考虑
@@ -408,7 +412,7 @@ namespace Tie
                 if (A.Length != 0)
                     continue;
 
-                if (!(propertyInfo.CanRead && propertyInfo.CanWrite))
+                if (!(propertyInfo.CanRead && propertyInfo.CanWrite) && !isAnomymous)
                     continue;
 
                 if (!propertyInfo.CanRead)
