@@ -45,7 +45,7 @@ namespace Tie
      * 
      * */
 
- 
+
     class HostValization
     {
 
@@ -80,16 +80,49 @@ namespace Tie
                 return host;
             }
 
+            else if (CheckIfAnonymousType(type))
+            {
+                PropertyInfo[] properties = type.GetProperties();
+                object[] args = new object[properties.Length];
+                int i = 0;
+
+                foreach (PropertyInfo propertyInfo in properties)
+                {
+                    VAL p = val[propertyInfo.Name];
+                    if (p.Defined)
+                    {
+                        args[i] = p.HostValue;
+                    }
+                    else
+                    {
+                        args[i] = null;
+                    }
+
+                    i++;
+                }
+
+                try
+                {
+                    hostValue = Activator.CreateInstance(type, args);
+                    return hostValue;
+                }
+                catch (Exception)
+                {
+                    throw new TieException("cannot create instance on anonymous type: {0}", type.FullName);
+                }
+            }
+
+
             object temp = ValizationMgr.Devalize(host, type, val);
             if (temp != null && GenericType.IsCompatibleType(temp.GetType(), type))
-                 return temp;
+                return temp;
             else
             {
                 if (type.IsArray)
                 {
                     if (val.ty != VALTYPE.listcon)
                         return null;
-                    
+
                     if (host != null)
                         hostValue = host;
                     else
@@ -120,6 +153,18 @@ namespace Tie
                 return Val2HostOffset(val, hostValue);
             }
 
+        }
+
+        private static bool CheckIfAnonymousType(Type type)
+        {
+            if (type == null)
+                return false;
+
+            // HACK: The only way to detect anonymous types right now.
+            return Attribute.IsDefined(type, typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), false)
+                && type.IsGenericType && type.Name.Contains("AnonymousType")
+                && (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$"))
+                && (type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
         }
 
         public static object Val2Host(VAL val, object obj)
@@ -154,7 +199,8 @@ namespace Tie
                 }
             }
 #endif
-            PropertyInfo[] properties = host.GetType().GetProperties();
+            Type type = host.GetType();
+            PropertyInfo[] properties = type.GetProperties();
             foreach (PropertyInfo propertyInfo in properties)
             {
                 try
@@ -167,7 +213,7 @@ namespace Tie
                             if (propertyInfo.PropertyType == typeof(VAL))
                                 propertyInfo.SetValue(host, p, null);
                             else
-                                SetValue(host, propertyInfo.GetValue(host, null),  propertyInfo.PropertyType, propertyInfo.Name, p);
+                                SetValue(host, propertyInfo.GetValue(host, null), propertyInfo.PropertyType, propertyInfo.Name, p);
                         }
                         else   //CanRead
                         {
@@ -195,7 +241,7 @@ namespace Tie
 
 
                             }
-                            else 
+                            else
                                 Val2HostOffset(p, propertyInfo.GetValue(host, null));
                         }
                     }
@@ -205,7 +251,7 @@ namespace Tie
                 }
             }
 
-            EventInfo[] events = host.GetType().GetEvents();
+            EventInfo[] events = type.GetEvents();
             foreach (EventInfo eventInfo in events)
             {
                 try
@@ -222,8 +268,8 @@ namespace Tie
                     }
                 }
                 catch (ArgumentException)
-                { 
-                
+                {
+
                 }
             }
 
@@ -245,7 +291,7 @@ namespace Tie
             else
                 HostOperation.HostTypeAssign(host, offset, temp, true);
         }
-        
+
         #endregion
 
 
@@ -362,8 +408,8 @@ namespace Tie
                 if (A.Length != 0)
                     continue;
 
-                //if (!(propertyInfo.CanRead && propertyInfo.CanWrite))
-                //    continue;
+                if (!(propertyInfo.CanRead && propertyInfo.CanWrite))
+                    continue;
 
                 if (!propertyInfo.CanRead)
                     continue;

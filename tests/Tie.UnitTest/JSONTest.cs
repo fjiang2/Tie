@@ -247,7 +247,7 @@ Controls:
             VAL dict5 = Script.Evaluate(code5);
             VAL dict6 = Script.Evaluate(code6);
             System.Diagnostics.Debug.Assert(dict6["Controls"][1]["Return"].Str == "EditValue");
-            
+
             string JSON1 = dict1.ToJson("");
             string JSON2 = dict2.ToJson("");
             string JSON3 = dict3.ToJson("");
@@ -270,9 +270,14 @@ text = 'OK';
 ";
 
 
-           // Tie.Logger.Open("C:\\temp\\tie.log");
+            // Tie.Logger.Open("C:\\temp\\tie.log");
             Memory DS2 = new Memory();
             Script.Execute(code, DS2);
+
+
+            VAL A = Script.Evaluate("{ a:12, b:'ok', c:false, d:3.14}");
+            var obj = Valizer.Devalize(A, new { a = 0, b = string.Empty, c = true });
+            System.Diagnostics.Debug.Assert(obj.a == 12 && obj.b == "ok" && obj.c == false);
         }
     }
 }
