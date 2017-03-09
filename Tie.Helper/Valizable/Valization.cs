@@ -56,8 +56,8 @@ namespace Tie.Helper
 
 
 
-            Valizer.Register(typeof(List<>), typeof(Valization).GetMethod("RegisterList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
-            Valizer.Register(typeof(Dictionary<,>), typeof(Valization).GetMethod("RegistrDictionary", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
+            Valizer.Register(typeof(List<>), typeof(Valization).GetMethod(nameof(RegisterList), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
+            Valizer.Register(typeof(Dictionary<,>), typeof(Valization).GetMethod(nameof(RegistrDictionary), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static));
 
             Valizer.Register<DataSet>(_ds => ToVal(_ds), (host, type, _xml) => ToDataSet(host, type, _xml));
 

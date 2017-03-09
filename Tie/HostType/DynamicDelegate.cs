@@ -67,8 +67,8 @@ namespace Tie
         public static Delegate InstanceDelegate(Type dType, VAL func)
         {
             DynamicDelegate instance = new DynamicDelegate(func);
-            FieldInfo funcconField = typeof(DynamicDelegate).GetField("func", BindingFlags.NonPublic | BindingFlags.Instance);
-            MethodInfo methodAdapter = typeof(DynamicDelegate).GetMethod("CallFunc", BindingFlags.Public | BindingFlags.Static);
+            FieldInfo funcconField = typeof(DynamicDelegate).GetField(nameof(DynamicDelegate.func), BindingFlags.NonPublic | BindingFlags.Instance);
+            MethodInfo methodAdapter = typeof(DynamicDelegate).GetMethod(nameof(CallFunc), BindingFlags.Public | BindingFlags.Static);
             return InstanceDelegate(dType, instance, funcconField, methodAdapter);
         }
 

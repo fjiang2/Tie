@@ -62,7 +62,7 @@ namespace Tie
 
         public VAL AddDelegateEventHandler()
         {
-            MethodInfo methodInfo = this.GetType().GetMethod("Callback", BindingFlags.NonPublic | BindingFlags.Instance);
+            MethodInfo methodInfo = this.GetType().GetMethod(nameof(Callback), BindingFlags.NonPublic | BindingFlags.Instance);
             Delegate dEmitted = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
 
             SaveEventHandler(dEmitted);
