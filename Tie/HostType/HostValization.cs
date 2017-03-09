@@ -133,7 +133,16 @@ namespace Tie
                     int i = 0;
                     foreach (object element in (Array)hostValue)
                     {
-                        HostOperation.HostTypeAssign(hostValue, new int[] { i }, val[i].HostValue, true);
+                        if (element != null)
+                        {
+                            HostOperation.HostTypeAssign(hostValue, new int[] { i }, val[i].HostValue, true);
+                        }
+                        else
+                        {
+                            //object array
+                            object x = Val2Host(val[i], null, type.GetElementType());
+                            (hostValue as Array).SetValue(x, i);
+                        }
                         i++;
                     }
                 }

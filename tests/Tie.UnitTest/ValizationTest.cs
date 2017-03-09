@@ -150,6 +150,17 @@ namespace UnitTest
             dict.Clear();
 
             dict = Valizer.Devalize < Dictionary<Type, bool>>(Script.Evaluate(j1));
+
+            VAL jsonarray = Script.Evaluate("{{Id:1,Name:'A'},{Id:2,Name:'B'}}");
+            TestContract[] tc = Valizer.Devalize<TestContract[]>(jsonarray);
+            Debug.Assert(tc.Length == 2 && tc[0].Id == 1 && tc[1].Name == "B");
         }
+    }
+
+    class TestContract
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
     }
 }

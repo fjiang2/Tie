@@ -23,9 +23,9 @@ namespace Tie
         }
 
 
-        public Type Type 
-        { 
-            get { return this.type; } 
+        public Type Type
+        {
+            get { return this.type; }
         }
 
         public string[] Namespace
@@ -167,6 +167,11 @@ namespace Tie
             //enum
             if (hostType.IsEnum && targetType == typeof(int) || targetType.IsEnum && hostType == typeof(int))
                 return true;
+
+            if (hostType.IsArray && targetType.IsArray)
+            {
+                return IsCompatibleType(hostType.GetElementType(), targetType.GetElementType());
+            }
 
             return false;
         }
