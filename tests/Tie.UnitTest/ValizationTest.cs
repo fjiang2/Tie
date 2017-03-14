@@ -15,11 +15,11 @@ namespace UnitTest
         private static void ValizationRegister()
         {
             Valizer.Register<Color>(
-                   delegate(Color color)
+                   delegate (Color color)
                    {
                        return new VAL(string.Format("\"#{0:X2}{1:X2}{2:X2}\"", color.R, color.G, color.B));
                    },
-                   delegate(VAL val)
+                   delegate (VAL val)
                    {
                        string hexString = (string)val;
                        int red = Convert.ToByte(hexString.Substring(1, 2), 16);
@@ -32,7 +32,7 @@ namespace UnitTest
 
             Valizer.Register<Control>(new string[] { "ForeColor", "BackColor", "Text" });
             Valizer.Register<ContainerControl>(
-                 delegate(ContainerControl form)
+                 delegate (ContainerControl form)
                  {
                      VAL val = new VAL();
                      val["BackColor"] = Valizer.Valize(form.BackColor);
@@ -42,7 +42,7 @@ namespace UnitTest
                      }
                      return val;
                  },
-                delegate(ContainerControl form, Type type, VAL val)
+                delegate (ContainerControl form, Type type, VAL val)
                 {
                     if (val["BackColor"].Defined)
                         form.BackColor = Valizer.Devalize<Color>(val["BackColor"]);
@@ -130,7 +130,7 @@ namespace UnitTest
                     {
                         string name1 = parameters[1].GetName();
                         string name2 = parameters[2].GetName();
-                        Debug.Assert(name1 == "userId" && name2=="Name");
+                        Debug.Assert(name1 == "userId" && name2 == "Name");
                         return new VAL();
                     }
                     else
@@ -149,18 +149,54 @@ namespace UnitTest
 
             dict.Clear();
 
-            dict = Valizer.Devalize < Dictionary<Type, bool>>(Script.Evaluate(j1));
+            dict = Valizer.Devalize<Dictionary<Type, bool>>(Script.Evaluate(j1));
 
             VAL jsonarray = Script.Evaluate("{{Id:1,Name:'A'},{Id:2,Name:'B'}}");
-            TestContract[] tc = Valizer.Devalize<TestContract[]>(jsonarray);
+
+            TestContract_class[] tc = Valizer.Devalize<TestContract_class[]>(jsonarray);
             Debug.Assert(tc.Length == 2 && tc[0].Id == 1 && tc[1].Name == "B");
+
+            TestContract_struct[] ts = Valizer.Devalize<TestContract_struct[]>(jsonarray);
+            Debug.Assert(ts.Length == 2 && ts[0].Id == 1 && ts[1].Name == "B");
+
+            jsonarray = Script.Evaluate("{Age:1,Text:'A', Tc:{Id:1,Name:'B'}}");
+            TestContract_complex tc1 = Valizer.Devalize<TestContract_complex>(jsonarray);
+            Debug.Assert(tc1.Tc.Id==1 && tc1.Tc.Name == "B");
+
+            TestContract_complex2 tc2 = Valizer.Devalize<TestContract_complex2>(jsonarray);
+            Debug.Assert(tc2.Tc.Id == 1 && tc2.Tc.Name == "B");
         }
-    }
 
-    class TestContract
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        class TestContract_class
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
 
+        }
+
+        struct TestContract_struct
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+
+        }
+
+        class TestContract_complex
+        {
+            public int Age { get; set; }
+            public string Text { get; set; }
+
+            public TestContract_class Tc { get; set; }
+
+        }
+
+        class TestContract_complex2
+        {
+            public int Age { get; set; }
+            public string Text { get; set; }
+
+            public TestContract_struct Tc { get; set; }
+
+        }
     }
 }

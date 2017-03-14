@@ -133,16 +133,23 @@ namespace Tie
                     int i = 0;
                     foreach (object element in (Array)hostValue)
                     {
-                        if (element != null)
-                        {
-                            HostOperation.HostTypeAssign(hostValue, new int[] { i }, val[i].HostValue, true);
-                        }
-                        else
+                        if (element == null) //class 
                         {
                             //object array
                             object x = Val2Host(val[i], null, type.GetElementType());
                             (hostValue as Array).SetValue(x, i);
                         }
+                        else if (element.GetType().IsPrimitive)
+                        {
+                            HostOperation.HostTypeAssign(hostValue, new int[] { i }, val[i].HostValue, true);
+                        }
+                        else //struct
+                        {
+                            //object array
+                            object x = Val2Host(val[i], null, type.GetElementType());
+                            (hostValue as Array).SetValue(x, i);
+                        }
+
                         i++;
                     }
                 }
@@ -297,7 +304,15 @@ namespace Tie
             if (val.IsAssociativeArray())
             {
                 VAL x = HostOperation.HostTypeOffset(VAL.Boxing(host), new VAL(offset), OffsetType.STRUCT);
-                Val2HostOffset(val, x.value);
+
+                //if x.value is class or struct
+                if (x.value == null || x.value.GetType().IsValueType)
+                {
+                    temp = Val2Host(val, null, type);
+                    HostOperation.HostTypeAssign(host, offset, temp, true);
+                }
+                else
+                    Val2HostOffset(val, x.value);
             }
             else
                 HostOperation.HostTypeAssign(host, offset, temp, true);
