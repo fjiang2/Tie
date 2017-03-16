@@ -159,26 +159,26 @@ namespace UnitTest
             TestContract_struct[] ts = Valizer.Devalize<TestContract_struct[]>(jsonarray);
             Debug.Assert(ts.Length == 2 && ts[0].Id == 1 && ts[1].Name == "B");
 
-            jsonarray = Script.Evaluate("{Age:1,Text:'A', Tc:{Id:1,Name:'B'}}");
+            jsonarray = Script.Evaluate("{Age:1,Text:'A', Tc:{Id:1,Name:'B',Addr:{'X1','X2'}}}");
             TestContract_complex tc1 = Valizer.Devalize<TestContract_complex>(jsonarray);
-            Debug.Assert(tc1.Tc.Id==1 && tc1.Tc.Name == "B");
+            Debug.Assert(tc1.Tc.Id == 1 && tc1.Tc.Name == "B" && tc1.Tc.Addr[1] == "X2");
 
             TestContract_complex2 tc2 = Valizer.Devalize<TestContract_complex2>(jsonarray);
-            Debug.Assert(tc2.Tc.Id == 1 && tc2.Tc.Name == "B");
+            Debug.Assert(tc2.Tc.Id == 1 && tc2.Tc.Name == "B" && tc2.Tc.Addr[1] == "X2");
         }
 
         class TestContract_class
         {
             public int Id { get; set; }
             public string Name { get; set; }
-
+            public string[] Addr { get; set; }
         }
 
         struct TestContract_struct
         {
             public int Id { get; set; }
             public string Name { get; set; }
-
+            public string[] Addr { get; set; }
         }
 
         class TestContract_complex
