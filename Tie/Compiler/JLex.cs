@@ -40,11 +40,11 @@ namespace Tie
         }
     }
 
-    
+
     class JLex
     {
-    	protected char ch;
-    	public static JKey[] Key;
+        protected char ch;
+        public static JKey[] Key;
         private Token tok;
         private Error error;			//the positon of cursor in file
 
@@ -56,48 +56,48 @@ namespace Tie
 
             Key = new JKey[]
             {
-            	new JKey("as",	    SYMBOL.AS     ),
-            	new JKey("base",	SYMBOL.BASE     ),
-            	new JKey("break",	SYMBOL.BREAK    ),
-            	new JKey("case",	SYMBOL.CASE	    ),
-            	new JKey("catch",	SYMBOL.CATCH    ),
-	            new JKey("class",	SYMBOL.CLASS    ),
-	            new JKey("continue",SYMBOL.CONTINUE ),
-	            new JKey("debug",	SYMBOL.DEBUG    ),
-	            new JKey("default",	SYMBOL.DEFAULT	),
+                new JKey("as",      SYMBOL.AS     ),
+                new JKey("base",    SYMBOL.BASE     ),
+                new JKey("break",   SYMBOL.BREAK    ),
+                new JKey("case",    SYMBOL.CASE     ),
+                new JKey("catch",   SYMBOL.CATCH    ),
+                new JKey("class",   SYMBOL.CLASS    ),
+                new JKey("continue",SYMBOL.CONTINUE ),
+                new JKey("debug",   SYMBOL.DEBUG    ),
+                new JKey("default", SYMBOL.DEFAULT  ),
                 new JKey("delegate",SYMBOL.FUNC     ),
 
-                new JKey("do",		SYMBOL.DO		),
-                new JKey("else",	SYMBOL.ELSE	    ),
-                new JKey("false",	SYMBOL.falsesy	),
-                new JKey("finally",	SYMBOL.FINALLY	),  
-	            new JKey("for",		SYMBOL.FOR		),
-                new JKey("foreach",	SYMBOL.FOREACH	),
-	        	new JKey("function",SYMBOL.FUNC	    ),
-	            new JKey("goto",	SYMBOL.GOTO	    ),
-            	new JKey("if",		SYMBOL.IF		),
-	            new JKey("in",		SYMBOL.IN		),
+                new JKey("do",      SYMBOL.DO       ),
+                new JKey("else",    SYMBOL.ELSE     ),
+                new JKey("false",   SYMBOL.falsesy  ),
+                new JKey("finally", SYMBOL.FINALLY  ),
+                new JKey("for",     SYMBOL.FOR      ),
+                new JKey("foreach", SYMBOL.FOREACH  ),
+                new JKey("function",SYMBOL.FUNC     ),
+                new JKey("goto",    SYMBOL.GOTO     ),
+                new JKey("if",      SYMBOL.IF       ),
+                new JKey("in",      SYMBOL.IN       ),
 
-                new JKey("is",		SYMBOL.IS		),
+                new JKey("is",      SYMBOL.IS       ),
                 new JKey("namespace",SYMBOL.NAMESPACE ),
-                new JKey("new",		SYMBOL.NEW		),
-                new JKey("null",	SYMBOL.nullsy	),
-	            new JKey("private",	SYMBOL.PRIVATE	),
-	            new JKey("protected",SYMBOL.PROTECTED),
-	            new JKey("public",	SYMBOL.PUBLIC	),
-                new JKey("return",	SYMBOL.RETURN	),
-	            new JKey("static",	SYMBOL.STATIC	),
-	            new JKey("sizeof",	SYMBOL.SIZEOF	),
-	            
-                new JKey("switch",	SYMBOL.SWITCH	),
-                new JKey("this",	SYMBOL.THIS	    ),
-                new JKey("throw",	SYMBOL.THROW    ),
-                new JKey("true",	SYMBOL.truesy	),
-	            new JKey("try",	    SYMBOL.TRY 	    ),
-	            new JKey("var",		SYMBOL.VAR		),
-	            new JKey("void",	SYMBOL.VOID		),
-	            new JKey("while",	SYMBOL.WHILE	),
-	            new JKey("with",	SYMBOL.WITH	)
+                new JKey("new",     SYMBOL.NEW      ),
+                new JKey("null",    SYMBOL.nullsy   ),
+                new JKey("private", SYMBOL.PRIVATE  ),
+                new JKey("protected",SYMBOL.PROTECTED),
+                new JKey("public",  SYMBOL.PUBLIC   ),
+                new JKey("return",  SYMBOL.RETURN   ),
+                new JKey("static",  SYMBOL.STATIC   ),
+                new JKey("sizeof",  SYMBOL.SIZEOF   ),
+
+                new JKey("switch",  SYMBOL.SWITCH   ),
+                new JKey("this",    SYMBOL.THIS     ),
+                new JKey("throw",   SYMBOL.THROW    ),
+                new JKey("true",    SYMBOL.truesy   ),
+                new JKey("try",     SYMBOL.TRY      ),
+                new JKey("var",     SYMBOL.VAR      ),
+                new JKey("void",    SYMBOL.VOID     ),
+                new JKey("while",   SYMBOL.WHILE    ),
+                new JKey("with",    SYMBOL.WITH )
             };
 
         }
@@ -108,7 +108,7 @@ namespace Tie
 
         protected virtual char NextCh()
         {
-            if(Index() > error.Position.cur)  //ignore trackback characters
+            if (Index() > error.Position.cur)  //ignore trackback characters
                 error.Position.Move(ch);
 
             return ch;
@@ -118,57 +118,58 @@ namespace Tie
 
         private bool GetKeyAndIdent()
         {
-        int i,j,k;
-        char[] ident = new char[Constant.ALNG];
+            int i, j, k;
+            char[] ident = new char[Constant.ALNG];
 
-        // IDENT   
-        if ( ch=='_'||  ch=='$'|| (ch>='a' && ch<='z') || (ch>='A' && ch<='Z'))
-        {
-            k = 0;
-	        for(i=0; i<Constant.ALNG;i++) ident[i]=(char)0;	 //ALNG=10
-            if (ch == '$')                              //a variable begun with $ is system varible
+            // IDENT   
+            if (ch == '_' || ch == '$' || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
             {
-                ident[k++] = ch;
-                NextCh();
-            }
-
-            do {
-                if (k < Constant.ALNG)
+                k = 0;
+                for (i = 0; i < Constant.ALNG; i++) ident[i] = (char)0;  //ALNG=10
+                if (ch == '$')                              //a variable begun with $ is system varible
                 {
-		            ident[k] = ch;
-                    k ++;  
-       	        }
-		        NextCh();
-	        } while( ch=='_'
-			        ||((ch>='A') && (ch<='Z')) 
-			        ||((ch>='a') && (ch<='z')) 
-			        ||((ch>='0') && (ch<='9'))
-                    || ch=='`'  //为了支持Generic类型, typeof(Dictionary<,>).Name == "Dictionary`2"
-                ) ;
+                    ident[k++] = ch;
+                    NextCh();
+                }
 
-            tok.sym.len = k;
-            tok.sym.id = new String(ident, 0, k);
+                do
+                {
+                    if (k < Constant.ALNG)
+                    {
+                        ident[k] = ch;
+                        k++;
+                    }
+                    NextCh();
+                } while (ch == '_'
+                        || ((ch >= 'A') && (ch <= 'Z'))
+                        || ((ch >= 'a') && (ch <= 'z'))
+                        || ((ch >= '0') && (ch <= '9'))
+                        || ch == '`'  //为了支持Generic类型, typeof(Dictionary<,>).Name == "Dictionary`2"
+                    );
 
-            i = 0; j = Constant.NKW - 1;  //binary search
-		    do
-		    {
-                k = (i+j) /2 ;
-                if (strcmp(ident, tok.sym.len, Key[k].key) <=0 ) j = k-1;
-                if (strcmp(ident, tok.sym.len, Key[k].key) >= 0) i = k + 1;
-		    } while( i<= j );
+                tok.sym.len = k;
+                tok.sym.id = new String(ident, 0, k);
 
-            if (i - 1 > j)
-            {
-                tok.sy = Key[k].ksy;
+                i = 0; j = Constant.NKW - 1;  //binary search
+                do
+                {
+                    k = (i + j) / 2;
+                    if (strcmp(ident, tok.sym.len, Key[k].key) <= 0) j = k - 1;
+                    if (strcmp(ident, tok.sym.len, Key[k].key) >= 0) i = k + 1;
+                } while (i <= j);
+
+                if (i - 1 > j)
+                {
+                    tok.sy = Key[k].ksy;
+                }
+                else
+                {
+                    tok.sy = SYMBOL.identsy;
+                }
+
+                return true;
             }
-            else
-            {
-                tok.sy = SYMBOL.identsy;
-            }
-	 
-		    return true;
-            }
-	        
+
             return false;
         }
 
@@ -193,8 +194,8 @@ namespace Tie
         private int strcmp(char[] src, int len, string dest)
         {
 
-            int i=0;
-            while (i < len && i<dest.Length)
+            int i = 0;
+            while (i < len && i < dest.Length)
             {
                 if (src[i] < dest[i])
                     return -1;
@@ -212,9 +213,9 @@ namespace Tie
 
             //if (len != dest.Length)
             //    return (src[i] < dest[i]) ? -1 : 1;
-            
+
             return 0;
-        
+
         }
 
         #endregion
@@ -225,68 +226,96 @@ namespace Tie
         private bool GetNum()
         {
             int k;
-	        if(ch>='0' && ch<= '9')
+            if (ch >= '0' && ch <= '9')
             {  // integer
-	            int e;
-                k = 0;  
-	            tok.sym.inum = 0;   
-	            tok.sy = SYMBOL.intcon;
-       
-	            do {
+                int e;
+                k = 0;
+                tok.sym.inum = 0;
+                tok.sy = SYMBOL.intcon;
+
+                if (ch == '0')
+                {
+                    NextCh();
+                    if (ch == 'x' || ch == 'X')
+                    {
+                        NextCh();
+                        int hex = 0;
+                        do
+                        {
+                            int x = 0;
+                            if (ch >= '0' && ch <= '9')
+                                x = ch - '0';
+                            else if (ch >= 'A' && ch <= 'F')
+                                x = ch - 'A' + 10;
+                            else if (ch >= 'a' && ch <= 'z')
+                                x = ch - 'a' + 10;
+
+                            hex = (hex << 4) | x;
+                            k++;
+                            NextCh();
+                        } while (ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'F' || ch >= 'a' && ch <= 'f');
+                        tok.sym.inum = hex;
+                        return true;
+                    }
+                }
+
+                do
+                {
                     tok.sym.inum = tok.sym.inum * 10 + ch - '0';
                     k++;
                     NextCh();
-	            } while ( ch>='0' && ch<='9');
+                } while (ch >= '0' && ch <= '9');
 
                 if (k > Constant.KMAX || tok.sym.inum > Constant.NMAX)
                 {
                     error.OnError(21);
-                    tok.sym.inum = 0;  
-		            k = 0 ;
+                    tok.sym.inum = 0;
+                    k = 0;
                 }
-    
-	            // float     
-		        if( ch=='.')
+
+                // float     
+                if (ch == '.')
                 {
                     NextCh();
-		            tok.sy = SYMBOL.floatcon;
-                    tok.sym.fnum = tok.sym.inum;  
-		            e =0;
-          
+                    tok.sy = SYMBOL.floatcon;
+                    tok.sym.fnum = tok.sym.inum;
+                    e = 0;
 
-		            while (ch>='0' && ch<='9')			// decimal .023410
+
+                    while (ch >= '0' && ch <= '9')			// decimal .023410
                     {
                         e--;
                         tok.sym.fnum = 10.0 * tok.sym.fnum + ch - '0';
                         NextCh();
                     }
                     if (e == 0) error.OnError(40);
-                    if(ch == 'e' || ch=='E') ReadScale(ref e);
-                    if( e !=  0 ) AdjustScale(e,k);
-		  
-		        } else
-                    if( ch == 'e' || ch=='E')	//expoent
-		            {
-                        tok.sy = SYMBOL.floatcon;
-                        tok.sym.fnum = tok.sym.inum;  
-		                e = 0;
-                        ReadScale(ref e);
-                        if( e != 0 ) AdjustScale(e,k);
-		            }
-		 
+                    if (ch == 'e' || ch == 'E') ReadScale(ref e);
+                    if (e != 0) AdjustScale(e, k);
+
+                }
+                else
+                    if (ch == 'e' || ch == 'E') //expoent
+                {
+                    tok.sy = SYMBOL.floatcon;
+                    tok.sym.fnum = tok.sym.inum;
+                    e = 0;
+                    ReadScale(ref e);
+                    if (e != 0) AdjustScale(e, k);
+                }
+
                 return true;
             }
-	        return false;
+            return false;
         }
 
         private void GetString(char sep)
         {
-            int	k =0;
+            int k = 0;
             char[] stab = new char[Constant.MAX_STRING_SIZE + 1];
-		    
+
             NextCh();
-		    while( ch!=sep)
-		    {
+            while (ch != sep)
+            {
                 if (k > Constant.MAX_STRING_SIZE)
                 {
                     error.OnError(59);
@@ -302,7 +331,7 @@ namespace Tie
                             stab[k++] = ch;
                         else
                         {
-                            switch(ch)
+                            switch (ch)
                             {
                                 case '\\':
                                     stab[k++] = ch;
@@ -319,7 +348,7 @@ namespace Tie
                                 case 't':
                                     stab[k++] = '\t';
                                     break;
-                                
+
                                 default:
                                     stab[k++] = '\\';
                                     stab[k++] = ch;
@@ -327,18 +356,18 @@ namespace Tie
                             }
                         }
                     }
-                    else 
+                    else
                         stab[k++] = ch;
                 }
                 NextCh();
-		    }
-		
+            }
+
             NextCh();
             tok.sy = SYMBOL.stringcon;
             stab[k] = (char)0;
             tok.sym.len = k;
-            
-            tok.sym.stab = new String(stab,0,k);
+
+            tok.sym.stab = new String(stab, 0, k);
         }
 
         private void GetStringESC(char sep)
@@ -358,7 +387,7 @@ namespace Tie
                 else
                     stab[k++] = ch;
 
-               NextCh();
+                NextCh();
             }
 
             NextCh();
@@ -379,12 +408,12 @@ namespace Tie
         public bool InSymbol()
         {
 
-        //	if(!IsEmpty) tok=pending;
+            //	if(!IsEmpty) tok=pending;
 
             L1:
             if (ch == 0)
             {
-                tok.sy = SYMBOL.NOP; 
+                tok.sy = SYMBOL.NOP;
                 return false;
             }
 
@@ -414,7 +443,7 @@ namespace Tie
                     if (ch == '/')			// comment type I (//)
                     {
                         NextCh();
-                        while (ch != '\n' && ch!='\0')
+                        while (ch != '\n' && ch != '\0')
                             NextCh();
                         goto L1;
                     }
@@ -567,20 +596,20 @@ namespace Tie
                 case '#': tok.sy = SYMBOL.DIRECTIVE; NextCh(); break;
 
                 case '\\': tok.sy = SYMBOL.DELIMITER; NextCh(); break;
-                default :
+                default:
                     //cerr<<"error letter:"<<ch<<" has already skip";
                     error.OnError(24); NextCh();
                     goto L1;
             } // switch
-            return true;	
-    }
+            return true;
+        }
 
         private void SkipComment()
         {
 
             int Nest = 0;
 
-        L1:
+            L1:
             switch (ch)
             {
                 case '*':
@@ -609,7 +638,7 @@ namespace Tie
         }
 
         #region ReadScale(), AdjustScale()
-        
+
         private void ReadScale(ref int e)
         {
             int s, sign;
@@ -701,18 +730,18 @@ namespace Tie
             }
         }
 
-        public Token token 
-        { 
-            get { return this.tok; } 
+        public Token token
+        {
+            get { return this.tok; }
         }
 
         protected virtual void set_index(int index)
-        { 
-        
+        {
+
         }
 
         public virtual int Index()
-        { 
+        {
             return -1;
         }
 
@@ -733,44 +762,44 @@ namespace Tie
 
     class FileLex : JLex
     {
-	        private StreamReader fi;		//source file
-            private char[] buffer;
+        private StreamReader fi;        //source file
+        private char[] buffer;
 
-            public FileLex(string sourceFileName, Error error)
-                : base(error)
+        public FileLex(string sourceFileName, Error error)
+            : base(error)
+        {
+            buffer = new char[2];
+            try
             {
-                buffer = new char[2];
-                try
-                {
-                    fi = File.OpenText(sourceFileName);
-                }
-                catch (Exception)
-                {
-                    error.OnError(55);
-                }
-            	NextCh();
+                fi = File.OpenText(sourceFileName);
             }
-
-            public override void Close()
+            catch (Exception)
             {
-                fi.Close();
+                error.OnError(55);
             }
-
-            protected override char NextCh()
-            {
-	
-	            if(fi.EndOfStream) 
-                    return ch = (char)0;
-        
-                fi.Read(buffer,0,1);
-                ch = buffer[0];
-                base.NextCh();
-                return ch;
-            }
-
-
-
+            NextCh();
         }
+
+        public override void Close()
+        {
+            fi.Close();
+        }
+
+        protected override char NextCh()
+        {
+
+            if (fi.EndOfStream)
+                return ch = (char)0;
+
+            fi.Read(buffer, 0, 1);
+            ch = buffer[0];
+            base.NextCh();
+            return ch;
+        }
+
+
+
+    }
 
 
 
@@ -812,7 +841,7 @@ namespace Tie
 
         public override int Index()
         {
-             return this.index; 
+            return this.index;
         }
 
 
