@@ -8,6 +8,10 @@
     <DefineConstants>TRACE;DOTNET_STANDARD2</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;DOTNET_STANDARD2</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\Tie\APP\Coding.cs" Link="APP\Coding.cs" />
     <Compile Include="..\Tie\APP\IValizer.cs" Link="APP\IValizer.cs" />
