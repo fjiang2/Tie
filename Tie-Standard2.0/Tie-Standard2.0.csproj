@@ -1,0 +1,84 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DOTNET_STANDARD2</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Tie\APP\Coding.cs" Link="APP\Coding.cs" />
+    <Compile Include="..\Tie\APP\IValizer.cs" Link="APP\IValizer.cs" />
+    <Compile Include="..\Tie\APP\Script.cs" Link="APP\Script.cs" />
+    <Compile Include="..\Tie\APP\Valizer.cs" Link="APP\Valizer.cs" />
+    <Compile Include="..\Tie\Compiler\CodeGeneration.cs" Link="Compiler\CodeGeneration.cs" />
+    <Compile Include="..\Tie\Compiler\Compiler.cs" Link="Compiler\Compiler.cs" />
+    <Compile Include="..\Tie\Compiler\CompilingException.cs" Link="Compiler\CompilingException.cs" />
+    <Compile Include="..\Tie\Compiler\Constant.cs" Link="Compiler\Constant.cs" />
+    <Compile Include="..\Tie\Compiler\Error.cs" Link="Compiler\Error.cs" />
+    <Compile Include="..\Tie\Compiler\Expression.cs" Link="Compiler\Expression.cs" />
+    <Compile Include="..\Tie\Compiler\Instruction.cs" Link="Compiler\Instruction.cs" />
+    <Compile Include="..\Tie\Compiler\JLex.cs" Link="Compiler\JLex.cs" />
+    <Compile Include="..\Tie\Compiler\JParser.cs" Link="Compiler\JParser.cs" />
+    <Compile Include="..\Tie\Compiler\Library.cs" Link="Compiler\Library.cs" />
+    <Compile Include="..\Tie\Compiler\Logger.cs" Link="Compiler\Logger.cs" />
+    <Compile Include="..\Tie\Compiler\Module.cs" Link="Compiler\Module.cs" />
+    <Compile Include="..\Tie\Compiler\Numeric.cs" Link="Compiler\Numeric.cs" />
+    <Compile Include="..\Tie\Compiler\Operand.cs" Link="Compiler\Operand.cs" />
+    <Compile Include="..\Tie\Compiler\Position.cs" Link="Compiler\Position.cs" />
+    <Compile Include="..\Tie\Compiler\SymbolTable.cs" Link="Compiler\SymbolTable.cs" />
+    <Compile Include="..\Tie\Compiler\Token.cs" Link="Compiler\Token.cs" />
+    <Compile Include="..\Tie\HostType\DynamicDelegate.cs" Link="HostType\DynamicDelegate.cs" />
+    <Compile Include="..\Tie\HostType\GenericArgument.cs" Link="HostType\GenericArgument.cs" />
+    <Compile Include="..\Tie\HostType\GenericArguments.cs" Link="HostType\GenericArguments.cs" />
+    <Compile Include="..\Tie\HostType\GenericType.cs" Link="HostType\GenericType.cs" />
+    <Compile Include="..\Tie\HostType\HostCoding.cs" Link="HostType\HostCoding.cs" />
+    <Compile Include="..\Tie\HostType\HostEvent.cs" Link="HostType\HostEvent.cs" />
+    <Compile Include="..\Tie\HostType\HostFunction.cs" Link="HostType\HostFunction.cs" />
+    <Compile Include="..\Tie\HostType\HostImport.cs" Link="HostType\HostImport.cs" />
+    <Compile Include="..\Tie\HostType\HostOperation.cs" Link="HostType\HostOperation.cs" />
+    <Compile Include="..\Tie\HostType\HostType.cs" Link="HostType\HostType.cs" />
+    <Compile Include="..\Tie\HostType\HostTypeException.cs" Link="HostType\HostTypeException.cs" />
+    <Compile Include="..\Tie\HostType\HostValization.cs" Link="HostType\HostValization.cs" />
+    <Compile Include="..\Tie\HostType\PersistentAttribute.cs" Link="HostType\PersistentAttribute.cs" />
+    <Compile Include="..\Tie\HostType\Tuple.cs" Link="HostType\Tuple.cs" />
+    <Compile Include="..\Tie\Valization\BaseValization.cs" Link="Valization\BaseValization.cs" />
+    <Compile Include="..\Tie\Valization\DelegateValization`1.cs" Link="Valization\DelegateValization`1.cs" />
+    <Compile Include="..\Tie\Valization\InterfaceValization`1.cs" Link="Valization\InterfaceValization`1.cs" />
+    <Compile Include="..\Tie\Valization\PropertyValization.cs" Link="Valization\PropertyValization.cs" />
+    <Compile Include="..\Tie\Valization\ScriptValization.cs" Link="Valization\ScriptValization.cs" />
+    <Compile Include="..\Tie\Valization\ValizationMgr.cs" Link="Valization\ValizationMgr.cs" />
+    <Compile Include="..\Tie\VAL\HandlerActionType.cs" Link="VAL\HandlerActionType.cs" />
+    <Compile Include="..\Tie\VAL\Member.cs" Link="VAL\Member.cs" />
+    <Compile Include="..\Tie\VAL\OutputType.cs" Link="VAL\OutputType.cs" />
+    <Compile Include="..\Tie\VAL\Serializer.cs" Link="VAL\Serializer.cs" />
+    <Compile Include="..\Tie\VAL\VAL.cs" Link="VAL\VAL.cs" />
+    <Compile Include="..\Tie\VAL\Valization.cs" Link="VAL\Valization.cs" />
+    <Compile Include="..\Tie\VAL\VALL.cs" Link="VAL\VALL.cs" />
+    <Compile Include="..\Tie\VAL\VALTYPE.cs" Link="VAL\VALTYPE.cs" />
+    <Compile Include="..\Tie\VM\Computer.cs" Link="VM\Computer.cs" />
+    <Compile Include="..\Tie\VM\Context.cs" Link="VM\Context.cs" />
+    <Compile Include="..\Tie\VM\CPU.cs" Link="VM\CPU.cs" />
+    <Compile Include="..\Tie\VM\FunctionChain.cs" Link="VM\FunctionChain.cs" />
+    <Compile Include="..\Tie\VM\IUserDefinedFunction.cs" Link="VM\IUserDefinedFunction.cs" />
+    <Compile Include="..\Tie\VM\Memory.cs" Link="VM\Memory.cs" />
+    <Compile Include="..\Tie\VM\Register.cs" Link="VM\Register.cs" />
+    <Compile Include="..\Tie\VM\Runtime.cs" Link="VM\Runtime.cs" />
+    <Compile Include="..\Tie\VM\RuntimeException.cs" Link="VM\RuntimeException.cs" />
+    <Compile Include="..\Tie\VM\StackSegment.cs" Link="VM\StackSegment.cs" />
+    <Compile Include="..\Tie\VM\SystemFunction.cs" Link="VM\SystemFunction.cs" />
+    <Compile Include="..\Tie\VM\VAR.cs" Link="VM\VAR.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="APP\" />
+    <Folder Include="Compiler\" />
+    <Folder Include="HostType\" />
+    <Folder Include="VM\" />
+    <Folder Include="Valization\" />
+    <Folder Include="VAL\" />
+  </ItemGroup>
+
+</Project>

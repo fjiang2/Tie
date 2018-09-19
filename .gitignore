@@ -2,30 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/Tie/bin
-/Tie/obj
-/Tie.Helper/obj
-/Tie.Helper/bin
-/packages
-/samples/Tie.Form.DataDriven/bin
-/samples/Tie.Form.DataDriven/obj
-/samples/Tie.Form.Samples/bin
-/samples/Tie.Form.Samples/obj
-/samples/Tie.Helper.Samples/obj
-/samples/Tie.Helper.Samples/bin
-/samples/Tie.Samples/obj
-/samples/Tie.Samples/bin
-/samples/Tie.Wpf.SearchEngine/bin
-/samples/Tie.Wpf.SearchEngine/obj
-/samples/Tie.Form.SearchEngine/bin
-/samples/Tie.Form.SearchEngine/obj
-/samples/Tie.Form.Subclass/bin
-/samples/Tie.Form.Subclass/obj
-/tests/Tie.Helper.Tests/obj
-/tests/Tie.Helper.Tests/bin
-/tests/Tie.UnitTest/obj
-/tests/Tie.UnitTest/bin
-/tests/Tie.UnitTest.NET4/bin
-/tests/Tie.UnitTest.NET4/obj
-/tests/Tie.Tests/bin
-/tests/Tie.Tests/obj
+bin/
+obj/
+.vs/
+packages/

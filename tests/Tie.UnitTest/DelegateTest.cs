@@ -121,6 +121,9 @@ namespace UnitTest
             //Coding.Execute(code, DS);
             Script script = new Script("unknown");
             script.DS = DS;
+
+#if !DOTNET_STANDARD2
+
             script.Execute(code);
 
             Debug.Assert(DS["sum1"].Intcon == 15);
@@ -131,7 +134,7 @@ namespace UnitTest
             Debug.Assert(DS["sum6"].Intcon == 330);
             Debug.Assert(DS["c1"].Str == "AB");
             Debug.Assert(DS["c2"].Str == "A=B");
- 
+#endif
         }
     }
 }

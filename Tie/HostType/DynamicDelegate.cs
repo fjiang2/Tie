@@ -115,17 +115,21 @@ namespace Tie
             for (int i = 0; i < len; i++)
                 dParameterTypes[i+1] = dParemeters[i].ParameterType;
 
-#if !SILVERLIGHT
+#if DOTNET_STANDARD2
+            throw new NotImplementedException();
+#else
+
+#if SILVERLIGHT
+            DynamicMethod dynamicMethod = new DynamicMethod(
+                Constant.FUNC_CON_INSTANCE_INVOKE,
+                dMethod.ReturnType,
+                dParameterTypes); 
+#else
             DynamicMethod dynamicMethod = new DynamicMethod(
                 Constant.FUNC_CON_INSTANCE_INVOKE,
                 dMethod.ReturnType,
                 dParameterTypes,
                 target.GetType());  //把DynamicMethod关联到target的class
-#else
-            DynamicMethod dynamicMethod = new DynamicMethod(
-                Constant.FUNC_CON_INSTANCE_INVOKE,
-                dMethod.ReturnType,
-                dParameterTypes); 
 #endif
             ILGenerator il = dynamicMethod.GetILGenerator(256);
 
@@ -176,6 +180,7 @@ namespace Tie
                 dynamicMethod.DefineParameter(i, ParameterAttributes.In, "arg" + i);
 
             return dynamicMethod.CreateDelegate(dType, target);
+#endif
         }
 
 

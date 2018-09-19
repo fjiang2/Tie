@@ -41,7 +41,7 @@ namespace Tie
     }
 
 
-    class JLex
+    abstract class JLex
     {
         protected char ch;
         public static JKey[] Key;
@@ -235,8 +235,9 @@ namespace Tie
 
                 if (ch == '0')
                 {
+                    int index = Index();
                     NextCh();
-                    if (ch == 'x' || ch == 'X')
+                    if (ch == 'x' || ch == 'X') //hex
                     {
                         NextCh();
                         int hex = 0;
@@ -256,6 +257,10 @@ namespace Tie
                         } while (ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'F' || ch >= 'a' && ch <= 'f');
                         tok.sym.inum = hex;
                         return true;
+                    }
+                    else
+                    {
+                        set_index(index);   //traceback
                     }
                 }
 
@@ -735,15 +740,9 @@ namespace Tie
             get { return this.tok; }
         }
 
-        protected virtual void set_index(int index)
-        {
+        protected abstract void set_index(int index);
 
-        }
-
-        public virtual int Index()
-        {
-            return -1;
-        }
+        public abstract int Index();
 
         public void Traceback(int index, Token token)
         {
@@ -787,7 +786,6 @@ namespace Tie
 
         protected override char NextCh()
         {
-
             if (fi.EndOfStream)
                 return ch = (char)0;
 
@@ -797,8 +795,14 @@ namespace Tie
             return ch;
         }
 
+        protected override void set_index(int index)
+        {
+        }
 
-
+        public override int Index()
+        {
+            return -1;
+        }
     }
 
 
