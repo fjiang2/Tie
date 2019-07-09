@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7BE026F2-8686-46A2-BD28-1553DCABA077}"
 EndProject
@@ -41,6 +41,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest.NET4", "tests\Tie.UnitTest.NET4\Tie.UnitTest.NET4.csproj", "{A2344F8A-4A9B-445C-BCB2-13977D6DF96D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie-Standard2.0", "Tie-Standard2.0\Tie-Standard2.0.csproj", "{DE69D1F5-F35D-4010-AA0D-A51C4554E276}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Interpreter", "Tie.Interpreter\Tie.Interpreter.csproj", "{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +116,10 @@ Global
 		{DE69D1F5-F35D-4010-AA0D-A51C4554E276}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE69D1F5-F35D-4010-AA0D-A51C4554E276}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE69D1F5-F35D-4010-AA0D-A51C4554E276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
