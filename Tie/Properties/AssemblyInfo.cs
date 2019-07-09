@@ -7,11 +7,11 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Tie")]
-[assembly: AssemblyDescription("List Processing Script Language  for .NET")]
+[assembly: AssemblyDescription("List Processing Script Language for .NET")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Datum Connect")]
 [assembly: AssemblyProduct("Tie Embedded Script Language")]
-[assembly: AssemblyCopyright("Copyright @ Datum Connect 1991-2018")]
+[assembly: AssemblyCopyright("Copyright @ Datum Connect 1991-2019")]
 [assembly: AssemblyTrademark("Tie")]
 [assembly: AssemblyCulture("")]
 
