@@ -33,6 +33,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("2.0.7.0")]
 [assembly: AssemblyFileVersion("2.0.7.0")]
-[assembly: NeutralResourcesLanguageAttribute("en-US")]
 
 //[assembly: InternalsVisibleTo("Tie.UnitTest, PublicKey=002400000480000094000000010971d81975079a49662ced398c742ff186a94")]
