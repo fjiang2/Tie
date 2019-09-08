@@ -22,23 +22,6 @@ using System.IO;
 
 namespace Tie
 {
-    enum CodeSource
-    {
-        STRING,
-        FILE
-    }
-
-    class JKey
-    {
-        public string key;		// key word string
-        public SYMBOL ksy;		// key work symbol
-
-        public JKey(string key, SYMBOL ksy)
-        {
-            this.key = key;
-            this.ksy = ksy;
-        }
-    }
 
 
     abstract class JLex
@@ -375,6 +358,7 @@ namespace Tie
                                     break;
 
                                 default:
+                                    error.OnError(63);
                                     stab[k++] = '\\';
                                     stab[k++] = ch;
                                     break;
@@ -776,99 +760,6 @@ namespace Tie
             set_index(index);
             return InSymbol();
         }
-    }
-
-
-    class FileLex : JLex
-    {
-        private StreamReader fi;        //source file
-        private char[] buffer;
-
-        public FileLex(string sourceFileName, Error error)
-            : base(error)
-        {
-            buffer = new char[2];
-            try
-            {
-                fi = File.OpenText(sourceFileName);
-            }
-            catch (Exception)
-            {
-                error.OnError(55);
-            }
-            NextCh();
-        }
-
-        public override void Close()
-        {
-            fi.Close();
-        }
-
-        protected override char NextCh()
-        {
-            if (fi.EndOfStream)
-                return ch = (char)0;
-
-            fi.Read(buffer, 0, 1);
-            ch = buffer[0];
-            base.NextCh();
-            return ch;
-        }
-
-        protected override void set_index(int index)
-        {
-        }
-
-        public override int Index()
-        {
-            return -1;
-        }
-    }
-
-
-
-
-    class StringLex : JLex
-    {
-        private StringBuilder buffer;
-        private int index;
-
-        public StringLex(string sourceCode, Error error)
-            : base(error)
-        {
-            buffer = new StringBuilder(sourceCode);
-            index = 0;
-            NextCh();
-        }
-
-        public override void Close()
-        {
-        }
-
-        protected override char NextCh()
-        {
-
-            if (!(index < buffer.Length))
-                return ch = (char)0;
-
-            ch = buffer[index++];
-            base.NextCh();
-            return ch;
-        }
-
-        protected override void set_index(int index)
-        {
-            this.index = index;
-            ch = buffer[index - 1];
-        }
-
-
-        public override int Index()
-        {
-            return this.index;
-        }
-
-
     }
 
 

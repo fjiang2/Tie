@@ -27,55 +27,61 @@ namespace Tie
     {
         #region Message Defintion
 
-        private static readonly string [] msgFatal = new string[]
-	            {
-	            "F00 memory overflow",
-	            "F01 ",
-	            "F02 ",
-	            "F03 Code segment overfolow",
-	            "F04 ",
-	            "F05 ",
-	            "F06 ",
-	            "F07 ",
-	            "F08 source file don't exist"
+        /// <summary>
+        /// error code = 2000 + x
+        /// </summary>
+        private static readonly string[] msgFatal = new string[]
+                {
+                "F00 memory overflow",
+                "F01 ",
+                "F02 ",
+                "F03 Code segment overfolow",
+                "F04 ",
+                "F05 ",
+                "F06 ",
+                "F07 ",
+                "F08 source file don't exist"
                 };
 
         private static readonly string[] msgWarning = new string[]
-	        {
-	            "W00 switch statement contains 'default' but no 'case' labels",
-	            "W01 undeclared identifier",
-	            "W02 duplicated name"
-	        };
+            {
+                "W00 switch statement contains 'default' but no 'case' labels",
+                "W01 undeclared identifier",
+                "W02 duplicated name"
+            };
 
+        /// <summary>
+        /// error code = 1000 + x
+        /// </summary>
         private static readonly string[] msgError = new string[]
             {
-            "C00 undefine identifier",			
+            "C00 undefine identifier",
             "C01 identifer multiple define",
             "C02 identifier expected",
             "C03 program expected",
-            "C04 ) expected",							
-            "C05 : expected",							
-            "C06 syntax error",		
+            "C04 ) expected",
+            "C05 : expected",
+            "C06 syntax error",
             "C07 ident,var expected",
-            "C08 { expected",							
-            "C09 ( expected",							
+            "C08 { expected",
+            "C09 ( expected",
 
             "C10 id,array,struct expected",
-            "C11 [ expected",							
-            "C12 ] expected",							
-            "C13 } expected",							
-            "C14 ; expected",							
-            "C15 case expected",							
+            "C11 [ expected",
+            "C12 ] expected",
+            "C13 } expected",
+            "C14 ; expected",
+            "C15 case expected",
             "C16 = expected",
-            "C17 while expected",							
-            "C18 break isn't in cycle or switch body",	
-            "C19 continue isn't in cycle body",			
-  
-            "C20 illeagl continue",						
-            "C21 number too big",						
+            "C17 while expected",
+            "C18 break isn't in cycle or switch body",
+            "C19 continue isn't in cycle body",
+
+            "C20 illeagl continue",
+            "C21 number too big",
             "C22 . expected",
             "C23 type (case)",
-            "C24 'illeagl character",					
+            "C24 'illeagl character",
             "C25 const id=3.14",
             "C26 index type AT array",
             "C27 index bound",
@@ -91,13 +97,13 @@ namespace Tie
             "C37 variable expected",
             "C38 string be made of a char at least",
             "C39 real unequal unreal parameters",
-            "C40 float number, .0 expected",					
+            "C40 float number, .0 expected",
             "C41 type error AT read,write",
             "C42 expression must be real type ",
             "C43 field width must be integer AT write",
             "C44 expression can''t have proc,type identifer",
             "C45 var,proc,func IDENT expected",
-            "C46 undefine function name",	
+            "C46 undefine function name",
             "C47 ",
             "C48 standard function paramter''s type is error",
             "C49 store overflow",
@@ -110,10 +116,11 @@ namespace Tie
             "C56 => expected",
             "C57 ",
             "C58 factor BEFORE ident,const,not or (",
-            "C59 string is too long",		
+            "C59 string is too long",
             "C60 comment lack of */",
             "C61 directive is not defined",
             "C62 keyword 'in' expected",
+            "C63 unrecognized escape sequence",
         };
 
 
@@ -139,7 +146,7 @@ namespace Tie
 
         public static void OnFatal(int i)
         {
-            throw new TieException("Fatal: " + msgFatal[i]);
+            throw new TieException("Fatal: " + msgFatal[i]) { ErrorCode = 2000 + i };
         }
 
         public void OnWarning(int i)
@@ -151,7 +158,7 @@ namespace Tie
 
         public void OnError(int i)
         {
-            throw new CompilingException(msgError[i], pos);
+            throw new CompilingException(msgError[i], pos) { ErrorCode = 1000 + i };
             //C:\Jiang\tie\test.cpp(14) : error C2039: 'In' : is not a member of 'ScanToken'
 
         }
@@ -188,6 +195,6 @@ namespace Tie
             return new CompilingException("Symbol Table overflow.", pos);
         }
 
-    
+
     }
 }

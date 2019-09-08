@@ -595,6 +595,11 @@
             
             </summary>
         </member>
+        <member name="P:Tie.TieException.ErrorCode">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:Tie.TieException.#ctor(System.String)">
             <summary>
             
@@ -634,6 +639,16 @@
             </summary>
             <param name="message"></param>
             <param name="position"></param>
+        </member>
+        <member name="F:Tie.Error.msgFatal">
+            <summary>
+            error code = 2000 + x
+            </summary>
+        </member>
+        <member name="F:Tie.Error.msgError">
+            <summary>
+            error code = 1000 + x
+            </summary>
         </member>
         <member name="M:Tie.Expression.s_instance">
             返回false: 

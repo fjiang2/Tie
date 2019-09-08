@@ -28,11 +28,17 @@ namespace Tie
         /// <summary>
         /// 
         /// </summary>
+        public int ErrorCode { get; set; }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="message"></param>
         public TieException(string message)
             : base(message)
-        { 
-        
+        {
+
         }
 
         internal TieException(string format, params object[] args)
@@ -47,12 +53,11 @@ namespace Tie
     /// </summary>
     public abstract class PositionException : TieException
     {
-       
         /// <summary>
         /// 
         /// </summary>
         protected Position position;
-        
+
         /// <summary>
         /// Initializes a new instance of the Exception class.
         /// </summary>
