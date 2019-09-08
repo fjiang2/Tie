@@ -590,22 +590,6 @@
             Code generator
             </summary>
         </member>
-        <member name="T:Tie.TieException">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Tie.TieException.ErrorCode">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:Tie.TieException.#ctor(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="message"></param>
-        </member>
         <member name="T:Tie.PositionException">
             <summary>
             Exception occurs on the position of source code.
@@ -778,6 +762,22 @@
             <summary>
             current cursor in source code
             </summary>
+        </member>
+        <member name="T:Tie.TieException">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Tie.TieException.ErrorCode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tie.TieException.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
         </member>
         <member name="T:Tie.tokty">
             <summary>

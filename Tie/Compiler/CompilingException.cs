@@ -20,33 +20,6 @@ using System.Text;
 
 namespace Tie
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class TieException : Exception
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public int ErrorCode { get; set; }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="message"></param>
-        public TieException(string message)
-            : base(message)
-        {
-
-        }
-
-        internal TieException(string format, params object[] args)
-            : base(string.Format(format, args))
-        {
-
-        }
-    }
 
     /// <summary>
     /// Exception occurs on the position of source code.

@@ -108,6 +108,7 @@
     <Compile Include="Compiler\Position.cs" />
     <Compile Include="Compiler\StringLex.cs" />
     <Compile Include="Compiler\SymbolTable.cs" />
+    <Compile Include="Compiler\TieException.cs" />
     <Compile Include="Compiler\Token.cs" />
     <Compile Include="HostType\DynamicDelegate.cs" />
     <Compile Include="HostType\GenericArgument.cs" />
