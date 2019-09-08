@@ -354,6 +354,26 @@ namespace Tie
                                     stab[k++] = '\t';
                                     break;
 
+                                case 'a':
+                                    stab[k++] = '\a';
+                                    break;
+
+                                case 'b':
+                                    stab[k++] = '\b';
+                                    break;
+
+                                case 'f':
+                                    stab[k++] = '\f';
+                                    break;
+
+                                case 'v':
+                                    stab[k++] = '\v';
+                                    break;
+
+                                case '0':
+                                    stab[k++] = '\0';
+                                    break;
+
                                 default:
                                     stab[k++] = '\\';
                                     stab[k++] = ch;
@@ -413,9 +433,9 @@ namespace Tie
         public bool InSymbol()
         {
 
-            //	if(!IsEmpty) tok=pending;
+        //	if(!IsEmpty) tok=pending;
 
-            L1:
+        L1:
             if (ch == 0)
             {
                 tok.sy = SYMBOL.NOP;
@@ -614,7 +634,7 @@ namespace Tie
 
             int Nest = 0;
 
-            L1:
+        L1:
             switch (ch)
             {
                 case '*':
