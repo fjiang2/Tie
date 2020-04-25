@@ -123,9 +123,9 @@
     <Content Include="form.tie" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Tie\Tie45.csproj">
+    <ProjectReference Include="..\..\Tie\Tie.csproj">
       <Project>{4832f819-7735-4b2a-a6c0-216ebc745676}</Project>
-      <Name>Tie45</Name>
+      <Name>Tie</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -218,7 +218,7 @@ namespace Tie.Interpreter
                         string text = string.Empty;
                         try
                         {
-                            VAL val = Script.Evaluate(code, Context.DS);
+                            VAL val = Script.Evaluate(code, Script.CommonMemory);
                             text = val.ToSimpleString();
                         }
                         catch (Exception ex)

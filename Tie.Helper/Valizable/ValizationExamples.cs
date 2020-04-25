@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-
+#if NETFRAMEWORK
 namespace Tie.Helper
 {
     public class ValizationExamples
@@ -103,3 +103,5 @@ namespace Tie.Helper
         }
     }
 }
+
+#endif

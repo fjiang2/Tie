@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 #if !SILVERLIGHT
-using System.Runtime.Serialization.Formatters.Soap;
+//using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
 
@@ -122,53 +122,53 @@ namespace Tie.Helper
 
 #if !SILVERLIGHT
 
-        public static object DecodeSOAP(string SOAP)
-        {
-            byte[] buffer = Encoding.UTF8.GetBytes(SOAP);
-            using (MemoryStream stream = new MemoryStream(buffer))
-            {
-                SoapFormatter formatter = new SoapFormatter();
-                try
-                {
-                    return formatter.Deserialize(stream);
-                }
-                catch (Exception)
-                {
-                    throw new ApplicationException(".NET object Deserialization failed in Tie. " + SOAP);
-                }
-                finally
-                {
-                    stream.Close();
-                    stream.Dispose();
-                }
-            }
-        }
+        //public static object DecodeSOAP(string SOAP)
+        //{
+        //    byte[] buffer = Encoding.UTF8.GetBytes(SOAP);
+        //    using (MemoryStream stream = new MemoryStream(buffer))
+        //    {
+        //        SoapFormatter formatter = new SoapFormatter();
+        //        try
+        //        {
+        //            return formatter.Deserialize(stream);
+        //        }
+        //        catch (Exception)
+        //        {
+        //            throw new ApplicationException(".NET object Deserialization failed in Tie. " + SOAP);
+        //        }
+        //        finally
+        //        {
+        //            stream.Close();
+        //            stream.Dispose();
+        //        }
+        //    }
+        //}
 
 
-        public static string EncodeSOAP(object value)
-        {
-            byte[] buffer = new byte[16 * 1024];
+        //public static string EncodeSOAP(object value)
+        //{
+        //    byte[] buffer = new byte[16 * 1024];
 
-            using (MemoryStream stream = new MemoryStream(buffer))
-            {
-                SoapFormatter formatter = new SoapFormatter();
-                try
-                {
-                    formatter.Serialize(stream, value);
-                    return Encoding.UTF8.GetString(buffer, 0, (int)stream.Position);
-                }
-                catch (Exception)
-                {
-                    throw new ApplicationException(".NET object Serialization failed in Tie. " + value.ToString());
-                }
-                finally
-                {
-                    stream.Close();
-                    stream.Dispose();
-                }
-            }
+        //    using (MemoryStream stream = new MemoryStream(buffer))
+        //    {
+        //        SoapFormatter formatter = new SoapFormatter();
+        //        try
+        //        {
+        //            formatter.Serialize(stream, value);
+        //            return Encoding.UTF8.GetString(buffer, 0, (int)stream.Position);
+        //        }
+        //        catch (Exception)
+        //        {
+        //            throw new ApplicationException(".NET object Serialization failed in Tie. " + value.ToString());
+        //        }
+        //        finally
+        //        {
+        //            stream.Close();
+        //            stream.Dispose();
+        //        }
+        //    }
 
-        }
+        //}
 
 
 

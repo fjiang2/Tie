@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\common.props" />
   <PropertyGroup>
-    <ProjectGuid>{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}</ProjectGuid>
-    <RootNamespace>Tie.Helper</RootNamespace>
-    <AssemblyName>Tie.Helper</AssemblyName>
+    <ProjectGuid>{4832F819-7735-4B2A-A6C0-216EBC745676}</ProjectGuid>
+    <RootNamespace>Tie</RootNamespace>
+    <AssemblyName>Tie</AssemblyName>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -12,8 +12,5 @@
   <ItemGroup>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
-  </ItemGroup>
-   <ItemGroup>
-    <ProjectReference Include="..\Tie\Tie.csproj" />
   </ItemGroup>
 </Project>
