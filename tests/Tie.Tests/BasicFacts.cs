@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tie;
 
 namespace Tie.Tests
 {
@@ -40,7 +40,7 @@ namespace Tie.Tests
             IEnumerable<token> L = Script.Tokenize(path);
 
             //Assert
-            Assert.AreEqual(string.Join("|", L.Select(x=>x.tok)), @"C|:|\|Program|Files|(|x86|)|\|Microsoft|Visual|Studio|12.0|\|Common7|\|Tools|/|all");
+            Assert.AreEqual(string.Join("|", L.Select(x => x.tok)), @"C|:|\|Program|Files|(|x86|)|\|Microsoft|Visual|Studio|12.0|\|Common7|\|Tools|/|all");
         }
 
         [TestMethod]
@@ -55,6 +55,39 @@ namespace Tie.Tests
             string text = string.Join("|", L.Select(x => x.tok));
             //Assert
             Assert.AreEqual(text, @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools|/|all");
+        }
+
+        [TestMethod]
+        public void TestTokenizeExtensionString()
+        {
+            //Arrange
+            //              string message = $"Application encountering error: {e.Exception.Message}.";
+            string code = "string message = $\"Application encountering error: {e.Exception.Message}.\"";
+
+            //Act
+            IEnumerable<token> L = Script.Tokenize(code);
+
+            string text = string.Join("|", L.Select(x => x.tok));
+            //Assert
+            Assert.AreEqual(text, @"string|message|=|$|Application encountering error: {e.Exception.Message}.");
+        }
+
+
+
+        [TestMethod]
+        public void TestTokenizeFile()
+        {
+            string path = @"..\..\..\..\Tie\Compiler\Error.cs";
+            string code = File.ReadAllText(path);
+
+            //Act
+            IEnumerable<token> L = Script.Tokenize(code);
+
+            var L2 = L.Where(x => x.ty == tokty.stringcon).ToArray();
+            string text = string.Join(Environment.NewLine, L2.Select(x => x.tok));
+
+            //Assert
+            Debug.Assert(text.EndsWith("Symbol Table overflow."));
         }
 
     }

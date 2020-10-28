@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------------------//
+ï»¿//--------------------------------------------------------------------------------------------------//
 //                                                                                                  //
 //        Tie                                                                                       //
 //                                                                                                  //
@@ -115,20 +115,25 @@ namespace Tie
                     NextCh();
                 }
 
-                do
+
+                //C# new syntax: $"abc {x} zoo"  $@"abc {x} \zoo"
+                if (ch != '"' && ch != '@')
                 {
-                    if (k < Constant.ALNG)
+                    do
                     {
-                        ident[k] = ch;
-                        k++;
-                    }
-                    NextCh();
-                } while (ch == '_'
-                        || ((ch >= 'A') && (ch <= 'Z'))
-                        || ((ch >= 'a') && (ch <= 'z'))
-                        || ((ch >= '0') && (ch <= '9'))
-                        || ch == '`'  //ÎªÁËÖ§³ÖGenericÀàÐÍ, typeof(Dictionary<,>).Name == "Dictionary`2"
-                    );
+                        if (k < Constant.ALNG)
+                        {
+                            ident[k] = ch;
+                            k++;
+                        }
+                        NextCh();
+                    } while (ch == '_'
+                            || ((ch >= 'A') && (ch <= 'Z'))
+                            || ((ch >= 'a') && (ch <= 'z'))
+                            || ((ch >= '0') && (ch <= '9'))
+                            || ch == '`'  //Genericç±»åž‹ï¼Œä¾‹å¦‚, typeof(Dictionary<,>).Name == "Dictionary`2"
+                        );
+                }
 
                 tok.sym.len = k;
                 tok.sym.id = new String(ident, 0, k);
