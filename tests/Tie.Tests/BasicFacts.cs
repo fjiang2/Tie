@@ -47,13 +47,14 @@ namespace Tie.Tests
         public void TestTokenizeString()
         {
             //Arrange
-            string path = "\"C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\Tools\" /all";
+            string path = "\"C:\\\\Program Files (x86)\\\\Microsoft Visual Studio 12.0\\\\Common7\\\\Tools\" /all";
 
             //Act
             IEnumerable<token> L = Script.Tokenize(path);
 
+            string text = string.Join("|", L.Select(x => x.tok));
             //Assert
-            Assert.AreEqual(string.Join("|", L.Select(x => x.tok)), @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools|/|all");
+            Assert.AreEqual(text, @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools|/|all");
         }
 
     }
