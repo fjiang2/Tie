@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
-using Xunit.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tie;
 
 namespace Tie.Tests
 {
+    [TestClass]
     public class BasicFacts
     {
 
-        [Fact]
+        [TestMethod]
         public void TestStringEscape()
         {
             // Arrange
@@ -27,10 +27,10 @@ namespace Tie.Tests
             VAL val = Script.Evaluate(json);
 
             // Assert
-            Assert.Equal(builder.ToString(), val.Str);
+            Assert.AreEqual(builder.ToString(), val.Str);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestTokenize()
         {
             //Arrange
@@ -40,10 +40,10 @@ namespace Tie.Tests
             IEnumerable<token> L = Script.Tokenize(path);
 
             //Assert
-            Assert.Equal(string.Join("|", L.Select(x=>x.tok)), @"C|:|\|Program|Files|(|x86|)|\|Microsoft|Visual|Studio|12.0|\|Common7|\|Tools|/|all");
+            Assert.AreEqual(string.Join("|", L.Select(x=>x.tok)), @"C|:|\|Program|Files|(|x86|)|\|Microsoft|Visual|Studio|12.0|\|Common7|\|Tools|/|all");
         }
 
-        [Fact]
+        [TestMethod]
         public void TestTokenizeString()
         {
             //Arrange
@@ -53,7 +53,7 @@ namespace Tie.Tests
             IEnumerable<token> L = Script.Tokenize(path);
 
             //Assert
-            Assert.Equal(string.Join("|", L.Select(x => x.tok)), @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools|/|all");
+            Assert.AreEqual(string.Join("|", L.Select(x => x.tok)), @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools|/|all");
         }
 
     }

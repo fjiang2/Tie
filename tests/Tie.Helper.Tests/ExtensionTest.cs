@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
-using Xunit.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tie.Helper.Tests
 {
+    [TestClass]
     public class ExtensionTest
     {
         static string __Address;
@@ -21,7 +21,7 @@ namespace Tie.Helper.Tests
             __Address = __val.ToString();
         }
 
-        [Fact]
+        [TestMethod]
         public void TestToVAL()
         {
             //Arrange
@@ -32,10 +32,10 @@ namespace Tie.Helper.Tests
       
 
             // Assert
-            Assert.Equal(val.ToString(), __Address);
+            Assert.AreEqual(val.ToString(), __Address);
         }
 
-        [Fact]
+        [TestMethod]
         public void DictinaryToVAL()
         {
             //Arrange
@@ -49,10 +49,10 @@ namespace Tie.Helper.Tests
             var val = dict.ToVAL();
             
             // Assert
-            Assert.Equal(val.ToString(), __Address);
+            Assert.AreEqual(val.ToString(), __Address);
         }
 
-        [Fact]
+        [TestMethod]
         public void EnumerableToVAL()
         {
             //Arrange
@@ -66,11 +66,11 @@ namespace Tie.Helper.Tests
             var val = list.ToVAL();
 
             // Assert
-            Assert.Equal(val.ToString(), __Address);
+            Assert.AreEqual(val.ToString(), __Address);
         }
 
 
-        [Fact]
+        [TestMethod]
         public void ToDictionary()
         {
             //Arrange
@@ -80,10 +80,10 @@ namespace Tie.Helper.Tests
             var state = dict["State"];
 
             // Assert
-            Assert.Equal(state, "TX");
+            Assert.AreEqual(state, "TX");
         }
 
-        [Fact]
+        [TestMethod]
         public void AsNumerable()
         {
             //Arrange
@@ -93,7 +93,7 @@ namespace Tie.Helper.Tests
             var zip = list.Last().AsEnumerable<string>();
 
             // Assert
-            Assert.Equal(zip.Last(), "77578");
+            Assert.AreEqual(zip.Last(), "77578");
         }
     }
 }
