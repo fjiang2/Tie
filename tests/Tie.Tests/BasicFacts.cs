@@ -73,6 +73,31 @@ namespace Tie.Tests
         }
 
 
+        [TestMethod]
+        public void TestTokenizeSignleQuoteString()
+        {
+            //Arrange
+            //   "Please press \'Download Clock\'"
+            string code = "\"Please press \'Download\'\"";
+
+            //Act
+            IEnumerable<token> L = Script.Tokenize(code);
+
+            string text = string.Join("|", L.Select(x => x.tok));
+            //Assert
+            Assert.AreEqual(text, @"Please press 'Download'");
+
+
+            code = "\"Please press \'Download\"";
+            //Act
+            L = Script.Tokenize(code);
+
+            text = string.Join("|", L.Select(x => x.tok));
+            //Assert
+            Assert.AreEqual(text, @"Please press 'Download");
+
+        }
+
 
         [TestMethod]
         public void TestTokenizeFile()
@@ -89,6 +114,7 @@ namespace Tie.Tests
             //Assert
             Debug.Assert(text.EndsWith("Symbol Table overflow."));
         }
+
 
     }
 }

@@ -362,6 +362,10 @@ namespace Tie
                                     stab[k++] = '\0';
                                     break;
 
+                                case '\'':
+                                    stab[k++] = ch;
+                                    break;
+
                                 default:
                                     error.OnError(63);
                                     stab[k++] = '\\';
