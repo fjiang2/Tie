@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using System.Dynamic;
 using Tie;
 using Tie.Helper;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace Tie.Helper.Tests
 {
+    [TestClass]
     public class DbMemoryFacts
     {
         static Memory DS = new Memory();
@@ -34,70 +35,70 @@ namespace Tie.Helper.Tests
             config.Load();
         }
 
-        [Fact]
+        [TestMethod]
         public void GetValueString2()
         {
             string host = (string)config.Cassandra.Host;
             
             // Assert
-            Assert.Equal(host, "192.168.0.20");
+            Assert.AreEqual(host, "192.168.0.20");
         }
 
-        [Fact]
+        [TestMethod]
         public void GetValueString3()
         {
             string db = (string)config.Cassandra.Session.db;
 
             // Assert
-            Assert.Equal(db, "database");
+            Assert.AreEqual(db, "database");
         }
 
-        [Fact]
+        [TestMethod]
         public void GetValueInteger()
         {
             int port = (int)config.Cassandra.Port;
 
             // Assert
-            Assert.Equal(port, 12345);
+            Assert.AreEqual(port, 12345);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetValueDouble()
         {
             double d = (double)config.Max;
 
             // Assert
-            Assert.Equal(d, 2.3);
+            Assert.AreEqual(d, 2.3);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetValueBoolean()
         {
             bool b = (bool)config.IsWindow7;
 
             // Assert
-            Assert.Equal(b, true);
+            Assert.AreEqual(b, true);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetValueDateTime()
         {
             DateTime time = (DateTime)config.date;
 
             // Assert
-            Assert.Equal(time, new DateTime(2015,2,3));
+            Assert.AreEqual(time, new DateTime(2015,2,3));
         }
 
-        [Fact]
+        [TestMethod]
         public void GetValueUndefinedKey()
         {
             dynamic obj = config.UndefinedKey;
 
             // Assert
-            Assert.Equal(obj, config.Empty);
+            Assert.AreEqual(obj, config.Empty);
         }
 
-        [Fact]
+        [TestMethod]
         public void CompareUndefinedValue()
         {
             dynamic obj = config.UndefinedKey;
@@ -105,46 +106,46 @@ namespace Tie.Helper.Tests
             bool result = obj == config.Empty;
 
             // Assert
-            Assert.Equal(result, true);
+            Assert.AreEqual(result, true);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetValueUndefinedKey2()
         {
             object obj = config.UndefinedKey.A;
 
             // Assert
-            Assert.Equal(obj, config.Empty);
+            Assert.AreEqual(obj, config.Empty);
         }
 
-        [Fact]
+        [TestMethod]
         public void SetValueString()
         {
             config.TempDirectory = "c:\\temp";
-            Assert.Equal(DS["TempDirectory"].HostValue, "c:\\temp");
+            Assert.AreEqual(DS["TempDirectory"].HostValue, "c:\\temp");
 
             string temp = (string)config.TempDirectory;
-            Assert.Equal(temp, "c:\\temp");
+            Assert.AreEqual(temp, "c:\\temp");
         }
 
-        [Fact]
+        [TestMethod]
         public void SetValueString2()
         {
             config.Directory.Temp = "c:\\temp";
-            Assert.Equal(DS["Directory"]["Temp"].HostValue, "c:\\temp");
+            Assert.AreEqual(DS["Directory"]["Temp"].HostValue, "c:\\temp");
 
             string temp = (string)config.Directory.Temp;
-            Assert.Equal(temp, "c:\\temp");
+            Assert.AreEqual(temp, "c:\\temp");
         }
 
-        [Fact]
+        [TestMethod]
         public void SetValueInt3()
         {
             config.A.B.C = 12;
-            Assert.Equal(DS["A"]["B"]["C"].HostValue, 12);
+            Assert.AreEqual(DS["A"]["B"]["C"].HostValue, 12);
 
             int temp = (int)config.A.B.C;
-            Assert.Equal(temp, 12);
+            Assert.AreEqual(temp, 12);
         }
     }
 }
