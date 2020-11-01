@@ -22,12 +22,6 @@ using System.Text;
 
 namespace Tie
 {
-    enum CodeType
-    {
-        expression,
-        statements,
-        auto
-    }
 
     class Expression
     {
