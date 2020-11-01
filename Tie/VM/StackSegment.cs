@@ -23,73 +23,71 @@ using System.IO;
 
 namespace Tie
 {
-
-
     class StackSegment<T>
     {
 
         T[] stack;
-	    int _size;
-	    int _SP;
+        int _size;
+        int _SP;
 
 
-	    public StackSegment(int size)
-		{
+        public StackSegment(int size)
+        {
 
             _SP = -1;
-		    _size = size;
-		    stack = new T[_size];
-		    if(stack==null) 
+            _size = size;
+            stack = new T[_size];
+            if (stack == null)
                 Error.OnFatal(0);
 
-		}
+        }
 
 
         public bool Resize(int size)
-	    {
+        {
             _size = size;
-	        T[] New=new T[size];
-	        
-            if(New!=null)
-		    { 
+            T[] New = new T[size];
+
+            if (New != null)
+            {
                 Error.OnFatal(0);
-		        return false;
-		    }
+                return false;
+            }
 
-	        for(int i=0; i<_SP; i++)
-		        New[i]=stack[i];
-	        
-	        stack=New;
+            for (int i = 0; i < _SP; i++)
+                New[i] = stack[i];
 
-	        return true;
-	    }
+            stack = New;
+
+            return true;
+        }
 
 
-        public bool Push(T i)	
-        { 
-            stack[++_SP] = i;  
+        public bool Push(T i)
+        {
+            stack[++_SP] = i;
             return IsOverflow();
         }
 
         public T Pop()
-        { 
-            return stack[_SP--]; 
+        {
+            return stack[_SP--];
         }
 
-        public T Pop(int i)	
-        {  
-            _SP-=i; 
-            return stack[_SP]; 
+        public T Pop(int i)
+        {
+            _SP -= i;
+            return stack[_SP];
         }
 
-        public T Top()		
-        { 
-            return stack[_SP]; 
+        public T Top()
+        {
+            return stack[_SP];
         }
 
-        public T Top(int i)	
-        { 
-            return stack[_SP - i]; 
+        public T Top(int i)
+        {
+            return stack[_SP - i];
         }
 
         public void Move(int src, int dest, int n)
@@ -101,26 +99,26 @@ namespace Tie
         }
 
         public int Ptr()
-        { 
-            return _SP; 
+        {
+            return _SP;
         }
 
         public T Replace(T New)
-	    {
-            T Old=Pop();
-		    Push(New);
-		    New=Old;
-		    return Old;
-	    }
-
-        public bool IsEmpty()	
-        { 
-            return _SP == -1; 
+        {
+            T Old = Pop();
+            Push(New);
+            New = Old;
+            return Old;
         }
 
-        public bool IsOverflow() 
-        { 
-            return _SP >= _size; 
+        public bool IsEmpty()
+        {
+            return _SP == -1;
+        }
+
+        public bool IsOverflow()
+        {
+            return _SP >= _size;
         }
 
         public int Size
@@ -130,7 +128,7 @@ namespace Tie
                 return _size;
             }
         }
-        public int SP 
+        public int SP
         {
             get
             {
@@ -141,18 +139,20 @@ namespace Tie
                 _SP = value;
             }
         }
-	
+
         public T this[int i]
-	    {	
-            get {
-		        return stack[i];
+        {
+            get
+            {
+                return stack[i];
             }
-            set {
-                stack[i]= value;
+            set
+            {
+                stack[i] = value;
             }
         }
-	
-	
+
+
         public override String ToString()
         {
             StringWriter o = new StringWriter();
@@ -168,6 +168,6 @@ namespace Tie
             else
                 o.Write("MEMORY=[EMPTY]");
             return o.ToString();
-	    }
+        }
     }
 }

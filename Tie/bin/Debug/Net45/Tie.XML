@@ -590,26 +590,29 @@
             Code generator
             </summary>
         </member>
-        <member name="T:Tie.PositionException">
+        <member name="T:Tie.LOGTARGET">
             <summary>
-            Exception occurs on the position of source code.
+            Log target device
             </summary>
         </member>
-        <member name="F:Tie.PositionException.position">
+        <member name="F:Tie.LOGTARGET.NullWriter">
             <summary>
-            
+            null device
             </summary>
         </member>
-        <member name="M:Tie.PositionException.#ctor(System.String,Tie.Position)">
+        <member name="F:Tie.LOGTARGET.Console">
             <summary>
-            Initializes a new instance of the Exception class.
+            default console
             </summary>
-            <param name="message"></param>
-            <param name="position"></param>
         </member>
-        <member name="P:Tie.PositionException.Position">
+        <member name="F:Tie.LOGTARGET.StringWriter">
             <summary>
-            returns position error occured
+            memory string writer
+            </summary>
+        </member>
+        <member name="F:Tie.LOGTARGET.File">
+            <summary>
+            file device
             </summary>
         </member>
         <member name="T:Tie.CompilingException">
@@ -656,6 +659,27 @@
             
             
         </member>
+        <member name="T:Tie.token">
+            <summary>
+            define a token 
+            </summary>
+        </member>
+        <member name="F:Tie.token.ty">
+            <summary>
+            token type
+            </summary>
+        </member>
+        <member name="F:Tie.token.tok">
+            <summary>
+            token itself
+            </summary>
+        </member>
+        <member name="M:Tie.token.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Tie.Library.CompileModule(System.String@,System.Int32,System.String,System.String,Tie.CodeType,Tie.CodeMode)">
             <summary>
             Compile module
@@ -667,31 +691,6 @@
             <param name="codeType"></param>
             <param name="overwritten"></param>
             <returns></returns>
-        </member>
-        <member name="T:Tie.LOGTARGET">
-            <summary>
-            Log target device
-            </summary>
-        </member>
-        <member name="F:Tie.LOGTARGET.NullWriter">
-            <summary>
-            null device
-            </summary>
-        </member>
-        <member name="F:Tie.LOGTARGET.Console">
-            <summary>
-            default console
-            </summary>
-        </member>
-        <member name="F:Tie.LOGTARGET.StringWriter">
-            <summary>
-            memory string writer
-            </summary>
-        </member>
-        <member name="F:Tie.LOGTARGET.File">
-            <summary>
-            file device
-            </summary>
         </member>
         <member name="T:Tie.Logger">
             <summary>
@@ -763,6 +762,28 @@
             current cursor in source code
             </summary>
         </member>
+        <member name="T:Tie.PositionException">
+            <summary>
+            Exception occurs on the position of source code.
+            </summary>
+        </member>
+        <member name="F:Tie.PositionException.position">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tie.PositionException.#ctor(System.String,Tie.Position)">
+            <summary>
+            Initializes a new instance of the Exception class.
+            </summary>
+            <param name="message"></param>
+            <param name="position"></param>
+        </member>
+        <member name="P:Tie.PositionException.Position">
+            <summary>
+            returns position error occured
+            </summary>
+        </member>
         <member name="T:Tie.TieException">
             <summary>
             
@@ -808,27 +829,6 @@
             <summary>
             reserved keywords in c/c++
             </summary>
-        </member>
-        <member name="T:Tie.token">
-            <summary>
-            define a token 
-            </summary>
-        </member>
-        <member name="F:Tie.token.ty">
-            <summary>
-            token type
-            </summary>
-        </member>
-        <member name="F:Tie.token.tok">
-            <summary>
-            token itself
-            </summary>
-        </member>
-        <member name="M:Tie.token.ToString">
-            <summary>
-            
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:Tie.DynamicDelegate.InstanceDelegate(System.Type,System.Object,System.Reflection.FieldInfo,System.Reflection.MethodInfo)">
             把函数public static object xxxx(object target, object[] arguments);

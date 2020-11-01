@@ -33,11 +33,11 @@ namespace Tie
         private string scope;
         private Context context;
 
-     /// <summary>
-     /// Initializes a new instance of the Tie.Script class, using dynamically created GUID as module name.
-     /// CODE segment size = 16K
-     /// CODE will be destoryed once the instance is deconstructed
-     /// </summary>
+        /// <summary>
+        /// Initializes a new instance of the Tie.Script class, using dynamically created GUID as module name.
+        /// CODE segment size = 16K
+        /// CODE will be destoryed once the instance is deconstructed
+        /// </summary>
         public Script()
             : this(UniqueName, Constant.MAX_INSTRUCTION_NUM, true)
         {
@@ -79,7 +79,7 @@ namespace Tie
 
         }
 
-     
+
         /// <summary>
         /// Initializes a new instance of the Tie.Script class
         /// </summary>
@@ -127,7 +127,7 @@ namespace Tie
                 if (toHost)
                 {
                     VAL v = DS[fieldInfo.Name];
-                    if(v.Defined)
+                    if (v.Defined)
                         fieldInfo.SetValue(instance, v.HostValue);
                 }
                 else
@@ -136,14 +136,14 @@ namespace Tie
                     DS.AddObject(fieldInfo.Name, obj);
                 }
             }
-      
+
             PropertyInfo[] properties = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
             foreach (PropertyInfo propertyInfo in properties)
             {
                 if (toHost)
                 {
                     VAL v = DS[propertyInfo.Name];
-                    if(v.Defined && propertyInfo.CanWrite) 
+                    if (v.Defined && propertyInfo.CanWrite)
                         propertyInfo.SetValue(instance, v.HostValue, null);
                 }
                 else
@@ -166,11 +166,11 @@ namespace Tie
                     //用以支持private的method, 不支持private method的overloading
                     //参见HostTypeFunction(VAL proc, VALL parameters)
                     //如果这里用methodInfo是public那么支持overloading
-                    if(methodInfo.IsPublic)
+                    if (methodInfo.IsPublic)
                         method.temp = new HostOffset(instance, methodInfo.Name);
                     else
                         method.temp = new HostOffset(instance, methodInfo);
-                    
+
                     DS.Add(methodInfo.Name, method);
                 }
             }
@@ -189,7 +189,7 @@ namespace Tie
 
         private bool disposed = false;
         private bool destroyed = true;
-        
+
         /// <summary>
         /// Destroy instance
         /// </summary>
@@ -241,7 +241,7 @@ namespace Tie
             // Calls the Dispose method without parameters.
             Dispose();
         }
-        
+
         #endregion
 
 
@@ -311,7 +311,7 @@ namespace Tie
                 return FunctionChain.Chain;
             }
         }
-        
+
 
 
         #region Function Invoke
@@ -329,7 +329,7 @@ namespace Tie
             return InvokeFunction(className, parameters);
         }
 
-  
+
         //调用全局$function
         /// <summary>
         /// Invoke Tie function
@@ -337,13 +337,13 @@ namespace Tie
         /// <param name="funcName">function name</param>
         /// <param name="parameters">parameters of function</param>
         /// <returns></returns>
-        public VAL InvokeFunction(string funcName,  object[] parameters)
+        public VAL InvokeFunction(string funcName, object[] parameters)
         {
             VAL f = DS[funcName];
-            if(f.Undefined)
+            if (f.Undefined)
                 return VAL.NewVoidType();
 
-            VAL instance = new VAL();     
+            VAL instance = new VAL();
             return InvokeFunction(instance, f, parameters);
         }
 
@@ -355,7 +355,7 @@ namespace Tie
         /// <param name="methodName">method name</param>
         /// <param name="parameters">method parameters</param>
         /// <returns></returns>
-        public VAL InvokeMethod(VAL instance, string methodName,  object[] parameters)
+        public VAL InvokeMethod(VAL instance, string methodName, object[] parameters)
         {
             VAL f = instance[methodName];
             if (!f.Defined)
@@ -390,7 +390,7 @@ namespace Tie
             return CPU.ExternalUserFuncCall(funcEntry, instance, arguments, context);
         }
 
-        
+
         //调用TIE的系统函数以及用户添加的Function Chain
         /// <summary>
         /// Invoke function defined in the function chains
@@ -402,7 +402,7 @@ namespace Tie
         {
             return Script.InvokeChainedFunction(context.DataSegment, funcName, parameters);
         }
- 
+
 
         /***
          * 
@@ -487,16 +487,16 @@ namespace Tie
         public static object InvokeHostMethod(object instance, string methodName, object[] parameters)
         {
             Type type;
-            
-            if(instance is Type)
+
+            if (instance is Type)
                 type = (Type)instance;
             else
                 type = instance.GetType();
-            
+
             MethodInfo methodInfo = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-            if(methodInfo!=null)
+            if (methodInfo != null)
                 return methodInfo.Invoke(instance, parameters);
-            
+
             return null;
         }
 
@@ -549,11 +549,11 @@ namespace Tie
         /// <param name="overwritten">true: existed CodeBlock is overwritten</param>
         public void Execute(string src, bool overwritten)
         {
-            Execute(src, CodeType.statements, overwritten? CodeMode.Overwritten: CodeMode.Append);    
+            Execute(src, CodeType.statements, overwritten ? CodeMode.Overwritten : CodeMode.Append);
         }
 
 
-        
+
 
         /// <summary>
         /// Evaluate an expression, CodeBlock is resident
@@ -574,9 +574,9 @@ namespace Tie
             StreamReader streamReader = new StreamReader(fileName);
             string src = streamReader.ReadToEnd();
             streamReader.Close();
-            
+
             this.moduleName = Path.GetFileNameWithoutExtension(fileName);
-            Execute(src, CodeType.statements, CodeMode.Append); 
+            Execute(src, CodeType.statements, CodeMode.Append);
         }
 
         //驻留在内存中,直到RemoveModule
@@ -623,7 +623,7 @@ namespace Tie
         /// <returns>Value of expression</returns>
         public VAL VolatileEvaluate(string src)
         {
-            return Computer.Run(scope, src, CodeType.expression, context); 
+            return Computer.Run(scope, src, CodeType.expression, context);
         }
 
         #endregion
@@ -639,7 +639,7 @@ namespace Tie
         public int Compile(string src, bool overwritten)
         {
             //返回entry的IP
-            Module module= Library.CompileModule(ref moduleName, moduleSize, scope, src, CodeType.statements, overwritten? CodeMode.Overwritten: CodeMode.Append);
+            Module module = Library.CompileModule(ref moduleName, moduleSize, scope, src, CodeType.statements, overwritten ? CodeMode.Overwritten : CodeMode.Append);
             if (module != null)
                 return module.IP1;
             else
@@ -661,8 +661,8 @@ namespace Tie
         #endregion
 
 
-        
-        
+
+
         #region Clear/Remove: Libray/Module/EventHandler
 
         /// <summary>
@@ -721,7 +721,7 @@ namespace Tie
          * 
          * */
         private CPU cpu = null;
-        
+
         /// <summary>
         /// Debug handler, when breakpoint is reached, debug handler is invoked
         /// </summary>
@@ -730,7 +730,7 @@ namespace Tie
         /// <param name="info">CPU registers/stacks infomation is passed in</param>
         /// <param name="DS2">Shared data segment</param>
         public delegate void DebugHandler(int breakpoint, int cursor, string info, Memory DS2);
-        
+
         /// <summary>
         /// Debug Tie script
         /// </summary>
@@ -739,7 +739,7 @@ namespace Tie
         public bool DebugStart(string src)
         {
             Module module = Library.CompileModule(ref moduleName, moduleSize, scope, src, CodeType.statements, CodeMode.Overwritten);
-            if (module!=null)
+            if (module != null)
                 cpu = new CPU(module, context);
 
             return module != null;
@@ -762,7 +762,7 @@ namespace Tie
             cpu = null;
             return false;
         }
-        
+
         #endregion
 
     }
