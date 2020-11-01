@@ -23,8 +23,6 @@ using System.IO;
 
 namespace Tie
 {
-
-
     class Token
     {
 
@@ -70,22 +68,22 @@ namespace Tie
             {
                 case SYMBOL.intcon:
                     ty = tokty.number;
-                    o.Write(sym.inum); 
+                    o.Write(sym.inum);
                     break;
-                
+
                 case SYMBOL.floatcon:
                     ty = tokty.number;
                     o.Write(sym.fnum);
                     if (Math.Ceiling(sym.fnum) == sym.fnum)
-                            o.Write(".0");
+                        o.Write(".0");
                     break;
 
                 case SYMBOL.stringcon:
                     ty = tokty.stringcon;
                     if (quotationMark)
-                        o.Write("\"{0}\"", sym.stab); 
+                        o.Write("\"{0}\"", sym.stab);
                     else
-                        o.Write("{0}", sym.stab); 
+                        o.Write("{0}", sym.stab);
                     break;
 
                 case SYMBOL.identsy:
@@ -103,14 +101,16 @@ namespace Tie
                 case SYMBOL.DIV: o.Write('/'); break;
                 case SYMBOL.MOD: o.Write('%'); break;
 
-                case SYMBOL.INCOP: switch (opr)
+                case SYMBOL.INCOP:
+                    switch (opr)
                     {
                         case SYMBOL2.PPLUS: o.Write("++"); break;
                         case SYMBOL2.MMINUS: o.Write("--"); break;
                     }
                     break;
 
-                case SYMBOL.ASSIGNOP: switch (opr)
+                case SYMBOL.ASSIGNOP:
+                    switch (opr)
                     {
                         case SYMBOL2.ePLUS: o.Write("+="); break;
                         case SYMBOL2.eMINUS: o.Write("-="); break;
@@ -124,13 +124,15 @@ namespace Tie
                         case SYMBOL2.eSHR: o.Write(">>="); break;
                     }
                     break;
-                case SYMBOL.EQUOP: switch (opr)
+                case SYMBOL.EQUOP:
+                    switch (opr)
                     {
                         case SYMBOL2.EQL: o.Write("=="); break;
                         case SYMBOL2.NEQ: o.Write("!="); break;
                     }
                     break;
-                case SYMBOL.RELOP: switch (opr)
+                case SYMBOL.RELOP:
+                    switch (opr)
                     {
                         case SYMBOL2.GTR: o.Write(">"); break;
                         case SYMBOL2.GEQ: o.Write(">="); break;
@@ -139,7 +141,8 @@ namespace Tie
                     }
                     break;
 
-                case SYMBOL.SHIFTOP: switch (opr)
+                case SYMBOL.SHIFTOP:
+                    switch (opr)
                     {
                         case SYMBOL2.SHL: o.Write("<<"); break;
                         case SYMBOL2.SHR: o.Write(">>"); break;
@@ -161,7 +164,8 @@ namespace Tie
                 case SYMBOL.OR: o.Write("|"); break;
                 case SYMBOL.XOR: o.Write("^"); break;
 
-                case SYMBOL.UNOP: switch (opr)
+                case SYMBOL.UNOP:
+                    switch (opr)
                     {
                         case SYMBOL2.BNOT: o.Write('~'); break;
                         case SYMBOL2.NOT: o.Write("!"); break;
@@ -169,7 +173,8 @@ namespace Tie
                     }
                     break;
 
-                case SYMBOL.STRUCTOP: switch (opr)
+                case SYMBOL.STRUCTOP:
+                    switch (opr)
                     {
                         case SYMBOL2.DOT: o.Write('.'); break;
                         case SYMBOL2.ARROW: o.Write("->"); break;
@@ -205,7 +210,4 @@ namespace Tie
 
     }
 
-
-
-    
 }

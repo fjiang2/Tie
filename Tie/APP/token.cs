@@ -44,11 +44,8 @@ namespace Tie
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0}:{1}", ty, tok);
+            return string.Format("{0} : {1}", ty, tok);
         }
     }
 
-
-
-    
 }
