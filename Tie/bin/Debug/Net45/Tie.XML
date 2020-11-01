@@ -590,6 +590,31 @@
             Code generator
             </summary>
         </member>
+        <member name="T:Tie.LOGTARGET">
+            <summary>
+            Log target device
+            </summary>
+        </member>
+        <member name="F:Tie.LOGTARGET.NullWriter">
+            <summary>
+            null device
+            </summary>
+        </member>
+        <member name="F:Tie.LOGTARGET.Console">
+            <summary>
+            default console
+            </summary>
+        </member>
+        <member name="F:Tie.LOGTARGET.StringWriter">
+            <summary>
+            memory string writer
+            </summary>
+        </member>
+        <member name="F:Tie.LOGTARGET.File">
+            <summary>
+            file device
+            </summary>
+        </member>
         <member name="T:Tie.CompilingException">
             <summary>
               Represents errors that occur during compiling.
@@ -666,31 +691,6 @@
             <param name="codeType"></param>
             <param name="overwritten"></param>
             <returns></returns>
-        </member>
-        <member name="T:Tie.LOGTARGET">
-            <summary>
-            Log target device
-            </summary>
-        </member>
-        <member name="F:Tie.LOGTARGET.NullWriter">
-            <summary>
-            null device
-            </summary>
-        </member>
-        <member name="F:Tie.LOGTARGET.Console">
-            <summary>
-            default console
-            </summary>
-        </member>
-        <member name="F:Tie.LOGTARGET.StringWriter">
-            <summary>
-            memory string writer
-            </summary>
-        </member>
-        <member name="F:Tie.LOGTARGET.File">
-            <summary>
-            file device
-            </summary>
         </member>
         <member name="T:Tie.Logger">
             <summary>
