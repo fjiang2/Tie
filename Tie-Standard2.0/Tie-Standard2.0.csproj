@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -18,12 +18,15 @@
     <Compile Include="..\Tie\APP\Script.cs" Link="APP\Script.cs" />
     <Compile Include="..\Tie\APP\Valizer.cs" Link="APP\Valizer.cs" />
     <Compile Include="..\Tie\Compiler\CodeGeneration.cs" Link="Compiler\CodeGeneration.cs" />
+    <Compile Include="..\Tie\Compiler\CodeSource.cs" Link="Compiler\CodeSource.cs" />
     <Compile Include="..\Tie\Compiler\Compiler.cs" Link="Compiler\Compiler.cs" />
     <Compile Include="..\Tie\Compiler\CompilingException.cs" Link="Compiler\CompilingException.cs" />
     <Compile Include="..\Tie\Compiler\Constant.cs" Link="Compiler\Constant.cs" />
     <Compile Include="..\Tie\Compiler\Error.cs" Link="Compiler\Error.cs" />
     <Compile Include="..\Tie\Compiler\Expression.cs" Link="Compiler\Expression.cs" />
+    <Compile Include="..\Tie\Compiler\FileLex.cs" Link="Compiler\FileLex.cs" />
     <Compile Include="..\Tie\Compiler\Instruction.cs" Link="Compiler\Instruction.cs" />
+    <Compile Include="..\Tie\Compiler\JKey.cs" Link="Compiler\JKey.cs" />
     <Compile Include="..\Tie\Compiler\JLex.cs" Link="Compiler\JLex.cs" />
     <Compile Include="..\Tie\Compiler\JParser.cs" Link="Compiler\JParser.cs" />
     <Compile Include="..\Tie\Compiler\Library.cs" Link="Compiler\Library.cs" />
@@ -32,7 +35,9 @@
     <Compile Include="..\Tie\Compiler\Numeric.cs" Link="Compiler\Numeric.cs" />
     <Compile Include="..\Tie\Compiler\Operand.cs" Link="Compiler\Operand.cs" />
     <Compile Include="..\Tie\Compiler\Position.cs" Link="Compiler\Position.cs" />
+    <Compile Include="..\Tie\Compiler\StringLex.cs" Link="Compiler\StringLex.cs" />
     <Compile Include="..\Tie\Compiler\SymbolTable.cs" Link="Compiler\SymbolTable.cs" />
+    <Compile Include="..\Tie\Compiler\TieException.cs" Link="Compiler\TieException.cs" />
     <Compile Include="..\Tie\Compiler\Token.cs" Link="Compiler\Token.cs" />
     <Compile Include="..\Tie\HostType\DynamicDelegate.cs" Link="HostType\DynamicDelegate.cs" />
     <Compile Include="..\Tie\HostType\GenericArgument.cs" Link="HostType\GenericArgument.cs" />
