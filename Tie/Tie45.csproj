@@ -186,6 +186,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Release Notes.txt" />
     <Content Include="Tie.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -25,6 +25,11 @@
 //                1991-2013                                                          //
 //                                                                                   //
 //-----------------------------------------------------------------------------------//
+
+11/01/2020 v2.0.8
+	Improvements/Enhancements:
+    1. Implemented method: IEnumerable<token> Script.Tokenize(string text)
+
 未完成的任务:
   1. Host的operator overloading
   2. 从多个相容的overloading methods中选择一个最优的

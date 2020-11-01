@@ -34,13 +34,14 @@ namespace Tie.Tests
         public void TestTokenize()
         {
             //Arrange
-            string path = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools /all";
+            string path = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools /all /has:true";
 
             //Act
             IEnumerable<token> L = Script.Tokenize(path);
 
+            string text = string.Join("|", L.Select(x => x.tok));
             //Assert
-            Assert.AreEqual(string.Join("|", L.Select(x => x.tok)), @"C|:|\|Program|Files|(|x86|)|\|Microsoft|Visual|Studio|12.0|\|Common7|\|Tools|/|all");
+            Assert.AreEqual(text, @"C|:|\|Program|Files|(|x86|)|\|Microsoft|Visual|Studio|12.0|\|Common7|\|Tools|/|all|/|has|:|true");
         }
 
         [TestMethod]
@@ -102,7 +103,7 @@ namespace Tie.Tests
         [TestMethod]
         public void TestTokenizeFile()
         {
-            string path = @"..\..\..\..\Tie\Compiler\Error.cs";
+            string path = @"..\..\..\..\Tie\Compiler\Exception\Error.cs";
             string code = File.ReadAllText(path);
 
             //Act
