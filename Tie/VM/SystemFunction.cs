@@ -28,7 +28,7 @@ namespace Tie
     /// <summary>
     /// 
     /// </summary>
-    class SystemFunction  
+    class SystemFunction
     {
 
         public static VAL Function(string func, VAL parameters, Memory DS, Position position)
@@ -61,11 +61,11 @@ namespace Tie
                     }
                     break;
 
-                    /*
-                     * add reference
-                     * */
+                /*
+                 * add reference
+                 * */
                 case "addreference":
-                    if (size == 1 && L0.ty == VALTYPE.hostcon) 
+                    if (size == 1 && L0.ty == VALTYPE.hostcon)
                     {
                         object host = L0.HostValue;
                         if (host is Assembly)
@@ -76,10 +76,10 @@ namespace Tie
                     }
                     break;
 
-                    /*
-                     * using System.Data => import(System.Data)
-                     * using SD = System.Data => import("SD", System.Data)
-                     * */
+                /*
+                 * using System.Data => import(System.Data)
+                 * using SD = System.Data => import("SD", System.Data)
+                 * */
                 case "import":
                     if (size == 1)
                     {
@@ -88,7 +88,7 @@ namespace Tie
                             ns = L0.Str;
                         else if (L0.name != null)   //because System.Data may exist before addimport(System.Data)
                             ns = L0.name;
-                        
+
                         if (ns != null)
                         {
                             HostType.Import(ns);
@@ -111,13 +111,13 @@ namespace Tie
                         }
                     }
                     break;
-         
+
                 //return VAL type
                 case "type":
-                    if(size==1)
+                    if (size == 1)
                         return new VAL((int)L0.ty);
                     break;
-                
+
                 /*
                  * 
                  * 等价于.NET的.GetType()函数, 用于非HostType类型的变量
@@ -179,11 +179,11 @@ namespace Tie
                         }
                     }
                     else if (size == 1)
-                    {                    
+                    {
                         if (L0.value == null)       //如果没有注册过,试图search DLL,譬如:Color=typeof(System.Drawing.Color)
                         {
                             Type ty = HostType.GetType(L0.name);
-                            if (ty != null) 
+                            if (ty != null)
                                 return VAL.NewHostType(ty);
                             else
                                 return new VAL();
@@ -256,7 +256,7 @@ namespace Tie
                  * 
                  * * * */
                 case "valize":
-                    if(size==1)
+                    if (size == 1)
                     {
                         return VAL.NewScriptType(L0.Valor);
                     }
@@ -285,9 +285,9 @@ namespace Tie
                     }
                     break;
 
-                    /*
-                     * Translate string into VAR type
-                     * */
+                /*
+                 * Translate string into VAR type
+                 * */
                 case "VAR":
                     if (size == 1 && L0.value is string)
                     {
@@ -322,14 +322,14 @@ namespace Tie
                         }
                         else if (L[1].value is string)
                         {
-                            Type ty = HostType.GetType(L1.Str); 
-                            if(ty!=null)
+                            Type ty = HostType.GetType(L1.Str);
+                            if (ty != null)
                                 return VAL.cast(VAL.Clone(L0), ty);
                         }
-                    } 
-                    break;    
+                    }
+                    break;
 
-     
+
 
                 case "DateTime":
                     if (size == 6)
@@ -337,25 +337,25 @@ namespace Tie
                     else if (size == 3)
                         return VAL.NewHostType(new DateTime(L0.Intcon, L1.Intcon, L[2].Intcon));
                     break;
-         
+
                 //STRING
                 case "format":
-                    if(size>=1 && L0.ty == VALTYPE.stringcon)
+                    if (size >= 1 && L0.ty == VALTYPE.stringcon)
                         return format(L);
                     break;
-        
+
 
 
                 #region LIST 操作函数
 
                 case "size":
                     if (size == 1)
-                       return new VAL(L0.Size);
+                        return new VAL(L0.Size);
                     break;
 
                 case "array":           //array(2,3,4)
                     int[] A = new int[size];
-                    for(int i=0; i < size; i++)
+                    for (int i = 0; i < size; i++)
                     {
                         if (L[1].ty != VALTYPE.intcon)
                             return null;
@@ -363,7 +363,7 @@ namespace Tie
                         A[i] = L[i].Intcon;
                     }
                     return VAL.Array(A);
-     
+
                 case "slice":
                     return Slice(L);
 
@@ -378,7 +378,7 @@ namespace Tie
                  * */
                 case "append":
                 case "push":    //传址
-                    if (size == 2 && L0.ty == VALTYPE.listcon)      
+                    if (size == 2 && L0.ty == VALTYPE.listcon)
                     {
                         R0 = L1;
                         L0.List.Add(VAL.Clone(R0));
@@ -386,7 +386,7 @@ namespace Tie
                     }
                     break;
                 case "pop":
-                    if (size == 1 && L0.ty== VALTYPE.listcon)     //pop最后一个element
+                    if (size == 1 && L0.ty == VALTYPE.listcon)     //pop最后一个element
                     {
                         int index = L0.List.Size - 1;
                         R0 = L0.List[index];
@@ -419,7 +419,7 @@ namespace Tie
                         return L0;
                     }
                     break;
-#endregion
+                #endregion
 
 
                 //DEBUG
@@ -430,9 +430,9 @@ namespace Tie
                 case "loginfo":
                     return LogInfo(L);
 
-                
-                    
-               #region internal functions used by parser
+
+
+                #region internal functions used by parser
 
                 //内部使用,强制类型转换cast
                 //修改这个函数名,必须修改JExpression.s_exp16() 和 s_exp24()
@@ -462,13 +462,13 @@ namespace Tie
                             throw new RuntimeException(position, "{0} is not type or not registered.", L1.value);
                     }
                     break;
-                
+
                 //内部使用,产生数组类型 int[], 或者 int[,,]
                 //修改这个函数名,必须修改JExpression.s_varnext()
                 case Constant.FUNC_MAKE_ARRAY_TYPE:
-                    if (size == 1 || size ==2)
+                    if (size == 1 || size == 2)
                     {
-                        Type ty = SystemFunction.GetValDefinitionType(L0); 
+                        Type ty = SystemFunction.GetValDefinitionType(L0);
                         if (ty != null)
                         {
                             if (size == 1)
@@ -492,8 +492,8 @@ namespace Tie
                 case Constant.FUNC_CLASS:
                     return new VAL(Operand.Clss(L[1].Intcon, L[0].Str));
 
-  
-               #endregion
+
+                #endregion
 
 
                 #region propertyof, methodof, fieldof
@@ -514,7 +514,7 @@ namespace Tie
                  * 
                  * */
                 case "propertyof":
-                    if(size>=2 && size <=4)
+                    if (size >= 2 && size <= 4)
                     {
                         object host = L0.value;
                         if (host == null)
@@ -523,7 +523,7 @@ namespace Tie
                         if (L0.ty == VALTYPE.hostcon && L1.ty == VALTYPE.stringcon) //简单property匹配,没有二义性
                         {
                             if (size == 2 || size == 3)
-                                return HostFunction.propertyof(size == 2, null, (string)L1.value, host, size == 2 ? null: L[2].HostValue);
+                                return HostFunction.propertyof(size == 2, null, (string)L1.value, host, size == 2 ? null : L[2].HostValue);
                         }
                         else if (L0.ty == VALTYPE.hostcon                       //匹配返回值的property
                             && L1.ty == VALTYPE.hostcon && L1.value is Type
@@ -553,7 +553,7 @@ namespace Tie
                         {
                             Type ty = GenericType.GetHostType(host);
                             FieldInfo fieldInfo = ty.GetField((string)L1.value, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
-                            if(fieldInfo == null)
+                            if (fieldInfo == null)
                                 throw new RuntimeException(position, string.Format("Invalid field name: {0}.{1}", ty.FullName, L1.value));
 
                             if (size == 2)
@@ -583,11 +583,11 @@ namespace Tie
                         object host = L0.value;
                         if (host == null)
                             break;
-                        
+
                         VAL L2 = L[2];
                         object args = L[3].HostValue;
 
-                        if (L0.ty == VALTYPE.hostcon                       
+                        if (L0.ty == VALTYPE.hostcon
                             && L1.ty == VALTYPE.hostcon && L1.value is Type
                             && L2.ty == VALTYPE.stringcon
                             && args is Type[])
@@ -598,7 +598,7 @@ namespace Tie
                                 VAL method = VAL.Boxing1(methodInfo);
                                 //用methodInfo,而不是methodInfo.Name用来支持overloading,是因为这个方法可以唯一的赋值给TIE变量,不存在函数overloading的问题
                                 //这里的methodInfo(没有什么用处是技术性)是强迫TIE直接使用methodInfo, 参见HostTypeFunction(VAL proc, VALL parameters)
-                                method.temp = new HostOffset(host, methodInfo); 
+                                method.temp = new HostOffset(host, methodInfo);
                                 return method;
                             }
                             else
@@ -606,15 +606,15 @@ namespace Tie
                         }
                     }
                     break;
-                
-                #endregion   
+
+                    #endregion
 
             }
 
             return null;    //返回null表示继续在FunctionChain中传递
         }
 
-        
+
 
         #region System function implementation
 
@@ -642,7 +642,7 @@ namespace Tie
 
 
 
-      
+
         private static VAL format(VALL L)
         {
             string fmt = L[0].Str;
@@ -699,7 +699,7 @@ namespace Tie
         public static VAL cast(VAL val, VAL type)
         {
             if (type.ty == VALTYPE.voidcon)  //如果cast的类型根本就没有定义过,为了省事就忽略掉,主要原因是为了让C#拷贝过来的代码,不register也能运行
-                    return val;
+                return val;
 
             if (type.value is Type)
             {
@@ -709,7 +709,7 @@ namespace Tie
                 throw new TieException("cast failed, {0} is not type.", type.value);
         }
 
-    
+
 
         #endregion
 

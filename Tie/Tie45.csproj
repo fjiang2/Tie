@@ -91,7 +91,9 @@
     <Compile Include="APP\Coding.cs" />
     <Compile Include="APP\IValizer.cs" />
     <Compile Include="APP\Valizer.cs" />
+    <Compile Include="Compiler\CodeGeneration\CodeBlock.cs" />
     <Compile Include="Compiler\CodeGeneration\CodeGeneration.cs" />
+    <Compile Include="Compiler\CodeGeneration\CodeMode.cs" />
     <Compile Include="Compiler\Log\LOGTARGET.cs" />
     <Compile Include="Compiler\Parser\CodeSource.cs" />
     <Compile Include="Compiler\CodeGeneration\CodeType.cs" />
@@ -134,6 +136,7 @@
     <Compile Include="Valization\BaseValization.cs" />
     <Compile Include="Valization\DelegateValization`1.cs" />
     <Compile Include="Valization\InterfaceValization`1.cs" />
+    <Compile Include="Valization\PartialDelegateValization.cs" />
     <Compile Include="Valization\PropertyValization.cs" />
     <Compile Include="Valization\ScriptValization.cs" />
     <Compile Include="Valization\ValizationMgr.cs" />

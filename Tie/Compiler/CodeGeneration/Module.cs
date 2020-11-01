@@ -23,28 +23,11 @@ using System.Runtime.Serialization;
 
 namespace Tie
 {
-    enum CodeMode
-    { 
-        Overwritten,    //instruction is overwritten
-        Append
-    }
 
-    class CodeBlock
-    {
-        public readonly int IP; //start IP address in code block
-        public readonly string CodePiece;
-
-        public CodeBlock(int IP, string codePiece)
-        {
-            this.IP = IP;
-            this.CodePiece = codePiece;
-        }
-    }
-
-    class Module 
+    class Module
     {
         List<CodeBlock> blocks;       //keep all code blocks
-        
+
         public string moduleName;
         public readonly int maxSize;
         public Instruction[] CS;
@@ -64,10 +47,10 @@ namespace Tie
 
         public Module(string moduleName, int moduleSize)
         {
-         
+
             maxSize = moduleSize + 1024;
             blocks = new List<CodeBlock>();
-            
+
 
             this.CS = CodeGeneration.NewCS(maxSize);
 
@@ -98,12 +81,12 @@ namespace Tie
             }
         }
 
-       
+
 
         public string GetCodePiece(int index)
         {
             if (index < 0 || index > blocks.Count)
-                throw new CompilingException("invalid CodeBlock index", Position.UNKNOWN); 
+                throw new CompilingException("invalid CodeBlock index", Position.UNKNOWN);
 
             return blocks[index].CodePiece;
         }
@@ -113,7 +96,7 @@ namespace Tie
             get
             {
                 StringBuilder builder = new StringBuilder();
-                foreach(CodeBlock block in blocks)
+                foreach (CodeBlock block in blocks)
                     builder.Append(block.CodePiece);
 
                 return builder.ToString();
@@ -133,12 +116,12 @@ namespace Tie
             {
                 codeMode = CodeMode.Overwritten;
             }
-            
+
 
             if (codeMode == CodeMode.Append)
             {
                 if (blocks.Count + 1 > Constant.MAX_CODEBLOCK_NUM)
-                    throw new CompilingException("CodeBlock number reaches maximum limitation.", Position.UNKNOWN); 
+                    throw new CompilingException("CodeBlock number reaches maximum limitation.", Position.UNKNOWN);
 
                 IP1 = IP2;
             }
@@ -153,18 +136,18 @@ namespace Tie
             }
 
             pos.ModuleName = moduleName;      //放在这里是因module名字有可能被#module directive改变
-            
+
 
             return !parser.IsBlank;
         }
 
-      
+
         public static Module decode(VAL val)
         {
             string moduleName = val["name"].Str;
             string codePiece = val["code"].Str;
             int size = val["size"].Intcon;
-            
+
             Module module = new Module(moduleName, size);
             module.CompileCodeBlock("", codePiece, CodeType.statements, CodeMode.Overwritten);
             return module;
