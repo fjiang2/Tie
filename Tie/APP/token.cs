@@ -32,10 +32,16 @@ namespace Tie
         /// </summary>
         public readonly string tok;
 
-        internal token(string tok, tokty ty)
+        /// <summary>
+        /// code line number
+        /// </summary>
+        public readonly int line;
+
+        internal token(string tok, tokty ty, Position pos)
         {
             this.ty = ty;
             this.tok = tok;
+            this.line = pos.line;
         }
 
         /// <summary>

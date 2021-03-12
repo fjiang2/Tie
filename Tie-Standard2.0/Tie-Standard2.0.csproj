@@ -18,6 +18,7 @@
     <Compile Include="..\Tie\APP\IValizer.cs" Link="APP\IValizer.cs" />
     <Compile Include="..\Tie\APP\Script.cs" Link="APP\Script.cs" />
     <Compile Include="..\Tie\APP\token.cs" Link="APP\token.cs" />
+    <Compile Include="..\Tie\APP\tokty.cs" Link="APP\tokty.cs" />
     <Compile Include="..\Tie\APP\Valizer.cs" Link="APP\Valizer.cs" />
     <Compile Include="..\Tie\Compiler\CodeGeneration\CodeBlock.cs" Link="Compiler\CodeGeneration\CodeBlock.cs" />
     <Compile Include="..\Tie\Compiler\CodeGeneration\CodeGeneration.cs" Link="Compiler\CodeGeneration\CodeGeneration.cs" />
@@ -43,7 +44,6 @@
     <Compile Include="..\Tie\Compiler\Lex\SYMBOL.cs" Link="Compiler\Lex\SYMBOL.cs" />
     <Compile Include="..\Tie\Compiler\Lex\SYMBOL2.cs" Link="Compiler\Lex\SYMBOL2.cs" />
     <Compile Include="..\Tie\Compiler\Lex\Token.cs" Link="Compiler\Lex\Token.cs" />
-    <Compile Include="..\Tie\Compiler\Lex\tokty.cs" Link="Compiler\Lex\tokty.cs" />
     <Compile Include="..\Tie\Compiler\Log\Logger.cs" Link="Compiler\Log\Logger.cs" />
     <Compile Include="..\Tie\Compiler\Log\LOGTARGET.cs" Link="Compiler\Log\LOGTARGET.cs" />
     <Compile Include="..\Tie\Compiler\Parser\CodeSource.cs" Link="Compiler\Parser\CodeSource.cs" />

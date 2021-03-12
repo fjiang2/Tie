@@ -120,7 +120,7 @@
     <Compile Include="Compiler\CodeGeneration\SymbolTable.cs" />
     <Compile Include="Compiler\Exception\TieException.cs" />
     <Compile Include="Compiler\Lex\Token.cs" />
-    <Compile Include="Compiler\Lex\tokty.cs" />
+    <Compile Include="APP\tokty.cs" />
     <Compile Include="HostType\DynamicDelegate.cs" />
     <Compile Include="HostType\GenericArgument.cs" />
     <Compile Include="HostType\GenericArguments.cs" />

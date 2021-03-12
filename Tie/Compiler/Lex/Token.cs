@@ -194,11 +194,11 @@ namespace Tie
             return o.ToString();
         }
 
-        public token ToToken()
+        public token ToToken(Position pos)
         {
             tokty ty;
             string tok = encode(OutputType.Nothing, out ty);
-            return new token(tok, ty);
+            return new token(tok, ty, pos);
 
         }
 

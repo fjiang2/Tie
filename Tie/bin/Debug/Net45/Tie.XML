@@ -674,6 +674,11 @@
             token itself
             </summary>
         </member>
+        <member name="F:Tie.token.line">
+            <summary>
+            code line number
+            </summary>
+        </member>
         <member name="M:Tie.token.ToString">
             <summary>
             
