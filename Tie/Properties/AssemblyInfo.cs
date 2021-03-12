@@ -11,7 +11,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Datum Connect")]
 [assembly: AssemblyProduct("Tie Embedded Script Language")]
-[assembly: AssemblyCopyright("Copyright @ Datum Connect 1991-2019")]
+[assembly: AssemblyCopyright("Copyright @ Datum Connect 1991-2021")]
 [assembly: AssemblyTrademark("Tie")]
 [assembly: AssemblyCulture("")]
 
