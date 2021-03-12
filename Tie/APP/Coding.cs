@@ -32,7 +32,7 @@ namespace Tie
     //     Logger.WriteLine("a={0}", Coding.memory["a"][0]);
     //    
     //
-    public partial class Script 
+    public partial class Script
     {
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Tie
         /// <param name="code"></param>
         /// <param name="memory"></param>
         /// <returns></returns>
-        public static VAL Execute(string code,  Memory memory)
+        public static VAL Execute(string code, Memory memory)
         {
             return Computer.Run("", code, CodeType.statements, new Context(memory));
         }

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
-using Xunit.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tie;
 
 namespace Tie.Tests
 {
+    [TestClass]
     public class BasicElement
     {
-        [Fact]
+        [TestMethod]
         public void EscapedString()
         { 
             //Arrange
@@ -21,10 +21,10 @@ namespace Tie.Tests
             var val = Script.Evaluate(code);
 
             // Assert
-            Assert.Equal(val.ToSimpleString(), "\\\\192.168.0.1\\shared");
+            Assert.AreEqual(val.ToSimpleString(), "\\\\192.168.0.1\\shared");
         }
 
-        [Fact]
+        [TestMethod]
         public void ArrayTest()
         {
 
@@ -44,17 +44,17 @@ namespace Tie.Tests
 
             DS.RemoveAll();
             Script.Execute(code, DS);
-            Assert.Equal((string)DS["I0"].Valor, "{1,2,3}");
-            Assert.Equal((string)DS["I1"].Valor, "{1,2,3}.typeof(System.Int32[])");
-            Assert.Equal((string)DS["I2"].Valor, "{}.typeof(System.String[])");
+            Assert.AreEqual((string)DS["I0"].Valor, "{1,2,3}");
+            Assert.AreEqual((string)DS["I1"].Valor, "{1,2,3}.typeof(System.Int32[])");
+            Assert.AreEqual((string)DS["I2"].Valor, "{}.typeof(System.String[])");
 
             VAL x = Script.Evaluate("{1,2,3}.typeof(int[])");
-            Assert.Equal((string)DS["I1"].Valor, x.Valor);
+            Assert.AreEqual((string)DS["I1"].Valor, x.Valor);
             Logger.Close();
         }
 
 
-        [Fact]
+        [TestMethod]
         public void AnonymousClass()
         {
             // Arrange
@@ -66,10 +66,10 @@ namespace Tie.Tests
             var val2 = Script.Evaluate(code2);
 
             // Assert
-            Assert.Equal(val1.ToString(), val2.ToString());
+            Assert.AreEqual(val1.ToString(), val2.ToString());
         }
 
-        [Fact]
+        [TestMethod]
         public void AnonymousNetClass()
         {
             // Arrange
@@ -81,10 +81,10 @@ namespace Tie.Tests
             var val2 = Script.Evaluate(code2);
 
             // Assert
-            Assert.Equal(val1.ToJson(null), val2.ToJson(null));
+            Assert.AreEqual(val1.ToJson(null), val2.ToJson(null));
         }
 
-        [Fact]
+        [TestMethod]
         public void TestCastValue()
         {
             // Arrange
@@ -95,12 +95,12 @@ namespace Tie.Tests
             var val2 = Script.Execute(code1, DS);
 
             // Assert
-            Assert.Equal((int)DS["a"], 2);
-            Assert.Equal(DS["b"].Value, 2);
-            Assert.Equal((double)DS["b"], 2.0);
+            Assert.AreEqual((int)DS["a"], 2);
+            Assert.AreEqual(DS["b"].Value, 2);
+            Assert.AreEqual((double)DS["b"], 2.0);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestStringGetCharArray()
         {
             // Arrange
@@ -111,14 +111,14 @@ namespace Tie.Tests
             var val2 = Script.Execute(code1, DS);
 
             // Assert
-            Assert.Equal(DS["a"].Value, "a");
-            Assert.Equal(DS["b"].Value, "b");
-            Assert.Equal(DS["c"], VAL.VOID);
-            Assert.Equal(DS["d"], VAL.VOID);
+            Assert.AreEqual(DS["a"].Value, "a");
+            Assert.AreEqual(DS["b"].Value, "b");
+            Assert.AreEqual(DS["c"], VAL.VOID);
+            Assert.AreEqual(DS["d"], VAL.VOID);
         }
 
 
-        [Fact]
+        [TestMethod]
         public void TestAssociativeVAL()
         {
             // Arrange
@@ -134,9 +134,9 @@ namespace Tie.Tests
                 dict.Add(m.Name, m.Value.Value);
             }
 
-            Assert.Equal(dict["A"], "abc");
-            Assert.Equal(dict["B"], 1);
-            Assert.Equal(dict["C"], true);
+            Assert.AreEqual(dict["A"], "abc");
+            Assert.AreEqual(dict["B"], 1);
+            Assert.AreEqual(dict["C"], true);
         }
       
     }

@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7BE026F2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B4E1E895-034D-4F23-82CC-90405AFA1637}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Silverlight", "Tie\Tie.Silverlight.csproj", "{3EC16DB8-1159-4E2C-A6FC-D4F737A6D1CE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Helper", "Tie.Helper\Tie.Helper.csproj", "{D57F9724-D273-4631-B068-72949A7BB8B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie45", "Tie\Tie45.csproj", "{4832F819-7735-4B2A-A6C0-216EBC745676}"
@@ -42,18 +40,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest.NET4", "tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie-Standard2.0", "Tie-Standard2.0\Tie-Standard2.0.csproj", "{DE69D1F5-F35D-4010-AA0D-A51C4554E276}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Interpreter", "Tie.Interpreter\Tie.Interpreter.csproj", "{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3EC16DB8-1159-4E2C-A6FC-D4F737A6D1CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3EC16DB8-1159-4E2C-A6FC-D4F737A6D1CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3EC16DB8-1159-4E2C-A6FC-D4F737A6D1CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3EC16DB8-1159-4E2C-A6FC-D4F737A6D1CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D57F9724-D273-4631-B068-72949A7BB8B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D57F9724-D273-4631-B068-72949A7BB8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D57F9724-D273-4631-B068-72949A7BB8B3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -116,10 +108,6 @@ Global
 		{DE69D1F5-F35D-4010-AA0D-A51C4554E276}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE69D1F5-F35D-4010-AA0D-A51C4554E276}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE69D1F5-F35D-4010-AA0D-A51C4554E276}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1BD2ED1-D5CB-4B29-AB82-AACBB5519A7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

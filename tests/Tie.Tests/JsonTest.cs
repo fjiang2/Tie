@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
-using Xunit.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tie;
 
 namespace Tie.Tests
 {
+    [TestClass]
     public class JsonTest
     {
-        [Fact]
+        [TestMethod]
         public void DictinaryToJson()
         {
             //Arrange
@@ -35,7 +35,7 @@ namespace Tie.Tests
             string json2 = val2.ToJson(string.Empty);
 
             // Assert
-            Assert.Equal(json1, json2);
+            Assert.AreEqual(json1, json2);
         }
     }
 }

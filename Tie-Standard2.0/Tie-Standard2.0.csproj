@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.0.8</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -16,24 +17,40 @@
     <Compile Include="..\Tie\APP\Coding.cs" Link="APP\Coding.cs" />
     <Compile Include="..\Tie\APP\IValizer.cs" Link="APP\IValizer.cs" />
     <Compile Include="..\Tie\APP\Script.cs" Link="APP\Script.cs" />
+    <Compile Include="..\Tie\APP\token.cs" Link="APP\token.cs" />
     <Compile Include="..\Tie\APP\Valizer.cs" Link="APP\Valizer.cs" />
-    <Compile Include="..\Tie\Compiler\CodeGeneration.cs" Link="Compiler\CodeGeneration.cs" />
+    <Compile Include="..\Tie\Compiler\CodeGeneration\CodeBlock.cs" Link="Compiler\CodeGeneration\CodeBlock.cs" />
+    <Compile Include="..\Tie\Compiler\CodeGeneration\CodeGeneration.cs" Link="Compiler\CodeGeneration\CodeGeneration.cs" />
+    <Compile Include="..\Tie\Compiler\CodeGeneration\CodeMode.cs" Link="Compiler\CodeGeneration\CodeMode.cs" />
+    <Compile Include="..\Tie\Compiler\CodeGeneration\CodeType.cs" Link="Compiler\CodeGeneration\CodeType.cs" />
+    <Compile Include="..\Tie\Compiler\CodeGeneration\Instruction.cs" Link="Compiler\CodeGeneration\Instruction.cs" />
+    <Compile Include="..\Tie\Compiler\CodeGeneration\Library.cs" Link="Compiler\CodeGeneration\Library.cs" />
+    <Compile Include="..\Tie\Compiler\CodeGeneration\Module.cs" Link="Compiler\CodeGeneration\Module.cs" />
+    <Compile Include="..\Tie\Compiler\CodeGeneration\Symbol.cs" Link="Compiler\CodeGeneration\Symbol.cs" />
+    <Compile Include="..\Tie\Compiler\CodeGeneration\SymbolTable.cs" Link="Compiler\CodeGeneration\SymbolTable.cs" />
     <Compile Include="..\Tie\Compiler\Compiler.cs" Link="Compiler\Compiler.cs" />
-    <Compile Include="..\Tie\Compiler\CompilingException.cs" Link="Compiler\CompilingException.cs" />
     <Compile Include="..\Tie\Compiler\Constant.cs" Link="Compiler\Constant.cs" />
-    <Compile Include="..\Tie\Compiler\Error.cs" Link="Compiler\Error.cs" />
-    <Compile Include="..\Tie\Compiler\Expression.cs" Link="Compiler\Expression.cs" />
-    <Compile Include="..\Tie\Compiler\Instruction.cs" Link="Compiler\Instruction.cs" />
-    <Compile Include="..\Tie\Compiler\JLex.cs" Link="Compiler\JLex.cs" />
-    <Compile Include="..\Tie\Compiler\JParser.cs" Link="Compiler\JParser.cs" />
-    <Compile Include="..\Tie\Compiler\Library.cs" Link="Compiler\Library.cs" />
-    <Compile Include="..\Tie\Compiler\Logger.cs" Link="Compiler\Logger.cs" />
-    <Compile Include="..\Tie\Compiler\Module.cs" Link="Compiler\Module.cs" />
-    <Compile Include="..\Tie\Compiler\Numeric.cs" Link="Compiler\Numeric.cs" />
-    <Compile Include="..\Tie\Compiler\Operand.cs" Link="Compiler\Operand.cs" />
-    <Compile Include="..\Tie\Compiler\Position.cs" Link="Compiler\Position.cs" />
-    <Compile Include="..\Tie\Compiler\SymbolTable.cs" Link="Compiler\SymbolTable.cs" />
-    <Compile Include="..\Tie\Compiler\Token.cs" Link="Compiler\Token.cs" />
+    <Compile Include="..\Tie\Compiler\Exception\CompilingException.cs" Link="Compiler\Exception\CompilingException.cs" />
+    <Compile Include="..\Tie\Compiler\Exception\Error.cs" Link="Compiler\Exception\Error.cs" />
+    <Compile Include="..\Tie\Compiler\Exception\Position.cs" Link="Compiler\Exception\Position.cs" />
+    <Compile Include="..\Tie\Compiler\Exception\PositionException.cs" Link="Compiler\Exception\PositionException.cs" />
+    <Compile Include="..\Tie\Compiler\Exception\TieException.cs" Link="Compiler\Exception\TieException.cs" />
+    <Compile Include="..\Tie\Compiler\Lex\FileLex.cs" Link="Compiler\Lex\FileLex.cs" />
+    <Compile Include="..\Tie\Compiler\Lex\JKey.cs" Link="Compiler\Lex\JKey.cs" />
+    <Compile Include="..\Tie\Compiler\Lex\JLex.cs" Link="Compiler\Lex\JLex.cs" />
+    <Compile Include="..\Tie\Compiler\Lex\StringLex.cs" Link="Compiler\Lex\StringLex.cs" />
+    <Compile Include="..\Tie\Compiler\Lex\Sym.cs" Link="Compiler\Lex\Sym.cs" />
+    <Compile Include="..\Tie\Compiler\Lex\SYMBOL.cs" Link="Compiler\Lex\SYMBOL.cs" />
+    <Compile Include="..\Tie\Compiler\Lex\SYMBOL2.cs" Link="Compiler\Lex\SYMBOL2.cs" />
+    <Compile Include="..\Tie\Compiler\Lex\Token.cs" Link="Compiler\Lex\Token.cs" />
+    <Compile Include="..\Tie\Compiler\Lex\tokty.cs" Link="Compiler\Lex\tokty.cs" />
+    <Compile Include="..\Tie\Compiler\Log\Logger.cs" Link="Compiler\Log\Logger.cs" />
+    <Compile Include="..\Tie\Compiler\Log\LOGTARGET.cs" Link="Compiler\Log\LOGTARGET.cs" />
+    <Compile Include="..\Tie\Compiler\Parser\CodeSource.cs" Link="Compiler\Parser\CodeSource.cs" />
+    <Compile Include="..\Tie\Compiler\Parser\Expression.cs" Link="Compiler\Parser\Expression.cs" />
+    <Compile Include="..\Tie\Compiler\Parser\JParser.cs" Link="Compiler\Parser\JParser.cs" />
+    <Compile Include="..\Tie\Compiler\Parser\Numeric.cs" Link="Compiler\Parser\Numeric.cs" />
+    <Compile Include="..\Tie\Compiler\Parser\Operand.cs" Link="Compiler\Parser\Operand.cs" />
     <Compile Include="..\Tie\HostType\DynamicDelegate.cs" Link="HostType\DynamicDelegate.cs" />
     <Compile Include="..\Tie\HostType\GenericArgument.cs" Link="HostType\GenericArgument.cs" />
     <Compile Include="..\Tie\HostType\GenericArguments.cs" Link="HostType\GenericArguments.cs" />
@@ -51,6 +68,7 @@
     <Compile Include="..\Tie\Valization\BaseValization.cs" Link="Valization\BaseValization.cs" />
     <Compile Include="..\Tie\Valization\DelegateValization`1.cs" Link="Valization\DelegateValization`1.cs" />
     <Compile Include="..\Tie\Valization\InterfaceValization`1.cs" Link="Valization\InterfaceValization`1.cs" />
+    <Compile Include="..\Tie\Valization\PartialDelegateValization.cs" Link="Valization\PartialDelegateValization.cs" />
     <Compile Include="..\Tie\Valization\PropertyValization.cs" Link="Valization\PropertyValization.cs" />
     <Compile Include="..\Tie\Valization\ScriptValization.cs" Link="Valization\ScriptValization.cs" />
     <Compile Include="..\Tie\Valization\ValizationMgr.cs" Link="Valization\ValizationMgr.cs" />
@@ -78,7 +96,11 @@
 
   <ItemGroup>
     <Folder Include="APP\" />
-    <Folder Include="Compiler\" />
+    <Folder Include="Compiler\CodeGeneration\" />
+    <Folder Include="Compiler\Exception\" />
+    <Folder Include="Compiler\Lex\" />
+    <Folder Include="Compiler\Log\" />
+    <Folder Include="Compiler\Parser\" />
     <Folder Include="HostType\" />
     <Folder Include="VM\" />
     <Folder Include="Valization\" />

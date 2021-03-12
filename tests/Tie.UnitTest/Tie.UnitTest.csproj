@@ -115,6 +115,7 @@
     <Compile Include="SET.cs" />
     <Compile Include="SqlCmd.cs" />
     <Compile Include="StatementTest.cs" />
+    <Compile Include="StringTest.cs" />
     <Compile Include="SubclassTest.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="TryCatchTest.cs" />
