@@ -33,15 +33,22 @@ namespace Tie
         public readonly string tok;
 
         /// <summary>
-        /// code line number
+        /// line number in code
         /// </summary>
         public readonly int line;
+
+
+        /// <summary>
+        /// column number in code
+        /// </summary>
+        public readonly int col;
 
         internal token(string tok, tokty ty, Position pos)
         {
             this.ty = ty;
             this.tok = tok;
             this.line = pos.line;
+            this.col = pos.col;
         }
 
         /// <summary>
