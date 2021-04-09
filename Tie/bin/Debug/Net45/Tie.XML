@@ -676,12 +676,12 @@
         </member>
         <member name="F:Tie.token.line">
             <summary>
-            code line number
+            line number in code
             </summary>
         </member>
         <member name="F:Tie.token.col">
             <summary>
-            code column number
+            column number in code
             </summary>
         </member>
         <member name="M:Tie.token.ToString">
