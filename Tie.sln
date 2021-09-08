@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B4E1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Helper", "Tie.Helper\Tie.Helper.csproj", "{D57F9724-D273-4631-B068-72949A7BB8B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie45", "Tie\Tie45.csproj", "{4832F819-7735-4B2A-A6C0-216EBC745676}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Helper.Tests", "tests\Tie.Helper.Tests\Tie.Helper.Tests.csproj", "{DFE04763-A699-4933-8242-0F5448B029CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Samples", "samples\Tie.Samples\Tie.Samples.csproj", "{73F63DE9-6E15-45A4-A3AC-72451B1F3542}"
@@ -28,9 +26,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Wpf.SearchEngine", "samples\Tie.Wpf.SearchEngine\Tie.Wpf.SearchEngine.csproj", "{2C7E2BC0-2047-4BF6-B69A-A15CC7C49D13}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0303BB39-39B7-4075-BBF5-83E37332132A}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Tests", "tests\Tie.Tests\Tie.Tests.csproj", "{5FC0F49D-2765-47F6-8FA0-2E8422A9CAB3}"
 EndProject
@@ -38,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest", "tests\Tie.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest.NET4", "tests\Tie.UnitTest.NET4\Tie.UnitTest.NET4.csproj", "{A2344F8A-4A9B-445C-BCB2-13977D6DF96D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie-Standard2.0", "Tie-Standard2.0\Tie-Standard2.0.csproj", "{DE69D1F5-F35D-4010-AA0D-A51C4554E276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie", "Tie\Tie.csproj", "{4CA5DE09-094E-47A3-981B-EA13B3F047CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +46,6 @@ Global
 		{D57F9724-D273-4631-B068-72949A7BB8B3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{D57F9724-D273-4631-B068-72949A7BB8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D57F9724-D273-4631-B068-72949A7BB8B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4832F819-7735-4B2A-A6C0-216EBC745676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4832F819-7735-4B2A-A6C0-216EBC745676}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4832F819-7735-4B2A-A6C0-216EBC745676}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4832F819-7735-4B2A-A6C0-216EBC745676}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DFE04763-A699-4933-8242-0F5448B029CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DFE04763-A699-4933-8242-0F5448B029CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFE04763-A699-4933-8242-0F5448B029CA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -104,10 +95,10 @@ Global
 		{A2344F8A-4A9B-445C-BCB2-13977D6DF96D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2344F8A-4A9B-445C-BCB2-13977D6DF96D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2344F8A-4A9B-445C-BCB2-13977D6DF96D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE69D1F5-F35D-4010-AA0D-A51C4554E276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE69D1F5-F35D-4010-AA0D-A51C4554E276}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE69D1F5-F35D-4010-AA0D-A51C4554E276}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE69D1F5-F35D-4010-AA0D-A51C4554E276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CA5DE09-094E-47A3-981B-EA13B3F047CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CA5DE09-094E-47A3-981B-EA13B3F047CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CA5DE09-094E-47A3-981B-EA13B3F047CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CA5DE09-094E-47A3-981B-EA13B3F047CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
