@@ -7,9 +7,8 @@
     <authors>datconn</authors>
     <owners>datconn</owners>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <licenseUrl>http://tie.codeplex.com/license</licenseUrl>
-    <projectUrl>http://tie.codeplex.com/</projectUrl>
-    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=tie&amp;DownloadId=331680&amp;Build=20841</iconUrl>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/fjiang2/Tie</projectUrl>
     <description>C# statement/expression interpreter 
 Tie is dynamic language(script) which accepts C# statement/expression syntax and JavaScript like function and class syntax. Include lexical analysis, parser and virtual machine(VM) 
 Script, such method or event handler,  is a simple .Net string which can be saved into SQL Server 
@@ -54,7 +53,10 @@ Middleware, high performance, compact size</description>
           1. added .net4.51 release
 	</releaseNotes>
     <dependencies>
-      <group targetFramework=".NETStandard2.0"></group>
+      <group targetFramework=".NETStandard2.0">
+	  </group>
+	  <group targetFramework="net450">
+      </group>
     </dependencies>
   </metadata>
   <files>
