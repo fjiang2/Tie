@@ -4,7 +4,7 @@ using Tie;
 namespace Tie.UnitTest.NET5
 {
     [TestClass]
-    public class UnitTest1
+    public class OperationTest
     {
         [TestMethod]
         public void Test_int_operation()
@@ -66,6 +66,29 @@ z3 = a < d;
             Assert.IsTrue((bool)ds["z1"]);
             Assert.IsTrue((bool)ds["z2"]);
             Assert.IsTrue((bool)ds["z3"]);
+
+        }
+
+        [TestMethod]
+        public void Test_bitwise_operation()
+        {
+            string code = @"a = 12;
+b = 159;
+z1 = a & b;
+z2 = a | b;
+z3 = ~a;
+";
+            int a = 12;
+            int b = 159;
+            int z1 = a & b;
+            int z2 = a | b;
+            int z3 = ~a;
+
+            Memory ds = new Memory();
+            Script.Execute(code, ds);
+            Assert.AreEqual((int)ds["z1"], z1);
+            Assert.AreEqual((int)ds["z2"], z2);
+            Assert.AreEqual((int)ds["z3"], z3);
 
         }
 
