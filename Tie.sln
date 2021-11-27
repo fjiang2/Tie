@@ -26,6 +26,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Wpf.SearchEngine", "samples\Tie.Wpf.SearchEngine\Tie.Wpf.SearchEngine.csproj", "{2C7E2BC0-2047-4BF6-B69A-A15CC7C49D13}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0303BB39-39B7-4075-BBF5-83E37332132A}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\tie.nuspec = .nuget\tie.nuspec
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest", "tests\Tie.UnitTest\Tie.UnitTest.csproj", "{77E4EE61-D572-423B-8E14-6855CD01861A}"
 EndProject
@@ -33,7 +36,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest.NET4", "tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie", "Tie\Tie.csproj", "{4CA5DE09-094E-47A3-981B-EA13B3F047CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest.NET5", "tests\Tie.UnitTest.NET5\Tie.UnitTest.NET5.csproj", "{888A7550-8C7D-4CDB-AF0D-EC8E726EDE72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie.UnitTest.NET5", "tests\Tie.UnitTest.NET5\Tie.UnitTest.NET5.csproj", "{888A7550-8C7D-4CDB-AF0D-EC8E726EDE72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
