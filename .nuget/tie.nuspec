@@ -58,10 +58,8 @@ Middleware, high performance, compact size</description>
 		1. added .net4.51 release
 	</releaseNotes>
     <dependencies>
-      <group targetFramework=".NETStandard2.0">
-	  </group>
-	  <group targetFramework="net450">
-      </group>
+      <group targetFramework=".NETStandard2.0"></group>
+      <group targetFramework="net450"></group>
     </dependencies>
   </metadata>
   <files>

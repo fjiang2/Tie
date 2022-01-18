@@ -1,25 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
-    <metadata>
-        <id>Tie.Helper</id>
-        <version>1.0.0.2</version>
-        <title>Tie.Helper</title>
-        <authors>datconn</authors>
-        <licenseUrl>http://tie.codeplex.com/license</licenseUrl>
-        <projectUrl>http://tie.codeplex.com</projectUrl>
-        <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=tie&amp;DownloadId=331680&amp;Build=20841</iconUrl>
-        <requireLicenseAcceptance>true</requireLicenseAcceptance>
-        <description>Serialize/deserialize .net object to persistent device,such as SQL Server, flat file or memory</description>
-        <summary>Helper class for module Tie</summary>
-        <releaseNotes>4/13/2015
+  <metadata>
+    <id>Tie.Helper</id>
+    <version>2.0.9</version>
+    <title>Tie.Helper</title>
+    <authors>datconn</authors>
+    <licenseUrl>http://tie.codeplex.com/license</licenseUrl>
+    <projectUrl>http://tie.codeplex.com</projectUrl>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=tie&amp;DownloadId=331680&amp;Build=20841</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Serialize/deserialize .net object to persistent device,such as SQL Server, flat file or memory</description>
+    <summary>Helper class for module Tie</summary>
+    <releaseNotes>
+		1/18/2022 v2.0.9
+		Improvements/Enhancements:
+		1.
+		2.
+		Bug Fixes:
+		1.
+		2.
+		4/13/2015
          1.add Extension class for conversion between VAL and IDictionary  
          
          02/10/2015 
-         1. added .net4.5 release</releaseNotes>
-        <dependencies>
-            <group targetFramework=".NETFramework4.5">
-                <dependency id="Tie" version="2.0.9.0" />
-            </group>
-        </dependencies>
-    </metadata>
+         1. added .net4.5 release
+</releaseNotes>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Tie" version="2.0.9" />
+      </group>
+    </dependencies>
+  </metadata>
 </package>
