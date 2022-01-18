@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 
 namespace UnitTest
 {
@@ -59,6 +60,18 @@ namespace UnitTest
                 }
               );
 
+            Valizer.Register<IPEndPoint>(
+             obj => new VAL($"{obj.Address}:{obj.Port}"),
+             val => decode((string)val)
+             );
+        }
+
+        private static IPEndPoint decode(string hostPort)
+        {
+            string[] items = hostPort.Split(':');
+            int port = int.Parse(items[1]);
+            var ip = IPAddress.Parse(items[0]);
+            return new IPEndPoint(ip, port);
         }
 
         public static void main()
@@ -165,6 +178,10 @@ namespace UnitTest
 
             TestContract_complex2 tc2 = Valizer.Devalize<TestContract_complex2>(jsonarray);
             Debug.Assert(tc2.Tc.Id == 1 && tc2.Tc.Name == "B" && tc2.Tc.Addr[1] == "X2");
+
+            VAL addr = Script.Evaluate("[\"127.0.0.1:92\",\"196.168.0.200:80\"]");
+            IPEndPoint[] epList = Valizer.Devalize<IPEndPoint[]>(addr);
+            Debug.Assert(epList[0].Address.ToString() == "127.0.0.1" && epList[1].Port == 80);
         }
 
         class TestContract_class

@@ -6,7 +6,7 @@ using System.IO;
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tie.Tests
+namespace Tie.UnitTest.NET5
 {
     [TestClass]
     public class BasicFacts
@@ -103,7 +103,7 @@ namespace Tie.Tests
         [TestMethod]
         public void TestTokenizeFile()
         {
-            string path = @"..\..\..\..\Tie\Compiler\Exception\Error.cs";
+            string path = @"..\..\..\..\..\Tie\Compiler\Exception\Error.cs";
             string code = File.ReadAllText(path);
 
             //Act

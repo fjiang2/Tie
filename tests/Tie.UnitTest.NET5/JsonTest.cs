@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tie;
 
-namespace Tie.Tests
+namespace Tie.UnitTest.NET5
 {
     [TestClass]
     public class JsonTest

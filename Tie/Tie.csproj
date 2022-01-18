@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net450</TargetFrameworks>
+    <AssemblyName>Tie</AssemblyName>
+    <RootNamespace>Tie</RootNamespace>
+    <Version>2.0.9</Version>
+    <AssemblyVersion>2.0.9.0</AssemblyVersion>
+    <SignAssembly>true</SignAssembly>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Authors>Datum Connect</Authors>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageTags>List Processing Script Language for .NET</PackageTags>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <PackageIconUrl></PackageIconUrl>
+    <DocumentationFile></DocumentationFile>
+    <AssemblyOriginatorKeyFile>tie.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DefineConstants>TRACE;DOTNET_STANDARD2</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DefineConstants>TRACE;DOTNET_STANDARD2</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net450|AnyCPU'">
+    <DefineConstants>TRACE;</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net450|AnyCPU'">
+    <DefineConstants>TRACE;</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net450'">
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="obj" />
+    <Compile Remove="bin" />
+  </ItemGroup>
+</Project>
