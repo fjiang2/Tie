@@ -18,7 +18,7 @@ Middleware, high performance, compact size</description>
     <releaseNotes>
 		1/17/2022 v2.0.9
 		Improvements/Enhancements:
-		1. Add class Tokenize
+		1. Add line and column number to token of class Tokenize
 		2. Thread safe
 
 		11/01/2020 v2.0.8
