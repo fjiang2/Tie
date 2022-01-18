@@ -16,41 +16,46 @@ Support script debug, breakpoint, log.
 Middleware, high performance, compact size</description>
     <summary>C# statement/expression interpreter</summary>
     <releaseNotes>
-          11/01/2020 v2.0.8
-          Improvements/Enhancements:
-          1. Implemented method: IEnumerable&lt;token&gt; Script.Tokenize(string text)
+		1/17/2022 v2.0.9
+		Improvements/Enhancements:
+		1. Add class Tokenize
+		2. Thread safe
 
-          9/18/2018 v2.0.7.0
-          1. support .Net Standard 2.0
+		11/01/2020 v2.0.8
+		Improvements/Enhancements:
+		1. Implemented method: IEnumerable&lt;token&gt; Script.Tokenize(string text)
 
-          1/18/2018 v2.0.6.0
-          1. support 32-bit hexadecimal constant
+		9/18/2018 v2.0.7.0
+		1. support .Net Standard 2.0
 
-          3/15/2017 v2.0.5.0
-          bug fixes:
-          1. deserialize struct and struct property
-          2. deserialize class and class property
+		1/18/2018 v2.0.6.0
+		1. support 32-bit hexadecimal constant
 
-          3/8/2017 v2.0.3.0
-          bug fixes:
-          1. devalize generic array
+		3/15/2017 v2.0.5.0
+		bug fixes:
+		1. deserialize struct and struct property
+		2. deserialize class and class property
 
-          2/14/2016 v2.0.2.0
-          1.Method ToScript in class Memory can export C# assignment code
-          2.bug fixes: cannot return nested type
+		3/8/2017 v2.0.3.0
+		bug fixes:
+		1. devalize generic array
 
-          12/17/2015 v2.0.1.0
-          1.change operator new priority, e.g. new A().B() == (new A()).B()
-          2.function host.classof(valor) devalizes valor to host object
+		2/14/2016 v2.0.2.0
+		1.Method ToScript in class Memory can export C# assignment code
+		2.bug fixes: cannot return nested type
 
-          04/13/2015 v2.0.0.14
-          1. new features: add Memory.GetValue and VAL.GetMember
+		12/17/2015 v2.0.1.0
+		1.change operator new priority, e.g. new A().B() == (new A()).B()
+		2.function host.classof(valor) devalizes valor to host object
 
-          03/26/2015 v2.0.0.13
-          1. bug fixes: error on compile string having char '\r'
+		04/13/2015 v2.0.0.14
+		1. new features: add Memory.GetValue and VAL.GetMember
 
-          02/10/2015 v2.0.0.12
-          1. added .net4.51 release
+		03/26/2015 v2.0.0.13
+		1. bug fixes: error on compile string having char '\r'
+
+		02/10/2015 v2.0.0.12
+		1. added .net4.51 release
 	</releaseNotes>
     <dependencies>
       <group targetFramework=".NETStandard2.0">

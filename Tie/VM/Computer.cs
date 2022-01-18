@@ -28,19 +28,14 @@ namespace Tie
     ///     1: User global variable for all users
     ///     2: User temp variable in user's space
     /// </summary>
-    class Computer
+    static class Computer
     {
 
-        private static Computer machine = null;  
+        public static readonly Memory DS1 = new Memory();
+        public static readonly Memory DS2 = new Memory();
 
-        private Memory ds1;
-        private Memory ds2;
-
-        private Computer()
+        static Computer()
         {
-            ds1 = new Memory();
-            ds2 = new Memory();
-
             register("object", typeof(object));
             register("bool", typeof(bool));
 
@@ -74,7 +69,7 @@ namespace Tie
             L.Add("CLASS", new VAL((int)VALTYPE.classcon));
             L.Add("HOST", new VAL((int)VALTYPE.hostcon));
             
-            ds1.Add("TYPE", new VAL(L));
+            DS1.Add("TYPE", new VAL(L));
 
 
             //HostType.Register(new Type[]
@@ -87,38 +82,11 @@ namespace Tie
 
         }
 
-        private void register(string ty, Type type)
+        private static void register(string ty, Type type)
         {
-            ds1.Add(ty, VAL.NewHostType(type));
+            DS1.Add(ty, VAL.NewHostType(type));
         }
-
-
-        public static Memory DS1
-        {
-            get
-            {
-                if (machine == null)
-                    machine = new Computer();
-
-                return machine.ds1;
-            }
-        }
-
-        public static Memory DS2
-        {
-            get
-            {
-                if (machine == null)
-                    machine = new Computer();
-
-                return machine.ds2;
-            }
-        }
-
-
-
-
-
+   
         public static VAL Run(CPU cpu, int breakPoint)
         {
 #if DEBUG
@@ -170,10 +138,5 @@ namespace Tie
             return new VAL();
         }
 
-
-     
-
     }
-    
-
 }
