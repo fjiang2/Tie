@@ -27,7 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Wpf.SearchEngine", "sam
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0303BB39-39B7-4075-BBF5-83E37332132A}"
 	ProjectSection(SolutionItems) = preProject
-		.nuget\tie.nuspec = .nuget\tie.nuspec
+		.nuget\Tie.Helper.nuspec = .nuget\Tie.Helper.nuspec
+		.nuget\Tie.nuspec = .nuget\Tie.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest", "tests\Tie.UnitTest\Tie.UnitTest.csproj", "{77E4EE61-D572-423B-8E14-6855CD01861A}"
