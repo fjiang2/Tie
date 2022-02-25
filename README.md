@@ -47,4 +47,38 @@ Example 2:
    7: Label label1 = (Label)ds["label1"].Value;                 
    // label1.Text --> "Hello World";   
 ```  
+ Example 4:
+```javascript
+   1: string path = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools 
+      /all 
+      /has:true";
+   2: IEnumerable<token> L = Script.Tokenize(path);
+/* L =
+line col ty tok   
+1	3	identsy	C
+1	4	symbol	:
+1	5	symbol	\
+1	12	identsy	Program
+1	18	identsy	Files
+1	20	symbol	(
+1	23	identsy	x86
+1	24	symbol	)
+1	25	symbol	\
+1	34	identsy	Microsoft
+1	41	identsy	Visual
+1	48	identsy	Studio
+1	53	number	12.0
+1	54	symbol	\
+1	61	identsy	Common7
+1	62	symbol	\
+1	67	identsy	Tools
+2	5	symbol	/
+2	8	identsy	all
+3	5	symbol	/
+3	8	identsy	has
+3	9	symbol	:
+3	12	keyword	true
+*/
+```  
+
 (The 1st version of Tie was developed by C++ and released in 1999, and it has been migrated into C# version in 2007. Many .net specific features were added into Tie C# from 2009 to 2022, Tie has been used in commercial software include aviation, healthcare, education and etc.)
