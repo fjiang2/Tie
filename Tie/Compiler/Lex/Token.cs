@@ -79,11 +79,22 @@ namespace Tie
                     break;
 
                 case SYMBOL.stringcon:
-                    ty = tokty.stringcon;
-                    if (quotationMark)
-                        o.Write("\"{0}\"", sym.stab);
+                    if (opr == SYMBOL2.SQUOT)
+                    {
+                        ty = tokty.charcon;
+                        if (quotationMark)
+                            o.Write("'{0}'", sym.stab);
+                        else
+                            o.Write("{0}", sym.stab);
+                    }
                     else
-                        o.Write("{0}", sym.stab);
+                    {
+                        ty = tokty.stringcon;
+                        if (quotationMark)
+                            o.Write("\"{0}\"", sym.stab);
+                        else
+                            o.Write("{0}", sym.stab);
+                    }
                     break;
 
                 case SYMBOL.identsy:
