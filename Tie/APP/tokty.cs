@@ -33,9 +33,14 @@ namespace Tie
         identsy,
 
         /// <summary>
-        /// string constant
+        /// string constant with double quotes
         /// </summary>
         stringcon,
+
+        /// <summary>
+        /// string with single quotes
+        /// </summary>
+        charcon,
 
         /// <summary>
         /// symbol like: +,-,++,>=

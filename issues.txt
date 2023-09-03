@@ -1,0 +1,72 @@
+Bitwise operators don't work with variables
+
+
+Feeding a Dictionary into Script.Execute that contains an expression with bitwise operators ( |, &, <<, >>) causes failure:
+```
+expression
+"(1|ERRNO_ADC_CAL_MARKER)"
+parameters["ERRNO_ADC_CAL_MARKER"]
+{16}
+Boolcon: '((Tie.VAL)(parameters["ERRNO_ADC_CAL_MARKER"])).Boolcon' threw an exception of type 'System.InvalidCastException'
+Count: -1
+Decimalcon: 16
+Defined: true
+Doublecon: '((Tie.VAL)(parameters["ERRNO_ADC_CAL_MARKER"])).Doublecon' threw an exception of type 'System.InvalidCastException'
+HostValue: 16
+Intcon: '((Tie.VAL)(parameters["ERRNO_ADC_CAL_MARKER"])).Intcon' threw an exception of type 'System.InvalidCastException'
+IsBool: false
+IsClass: false
+IsDecimal: true
+IsDouble: false
+IsFalse: false
+IsFunction: false
+IsHostType: false
+IsInt: false
+IsList: false
+IsNull: false
+IsReadOnly: false
+IsTrue: false
+ObjectArray: '((Tie.VAL)(parameters["ERRNO_ADC_CAL_MARKER"])).ObjectArray' threw an exception of type 'System.InvalidCastException'
+Size: -1
+Str: '((Tie.VAL)(parameters["ERRNO_ADC_CAL_MARKER"])).Str' threw an exception of type 'System.InvalidCastException'
+ty: decimalcon
+Undefined: false
+Valor: "(decimal)16"
+value: 16
+Tie.Script.Execute(expression+";", parameters)
+Tie.Script.Execute(expression+";", parameters)' threw an exception of type 'Tie.RuntimeException'
+base: {"RUNTIME Tie.TieException: invalid operation from 1 | 16
+at Tie.VAL.op_BitwiseOr(VAL v1, VAL v2)
+at Tie.CPU.Run(Int32 breakPoint)
+at Tie.Computer.Run(CPU cpu, Int32 breakPoint) at line:1 col:26 mod:volatile"}
+
+Notice how it correctly evaluates the variable, but still fails to bitwise Or it.
+Proposed
+#996 | Created 2013-11-05 | Updated 2013-11-05
+
+
+
+
+Tie not thread safe
+Because Tie uses singleton pattern (Computer.Ds1.Add(param1, param2)) you will have only one instance running in a given app pool at a time. The methods are not thread safe, adding and removing from collections so be weary, do not use this DLL in a Web application which is multi threaded model (default) also in any apps that are threaded. I found out the hard way with our production server crashing with w3cp processes going to 100% intermittently. Very hard to track down the root cause.
+Proposed
+#931 | Created 2013-08-07 | Updated 2013-08-07
+
+
+
+
+
+operator expressions with double types fail
+
+string code = @"x = 11.12;
+y = 11.55;
+z = x < y;";
+
+Memory ds = new Memory();
+Script.Execute(code, ds);
+Debug.Assert((bool)ds["z"] == true); //FAIL!
+
+
+Assertion that z == true fails. Tie resolves z as false, it should be true. How do I resolve this?
+Proposed
+#883 | Created 2013-05-27 | Updated 2013-05-27

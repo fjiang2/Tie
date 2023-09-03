@@ -18,23 +18,21 @@
 namespace Tie
 {
     enum SYMBOL2
-	{
-	    EQL,NEQ,
-	    GTR,GEQ,LSS,LEQ,
-        ADR, VLU,                    // &var, *adr
-	
-	    ePLUS,eMINUS,eSTAR,eDIV,eMOD,		// +=
-	    eSHR,eSHL,
-	    eAND,eOR,eXOR,
+    {
+        EQL, NEQ,
+        GTR, GEQ, LSS, LEQ,
+        ADR, VLU,                               // &var *adr
 
-	    NOT,BNOT,NEG,
-	
-        PPLUS,MMINUS,									// ++, --
-	    SHL,SHR,										// <<,	>>
-	    DOT,ARROW
-    }								// .	->
+        ePLUS, eMINUS, eSTAR, eDIV, eMOD,       // +=
+        eSHR, eSHL,
+        eAND, eOR, eXOR,
 
+        NOT, BNOT, NEG,
 
+        PPLUS, MMINUS,                          // ++   --
+        SHL, SHR,                               // <<	>>
+        DOT, ARROW,                             // .	->
 
-    
+        DQUOT, SQUOT,                           // "    '
+    }
 }

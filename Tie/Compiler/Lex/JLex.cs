@@ -301,7 +301,7 @@ namespace Tie
             return false;
         }
 
-        private void GetString(char sep)
+        private void GetString(char sep, SYMBOL2 quotes)
         {
             int k = 0;
             char[] stab = new char[Constant.MAX_STRING_SIZE + 1];
@@ -382,6 +382,7 @@ namespace Tie
 
             NextCh();
             tok.sy = SYMBOL.stringcon;
+            tok.opr = quotes;
             stab[k] = (char)0;
             tok.sym.len = k;
 
@@ -477,8 +478,10 @@ namespace Tie
 
                 //string	
                 case '"':
+                    GetString(ch, SYMBOL2.DQUOT);
+                    break;
                 case '\'':
-                    GetString(ch);
+                    GetString(ch, SYMBOL2.SQUOT);
                     break;
 
                 case '@':
