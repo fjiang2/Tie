@@ -36,7 +36,7 @@ namespace Tie
         /// <summary>
         /// Initializes a new instance of the Tie.Script class, using dynamically created GUID as module name.
         /// CODE segment size = 16K
-        /// CODE will be destoryed once the instance is deconstructed
+        /// CODE will be destroyed once the instance is deconstructed
         /// </summary>
         public Script()
             : this(UniqueName, Constant.MAX_INSTRUCTION_NUM, true)
@@ -46,7 +46,7 @@ namespace Tie
 
         /// <summary>
         /// Initializes a new instance of the Tie.Script class, using dynamically created GUID as module name.
-        /// CODE will be destoryed once the instance is deconstructed
+        /// CODE will be destroyed once the instance is deconstructed
         /// </summary>
         /// <param name="moduleSize">Code segment size </param>
         public Script(int moduleSize)
@@ -58,7 +58,7 @@ namespace Tie
         /// <summary>
         /// Initializes a new instance of the Tie.Script class
         /// CODE segment size = 16K
-        /// CODE will be destoryed once the instance is deconstructed
+        /// CODE will be destroyed once the instance is deconstructed
         /// </summary>
         /// <param name="moduleName">Script module name</param>
         public Script(string moduleName)
@@ -69,7 +69,7 @@ namespace Tie
 
         /// <summary>
         /// Initializes a new instance of the Tie.Script class
-        /// CODE will be destoryed once the instance is deconstructed
+        /// CODE will be destroyed once the instance is deconstructed
         /// </summary>
         /// <param name="moduleName">Module name</param>
         /// <param name="moduleSize">Code segment size</param>
@@ -116,7 +116,7 @@ namespace Tie
         /// </summary>
         /// <param name="DS">Data segment(DS)</param>
         /// <param name="instance">Host instance</param>
-        /// <param name="toHost">true: synchronize from DS to Host, false: synchrnize from Host to DS</param>
+        /// <param name="toHost">true: synchronize from DS to Host, false: synchronize from Host to DS</param>
         public static void SyncInstance(Memory DS, object instance, bool toHost)
         {
 
@@ -302,7 +302,7 @@ namespace Tie
         }
 
         /// <summary>
-        /// Fuction chain used to implement tie script functions by .NET code
+        /// Function chain used to implement tie script functions by .NET code
         /// </summary>
         public static FunctionChain FunctionChain
         {
@@ -455,7 +455,7 @@ namespace Tie
         /// </summary>
         /// <param name="memory"></param>
         /// <param name="funcName">function name</param>
-        /// <param name="parameters">function signatrue</param>
+        /// <param name="parameters">function signature</param>
         /// <returns></returns>
         public static VAL InvokeChainedFunction(Memory memory, string funcName, object[] parameters)
         {
@@ -619,7 +619,7 @@ namespace Tie
         /// <summary>
         /// Evaluate expression and then CodeBlock is thrown away
         /// </summary>
-        /// <param name="src">Souce code expression</param>
+        /// <param name="src">Source code expression</param>
         /// <returns>Value of expression</returns>
         public VAL VolatileEvaluate(string src)
         {
@@ -727,7 +727,7 @@ namespace Tie
         /// </summary>
         /// <param name="breakpoint">Address of break point</param>
         /// <param name="cursor"></param>
-        /// <param name="info">CPU registers/stacks infomation is passed in</param>
+        /// <param name="info">CPU registers/stacks information is passed in</param>
         /// <param name="DS2">Shared data segment</param>
         public delegate void DebugHandler(int breakpoint, int cursor, string info, Memory DS2);
 

@@ -4,12 +4,12 @@
     <TargetFrameworks>netstandard2.0;net480</TargetFrameworks>
     <AssemblyName>Tie</AssemblyName>
     <RootNamespace>Tie</RootNamespace>
-    <Version>2.0.10</Version>
-    <AssemblyVersion>2.0.10</AssemblyVersion>
+    <Version>2.0.11</Version>
+    <AssemblyVersion>2.0.11</AssemblyVersion>
     <SignAssembly>true</SignAssembly>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Authors>Datum Connect</Authors>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl></PackageProjectUrl>
     <PackageTags>List Processing Script Language for .NET</PackageTags>
@@ -17,6 +17,7 @@
     <PackageIconUrl></PackageIconUrl>
     <DocumentationFile></DocumentationFile>
     <AssemblyOriginatorKeyFile>tie.snk</AssemblyOriginatorKeyFile>
+    <PackageOutputPath>c:\local\nuget</PackageOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <DefineConstants>TRACE;DOTNET_STANDARD2</DefineConstants>
