@@ -105,11 +105,11 @@ namespace Tie
             char[] ident = new char[Constant.ALNG];
 
             // IDENT   
-            if (ch == '_' || ch == '$' || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '@')
+            if (ch == '_' || ch == '$' || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
             {
                 k = 0;
                 for (i = 0; i < Constant.ALNG; i++) ident[i] = (char)0;  //ALNG=10
-                if (ch == '$' || ch == '@')                              //a variable begun with $ is system variable
+                if (ch == '$')                              //a variable begun with $ is system variable
                 {
                     ident[k++] = ch;
                     NextCh();
@@ -488,9 +488,16 @@ namespace Tie
                     NextCh();
                     if (ch == '"' || ch == '\'')
                         GetStringESC(ch);
+                    else if (GetKeyAndIdent())
+                    {
+                        tok.sym.len++;
+                        tok.sym.id = "@" + tok.sym.id;
+                        break;
+                    }
                     else
                     {
-                        error.OnError(24); NextCh();
+                        error.OnError(24);
+                        NextCh();
                     }
                     break;
 
