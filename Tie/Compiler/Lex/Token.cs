@@ -44,12 +44,12 @@ namespace Tie
             this.opr = opr;
         }
 
-        private String encode(OutputType ot, out tokty ty)
+        private string encode(OutputType ot, out tokty ty)
         {
             bool quotationMark = (ot & OutputType.QuotationMark) == OutputType.QuotationMark;
             bool nullMark = (ot & OutputType.NullMark) == OutputType.NullMark;
             bool persistent = (ot & OutputType.Valization) == OutputType.Valization;
-            bool hostMark = (ot & OutputType.Host) == OutputType.Host;
+            bool wellFormatted = (ot & OutputType.WellFormatted) == OutputType.WellFormatted;
 
             ty = tokty.symbol;
 
@@ -195,7 +195,7 @@ namespace Tie
                 case SYMBOL.QUEST: o.Write('?'); break;
                 case SYMBOL.COLON: o.Write(':'); break;
                 case SYMBOL.COMMA: o.Write(','); break;
-                case SYMBOL.SEMI: o.WriteLine(';'); break;
+                case SYMBOL.SEMI: o.Write(';'); if (wellFormatted) o.WriteLine(); break;
 
                 case SYMBOL.DELIMITER: o.Write('\\'); break;
 

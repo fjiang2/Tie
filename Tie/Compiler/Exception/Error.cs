@@ -151,16 +151,12 @@ namespace Tie
 
         public void OnWarning(int i)
         {
-            Logger.WriteLine(
-                string.Format("Warning :{0} {1}", msgWarning[i], pos.ToString()));
-
+            Logger.WriteLine(string.Format("Warning :{0} {1}", msgWarning[i], pos.ToString()));
         }
 
         public void OnError(int i)
         {
             throw new CompilingException(msgError[i], pos) { ErrorCode = 1000 + i };
-            //C:\Jiang\tie\test.cpp(14) : error C2039: 'In' : is not a member of 'ScanToken'
-
         }
 
         public void OnError(SYMBOL sy)

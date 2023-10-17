@@ -29,7 +29,7 @@ namespace Tie
         protected char ch;
         public static JKey[] Key;
         private Token tok;
-        private Error error;			//the positon of cursor in file
+        private Error error;			//the position of cursor in file
 
         public JLex(Error err)
         {
@@ -109,7 +109,7 @@ namespace Tie
             {
                 k = 0;
                 for (i = 0; i < Constant.ALNG; i++) ident[i] = (char)0;  //ALNG=10
-                if (ch == '$')                              //a variable begun with $ is system varible
+                if (ch == '$')                              //a variable begun with $ is system variable
                 {
                     ident[k++] = ch;
                     NextCh();
@@ -287,7 +287,7 @@ namespace Tie
 
                 }
                 else
-                    if (ch == 'e' || ch == 'E') //expoent
+                    if (ch == 'e' || ch == 'E') //exponent
                 {
                     tok.sy = SYMBOL.floatcon;
                     tok.sym.fnum = tok.sym.inum;
@@ -467,7 +467,7 @@ namespace Tie
                         goto L1;
                     }
                     else if (ch == '*')
-                    {					// comment type II (/* */) suppor Nest comment
+                    {					// comment type II (/* */) support Nest comment
                         NextCh();
                         SkipComment();
                         goto L1;
@@ -488,9 +488,16 @@ namespace Tie
                     NextCh();
                     if (ch == '"' || ch == '\'')
                         GetStringESC(ch);
+                    else if (GetKeyAndIdent())
+                    {
+                        tok.sym.len++;
+                        tok.sym.id = "@" + tok.sym.id;
+                        break;
+                    }
                     else
                     {
-                        error.OnError(24); NextCh();
+                        error.OnError(24);
+                        NextCh();
                     }
                     break;
 
@@ -619,7 +626,8 @@ namespace Tie
                 case '\\': tok.sy = SYMBOL.DELIMITER; NextCh(); break;
                 default:
                     //cerr<<"error letter:"<<ch<<" has already skip";
-                    error.OnError(24); NextCh();
+                    error.OnError(24); 
+                    NextCh();
                     goto L1;
             } // switch
             return true;
