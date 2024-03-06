@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-#if !SILVERLIGHT
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization.Formatters.Binary;
-#endif
 
 namespace Tie.Helper
 {
@@ -59,7 +57,6 @@ namespace Tie.Helper
 
         #region BinaryFormatter Encode/Decode
 
-#if !SILVERLIGHT
 
         public static object DecodeBinary(string hexString)
         {
@@ -113,14 +110,12 @@ namespace Tie.Helper
 
         }
 
-#endif
         #endregion
 
 
 
         #region SOAPFormatter Encode/Decode
 
-#if !SILVERLIGHT
 
         public static object DecodeSOAP(string SOAP)
         {
@@ -172,7 +167,6 @@ namespace Tie.Helper
 
 
 
-#endif
 
         #endregion
 

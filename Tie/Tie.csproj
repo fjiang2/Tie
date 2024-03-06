@@ -9,7 +9,7 @@
     <SignAssembly>true</SignAssembly>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Authors>Datum Connect</Authors>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl></PackageProjectUrl>
     <PackageTags>List Processing Script Language for .NET</PackageTags>
@@ -17,7 +17,9 @@
     <PackageIconUrl></PackageIconUrl>
     <DocumentationFile></DocumentationFile>
     <AssemblyOriginatorKeyFile>tie.snk</AssemblyOriginatorKeyFile>
-    <PackageOutputPath>c:\local\nuget</PackageOutputPath>
+    <PackageOutputPath>$(LocalNugetPath)</PackageOutputPath>
+    <Description>List Processing Script Language for .NET</Description>
+    <Copyright>Copyright @ Datum Connect 1991-2024</Copyright>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <DefineConstants>TRACE;DOTNET_STANDARD2</DefineConstants>
