@@ -18,6 +18,8 @@
     <DocumentationFile></DocumentationFile>
     <AssemblyOriginatorKeyFile>tie.snk</AssemblyOriginatorKeyFile>
     <PackageOutputPath>$(LocalNugetPath)</PackageOutputPath>
+    <Description>List Processing Script Language for .NET</Description>
+    <Copyright>Copyright @ Datum Connect 1991-2024</Copyright>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <DefineConstants>TRACE;DOTNET_STANDARD2</DefineConstants>

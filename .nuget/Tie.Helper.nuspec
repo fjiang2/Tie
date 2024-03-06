@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Tie.Helper</id>
-    <version>2.0.9</version>
+    <version>2.0.11</version>
     <title>Tie.Helper</title>
     <authors>datconn</authors>
     <licenseUrl>http://tie.codeplex.com/license</licenseUrl>
@@ -12,6 +12,11 @@
     <description>Serialize/deserialize .net object to persistent device,such as SQL Server, flat file or memory</description>
     <summary>Helper class for module Tie</summary>
     <releaseNotes>
+		3/5/2024 v2.0.11
+		Improvements/Enhancements:
+		1. Use Tie 2.0.11
+		2. Support .Net 4.8
+
 		1/18/2022 v2.0.9
 		Improvements/Enhancements:
 		1.
@@ -20,11 +25,11 @@
 		1.
 		2.
 		4/13/2015
-         1.add Extension class for conversion between VAL and IDictionary  
-         
-         02/10/2015 
-         1. added .net4.5 release
-</releaseNotes>
+		1.add Extension class for conversion between VAL and IDictionary
+
+		02/10/2015
+		1. added .net4.5 release
+	</releaseNotes>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
         <dependency id="Tie" version="2.0.9" />
