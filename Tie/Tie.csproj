@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net450</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net480</TargetFrameworks>
     <AssemblyName>Tie</AssemblyName>
     <RootNamespace>Tie</RootNamespace>
-    <Version>2.0.10</Version>
-    <AssemblyVersion>2.0.10</AssemblyVersion>
+    <Version>2.0.11</Version>
+    <AssemblyVersion>2.0.11</AssemblyVersion>
     <SignAssembly>true</SignAssembly>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Authors>Datum Connect</Authors>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl></PackageProjectUrl>
     <PackageTags>List Processing Script Language for .NET</PackageTags>
@@ -17,6 +17,9 @@
     <PackageIconUrl></PackageIconUrl>
     <DocumentationFile></DocumentationFile>
     <AssemblyOriginatorKeyFile>tie.snk</AssemblyOriginatorKeyFile>
+    <PackageOutputPath>$(LocalNugetPath)</PackageOutputPath>
+    <Description>List Processing Script Language for .NET</Description>
+    <Copyright>Copyright @ Datum Connect 1991-2024</Copyright>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <DefineConstants>TRACE;DOTNET_STANDARD2</DefineConstants>
@@ -24,10 +27,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <DefineConstants>TRACE;DOTNET_STANDARD2</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net450|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net480|AnyCPU'">
     <DefineConstants>TRACE;</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net450|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net480|AnyCPU'">
     <DefineConstants>TRACE;</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net450'">

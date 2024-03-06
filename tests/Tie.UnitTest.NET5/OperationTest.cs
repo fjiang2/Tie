@@ -1,3 +1,4 @@
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tie;
 
@@ -89,6 +90,16 @@ z3 = ~a;
             Assert.AreEqual((int)ds["z1"], z1);
             Assert.AreEqual((int)ds["z2"], z2);
             Assert.AreEqual((int)ds["z3"], z3);
+
+        }
+
+        [TestMethod]
+        public void Test_Tokenize()
+        {
+            string text = "@a=12;";
+            var tokens = Script.Tokenize(text).ToArray();
+            Assert.AreEqual("@a", tokens[0].tok);
+            Assert.AreEqual(";", tokens[3].tok);
 
         }
 
