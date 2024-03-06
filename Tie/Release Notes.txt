@@ -1,21 +1,4 @@
-﻿//--------------------------------------------------------------------------------------------------//
-//                                                                                                  //
-//        Tie                                                                                       //
-//                                                                                                  //
-//          Copyright(c) Datum Connect Inc.                                                         //
-//                                                                                                  //
-// This source code is subject to terms and conditions of the Datum Connect Software License. A     //
-// copy of the license can be found in the License.html file at the root of this distribution. If   //
-// you cannot locate the  Datum Connect Software License, please send an email to                   //
-// support@datconn.com. By using this source code in any fashion, you are agreeing to be bound      //
-// by the terms of the Datum Connect Software License.                                              //
-//                                                                                                  //
-// You must not remove this notice, or any other, from this software.                               //
-//                                                                                                  //
-//                                                                                                  //
-//--------------------------------------------------------------------------------------------------//
-
-
+﻿
 //-----------------------------------------------------------------------------------//
 //                                                                                   //
 //        Tie                                                                        //
@@ -25,6 +8,10 @@
 //                1991-2013                                                          //
 //                                                                                   //
 //-----------------------------------------------------------------------------------//
+
+10/16/2023 v2.0.11
+   1. Letter @ can be the first letter of variable name in order to parse SQL variable
+   2. Use .Net 4.8 instead of .Net4.5
 
 11/01/2020 v2.0.8
 	Improvements/Enhancements:
