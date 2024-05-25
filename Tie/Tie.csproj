@@ -33,11 +33,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net480|AnyCPU'">
     <DefineConstants>TRACE;</DefineConstants>
   </PropertyGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net450'">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net480'">
     <Reference Include="System.Configuration" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="obj" />
-    <Compile Remove="bin" />
   </ItemGroup>
 </Project>
