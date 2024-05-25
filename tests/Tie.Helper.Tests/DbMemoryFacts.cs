@@ -17,7 +17,7 @@ namespace Tie.Helper.Tests
         static Memory DS = new Memory();
         static dynamic config;
 
-        static DbMemoryFacts()
+        public DbMemoryFacts()
         {
             string code = @"
                 Cassandra.Host	='192.168.0.20';

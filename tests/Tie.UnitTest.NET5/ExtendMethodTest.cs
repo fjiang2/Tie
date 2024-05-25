@@ -6,10 +6,8 @@ using System.Text;
 using System.Diagnostics;
 using Tie;
 
-namespace Tie.UnitTest.NET4
+namespace Tie.UnitTest.NET5
 {
-
-
     class Car
     {
         public string PetName = string.Empty;
