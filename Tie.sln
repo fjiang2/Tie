@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29009.5
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7BE026F2-8686-46A2-BD28-1553DCABA077}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B4E1E895-034D-4F23-82CC-90405AFA1637}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Helper", "Tie.Helper\Tie.Helper.csproj", "{D57F9724-D273-4631-B068-72949A7BB8B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie.Helper", "Tie.Helper\Tie.Helper.csproj", "{D57F9724-D273-4631-B068-72949A7BB8B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.Helper.Tests", "tests\Tie.Helper.Tests\Tie.Helper.Tests.csproj", "{DFE04763-A699-4933-8242-0F5448B029CA}"
 EndProject
@@ -31,9 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0303BB
 		.nuget\Tie.nuspec = .nuget\Tie.nuspec
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest", "tests\Tie.UnitTest\Tie.UnitTest.csproj", "{77E4EE61-D572-423B-8E14-6855CD01861A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tie.UnitTest.NET4", "tests\Tie.UnitTest.NET4\Tie.UnitTest.NET4.csproj", "{A2344F8A-4A9B-445C-BCB2-13977D6DF96D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie.UnitTest", "tests\Tie.UnitTest\Tie.UnitTest.csproj", "{77E4EE61-D572-423B-8E14-6855CD01861A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie", "Tie\Tie.csproj", "{4CA5DE09-094E-47A3-981B-EA13B3F047CA}"
 EndProject
@@ -91,10 +89,6 @@ Global
 		{77E4EE61-D572-423B-8E14-6855CD01861A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{77E4EE61-D572-423B-8E14-6855CD01861A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77E4EE61-D572-423B-8E14-6855CD01861A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2344F8A-4A9B-445C-BCB2-13977D6DF96D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2344F8A-4A9B-445C-BCB2-13977D6DF96D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2344F8A-4A9B-445C-BCB2-13977D6DF96D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2344F8A-4A9B-445C-BCB2-13977D6DF96D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4CA5DE09-094E-47A3-981B-EA13B3F047CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4CA5DE09-094E-47A3-981B-EA13B3F047CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CA5DE09-094E-47A3-981B-EA13B3F047CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -117,7 +111,6 @@ Global
 		{AB20DF77-54E3-4538-962E-6CCC9C60E283} = {B4E1E895-034D-4F23-82CC-90405AFA1637}
 		{2C7E2BC0-2047-4BF6-B69A-A15CC7C49D13} = {B4E1E895-034D-4F23-82CC-90405AFA1637}
 		{77E4EE61-D572-423B-8E14-6855CD01861A} = {7BE026F2-8686-46A2-BD28-1553DCABA077}
-		{A2344F8A-4A9B-445C-BCB2-13977D6DF96D} = {7BE026F2-8686-46A2-BD28-1553DCABA077}
 		{888A7550-8C7D-4CDB-AF0D-EC8E726EDE72} = {7BE026F2-8686-46A2-BD28-1553DCABA077}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
