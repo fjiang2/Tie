@@ -45,7 +45,7 @@ namespace Tie
 
                 /*
                  *  register(Type type)
-                 *  register(Assembly assemby)
+                 *  register(Assembly assembly)
                  * */
                 case "register":
                     if (size == 1)

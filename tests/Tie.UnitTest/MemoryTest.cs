@@ -52,7 +52,7 @@ namespace UnitTest
             Script.Execute(code, ds);
             val=ds["A"];
             Debug.Assert(val.ToString()== "{{\"a\",1},{\"b\",2},{\"c\",void},{\"D\",{{\"a\",1},{\"c\",null}}}}");
-            ds.ClearNullorVoid("A");
+            ds.ClearNullOrVoid("A");
             val = ds["A"];
             Debug.Assert(val.ToString() == "{{\"a\",1},{\"b\",2},{\"D\",{{\"a\",1}}}}");
 

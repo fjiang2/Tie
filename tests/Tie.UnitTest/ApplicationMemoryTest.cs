@@ -106,7 +106,7 @@ namespace UnitTest
         protected override int MaxVariableSpaceLength { get { return VarColWidh; } }
         protected override int MaxValueSpaceLength { get { return ValColWidh; } }
 
-        protected override IEnumerable<KeyValuePair<string, string>> ReadMemory(IEnumerable<string> varibles)
+        protected override IEnumerable<KeyValuePair<string, string>> ReadMemory(IEnumerable<string> variables)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
             if (File.Exists(fileName))

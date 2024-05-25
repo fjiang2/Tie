@@ -195,10 +195,10 @@ namespace Tie.Helper
 
 
         /// <summary>
-        /// compress varible names, some varibles may belong to one
+        /// compress variable names, some variables may belong to one
         /// </summary>
         /// <param name="names"></param>
-        /// <returns>varible name list</returns>
+        /// <returns>variable name list</returns>
         public static IEnumerable<VAR> CompressKeyNames(IEnumerable<VAR> names)
         {
             StringBuilder code = new StringBuilder("{");

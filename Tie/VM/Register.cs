@@ -76,7 +76,7 @@ namespace Tie
            catch (Exception)
            {
                val = new VAL();
-               throw new TieException("R01 varible is not initialized in STACK");
+               throw new TieException("R01 variable is not initialized in STACK");
            }
         }
 

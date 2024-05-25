@@ -6,7 +6,7 @@ namespace Tie.Helper
 {
     /// <summary>
     /// used to serialize memory to persistent device, such as database server or text file
-    /// varible can be simple varible or composite varible, such as "X.a", "X.a.b"
+    /// variable can be simple variable or composite variable, such as "X.a", "X.a.b"
     /// </summary>
     public abstract class DbMemory : PersistentMemory
     {
@@ -186,7 +186,7 @@ namespace Tie.Helper
         }
 
         /// <summary>
-        /// Save all varibles into persistent device
+        /// Save all variables into persistent device
         /// </summary>
         public override void Save()
         {
@@ -204,7 +204,7 @@ namespace Tie.Helper
         }
 
         /// <summary>
-        /// Load all varibles from persistent device
+        /// Load all variables from persistent device
         /// </summary>
         public override void Load()
         {
@@ -242,12 +242,12 @@ namespace Tie.Helper
         /// Read values from persistent device by variables. Read all if variables is empty
         /// caution: Keys are dynamic generated based on length of Key/Value space.
         /// </summary>
-        /// <param name="variables">varibles must be in Key FIELD of persistent device</param>
+        /// <param name="variables">variables must be in Key FIELD of persistent device</param>
         /// <returns></returns>
         protected abstract IEnumerable<KeyValuePair<string, string>> ReadMemory(IEnumerable<string> variables);
 
         /// <summary>
-        /// Write varibles/value pair into persistent device
+        /// Write variables/value pair into persistent device
         /// </summary>
         /// <param name="pairs"></param>
         protected abstract void WriteMemory(IEnumerable<KeyValuePair<string, string>> pairs);
