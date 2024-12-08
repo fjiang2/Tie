@@ -44,10 +44,10 @@ namespace Tie.Helper
         {
             //VAR var = new VAR(variable);
 
-            ////simple varible
+            ////simple variable
             //VAL val = memory[var];
             //if (!val.Defined)
-            //    val = Script.Evaluate(variable, memory); //composite varible
+            //    val = Script.Evaluate(variable, memory); //composite variable
 
             //return val;
 
@@ -55,7 +55,7 @@ namespace Tie.Helper
         }
 
         /// <summary>
-        /// check if varible is defined
+        /// check if variable is defined
         /// </summary>
         /// <param name="variable"></param>
         /// <returns></returns>
@@ -99,7 +99,7 @@ namespace Tie.Helper
         }
 
         /// <summary>
-        /// return value by varible
+        /// return value by variable
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable"></param>
@@ -142,7 +142,7 @@ namespace Tie.Helper
         }
 
         /// <summary>
-        /// return value of varible, host is instantiated which is used for interface type of object
+        /// return value of variable, host is instantiated which is used for interface type of object
         /// </summary>
         /// <param name="variable"></param>
         /// <param name="host"></param>

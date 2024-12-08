@@ -12,7 +12,7 @@ namespace Tie.UnitTest.NET5
     public class JsonTest
     {
         [TestMethod]
-        public void DictinaryToJson()
+        public void DictionaryToJson()
         {
             //Arrange
             var dict = new Dictionary<string, object>();
