@@ -18,6 +18,7 @@
 
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
@@ -28,13 +29,21 @@ namespace Tie
     /// </summary>
     public sealed class Memory
     {
-        private Dictionary<VAR, VAL> ds = new Dictionary<VAR, VAL>();
+        private IDictionary<VAR, VAL> ds = new Dictionary<VAR, VAL>();
 
         /// <summary>
         /// Initializes a new instance
         /// </summary>
         public Memory()
         {
+        }
+
+        internal Memory(bool concurrent)
+        {
+            if (concurrent)
+                ds = new ConcurrentDictionary<VAR, VAL>();
+            else
+                ds = new Dictionary<VAR, VAL>();
         }
 
         /// <summary>

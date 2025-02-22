@@ -55,7 +55,7 @@ namespace Tie
             this.userFunc = userFunc;
             this.DS2 = DS2;
             this.DS1 = DS1;
-            this.DS0 = new Memory();
+            this.DS0 = new Memory(concurrent: true);
             Init(DS0);
         }
 
