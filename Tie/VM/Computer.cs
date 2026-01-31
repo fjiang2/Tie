@@ -30,9 +30,8 @@ namespace Tie
     /// </summary>
     static class Computer
     {
-
-        public static readonly Memory DS1 = new Memory();
-        public static readonly Memory DS2 = new Memory();
+        public static readonly Memory DS1 = new Memory(concurrent: true);
+        public static readonly Memory DS2 = new Memory(concurrent: true);
 
         static Computer()
         {
@@ -41,12 +40,12 @@ namespace Tie
 
             register("sbyte", typeof(sbyte));
             register("byte", typeof(byte));
-            register("short",typeof(short));
+            register("short", typeof(short));
             register("ushort", typeof(ushort));
             register("int", typeof(int));
             register("uint", typeof(uint));
             register("long", typeof(long));
-            register("ulong",typeof(ulong));
+            register("ulong", typeof(ulong));
 
             register("double", typeof(double));
             register("float", typeof(float));
@@ -55,7 +54,7 @@ namespace Tie
             register("char", typeof(char));
             register("string", typeof(string));
 
-       
+
 
             VALL L = new VALL();
             L.Add("VOID", new VAL((int)VALTYPE.voidcon));
@@ -68,7 +67,7 @@ namespace Tie
             L.Add("FUNCTION", new VAL((int)VALTYPE.funccon));
             L.Add("CLASS", new VAL((int)VALTYPE.classcon));
             L.Add("HOST", new VAL((int)VALTYPE.hostcon));
-            
+
             DS1.Add("TYPE", new VAL(L));
 
 
@@ -86,7 +85,7 @@ namespace Tie
         {
             DS1.Add(ty, VAL.NewHostType(type));
         }
-   
+
         public static VAL Run(CPU cpu, int breakPoint)
         {
 #if DEBUG

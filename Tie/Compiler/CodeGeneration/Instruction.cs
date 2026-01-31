@@ -40,7 +40,11 @@ namespace Tie
 	    CAS,	//case of switch 
 
 	    PUSH, POP, SP,     //SS 
-        RMT, RCP,          //remove CPU top register, register copy
+
+        RMT, 
+        RCP,          // remove CPU top register, register copy
+        RPOP,         // pop CPU register
+
         ESI, ESO,          //EX PUSH/POP
 	
 	    MOV,STO,STO1,	//LOAD

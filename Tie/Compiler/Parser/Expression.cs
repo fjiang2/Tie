@@ -29,9 +29,9 @@ namespace Tie
         protected SymbolTable vtab;
         protected JLex lex;
         protected Error error;
-        
+
         public Module module;
-        
+
         public const string BASE_INSTANCE = "$base";
 
 
@@ -57,9 +57,9 @@ namespace Tie
 
         public Module Module { get { return module; } }
 
-        
+
         #region s_expr(), s_expr1(), s_exp()
-        
+
         protected bool s_expr()
         {
             for (; ; )
@@ -119,7 +119,7 @@ namespace Tie
 
 
         #region s_exp1() .... s_exp13()
-        
+
         protected bool s_exp1() { return s_exp2() && s_exp16(); }
         bool s_exp2() { return s_exp3() && s_exp17(); }
         bool s_exp3() { return s_exp4() && s_exp18(); }
@@ -133,7 +133,7 @@ namespace Tie
         bool s_exp11() { return s_exp12() && s_exp26(); }
         bool s_exp12() { return s_exp13() && s_exp27(); }
         bool s_exp13() { return s_exp14() && s_exp28(); }
-        
+
         #endregion
 
 
@@ -152,7 +152,7 @@ namespace Tie
                 {
                     case SYMBOL2.BNOT: gen.emit(INSTYPE.NOT); break;
                     case SYMBOL2.NOT: gen.emit(INSTYPE.NOTNOT); break;
-                    case SYMBOL2.NEG: gen.emit(INSTYPE.NEG, lex.sy == SYMBOL.PLUS? 1:-1); break;
+                    case SYMBOL2.NEG: gen.emit(INSTYPE.NEG, lex.sy == SYMBOL.PLUS ? 1 : -1); break;
                     case SYMBOL2.ADR: gen.emit(INSTYPE.ADR); break;
                     case SYMBOL2.VLU: gen.emit(INSTYPE.VLU); break;
                     default: return false;
@@ -287,7 +287,7 @@ namespace Tie
                             Operand x = new Operand(new Numeric(ident));
                             gen.emit(INSTYPE.MOV, x);
                             lex.InSymbol();
-                            
+
                             expect(SYMBOL.EQUAL);
 
                             s_exp1();
@@ -340,7 +340,7 @@ namespace Tie
                 r = s_exp1();
                 s_assignop(Opr);
             }
-   
+
             return r;
         }
 
@@ -365,6 +365,23 @@ namespace Tie
                     }
                     break;
 
+                case SYMBOL.QQUEST:
+                    {
+                        // a = b ?? c;
+                        lex.InSymbol();
+
+                        gen.emit(INSTYPE.RCP);              // clone b
+                        gen.emit(INSTYPE.MOV, new Operand(Numeric.NULL));
+                        gen.emit(INSTYPE.NEQ);              // b!=null ?
+
+                        int L1 = gen.emit(INSTYPE.JNZ);	    // if (b!=null) == true jmp
+                        gen.emit(INSTYPE.RPOP);
+
+                        s_exp3();
+
+                        gen.remit(L1, gen.IP);
+                    }
+                    break;
                 /*
                  * 
                  * 用来支持JSON格式的Associative Array输入 { Width:40, Height:200} 等价于 { {"Width",40}, {"Height",200}}
@@ -391,9 +408,9 @@ namespace Tie
                             OPR.ty = OPRTYPE.numcon;
                             OPR.value = new Numeric((string)(OPR.value));
                             break;
-                        
-                        case OPRTYPE.numcon:          
-                            if( ((Numeric)(OPR.value)).ty != NUMTYPE.stringcon)
+
+                        case OPRTYPE.numcon:
+                            if (((Numeric)(OPR.value)).ty != NUMTYPE.stringcon)
                                 error.OnError(SYMBOL.identsy);
                             break;
 
@@ -403,8 +420,8 @@ namespace Tie
                     }
                     gen.IP--;
                     gen.emit(INSTYPE.MARK);
-                    gen.emit(INSTYPE.MOV, OPR); 
-                    lex.InSymbol(); s_exp3(); 
+                    gen.emit(INSTYPE.MOV, OPR);
+                    lex.InSymbol(); s_exp3();
                     gen.emit(INSTYPE.END);
                     break;
 
@@ -524,7 +541,7 @@ namespace Tie
             return true;
         }
 
-  
+
 
         bool s_exp25()
         {
@@ -575,7 +592,7 @@ namespace Tie
         {
             return s_varnext(false);
         }
-        
+
         #endregion
 
 
@@ -695,7 +712,7 @@ namespace Tie
                         gen.emit(INSTYPE.MOV, x);//LOAD
                         lex.InSymbol();
                     }
-                     
+
                     switch (Opr)
                     {
                         case SYMBOL2.DOT: gen.emit(INSTYPE.OFS); break;
@@ -707,7 +724,7 @@ namespace Tie
                     s_funcarg(compvar, -1);
                     break;
 
-                case SYMBOL.RELOP:      
+                case SYMBOL.RELOP:
                     /***
                      * 支持Genric class如:new System.Collections.Generic.Dictionary<string, int>(...)
                      * 以及Generic method 如: Add<string>("abc");
@@ -814,7 +831,7 @@ namespace Tie
             if (entry > 0)       //用于把语句当成表达式, 如: sum = function(a,b) { return a+b;} (20,30);
             {
                 call = Operand.Func(entry, this.module.moduleName);
-               // call = new VAL(entry);
+                // call = new VAL(entry);
             }
             else if (gen.IV[gen.IP - 1].cmd == INSTYPE.GNRC)
             {
@@ -917,7 +934,7 @@ namespace Tie
 
             if (entry > 0)
             {
-                gen.emit(INSTYPE.CALL, call); 
+                gen.emit(INSTYPE.CALL, call);
             }
             else
             {
@@ -943,11 +960,11 @@ namespace Tie
 
 
             gen.emit(INSTYPE.SP, new Operand(-(parameter + 1)));    //CPU中使用这个来计算有多少个函数参数的.
-            
+
             if (compvar)
                 gen.emit(INSTYPE.ESO);                          //CPU中把ESO用作有没有arg0标志的,参照CPU.cs
 
-            
+
             //如果SS[SP-(parameter+1)] 保存有函数入口地址,那么,SS要多POP一个
             if (funcptr)                                        //因为上面的SP, ESO 有标志作用, 所以下面的SP -1 必须放在最后,
                 gen.emit(INSTYPE.SP, new Operand(-1));
@@ -981,16 +998,16 @@ namespace Tie
         }
 
 
-      /**
-      * 返回false: 
-      *  格式为 new Circle(...) 
-      *  或者 new new System.Windows.Forms.Label()
-      *  
-      * 返回true:
-      *   格式为 new int[]
-      *   或者 其他的情况 new T
-      * 
-      * */
+        /**
+        * 返回false: 
+        *  格式为 new Circle(...) 
+        *  或者 new new System.Windows.Forms.Label()
+        *  
+        * 返回true:
+        *   格式为 new int[]
+        *   或者 其他的情况 new T
+        * 
+        * */
         public bool s_decl_instance()
         {
             if (lex.sy != SYMBOL.identsy)
@@ -1192,7 +1209,7 @@ namespace Tie
                 }
 
                 S.value = scope;
-                
+
             }
 
 
@@ -1200,13 +1217,13 @@ namespace Tie
             return true;
 
         }
-        
+
         #endregion
 
 
         protected void s_call(int call, int argc)
         {
-            s_call(Operand.Func(call, module.moduleName), argc); 
+            s_call(Operand.Func(call, module.moduleName), argc);
         }
 
         protected void s_call(string func, int argc)
@@ -1239,7 +1256,7 @@ namespace Tie
             }
         }
 
-    
+
     }
 }
 

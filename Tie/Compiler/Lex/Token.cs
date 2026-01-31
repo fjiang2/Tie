@@ -193,6 +193,7 @@ namespace Tie
                     break;
 
                 case SYMBOL.QUEST: o.Write('?'); break;
+                case SYMBOL.QQUEST: o.Write("??"); break;
                 case SYMBOL.COLON: o.Write(':'); break;
                 case SYMBOL.COMMA: o.Write(','); break;
                 case SYMBOL.SEMI: o.Write(';'); if (wellFormatted) o.WriteLine(); break;
