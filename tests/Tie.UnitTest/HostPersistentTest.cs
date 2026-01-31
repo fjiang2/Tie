@@ -10,12 +10,12 @@ using System.Diagnostics;
 namespace UnitTest
 {
     enum HostEnum
-    { 
+    {
         Laptop,
         Desktop,
         Nettop
     }
-    
+
     class HostDemoClass1
     {
         public int a { get; set; }
@@ -47,7 +47,7 @@ namespace UnitTest
         }
 
         public VAL GetVAL()
-        { 
+        {
             VAL val = new VAL();
             val["a"] = new VAL(a);
             val["b"] = new VAL(b);
@@ -55,7 +55,7 @@ namespace UnitTest
         }
 
         public void SetVAL(VAL val)
-        { 
+        {
         }
     }
 
@@ -125,7 +125,7 @@ namespace UnitTest
         public HostDemoClass()
         {
             this.class1 = new HostDemoClass1();
-            this.class2 = new HostDemoClass2(100,200);
+            this.class2 = new HostDemoClass2(100, 200);
             this.a = 20;
             this.b = "AB";
             this.d = 30.0;
@@ -138,26 +138,43 @@ namespace UnitTest
             this.textBox1.Text = "Hello World";
             this.textBox2 = new TextBox();
             this.textBox2.Text = "Good Morning";
-            this.textBox2.Font = new System.Drawing.Font("MS Gothic", 11.25F, System.Drawing.FontStyle.Bold| FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Font = new System.Drawing.Font("MS Gothic", 11.25F, System.Drawing.FontStyle.Bold | FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
             this.rect = new Rectangle(10, 20, 30, 40);
             this.guid = Guid.NewGuid();
         }
 
     }
-    
+
     class HostPersistentTest
     {
+
+        static void TestQQuest()
+        {
+            string code = @"
+ a =  q ?? ""ab"";
+ q = 12;
+ b =  q ?? ""ab"";
+";
+            Memory DS = new Memory();
+            Script.Execute(code, DS);
+
+            Debug.Assert(DS["a"].Str == "ab");
+            Debug.Assert(DS["b"].Intcon == 12);
+        }
 
 
         public static void main()
         {
             Logger.Close();
             Logger.Open("c:\\temp\\tie.log");
+
+            TestQQuest();
+
             Memory DS = new Memory();
 
             var s = new UnitTest.HostDemoClass();
-            VAL v= VAL.Boxing(s);
+            VAL v = VAL.Boxing(s);
             DS.Add("v", v);
             VAL val = Script.Evaluate("v.classof()", DS);
             VAL valable = Script.Evaluate("v.valize()", DS);
@@ -206,7 +223,7 @@ namespace UnitTest
             string persistent = v.Valor;
             string exjson = v.ToExJson();
             string json = v.ToJson();
-            
+
             string size = VAL.Boxing(new Size(200, 300)).Valor;
 
             HostType.Register(typeof(Color));
@@ -218,16 +235,16 @@ namespace UnitTest
             p["a"] = new VAL(1000);
             p["Color1"] = VAL.Boxing(Color.SaddleBrown);
             p["textBox1"]["Visible"] = new VAL(false);
-            HostDemoClass obj = (HostDemoClass)HostType.NewInstance(p, new object[]{});
+            HostDemoClass obj = (HostDemoClass)HostType.NewInstance(p, new object[] { });
             Debug.Assert(obj is HostDemoClass);
-        
+
 
             //HOST类型的可变参数不支持
             string code = @"
                textBox = (new System.Windows.Forms.TextBox()).classof({Text:'Hello World', ReadOnly:true});
             ";
 
-           
+
             HostType.Register(typeof(System.String));
 
             DS.RemoveAll();
@@ -247,7 +264,7 @@ namespace UnitTest
             System.Diagnostics.Debug.Assert(result.ToString() == "{1,3}");
             System.Diagnostics.Debug.Assert(DS["C"].VALTYPE == VALTYPE.voidcon);
             Logger.Close();
-        
+
         }
 
 
@@ -284,7 +301,7 @@ listBox.Items[0] = 'XXXX';
             VAL val = Script.Evaluate(code2);
             HostType.SetObjectProperties(listBox1, val);
 
-            
+
             obj = listBox1.Items[2];
             Debug.Assert(listBox1.Items[0].Equals("red") && listBox1.Items[2].Equals("white"), "用VAL值,自动增长Collection值");
 
@@ -299,7 +316,7 @@ listBox.Items[0] = 'XXXX';
             string str = "";
             foreach (VAL x in val["Items"])
             {
-                str += x.Str +".";
+                str += x.Str + ".";
             }
 
             Debug.Assert(str == "red.green.black.yellow.blue.", "测试VAL实现的ICollection<VAL>");
@@ -331,7 +348,7 @@ listBox.Items[0] = 'XXXX';
             string json = val.ToExJson();
             DS.RemoveAll();
 
-            
+
         }
     }
 }

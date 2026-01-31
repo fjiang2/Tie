@@ -613,7 +613,15 @@ namespace Tie
                 case '{': tok.sy = SYMBOL.LC; NextCh(); break;
                 case '}': tok.sy = SYMBOL.RC; NextCh(); break;
 
-                case '?': tok.sy = SYMBOL.QUEST; NextCh(); break;
+                case '?':
+                    NextCh();
+                    switch (ch)
+                    {
+                        case '?': tok.sy = SYMBOL.QQUEST; NextCh(); break;
+                        default: tok.sy = SYMBOL.QUEST; break;
+                    }
+                    break;
+
                 case ',': tok.sy = SYMBOL.COMMA; NextCh(); break;
                 case ';': tok.sy = SYMBOL.SEMI; NextCh(); break;
                 case '.': tok.sy = SYMBOL.STRUCTOP; tok.opr = SYMBOL2.DOT; NextCh(); break;
@@ -626,7 +634,7 @@ namespace Tie
                 case '\\': tok.sy = SYMBOL.DELIMITER; NextCh(); break;
                 default:
                     //cerr<<"error letter:"<<ch<<" has already skip";
-                    error.OnError(24); 
+                    error.OnError(24);
                     NextCh();
                     goto L1;
             } // switch
