@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Tie
 {
@@ -90,7 +89,7 @@ namespace Tie
             L0 = gen.emit(INSTYPE.MOV, Operand.Delegate(type, gen.IP + 2, module.moduleName));     //MOV 函数的地址,给函数指针变量foo, 例如:foo = function(a){....};
             L1 = gen.emit(INSTYPE.JMP);
             L2 = gen.emit(INSTYPE.PROC, Operand.Delegate(type, gen.IP, module.moduleName));   //PROC 函数参数的个数
-            
+
 
             expect(SYMBOL.LP);
 
@@ -150,7 +149,7 @@ namespace Tie
              *   }
              * 
              * */
-            if (type == OPRTYPE.classcon)               
+            if (type == OPRTYPE.classcon)
             {
                 if (lex.sy == SYMBOL.COLON)
                 {
@@ -164,7 +163,7 @@ namespace Tie
             }
 
             expect(SYMBOL.LC);		//function body;
-            while (s_sent()==1) ;
+            while (s_sent() == 1) ;
             expect(SYMBOL.RC);
             //	Var.BackLevel();		// this has been excuted in (case RC of s_sent())
 
@@ -176,7 +175,7 @@ namespace Tie
                 gen.remit(L1, gen.IP);
 
             if (isCFunc)
-                gen.emit(INSTYPE.STO1);                 
+                gen.emit(INSTYPE.STO1);
 
 
             //把语句当成表达式,例如: sum = function(a,b) { return a+b; } (20,30); 
@@ -209,12 +208,12 @@ namespace Tie
             L1 = gen.emit(INSTYPE.JMP);
             L2 = gen.emit(INSTYPE.PROC, Operand.Func(gen.IP, module.moduleName));   //PROC 函数参数的个数
 
-            for(int i=0; i< argc; i++)
+            for (int i = 0; i < argc; i++)
             {
                 int addr = PARA_NUM + 1;             //+1 keep a return address
                 vtab.AddParameter(args[i], -addr);
                 PARA_NUM++;
-            } 
+            }
 
             gen.IV[L2].operand.Addr = PARA_NUM;           //PROC指令中定义的是函数的传入arguments个数,CPU中在调用函数时候,会检查参数个数是不是吻合
 
@@ -231,7 +230,7 @@ namespace Tie
                 {
                     gen.IP = IP;            //回溯
                     lex.InSymbol(index);
-                    
+
                     s_expr1();
                     emit_ret();             //注入return语句
                 }
@@ -243,7 +242,7 @@ namespace Tie
             }
 
 
- 
+
             vtab.BackFunction();
 
             gen.emit(INSTYPE.ENDP, (int)OPRTYPE.funccon);          //used for determining default RETURN statement
@@ -284,13 +283,13 @@ namespace Tie
         }
 
         public bool e_decl()
-        { 
-          return s_decl(true);
+        {
+            return s_decl(true);
         }
 
         private bool s_decl()
-        { 
-          return s_decl(false);
+        {
+            return s_decl(false);
         }
 
         private bool s_decl(bool expr)
@@ -328,11 +327,11 @@ namespace Tie
                     break;
 
             } while (true);
-            gen.emit(INSTYPE.SP, new Operand(parameter));	// ADD SP,parameter
-            
-            if(!expr)
+            gen.emit(INSTYPE.SP, new Operand(parameter));   // ADD SP,parameter
+
+            if (!expr)
                 expect(SYMBOL.SEMI);
-            
+
             return true;
         }
 
@@ -387,9 +386,9 @@ namespace Tie
                     vtab.NewLevel();
                     if (lex.InSymbol())
                     {
-                        L1:
+                    L1:
                         int s = s_sent();
-                        if (s == 1) 
+                        if (s == 1)
                             goto L1;
                         else if (s == -1)
                             return -1;
@@ -452,9 +451,9 @@ namespace Tie
                     gen.emit(INSTYPE.MOV, Operand.REGAddr(SEGREG.BP, L6, lex.sym.id)); //LET element=null;否则有可能指向堆栈中有垃圾的地方.
                     gen.emit(INSTYPE.MOV, new Operand(Numeric.NULL));
                     gen.emit(INSTYPE.STO1);
-                    
+
                     gen.emit(INSTYPE.SP, new Operand(2));           //保留内存为element和循环变量i
-                    
+
 
                     L1 = gen.IP;			                     // #continue;
                     gen.emit(INSTYPE.MOV, Operand.REGAddr(SEGREG.BP, L6, lex.sym.id));          // 保存var element的在堆栈中的地址BP+L6;  
@@ -596,26 +595,26 @@ namespace Tie
                     return 1;
 
                 case SYMBOL.FUNC:
-                    return s_func()? 1 : 0;
+                    return s_func() ? 1 : 0;
 
                 case SYMBOL.THROW:
                     lex.InSymbol();
                     s_exp1();
-                    gen.emit(INSTYPE.THRW); 
+                    gen.emit(INSTYPE.THRW);
                     return 1;
 
                 case SYMBOL.TRY:
                     //TRY
                     L1 = gen.emit(INSTYPE.PUSH, Operand.REG(SEGREG.EX)); //保存调用catch(e){...}函数的语句的地址
                     lex.InSymbol();
-                    if(lex.sy==SYMBOL.LC)                //强迫为try后面的字符'{'
+                    if (lex.sy == SYMBOL.LC)                //强迫为try后面的字符'{'
                         s_sent();
                     else
                         error.OnError(lex.sy);
 
                     gen.emit(INSTYPE.POP, Operand.REG(SEGREG.EX));       //在Exception没有发生时候,删除catch语句的入口地址
                     L2 = gen.emit(INSTYPE.JMP);         //JUMP to FINALLY
-                
+
                     //CATCH
                     L3 = gen.IP;
                     while (lex.sy == SYMBOL.CATCH)      //那catch语句当成只有1个参数的函数
@@ -624,7 +623,7 @@ namespace Tie
                     }
 
                     if (L3 == gen.IP)                   //没有定义catch语句
-                    { 
+                    {
                     }
                     else
                     {
@@ -665,7 +664,7 @@ namespace Tie
                         return -1;
 
             }
-            
+
         }
 
 
@@ -815,19 +814,19 @@ namespace Tie
         private bool s_statements()
         {
             emit_func1();
-            //gen.emit(INSTYPE.PUSH, NewVAL.REG(SEGREG.BP));
-            //gen.emit(INSTYPE.PUSH, NewVAL.REG(SEGREG.SP)); // MOV BP,SP
-            //gen.emit(INSTYPE.POP, NewVAL.REG(SEGREG.BP));
+        //gen.emit(INSTYPE.PUSH, NewVAL.REG(SEGREG.BP));
+        //gen.emit(INSTYPE.PUSH, NewVAL.REG(SEGREG.SP)); // MOV BP,SP
+        //gen.emit(INSTYPE.POP, NewVAL.REG(SEGREG.BP));
 
-            L1:
+        L1:
             int f = s_sent();
             if (f == 1) goto L1;
-            
+
             return f != -1;
         }
-        
-        
-    
+
+
+
         public int Compile(CodeType ty)
         {
             IPstk.Push(gen.Size()); // used to switch statement
@@ -837,12 +836,12 @@ namespace Tie
                 case CodeType.expression:
                     s_expr1();
                     break;
-                
+
                 case CodeType.statements:
                     if (!s_statements())
                         error.OnError(51);
                     break;
-                
+
                 case CodeType.auto:
                     int IP = gen.IP;
                     if (!s_statements())
@@ -851,7 +850,7 @@ namespace Tie
                         lex.InSymbol(1); //失败,回溯
                         s_expr1();
                     }
-                    
+
                     break;
             }
 
@@ -865,7 +864,7 @@ namespace Tie
             return halt;
         }
 
-    
+
 
 
 

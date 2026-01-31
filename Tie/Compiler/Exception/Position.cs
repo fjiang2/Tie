@@ -15,13 +15,11 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Tie
 {
-    
+
     /// <summary>
     /// Represents location in the source code
     /// </summary>
@@ -71,7 +69,7 @@ namespace Tie
         /// </summary>
         public override string ToString()
         {
-            if (this.line != 0 )
+            if (this.line != 0)
                 return string.Format("at line:{0} col:{1} mod:{2}", line, col, moduleName);
             else
                 return string.Empty;
@@ -122,8 +120,8 @@ namespace Tie
                 return this.cur;
             }
         }
-  
-        
+
+
 
 #if DEBUG
         private char[] linebuffer = new char[Constant.MAX_SRC_COL];
@@ -137,12 +135,12 @@ namespace Tie
             if (ch == '\n')
             {
                 //如果源代码只有一行,而且没有换行符,那么不会输出源程序
-                string str = string.Format("   {0}\t{1}",line, new string(linebuffer, 0, col-1));
+                string str = string.Format("   {0}\t{1}", line, new string(linebuffer, 0, col - 1));
                 lines.Add(str);
 
-            #if DEBUG_PARSER
+#if DEBUG_PARSER
                 Logger.WriteLine(str+"\n");
-            #endif
+#endif
                 line++;
                 col = 1;
             }
@@ -180,7 +178,7 @@ namespace Tie
             }
             else if (line <= lines.Count)
                 return lines[line - 1];
-    
+
             return "";
 
         }

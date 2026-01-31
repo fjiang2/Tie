@@ -15,10 +15,6 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Tie
 {
     /// <summary>
@@ -32,7 +28,7 @@ namespace Tie
         /// </summary>
         /// <returns></returns>
         VAL GetVAL();
-        
+
         /// <summary>
         /// update target object with valized value
         /// </summary>

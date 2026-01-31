@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Reflection;
 
 namespace Tie
@@ -8,7 +7,7 @@ namespace Tie
     class HostReferences : List<Assembly>
     {
         public HostReferences()
-        { 
+        {
         }
 
     }
@@ -23,7 +22,7 @@ namespace Tie
             this.ns = ns;
             foreach (Assembly assembly in references)
             {
-                if(AddReference(assembly))
+                if (AddReference(assembly))
                     list.Add(assembly);
             }
         }
@@ -48,7 +47,7 @@ namespace Tie
         public void RemoveReference(Assembly reference)
         {
             List<string> list = new List<string>();
-            foreach(KeyValuePair<string, Type> kvp in this)
+            foreach (KeyValuePair<string, Type> kvp in this)
             {
                 if (kvp.Value.Assembly == reference)
                     list.Add(kvp.Key);
@@ -72,5 +71,5 @@ namespace Tie
         }
     }
 
-  
+
 }

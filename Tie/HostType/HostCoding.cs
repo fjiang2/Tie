@@ -16,13 +16,10 @@
 //--------------------------------------------------------------------------------------------------//
 
 using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Text;
 using System.Reflection;
 #if !SILVERLIGHT
 //using System.Runtime.Serialization.Formatters.Soap;
-using System.Runtime.Serialization.Formatters.Binary;
 #endif
 
 namespace Tie
@@ -93,8 +90,8 @@ namespace Tie
                     return VAL.Boxing1(instance);  //返回实例
                 }
             }
-            
-          
+
+
             if (clss.IsNull)
                 throw new HostTypeException("class {0} is not defined.", className);
 
@@ -139,7 +136,7 @@ namespace Tie
                 if (methodInfo.IsStatic)
                     return string.Format("{0} {1}.{2}()", methodInfo.ReturnType.Name, methodInfo.ReflectedType.FullName, methodInfo.Name);
                 else
-                    return string.Format("{0} {1}()", methodInfo.ReturnType.Name, methodInfo.Name); 
+                    return string.Format("{0} {1}()", methodInfo.ReturnType.Name, methodInfo.Name);
             }
 
             Type type = GenericType.GetHostType(host);
@@ -161,11 +158,11 @@ namespace Tie
 
 
 
-     
 
 
-        
-        
+
+
+
         #region 发现HostType数组元素的共同Type( interface[] /base class), 生成.NET需要的数组Type
 
         /**
@@ -184,7 +181,7 @@ namespace Tie
             Type type = CommonBaseClass(values);
             if (type == null)
             {
-                
+
                 //如果有相同的interface
                 Type[] I = CommonInterface(values);
                 if (I.Length == 0)
@@ -202,7 +199,7 @@ namespace Tie
             Type arrayType = type.MakeArrayType();
             Array array = (Array)Activator.CreateInstance(arrayType, new object[] { values.Length });
 
-            for(int i=0; i< values.Length; i++)
+            for (int i = 0; i < values.Length; i++)
             {
                 array.SetValue(values[i], i);
             }
@@ -277,8 +274,8 @@ namespace Tie
 
                 I = obj.GetType().GetInterfaces();
                 if (I.Length != 0)
-                     break;
-                
+                    break;
+
             }
 
             if (I.Length == 0)
@@ -297,7 +294,7 @@ namespace Tie
             }
 
             return I;
-        
+
         }
 
 
@@ -309,24 +306,24 @@ namespace Tie
         private static Type[] CommonInterface(Type[] I1, Type[] I2)
         {
             List<Type> I = new List<Type>();
-            foreach(Type i1 in I1)
+            foreach (Type i1 in I1)
             {
-                foreach(Type i2 in I2)
+                foreach (Type i2 in I2)
                 {
-                    if(i1==i2)
+                    if (i1 == i2)
                         I.Add(i1);
                 }
             }
-            
-            return I.ToArray() ;
+
+            return I.ToArray();
         }
 
-    
+
         #endregion
 
 
-      
 
-     
+
+
     }
 }

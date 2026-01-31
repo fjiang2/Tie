@@ -15,11 +15,6 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Tie
 {
     /// <summary>
@@ -105,8 +100,8 @@ namespace Tie
         internal const string FUNC_CON_INSTANCE_INVOKE = "FuncconInstanceInvoke";
         internal const string SCOPE = "scope";
         internal const string THIS = "$THIS";
-        
+
     }
-    
+
 
 }

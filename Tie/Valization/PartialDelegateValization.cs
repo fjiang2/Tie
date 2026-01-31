@@ -10,7 +10,7 @@ namespace Tie.Valization
     {
         private Valizer<T> valizer;
         private PartialDevalizer<T> devalizer;
-        
+
 
         public PartialDelegateValization(Valizer<T> valizer, PartialDevalizer<T> devalizer)
         {
@@ -35,7 +35,7 @@ namespace Tie.Valization
         {
             if (devalizer != null)
             {
-                if(host==null)
+                if (host == null)
                     return devalizer(default(T), hostType, val);
                 else
                     return devalizer((T)host, hostType, val);

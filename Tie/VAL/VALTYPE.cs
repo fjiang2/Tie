@@ -15,15 +15,6 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-
-using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Text;
-using System.IO;
-using System.Reflection;
-
 namespace Tie
 {
     /// <summary>
@@ -108,6 +99,6 @@ namespace Tie
         identcon = 31,
 
     }
-    
+
 
 }

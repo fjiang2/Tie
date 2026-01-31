@@ -15,11 +15,6 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Tie
 {
     /// <summary>
@@ -39,7 +34,7 @@ namespace Tie
         }
 
         internal RuntimeException(Position position, string format, params object[] args)
-            :this(position, string.Format(format, args))
+            : this(position, string.Format(format, args))
         {
         }
 
@@ -55,7 +50,7 @@ namespace Tie
     /// </summary>
     public class FunctionNotFoundException : RuntimeException
     {
-    
+
         /// <summary>
         /// Initializes a new instance of the Exception class.
         /// </summary>

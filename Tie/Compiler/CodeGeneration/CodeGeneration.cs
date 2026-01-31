@@ -15,8 +15,6 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-using System;
-using System.Text;
 using System.IO;
 
 namespace Tie
@@ -50,7 +48,7 @@ namespace Tie
             return CS;
         }
 
-      
+
         public int emit(INSTYPE c, Operand n)
         {
             IV[IP] = new Instruction(c, n, module.Position);
@@ -158,5 +156,5 @@ namespace Tie
             return o.ToString();
         }	
 #endif
-    };	
+    };
 }

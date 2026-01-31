@@ -54,11 +54,11 @@ namespace Tie
 
         public override String ToString()
         {
-            return string.Format("{0}:{1}/{2}{3}[{4}]", 
-                ident, 
-                funcLevel, 
+            return string.Format("{0}:{1}/{2}{3}[{4}]",
+                ident,
+                funcLevel,
                 varLevel,
-                duplicated ? "+" : "", 
+                duplicated ? "+" : "",
                 addr);
 
         }

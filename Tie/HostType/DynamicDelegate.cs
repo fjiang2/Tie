@@ -17,10 +17,6 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Text;
-using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -57,9 +53,9 @@ namespace Tie
             string moduleName = func.Class;
             Module module = Library.GetModule(moduleName);
             if (module == null)
-                return -1;;
+                return -1; ;
 
-            return module.CS[func.Address].operand.Addr -1;
+            return module.CS[func.Address].operand.Addr - 1;
         }
 
 
@@ -113,7 +109,7 @@ namespace Tie
             Type[] dParameterTypes = new Type[len + 1];
             dParameterTypes[0] = target.GetType();
             for (int i = 0; i < len; i++)
-                dParameterTypes[i+1] = dParemeters[i].ParameterType;
+                dParameterTypes[i + 1] = dParemeters[i].ParameterType;
 
 #if DOTNET_STANDARD2
             throw new NotImplementedException();

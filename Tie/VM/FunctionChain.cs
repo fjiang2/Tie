@@ -15,11 +15,7 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Reflection;
 
 namespace Tie
 {
@@ -35,7 +31,7 @@ namespace Tie
 
         internal static FunctionChain Chain
         {
-            get 
+            get
             {
                 if (chain == null)
                     chain = new FunctionChain();
@@ -43,7 +39,7 @@ namespace Tie
                 return chain;
             }
         }
-        
+
         private List<object> functions;
 
         private FunctionChain()
@@ -93,7 +89,7 @@ namespace Tie
         /// <returns></returns>
         public FunctionChain Remove()
         {
-            functions.RemoveAt(0); 
+            functions.RemoveAt(0);
             return this;
         }
 
@@ -109,15 +105,15 @@ namespace Tie
             {
                 if (function is KeyValuePair<string, Function1>)
                 {
-                    if ((string)((KeyValuePair<string, Function1>)function).Key  == func)
+                    if ((string)((KeyValuePair<string, Function1>)function).Key == func)
                     {
                         found = function;
                         break;
                     }
                 }
             }
-             
-            if(found !=null)
+
+            if (found != null)
                 functions.Remove(found);
 
             return this;
@@ -150,7 +146,7 @@ namespace Tie
         {
             VAL R0 = null;
 
-            foreach(object function in functions)
+            foreach (object function in functions)
             {
                 if (function is IUserDefinedFunction)
                 {
@@ -171,10 +167,10 @@ namespace Tie
                 //返回null表示继续在FunctionChain中传递
                 if ((object)R0 != null)
                     return R0;
-                    
+
             }
 
-            return null; 
+            return null;
         }
 
     }

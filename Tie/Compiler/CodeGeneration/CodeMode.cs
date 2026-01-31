@@ -18,7 +18,7 @@
 namespace Tie
 {
     enum CodeMode
-    { 
+    {
         Overwritten,    //instruction is overwritten
         Append
     }

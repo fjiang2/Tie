@@ -18,47 +18,47 @@
 namespace Tie
 {
     // a Token
-    enum SYMBOL 
-    { 
-	intcon,floatcon,boolcon,stringcon,identsy,		// constance number 31,3.14,'c',"STRING"
-	nullsy,truesy,falsesy,
+    enum SYMBOL
+    {
+        intcon, floatcon, boolcon, stringcon, identsy,      // constance number 31,3.14,'c',"STRING"
+        nullsy, truesy, falsesy,
 
-	PLUS,MINUS,STAR,DIV,MOD,						// + - * / %
-	ANDAND,OROR,								// !.	&&,	||
-	AND,OR,XOR,								// bit logic
+        PLUS, MINUS, STAR, DIV, MOD,                        // + - * / %
+        ANDAND, OROR,                               // !.	&&,	||
+        AND, OR, XOR,                               // bit logic
 
-	RELOP,EQUOP,ASSIGNOP,INCOP,SHIFTOP,STRUCTOP,UNOP,
+        RELOP, EQUOP, ASSIGNOP, INCOP, SHIFTOP, STRUCTOP, UNOP,
 
-	LP,RP,LB,RB,LC,RC,						// (	)	[	]	{	}
-	COMMA, SEMI, QUEST,QQUEST, COLON, 
+        LP, RP, LB, RB, LC, RC,                     // (	)	[	]	{	}
+        COMMA, SEMI, QUEST, QQUEST, COLON,
 
-	VAR,FUNC,CLASS, METHOD,		// =	::
-	EQUAL, VOID,
+        VAR, FUNC, CLASS, METHOD,       // =	::
+        EQUAL, VOID,
 
-	IF,ELSE,SIZEOF,
-	SWITCH,CASE,DEFAULT,					// switch
-	DO,WHILE,FOR,FOREACH,					// for
-	BREAK,CONTINUE,GOTO,					// 
+        IF, ELSE, SIZEOF,
+        SWITCH, CASE, DEFAULT,                  // switch
+        DO, WHILE, FOR, FOREACH,                    // for
+        BREAK, CONTINUE, GOTO,                  // 
 
-	RETURN,
+        RETURN,
 
-    TRY,CATCH,THROW,FINALLY,
+        TRY, CATCH, THROW, FINALLY,
 
-	NEW,THIS,BASE,NAMESPACE, DIRECTIVE, DELIMITER,
-	WITH,IN,IS,AS, DEBUG,		
+        NEW, THIS, BASE, NAMESPACE, DIRECTIVE, DELIMITER,
+        WITH, IN, IS, AS, DEBUG,
 
-	GOESTO, //  =>
+        GOESTO, //  =>
 
-//---------------------------------------------------------------	
-	PUBLIC,  PRIVATE, PROTECTED,STATIC,
+        //---------------------------------------------------------------	
+        PUBLIC, PRIVATE, PROTECTED, STATIC,
 
-	localsy, staticsy,friendsy,
-	atsy,constsy,typesy,charcon,deletesy,
-    NOP     //最后一个token
-	
- }
+        localsy, staticsy, friendsy,
+        atsy, constsy, typesy, charcon, deletesy,
+        NOP     //最后一个token
+
+    }
 
 
 
-    
+
 }

@@ -16,9 +16,7 @@
 //--------------------------------------------------------------------------------------------------//
 
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace Tie
@@ -33,7 +31,7 @@ namespace Tie
 
             public Stamp(int varLevel, int varNum)
             {
-                this.varLevel = varLevel ;
+                this.varLevel = varLevel;
                 this.varNum = varNum;
             }
 
@@ -67,7 +65,7 @@ namespace Tie
         public void NewFunction()
         {
             funcLevel++;
-            
+
             stack.Push(current);
             current = new Stamp(-1, 0);
         }
@@ -94,7 +92,7 @@ namespace Tie
                         current.varNum--;	//consider local variable except parameter
 
                     SP--;
-                    
+
                     if (SP == -1)
                         break;
 
@@ -144,8 +142,8 @@ namespace Tie
             if (!IsExisted(id))
             {
                 if (SP >= Constant.MAX_SYMBOL_TABLE_SIZE)
-                    throw error.CompilingException("Symbol Table overflow."); 
-                
+                    throw error.CompilingException("Symbol Table overflow.");
+
                 symTab[++SP] = sym;
 
                 dup = false;
@@ -203,14 +201,14 @@ namespace Tie
             for (int i = SP; i > -1; i--)
             {
                 Symbol sym = symTab[i];
-                
-                if(sym.funcLevel != funcLevel)
+
+                if (sym.funcLevel != funcLevel)
                     return null;
 
-                if(sym.ident == key)            //search at varlevel
+                if (sym.ident == key)            //search at varlevel
                     return sym;
             }
-            
+
             return null;
         }
 

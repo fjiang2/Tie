@@ -18,9 +18,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Text;
-using System.IO;
 using System.Reflection;
 
 namespace Tie
@@ -111,7 +108,7 @@ namespace Tie
 
         //}
 
-    
+
 
         /*
         * 消费符号表:

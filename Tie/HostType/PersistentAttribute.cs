@@ -16,8 +16,6 @@
 //--------------------------------------------------------------------------------------------------//
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Tie
 {
@@ -44,7 +42,7 @@ namespace Tie
         /// initialize instance
         /// </summary>
         public ValizableAttribute()
-            :this(null,null)
+            : this(null, null)
         {
         }
 
@@ -53,7 +51,7 @@ namespace Tie
         /// </summary>
         /// <param name="valizer"></param>
         public ValizableAttribute(string valizer)
-            :this(valizer, null)
+            : this(valizer, null)
         {
         }
 
@@ -75,10 +73,10 @@ namespace Tie
          * 
          */
 
-         /// <summary>
+        /// <summary>
         ///  initialize instance by members of class
-         /// </summary>
-         /// <param name="members"></param>
+        /// </summary>
+        /// <param name="members"></param>
         public ValizableAttribute(string[] members)
         {
             this.valizer = members;
@@ -86,5 +84,5 @@ namespace Tie
 
     }
 
- 
+
 }

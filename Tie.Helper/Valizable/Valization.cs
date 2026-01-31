@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
 using System.Data;
-using Tie;
+using System.IO;
 
 namespace Tie.Helper
 {

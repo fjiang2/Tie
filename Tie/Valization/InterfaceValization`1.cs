@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Tie.Valization
 {
@@ -32,7 +30,7 @@ namespace Tie.Valization
         {
             if (host == null)
                 return valizer.Devalizer(default(T), val);
-            else 
+            else
                 return valizer.Devalizer((T)host, val);
         }
     }

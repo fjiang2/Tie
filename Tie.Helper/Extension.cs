@@ -18,10 +18,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Reflection;
 using System.Diagnostics.Contracts;
+using System.Reflection;
+using System.Text;
 
 namespace Tie.Helper
 {
@@ -38,12 +37,12 @@ namespace Tie.Helper
         public static IEnumerable<T> AsEnumerable<T>(this VAL val)
         {
             List<T> list = new List<T>();
-            
+
             foreach (var obj in val)
             {
                 if (typeof(T) == typeof(VAL))
                     list.Add((T)(object)obj);
-                else if(obj.HostValue is T)
+                else if (obj.HostValue is T)
                     list.Add((T)obj.HostValue);
             }
 
@@ -94,7 +93,7 @@ namespace Tie.Helper
             if (val.HostValue is T)
                 return (T)val.HostValue;
 
-             return default(T);
+            return default(T);
         }
 
         /// <summary>
@@ -135,7 +134,7 @@ namespace Tie.Helper
         public static VAL ToVAL(this IEnumerable source)
         {
             VAL L = VAL.Array();
-            
+
             foreach (var obj in source)
             {
                 if (obj is IEnumerable && !(obj is string))
@@ -155,7 +154,7 @@ namespace Tie.Helper
         /// <typeparam name="T2"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static VAL ToVAL<T1,T2>(this IDictionary<T1,T2> source)
+        public static VAL ToVAL<T1, T2>(this IDictionary<T1, T2> source)
         {
             VAL L = VAL.Array();
 
@@ -164,7 +163,7 @@ namespace Tie.Helper
                 VAL L1 = VAL.Array();
                 L1.Add(VAL.Boxing(kvp.Key));
                 L1.Add(VAL.Boxing(kvp.Value));
-                
+
                 L.Add(L1);
             }
 

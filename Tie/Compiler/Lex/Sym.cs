@@ -29,11 +29,11 @@ namespace Tie
 
         public Sym()
         {
-            
+
         }
     };
 
 
 
-    
+
 }
