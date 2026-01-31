@@ -21,21 +21,21 @@ using System.IO;
 
 namespace Tie.Lex
 {
-    class Token
+    class JToken
     {
 
         public SYMBOL sy;
-        public Sym sym;
+        public JSymbol sym;
         public SYMBOL2 opr;
 
 
-        public Token()
+        public JToken()
         {
-            sym = new Sym();
+            sym = new JSymbol();
 
         }
 
-        public Token(SYMBOL sy, SYMBOL2 opr)
+        public JToken(SYMBOL sy, SYMBOL2 opr)
             : this()
         {
             this.sy = sy;

@@ -17,7 +17,7 @@
 
 namespace Tie.Lex
 {
-    class Sym
+    class JSymbol
     {
         public double fnum;				// real number from insymbol 
         public int inum;				// integer from insymbol 
@@ -27,7 +27,7 @@ namespace Tie.Lex
         public string stab;		        // string table
 
 
-        public Sym()
+        public JSymbol()
         {
 
         }

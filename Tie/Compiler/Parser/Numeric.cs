@@ -70,7 +70,7 @@ namespace Tie.Parser
             value = str;
         }
 
-        public Numeric(SYMBOL sy, Sym sym)
+        public Numeric(SYMBOL sy, JSymbol sym)
         {
             switch (sy)
             {

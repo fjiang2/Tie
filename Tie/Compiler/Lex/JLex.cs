@@ -23,14 +23,14 @@ namespace Tie.Lex
     {
         protected char ch;
         public static JKey[] Key;
-        private Token tok;
+        private JToken tok;
         private readonly Error error;			//the position of cursor in file
 
         public JLex(Error err)
         {
             this.error = err;
 
-            tok = new Token();
+            tok = new JToken();
 
             Key = new JKey[]
             {
@@ -744,7 +744,7 @@ namespace Tie.Lex
             }
         }
 
-        public Sym sym
+        public JSymbol sym
         {
 
             get
@@ -762,7 +762,7 @@ namespace Tie.Lex
             }
         }
 
-        public Token token
+        public JToken token
         {
             get { return this.tok; }
         }
@@ -771,7 +771,7 @@ namespace Tie.Lex
 
         public abstract int Index();
 
-        public void Traceback(int index, Token token)
+        public void Traceback(int index, JToken token)
         {
             set_index(index);
             this.tok = token;

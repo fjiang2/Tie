@@ -784,7 +784,7 @@ namespace Tie.Parser
                 lex.InSymbol();
             else if (lex.sy == SYMBOL.SHIFTOP && lex.opr == SYMBOL2.SHR)    //把>> SHR 替换成2个 > GTR, 用掉一个,还有1个
             {
-                lex.Traceback(lex.Index(), new Token(SYMBOL.RELOP, SYMBOL2.GTR));  //插入一个> GTR
+                lex.Traceback(lex.Index(), new JToken(SYMBOL.RELOP, SYMBOL2.GTR));  //插入一个> GTR
             }
             else
             {
@@ -793,7 +793,7 @@ namespace Tie.Parser
                 else
                 {
                     //TRACEBACK:
-                    lex.Traceback(index, new Token(SYMBOL.RELOP, SYMBOL2.LSS));
+                    lex.Traceback(index, new JToken(SYMBOL.RELOP, SYMBOL2.LSS));
                     gen.IP = IP;
                     //恢复被删除的指令, 见上面的注释: ##删除的2条指令
                     gen.emit(INSTYPE.MOV, generic);
