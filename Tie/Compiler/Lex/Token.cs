@@ -19,7 +19,7 @@
 using System;
 using System.IO;
 
-namespace Tie
+namespace Tie.Lex
 {
     class Token
     {

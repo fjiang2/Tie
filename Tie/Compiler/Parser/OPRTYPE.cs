@@ -15,50 +15,20 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-namespace Tie.Lex
+namespace Tie.Parser
 {
-    // a Token
-    enum SYMBOL
+    enum OPRTYPE
     {
-        intcon, floatcon, boolcon, stringcon, identsy,      // constant number 31,3.14,'c',"STRING"
-        nullsy, truesy, falsesy,
+        none,
+        numcon,
 
-        PLUS, MINUS, STAR, DIV, MOD,                        // + - * / %
-        ANDAND, OROR,                               // !.	&&,	||
-        AND, OR, XOR,                               // bit logic
+        funccon,
+        classcon,
 
-        RELOP, EQUOP, ASSIGNOP, INCOP, SHIFTOP, STRUCTOP, UNOP,
+        intcon,
+        addrcon,
 
-        LP, RP, LB, RB, LC, RC,                     // (	)	[	]	{	}
-        COMMA, SEMI, QUEST, QQUEST, COLON,
-
-        VAR, FUNC, CLASS, METHOD,       // =	::
-        EQUAL, VOID,
-
-        IF, ELSE, SIZEOF,
-        SWITCH, CASE, DEFAULT,                  // switch
-        DO, WHILE, FOR, FOREACH,                    // for
-        BREAK, CONTINUE, GOTO,                  // 
-
-        RETURN,
-
-        TRY, CATCH, THROW, FINALLY,
-
-        NEW, THIS, BASE, NAMESPACE, DIRECTIVE, DELIMITER,
-        WITH, IN, IS, AS, DEBUG,
-
-        GOESTO, //  =>
-
-        //---------------------------------------------------------------	
-        PUBLIC, PRIVATE, PROTECTED, STATIC,
-
-        localsy, staticsy, friendsy,
-        atsy, constsy, typesy, charcon, deletesy,
-        NOP     //最后一个token
-
+        identcon,
+        regcon
     }
-
-
-
-
 }

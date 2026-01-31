@@ -15,7 +15,9 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-namespace Tie
+using Tie.Lex;
+
+namespace Tie.Parser
 {
 
     class Expression
@@ -322,16 +324,16 @@ namespace Tie
             bool r = true;
             if (lex.sy == SYMBOL.EQUAL)			// A=1
             {
-                Operand var = gen.IV[gen.IP - 1].operand;
+                Operand var1 = gen.IV[gen.IP - 1].operand;
                 lex.InSymbol();
                 r = s_exp1();
-                gen.emit(INSTYPE.STO);//,var);
+                gen.emit(INSTYPE.STO);//,var1);
             }
             else if (lex.sy == SYMBOL.ASSIGNOP)	// A+=1;
             {
                 SYMBOL2 Opr = lex.opr;
                 lex.InSymbol();
-                repeatvar();
+                RepeatVar();
                 r = s_exp1();
                 s_assignop(Opr);
             }
@@ -1038,7 +1040,7 @@ namespace Tie
 
 
             /***
-             * 支持Genric class如:new System.Collections.Generic.Dictionary<string, int>(...)
+             * 支持Generic class如:new System.Collections.Generic.Dictionary<string, int>(...)
              * 以及Generic method 如: Add<string>("abc");
              * typevar 
              *      true: generic class
@@ -1131,7 +1133,7 @@ namespace Tie
 
         #region +=, ++, --, #scope
 
-        void repeatvar()	//i+=2  =>  i=i+2
+        void RepeatVar()	//i+=2  =>  i=i+2
         {
             gen.emit(INSTYPE.RCP);
         }
@@ -1162,14 +1164,14 @@ namespace Tie
             switch (opr)
             {
                 case SYMBOL2.PPLUS:
-                    repeatvar();
+                    RepeatVar();
                     gen.emit(INSTYPE.MOV, new Operand(new Numeric(1)));
                     gen.emit(INSTYPE.ADD);
                     gen.emit(INSTYPE.STO);
                     break;
 
                 case SYMBOL2.MMINUS:
-                    repeatvar();
+                    RepeatVar();
                     gen.emit(INSTYPE.MOV, new Operand(new Numeric(1)));
                     gen.emit(INSTYPE.SUB);
                     gen.emit(INSTYPE.STO);

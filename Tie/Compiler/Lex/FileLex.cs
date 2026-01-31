@@ -18,12 +18,12 @@
 using System;
 using System.IO;
 
-namespace Tie
+namespace Tie.Lex
 {
     class FileLex : JLex
     {
-        private StreamReader fi;        //source file
-        private char[] buffer;
+        private readonly StreamReader fi;        //source file
+        private readonly char[] buffer;
 
         public FileLex(string sourceFileName, Error error)
             : base(error)

@@ -19,6 +19,9 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Tie.Lex;
+using Tie.Parser;
+
 namespace Tie
 {
 

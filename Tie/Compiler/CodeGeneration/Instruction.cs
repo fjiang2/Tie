@@ -17,6 +17,8 @@
 
 using System;
 
+using Tie.Parser;
+
 namespace Tie
 {
 

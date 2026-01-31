@@ -17,6 +17,8 @@
 
 using System.IO;
 
+using Tie.Parser;
+
 namespace Tie
 {
     /// <summary>

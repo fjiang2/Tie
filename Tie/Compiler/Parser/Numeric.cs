@@ -16,19 +16,10 @@
 //--------------------------------------------------------------------------------------------------//
 
 using System.IO;
+using Tie.Lex;
 
-namespace Tie
+namespace Tie.Parser
 {
-    enum NUMTYPE
-    {
-        voidcon,
-        nullcon,
-        boolcon,
-        intcon,
-        doublecon,
-        // decimalcon,
-        stringcon
-    }
 
     /// <summary>
     /// Numeric, logical, lexical operands

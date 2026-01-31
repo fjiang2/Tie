@@ -19,6 +19,8 @@ using System;
 using System.IO;
 using System.Reflection;
 
+using Tie.Parser;
+
 namespace Tie
 {
 

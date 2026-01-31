@@ -17,16 +17,14 @@
 
 using System;
 
-namespace Tie
+namespace Tie.Lex
 {
-
-
     abstract class JLex
     {
         protected char ch;
         public static JKey[] Key;
         private Token tok;
-        private Error error;			//the position of cursor in file
+        private readonly Error error;			//the position of cursor in file
 
         public JLex(Error err)
         {
@@ -786,9 +784,6 @@ namespace Tie
             return InSymbol();
         }
     }
-
-
-
 
 
 }

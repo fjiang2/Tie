@@ -17,38 +17,8 @@
 
 using System.IO;
 
-namespace Tie
+namespace Tie.Parser
 {
-
-    enum OPRTYPE
-    {
-        none,
-        numcon,
-
-        funccon,
-        classcon,
-
-        intcon,
-        addrcon,
-
-        identcon,
-        regcon
-    }
-
-    enum SEGREG
-    {
-        NS,         //No Segment Register
-        DS,
-        BP,
-        SI,
-        IP,
-        SP,
-
-        ES,     //used for:  instance of class
-        EX      //used for:  try..catch..finally
-    };
-
-
 
     class Operand
     {

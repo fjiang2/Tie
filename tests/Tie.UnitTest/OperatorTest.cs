@@ -8,8 +8,8 @@ namespace UnitTest
 {
     class OperatorTest
     {
-        double a;
-        double b;
+        readonly double a;
+        readonly double b;
 
         public OperatorTest(double a, double b)
         {
@@ -107,7 +107,7 @@ b8 = !(12 < 3.1);
             ulong ul = (ulong)val;
             //DateTime dt = (DateTime)val;
 
-            DBNull dbnull = (DBNull)nil;
+            DBNull _nil = (DBNull)nil;
             nil = VAL.Boxing(DBNull.Value);
 
             Debug.Assert(nil.VALTYPE == VALTYPE.nullcon && nil.Value.Equals(typeof(DBNull)));
