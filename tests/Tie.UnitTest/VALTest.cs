@@ -103,7 +103,7 @@ E4 = E.ctype(ObjectArray);
             Memory memory = new Memory();
             Script.Evaluate(THIS, "this.from(base.S1) && base.S1.Completed)", memory, new WorkflowFunction());
             VAL nodes = Script.Evaluate("States", memory);
-            System.Diagnostics.Debug.Assert(nodes.ToExJson() == "{\r\n  S2 : null,\r\n  S1 : {\r\n    Completed : void\r\n  }\r\n}", "void测试");
+            System.Diagnostics.Debug.Assert(nodes.ToExJson() == "{\r\n  S2 : null,\r\n  S1 : void\r\n}", "void测试");
 
             code = @"
                 addreference(Assembly.Load('Tie.UnitTest'));

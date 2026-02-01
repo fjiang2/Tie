@@ -58,6 +58,28 @@ namespace Tie.Parser
             }
         }
 
+        public static Numeric TRUE
+        {
+            get
+            {
+                Numeric c = new Numeric();
+                c.ty = NUMTYPE.boolcon;
+                c.value = true;
+                return c;
+            }
+        }
+
+        public static Numeric FALSE
+        {
+            get
+            {
+                Numeric c = new Numeric();
+                c.ty = NUMTYPE.boolcon;
+                c.value = false;
+                return c;
+            }
+        }
+
         public Numeric(int i)
         {
             ty = NUMTYPE.intcon;

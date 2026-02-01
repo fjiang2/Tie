@@ -36,8 +36,8 @@ namespace Tie
 
         RMT,
         RCP,            // remove CPU top register, register copy
+        RPUSH,          // RPSH = REG.Push()
         RPOP,           // REGO = REG.Pop()
-        //RPSH,         // RPSH = REG.Push()
 
         ESI, ESO,       // EX PUSH/POP
 

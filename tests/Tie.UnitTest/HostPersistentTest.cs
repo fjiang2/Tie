@@ -154,11 +154,41 @@ namespace UnitTest
  q = 12;
  b =  q ?? ""ab"";
 ";
+
             Memory DS = new Memory();
             Script.Execute(code, DS);
 
             Debug.Assert(DS["a"].Str == "ab");
             Debug.Assert(DS["b"].Intcon == 12);
+
+            code = @"
+flag = false;
+file = null;
+if(file != null && typeof(System.IO.File).Exists(file)) flag = true;
+
+flag2 = false;
+file2 = ""c:\\windows\\system.ini"";
+if(file2 != null && typeof(System.IO.File).Exists(file2)) flag2 = true;
+
+
+flag3 = false;
+file3 = null;
+test = true;
+if(test || typeof(System.IO.File).Exists(file3)) flag3 = true;
+
+flag4 = false;
+file3 = ""c:\\windows\\system.ini"";
+test = false;
+if(test || typeof(System.IO.File).Exists(file3)) flag4 = true;
+
+";
+
+            Script.Execute(code, DS);
+
+            Debug.Assert(DS["flag"].Boolcon == false);
+            Debug.Assert(DS["flag2"].Boolcon == true);
+            Debug.Assert(DS["flag3"].Boolcon == true);
+            Debug.Assert(DS["flag4"].Boolcon == true);
         }
 
 

@@ -432,7 +432,21 @@ namespace Tie.Parser
         L1:
             switch (lex.sy)
             {
-                case SYMBOL.OROR: lex.InSymbol(); s_exp4(); gen.emit(INSTYPE.OROR); break;
+                case SYMBOL.OROR:
+                    lex.InSymbol();
+
+                    int L1 = gen.emit(INSTYPE.JNZ);
+                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));
+
+                    s_exp4();
+                    gen.emit(INSTYPE.OROR);
+
+                    int L2 = gen.emit(INSTYPE.JMP);
+                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
+                    gen.remit(L1, gen.IP - 1);
+                    gen.remit(L2, gen.IP);
+                    break;
+
                 default: return true;
             }
             goto L1;
@@ -443,7 +457,21 @@ namespace Tie.Parser
         L1:
             switch (lex.sy)
             {
-                case SYMBOL.ANDAND: lex.InSymbol(); s_exp5(); gen.emit(INSTYPE.ANDAND); break;
+                case SYMBOL.ANDAND:
+                    lex.InSymbol();
+
+                    int L1 = gen.emit(INSTYPE.JZ);
+                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
+
+                    s_exp5();
+                    gen.emit(INSTYPE.ANDAND);
+
+                    int L2 = gen.emit(INSTYPE.JMP);
+                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));
+                    gen.remit(L1, gen.IP - 1);
+                    gen.remit(L2, gen.IP);
+                    break;
+
                 default: return true;
             }
             goto L1;
