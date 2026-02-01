@@ -309,7 +309,7 @@ namespace Tie
                     if (arg is Delegate)
                     {
                         Delegate d = (Delegate)arg;
-                        if (d.Method.Name == Constant.FUNC_CON_INSTANCE_INVOKE)
+                        if (d.Method.Name == InternalConst.FUNC_CON_INSTANCE_INVOKE)
                             throw new HostTypeException("Call delegate {0} failed in {1} of {2}", d, methodInfo, host);
                     }
                 }

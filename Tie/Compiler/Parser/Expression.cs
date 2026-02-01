@@ -251,7 +251,7 @@ namespace Tie.Compiler.Parser
                         )
                     {
                         s_exp1();
-                        s_call(Constant.FUNC_CAST_TYPE_VALUE, 2);
+                        s_call(InternalConst.FUNC_CAST_TYPE_VALUE, 2);
                     }
                     break;
 
@@ -554,12 +554,12 @@ namespace Tie.Compiler.Parser
 
                     case SYMBOL.IS:     //exp1 is exp2 翻译成 HostType.IsType(exp1,exp2)
                         s_var(true);    //s_exp9(); //is后面是.net的System.Type, 函数s_var(true)中的true表示支持generic type
-                        s_call(Constant.FUNC_IS_TYPE, 2);
+                        s_call(InternalConst.FUNC_IS_TYPE, 2);
                         break;
 
                     case SYMBOL.AS:     //exp1 as exp2  翻译成 $castvt(exp1, exp2)
                         s_var(true);    //s_exp9();     //参照上面的SYMBOL.IS子句
-                        s_call(Constant.FUNC_CAST_VALUE_TYPE, 2);
+                        s_call(InternalConst.FUNC_CAST_VALUE_TYPE, 2);
                         break;
                 }
             }
@@ -1116,7 +1116,7 @@ namespace Tie.Compiler.Parser
             lex.InSymbol();
             if (lex.sy == SYMBOL.RB)
             {
-                s_call(Constant.FUNC_MAKE_ARRAY_TYPE, 1);
+                s_call(InternalConst.FUNC_MAKE_ARRAY_TYPE, 1);
 
                 //技术性的插入一个空指令NOP, 是因为上面的s_call(....) emit了一个CALL指令,
                 //如果new一个数组的话, 如new int[], 跟new Circle(), 最后2句都是CALL/SP指令,分不清楚
@@ -1136,7 +1136,7 @@ namespace Tie.Compiler.Parser
                 while (lex.sy == SYMBOL.COMMA);
                 Expect(SYMBOL.RB);
                 gen.Emit(INSTYPE.MOV, new Operand(new Numeric(rank)));
-                s_call(Constant.FUNC_MAKE_ARRAY_TYPE, 2);
+                s_call(InternalConst.FUNC_MAKE_ARRAY_TYPE, 2);
                 gen.Emit(INSTYPE.NOP);          //技术性的插入一个空指令NOP. 参照上面的注释
             }
             else

@@ -40,7 +40,7 @@ namespace Tie
         private Error error;
 
         public Module()
-            : this(Constant.VOLATILE_MODULE_NAME, Constant.MAX_INSTRUCTION_NUM)
+            : this(InternalConst.VOLATILE_MODULE_NAME, Constant.MAX_INSTRUCTION_NUM)
         {
         }
 
@@ -121,7 +121,7 @@ namespace Tie
 
             if (codeMode == CodeMode.Append)
             {
-                if (blocks.Count + 1 > Constant.MAX_CODEBLOCK_NUM)
+                if (blocks.Count + 1 > InternalConst.MAX_CODEBLOCK_NUM)
                     throw new CompilingException("CodeBlock number reaches maximum limitation.", Position.UNKNOWN);
 
                 IP1 = IP2;
