@@ -490,7 +490,7 @@ namespace Tie
                         return new VAL(Operand.Func(L[1].Str, L[0].Str));
 
                 case Constant.FUNC_CLASS:
-                    return new VAL(Operand.Clss(L[1].Intcon, L[0].Str));
+                    return new VAL(Operand.Class(L[1].Intcon, L[0].Str));
 
 
                 #endregion

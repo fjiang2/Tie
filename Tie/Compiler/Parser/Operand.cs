@@ -156,7 +156,7 @@ namespace Tie.Parser
             return v;
         }
 
-        internal static Operand Clss(int addr, string moduleName)
+        internal static Operand Class(int addr, string moduleName)
         {
             Operand v = new Operand();
             v.ty = OPRTYPE.classcon;

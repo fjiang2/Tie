@@ -1,4 +1,4 @@
-ï»¿//--------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------//
 //                                                                                                  //
 //        Tie                                                                                       //
 //                                                                                                  //
@@ -15,50 +15,60 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-namespace Tie.Lex
+namespace Tie
 {
-    // a Token
-    enum SYMBOL
+    enum INSTYPE
     {
-        intcon, floatcon, boolcon, stringcon,   // constant number 31,3.14,'c',"STRING"
-        identsy,      
-        nullsy, truesy, falsesy,
+        NEG, ADD, SUB, MUL, DIV, MOD,
+        INC, DEC,
 
-        PLUS, MINUS, STAR, DIV, MOD,            // + - * / %
-        ANDAND, OROR,                           // !.	&&,	||
-        AND, OR, XOR,                           // bit logic
+        EQL, NEQ, LSS, LEQ, GTR, GEQ,
 
-        RELOP, EQUOP, ASSIGNOP, INCOP, SHIFTOP, 
-        STRUCTOP, UNOP,
+        NOTNOT, ANDAND, OROR, NOT, AND, OR, XOR,
+        EACH,           // foreach(a in A)
 
-        LP, RP, LB, RB, LC, RC,                 // ( )	[ ]	{ }
-        COMMA, SEMI, QUEST, QQUEST, COLON,
+        SHR, SHL,       // >> , <<
 
-        VAR, FUNC, CLASS, METHOD,               // = ::
-        EQUAL, VOID,
+        JMP, JNZ, JZ, LJMP, LJZ,
+        CAS,            // case of switch 
 
-        IF, ELSE, SIZEOF,
-        SWITCH, CASE, DEFAULT,                  // switch
-        DO, WHILE, FOR, FOREACH,                // for
-        BREAK, CONTINUE, GOTO,                  // break, continue, goto
+        PUSH, POP, SP,  // SS 
 
-        RETURN,
+        RMT,
+        RCP,            // remove CPU top register, register copy
+        RPOP,           // REGO = REG.Pop()
+        //RPSH,         // RPSH = REG.Push()
 
-        TRY, CATCH, THROW, FINALLY,
+        ESI, ESO,       // EX PUSH/POP
 
-        NEW, THIS, BASE, NAMESPACE, DIRECTIVE, DELIMITER,
-        WITH, IN, IS, AS, DEBUG,
+        MOV, STO, STO1, // LOAD
 
-        GOESTO,                                 //  =>
 
-        PUBLIC, PRIVATE, PROTECTED, STATIC,
+        CALL, RET,      // call function
+        MARK, END,      // List, Parameter,
+        OFS, ARR,       // struct. array,
 
-        localsy, staticsy, friendsy,
-        atsy, constsy, typesy, charcon, deletesy,
-        
-        NOP                                     // The last token
-    }
+        HALT, NOP,
+        THIS, BASE, NS, // this, base class, namespace, module
+        ADR, VLU,       // &var ·µ»Ø±äÁ¿µÄµØÖ·, *VL, ·µ»ØµØÖ·µÄÖµ 
 
+        PROC, ENDP,	    // function
+        DIRC,           // directive
+        DDT,	        // debug
+        GNRC,           // generic
+
+        //class	
+        NEW,
+        CLSS,   // class
+        PBLC,   // public
+        PRVT,   // private
+        PRTC,   // protected
+        ENDC,	// end of class
+
+
+        THRW   // throw
+
+    };
 
 
 

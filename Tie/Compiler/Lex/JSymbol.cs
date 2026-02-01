@@ -19,8 +19,8 @@ namespace Tie.Lex
 {
     class JSymbol
     {
-        public double fnum;				// real number from insymbol 
-        public int inum;				// integer from insymbol 
+        public double fnum;				// real number
+        public int inum;				// integer
         public string id;
 
         public int len;			        // string length 
