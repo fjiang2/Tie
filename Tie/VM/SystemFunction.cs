@@ -19,9 +19,9 @@ using System;
 using System.IO;
 using System.Reflection;
 
-using Tie.Parser;
+using Tie.Compiler.Parser;
 
-namespace Tie
+namespace Tie.VM
 {
 
 

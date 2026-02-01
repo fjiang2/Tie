@@ -23,7 +23,7 @@ namespace Tie
 {
     class Library
     {
-        private static Dictionary<string, Module> Modules = new Dictionary<string, Module>();
+        private static readonly Dictionary<string, Module> Modules = new Dictionary<string, Module>();
 
         public Library()
         { }
@@ -97,21 +97,21 @@ namespace Tie
         }
 
 
-        public static void decode(VAL val)
+        public static void Decode(VAL val)
         {
             for (int i = 0; i < val.Size; i++)
             {
-                Module module = Module.decode(val[i]);
+                Module module = Module.Decode(val[i]);
                 Library.AddModule(module);
             }
         }
 
-        public static VAL encode()
+        public static VAL Encode()
         {
             VAL val = VAL.Array();
             foreach (KeyValuePair<string, Module> kvp in Library.Modules)
             {
-                val.List.Add(Module.encode(kvp.Value));
+                val.List.Add(Module.Encode(kvp.Value));
             }
             return val;
         }

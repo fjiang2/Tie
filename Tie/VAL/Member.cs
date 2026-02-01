@@ -3,10 +3,10 @@
     /// <summary>
     /// 
     /// </summary>
-    public struct Member
+    public readonly struct Member
     {
-        private string name;
-        private VAL value;
+        private readonly string name;
+        private readonly VAL value;
 
         /// <summary>
         /// 

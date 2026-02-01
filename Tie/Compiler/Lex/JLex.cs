@@ -17,7 +17,7 @@
 
 using System;
 
-namespace Tie.Lex
+namespace Tie.Compiler.Lex
 {
     abstract class JLex
     {

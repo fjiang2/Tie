@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Tie.VM;
 #if !SILVERLIGHT
 //using System.Runtime.Serialization.Formatters.Soap;
 #endif
@@ -50,7 +51,7 @@ namespace Tie
          * */
         public static VAL Decode(string className, VAL args, VAL scope, Context context)
         {
-            VAL clss = new VAL();
+            VAL clss;
             /*
                 * 如果是注册过的class, 那么它的namespace是定义在Computer.DS中
                 * 譬如 

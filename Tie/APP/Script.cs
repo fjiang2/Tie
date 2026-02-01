@@ -17,6 +17,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Tie.VM;
 
 namespace Tie
 {
@@ -26,10 +27,10 @@ namespace Tie
     public sealed partial class Script : IDisposable
     {
         private string moduleName;
-        private int moduleSize;
+        private readonly int moduleSize;
 
         private string scope;
-        private Context context;
+        private readonly Context context;
 
         /// <summary>
         /// Initializes a new instance of the Tie.Script class, using dynamically created GUID as module name.
@@ -186,7 +187,7 @@ namespace Tie
         #region Dispose
 
         private bool disposed = false;
-        private bool destroyed = true;
+        private readonly bool destroyed = true;
 
         /// <summary>
         /// Destroy instance

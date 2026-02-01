@@ -19,15 +19,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Tie.Lex;
-using Tie.Parser;
+using Tie.Compiler.Lex;
+using Tie.Compiler.Parser;
 
 namespace Tie
 {
 
     class Module
     {
-        List<CodeBlock> blocks;       //keep all code blocks
+        private readonly List<CodeBlock> blocks;       //keep all code blocks
 
         public string moduleName;
         public readonly int maxSize;
@@ -143,7 +143,7 @@ namespace Tie
         }
 
 
-        public static Module decode(VAL val)
+        public static Module Decode(VAL val)
         {
             string moduleName = val["name"].Str;
             string codePiece = val["code"].Str;
@@ -154,7 +154,7 @@ namespace Tie
             return module;
         }
 
-        public static VAL encode(Module module)
+        public static VAL Encode(Module module)
         {
             VAL val = new VAL();
             val["name"] = new VAL(module.moduleName);

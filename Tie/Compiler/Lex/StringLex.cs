@@ -17,7 +17,7 @@
 
 using System.Text;
 
-namespace Tie.Lex
+namespace Tie.Compiler.Lex
 {
     class StringLex : JLex
     {

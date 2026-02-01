@@ -19,12 +19,13 @@
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
+using Tie.VM;
 
 namespace Tie
 {
     class DynamicDelegate
     {
-        private VAL func = null;    //如果变量名字改变了,请同时修改函数InstanceDelegate(,)中的引用字符串
+        private readonly VAL func = null;    //如果变量名字改变了,请同时修改函数InstanceDelegate(,)中的引用字符串
 
         private DynamicDelegate(VAL func)
         {

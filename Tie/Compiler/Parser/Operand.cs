@@ -17,7 +17,7 @@
 
 using System.IO;
 
-namespace Tie.Parser
+namespace Tie.Compiler.Parser
 {
 
     class Operand

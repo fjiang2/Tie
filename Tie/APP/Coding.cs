@@ -15,7 +15,8 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 using System.Collections.Generic;
-using Tie.Lex;
+using Tie.Compiler.Lex;
+using Tie.VM;
 
 namespace Tie
 {

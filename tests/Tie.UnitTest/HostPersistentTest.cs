@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Tie;
+using Tie.Valization;
 
 namespace UnitTest
 {

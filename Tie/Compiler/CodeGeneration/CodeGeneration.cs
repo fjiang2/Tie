@@ -17,7 +17,7 @@
 
 using System.IO;
 
-using Tie.Parser;
+using Tie.Compiler.Parser;
 
 namespace Tie
 {
@@ -51,24 +51,24 @@ namespace Tie
         }
 
 
-        public int emit(INSTYPE c, Operand n)
+        public int Emit(INSTYPE c, Operand n)
         {
             IV[IP] = new Instruction(c, n, module.Position);
-            fatal();
+            Fatal();
             return IP++;
         }
 
-        public int emit(INSTYPE c)
+        public int Emit(INSTYPE c)
         {
             IV[IP] = new Instruction(c, module.Position);
-            fatal();
+            Fatal();
             return IP++;
         }
 
-        public int emit(INSTYPE c, int n)
+        public int Emit(INSTYPE c, int n)
         {
             IV[IP] = new Instruction(c, new Operand(n), module.Position);
-            fatal();
+            Fatal();
             return IP++;
         }
 
@@ -77,17 +77,17 @@ namespace Tie
             return IV[i];
         }
 
-        public void remit(int IP1, int IP2)
+        public void Remit(int IP1, int IP2)
         {
             IV[IP1].operand = new Operand(IP2);
         }
 
-        public void remitvalue(int IP1, object value)
+        public void RemitValue(int IP1, object value)
         {
             IV[IP1].operand.value = value;
         }
 
-        public void remit(int IP, INSTYPE cmd)
+        public void Remit(int IP, INSTYPE cmd)
         {
             IV[IP].cmd = cmd;
         }
@@ -117,7 +117,7 @@ namespace Tie
             return maxSize - 1024;
         }
 
-        void fatal()
+        private void Fatal()
         {
             if (IP >= maxSize)
                 Error.OnFatal(3);

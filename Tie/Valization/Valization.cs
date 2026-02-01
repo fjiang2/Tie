@@ -15,20 +15,26 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-namespace Tie.Compiler.Parser
+namespace Tie.Valization
 {
-    enum OPRTYPE
+    /// <summary>
+    ///  Allows an object to control its own valization and devalization.
+    /// </summary>
+    public interface IValizable
     {
-        none,
-        numcon,
+        /// <summary>
+        /// Populates data
+        ///     needed to valize the target object.
+        /// </summary>
+        /// <returns></returns>
+        VAL GetVAL();
 
-        funccon,
-        classcon,
-
-        intcon,
-        addrcon,
-
-        identcon,
-        regcon
+        /// <summary>
+        /// update target object with valized value
+        /// </summary>
+        /// <param name="val"></param>
+        void SetVAL(VAL val);
     }
+
+
 }
