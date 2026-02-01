@@ -4,8 +4,8 @@
     <TargetFrameworks>netstandard2.0;net480</TargetFrameworks>
     <AssemblyName>Tie</AssemblyName>
     <RootNamespace>Tie</RootNamespace>
-    <Version>2.0.11</Version>
-    <AssemblyVersion>2.0.11</AssemblyVersion>
+    <Version>2.1.0</Version>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
     <SignAssembly>true</SignAssembly>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Authors>Datum Connect</Authors>
@@ -17,7 +17,7 @@
     <PackageIconUrl></PackageIconUrl>
     <DocumentationFile></DocumentationFile>
     <AssemblyOriginatorKeyFile>tie.snk</AssemblyOriginatorKeyFile>
-	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageOutputPath>$(LocalNugetPackages)</PackageOutputPath>
     <Description>List Processing Script Language for .NET</Description>
     <Copyright>Copyright @ Datum Connect 1991-2024</Copyright>

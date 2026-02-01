@@ -4,8 +4,8 @@
     <TargetFrameworks>net480</TargetFrameworks>
     <AssemblyName>Tie.Helper</AssemblyName>
     <RootNamespace>Tie.Helper</RootNamespace>
-    <Version>2.0.11</Version>
-    <AssemblyVersion>2.0.11</AssemblyVersion>
+    <Version>2.1.0</Version>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
     <SignAssembly>true</SignAssembly>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Authors>Datum Connect</Authors>
