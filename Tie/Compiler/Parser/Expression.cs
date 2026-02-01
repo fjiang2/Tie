@@ -324,7 +324,7 @@ namespace Tie.Parser
             bool r = true;
             if (lex.sy == SYMBOL.EQUAL)			// A=1
             {
-                Operand var1 = gen.IV[gen.IP - 1].operand;
+                //Operand var1 = gen.IV[gen.IP - 1].operand;
                 lex.InSymbol();
                 r = s_exp1();
                 gen.emit(INSTYPE.STO);//,var1);
@@ -436,10 +436,10 @@ namespace Tie.Parser
                     lex.InSymbol();
 
                     int L1 = gen.emit(INSTYPE.JNZ);
-                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));
+                    //gen.emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));
 
                     s_exp4();
-                    gen.emit(INSTYPE.OROR);
+                    //gen.emit(INSTYPE.OROR);
 
                     int L2 = gen.emit(INSTYPE.JMP);
                     gen.emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
@@ -461,10 +461,10 @@ namespace Tie.Parser
                     lex.InSymbol();
 
                     int L1 = gen.emit(INSTYPE.JZ);
-                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
+                    //gen.emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
 
                     s_exp5();
-                    gen.emit(INSTYPE.ANDAND);
+                    //gen.emit(INSTYPE.ANDAND);
 
                     int L2 = gen.emit(INSTYPE.JMP);
                     gen.emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));

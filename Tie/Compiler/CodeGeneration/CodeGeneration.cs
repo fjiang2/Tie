@@ -26,12 +26,12 @@ namespace Tie
     /// </summary>
     class CodeGeneration
     {
-        int maxSize;
+        private readonly int maxSize;
 
         public Instruction[] IV;
         public int IP;
 
-        private Module module;
+        private readonly Module module;
 
         public CodeGeneration(Module module)
         {
@@ -95,7 +95,7 @@ namespace Tie
 
         public void Move(int d, int s, int n)
         {
-            long c = s - d;
+            //long c = s - d;
             for (int i = 0; i < n; i++)
             {
                 //		switch(IV[s+i].cmd)
