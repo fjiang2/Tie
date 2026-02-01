@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
+﻿using System.Data;
 
 namespace Tie.FormTest
 {
-   
+
     class SearchItem
     {
         /*
@@ -116,7 +113,7 @@ namespace Tie.FormTest
              };
              ";
 
-        
+
         public VAL initialValue = new VAL();
         public VAL Result;
         public DataTable DataTable;
@@ -137,8 +134,8 @@ namespace Tie.FormTest
                 return initialValue;
             }
             set
-            { 
-                initialValue = value; 
+            {
+                initialValue = value;
             }
         }
     }

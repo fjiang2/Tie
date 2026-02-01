@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Tie;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Reflection;
-using System.Diagnostics;
+using Tie;
 
 namespace UnitTest
 {

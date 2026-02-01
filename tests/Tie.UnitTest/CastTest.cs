@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tie;
+﻿using Tie;
 
 namespace UnitTest
 {
@@ -14,8 +11,8 @@ namespace UnitTest
             Logger.Close();
             Logger.Open("c:\\temp\\tie.log");
             Memory DS = new Memory();
-            
-            
+
+
             string code = @"
 //tt = (this.from(base.S1) && base.S1.Completed) || (this.from(base.S7) && !base.S7.Results.Yes);
 
@@ -52,8 +49,8 @@ namespace UnitTest
             System.Diagnostics.Debug.Assert(DS["B1"].HostValue.GetType() == typeof(int[]));
             System.Diagnostics.Debug.Assert(DS["D"].HostValue.GetType() == typeof(double[]));
 
-         //   code = @"((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();";
-         //   Script.Execute(code, DS);
+            //   code = @"((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();";
+            //   Script.Execute(code, DS);
             Logger.Close();
         }
     }

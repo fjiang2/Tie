@@ -21,14 +21,14 @@ namespace Tie.Lex
     enum SYMBOL
     {
         intcon, floatcon, boolcon, stringcon,   // constant number 31,3.14,'c',"STRING"
-        identsy,      
+        identsy,
         nullsy, truesy, falsesy,
 
         PLUS, MINUS, STAR, DIV, MOD,            // + - * / %
         ANDAND, OROR,                           // !.	&&,	||
         AND, OR, XOR,                           // bit logic
 
-        RELOP, EQUOP, ASSIGNOP, INCOP, SHIFTOP, 
+        RELOP, EQUOP, ASSIGNOP, INCOP, SHIFTOP,
         STRUCTOP, UNOP,
 
         LP, RP, LB, RB, LC, RC,                 // ( )	[ ]	{ }
@@ -55,7 +55,7 @@ namespace Tie.Lex
 
         localsy, staticsy, friendsy,
         atsy, constsy, typesy, charcon, deletesy,
-        
+
         NOP                                     // The last token
     }
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
 using Tie;
 
@@ -53,7 +51,7 @@ namespace UnitTest
             OperatorTest v1 = new OperatorTest(1, 2);
             OperatorTest v2 = new OperatorTest(3, 4);
 
-            VAL x = foo( new VAL(20F));
+            VAL x = foo(new VAL(20F));
             string s1 = (string)v1;
 
             Logger.Close();
@@ -91,8 +89,8 @@ b8 = !(12 < 3.1);
             Debug.Assert((bool)DS["b6"] == true);
             Debug.Assert((bool)DS["b7"] == false);
             Debug.Assert((bool)DS["b8"] == true);
-            
-            Debug.Assert(DS["s1"].Str  == s1);
+
+            Debug.Assert(DS["s1"].Str == s1);
 
             int i1 = 20;
             uint u1 = 40;

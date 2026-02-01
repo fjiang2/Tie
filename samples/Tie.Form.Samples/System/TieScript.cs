@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using Tie;
 
 namespace Tie.FormTest
 {
@@ -30,7 +25,7 @@ namespace Tie.FormTest
             int pos = rtb.SelectionStart;
 
             this.statusStrip1.Items[0].Text = "Ln " + line + ", Col " + col;
-        
+
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -39,7 +34,7 @@ namespace Tie.FormTest
             this.Close();
         }
 
-        
+
         private void btnAbort_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Abort;
@@ -50,7 +45,7 @@ namespace Tie.FormTest
         public static string Show(PositionException e)
         {
             TieEditor tieException = new TieEditor(e.Position.CodePiece, e.Message, e.Position.Cursor);
-            
+
             if (tieException.ShowDialog() == DialogResult.Yes)
                 return tieException.richTextBox1.Text;
             else
@@ -116,13 +111,13 @@ namespace Tie.FormTest
 
             return col;
         }
-        
+
         #endregion
 
     }
 
 
-    public class TieScript   
+    public class TieScript
     {
         Tie.Script script;
         public delegate void ExecuteHandler(string src);
@@ -136,16 +131,16 @@ namespace Tie.FormTest
         }
 
         public string SourceCode
-        { 
+        {
             get { return src; }
         }
 
         public Memory DS
-        {  
+        {
             get { return script.DS; }
             set { script.DS = value; }
         }
-        
+
         public void Dispose()
         {
             script.Dispose();
@@ -178,7 +173,7 @@ namespace Tie.FormTest
         private void Execute(ExecuteHandler handler)
         {
 
-            L1:
+        L1:
             try
             {
                 handler(src);
@@ -201,7 +196,7 @@ namespace Tie.FormTest
                     src = ret;
                     goto L1;
                 }
-            
+
             }
 
         }

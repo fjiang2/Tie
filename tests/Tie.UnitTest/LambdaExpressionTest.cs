@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
-using System.Diagnostics;
-using Tie;
+﻿using Tie;
 
 namespace UnitTest
 {
@@ -48,6 +43,6 @@ namespace UnitTest
             System.Diagnostics.Debug.Assert(DS["L4"].ToString() == "{20,30,40,100}");
             System.Diagnostics.Debug.Assert(DS["L5"].ToString() == "{20,30,40,100}.typeof(\"SET\")");
         }
-            
+
     }
 }

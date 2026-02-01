@@ -1,12 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using Tie;
 
-namespace Tie.FormTest 
+namespace Tie.FormTest
 {
     class LabelButtonForm4 : Form
     {
@@ -32,7 +27,7 @@ namespace Tie.FormTest
             script.DS.AddObject(script.Scope, this);
             script.DS.AddObject("count", 0);
 
-        
+
             string code = @"
                 this.button1 = new System.Windows.Forms.Button();
                 this.label1 = new System.Windows.Forms.Label();

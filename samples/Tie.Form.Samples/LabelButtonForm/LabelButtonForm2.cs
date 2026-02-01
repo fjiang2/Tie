@@ -1,12 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Tie;
+﻿using System.Windows.Forms;
 
-namespace Tie.FormTest 
+namespace Tie.FormTest
 {
     class LabelButtonForm2 : Form
     {
@@ -20,7 +14,7 @@ namespace Tie.FormTest
         {
             button1 = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
-            
+
             Controls.Add(this.label1);
             Controls.Add(this.button1);
 

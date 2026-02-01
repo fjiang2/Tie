@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Tie;
 using System.Windows.Forms;
+using Tie;
 
 namespace SubclassDemo
 {
@@ -13,7 +10,7 @@ namespace SubclassDemo
 
         public System.Windows.Forms.TextBox textBox1;
         public System.Windows.Forms.Label label1;
-        
+
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
@@ -48,7 +45,7 @@ namespace SubclassDemo
             this.PerformLayout();
 
         }
-    
+
         public MyForm()
         {
             InitializeComponent();
@@ -104,11 +101,11 @@ form.Show();
 ";
             Memory DS2 = new Memory();
             DS2.AddHostObject("mainForm", this);
-            
+
             script.DS = DS2;
             script.Execute(code);
-        
-        
+
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -116,7 +113,7 @@ form.Show();
             (script.DS["form"]["textBox1"].HostValue as TextBox).Text = textBox1.Text;
         }
 
-  
+
     }
 }
 

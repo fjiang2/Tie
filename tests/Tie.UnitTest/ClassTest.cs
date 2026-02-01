@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Tie;
 
 namespace UnitTest
 {
 
     public enum EnumTest
-    { 
+    {
         min = 1,
         max = 2
     }
@@ -24,7 +22,7 @@ namespace UnitTest
         }
     }
 
-    public class DerivedClassTest : BaseClassTest 
+    public class DerivedClassTest : BaseClassTest
     {
         public string S;
 
@@ -32,7 +30,7 @@ namespace UnitTest
         {
             S = "ABC";
         }
-    
+
     }
 
 
@@ -96,11 +94,11 @@ namespace UnitTest
                 ACD =  { circle.Area(),  circle.Circumference(), circle.Distance(12,18)};
                 ";
             HostType.Register(typeof(System.Math), true);
-            
+
             script.Execute(code);
             string circle = "{{\"x\",10},{\"y\",20},{\"radius\",4},{\"Area\",$function(\"unknown\",137)},{\"Circumference\",$function(\"unknown\",157)},{\"Distance\",$function(\"unknown\",177)}}.typeof(\"Circle\")";
             System.Diagnostics.Debug.Assert(script.DS["circle"].ToString() == circle, "User Defined Class");
-            System.Diagnostics.Debug.Assert(script.DS["ACD"].ToString() == "{50.264,25.132,2.82842712474619}","User Defined Class");
+            System.Diagnostics.Debug.Assert(script.DS["ACD"].ToString() == "{50.264,25.132,2.82842712474619}", "User Defined Class");
 
             string code1 = @"
                 #module Shape;      //一定要放在最前面
@@ -201,7 +199,7 @@ namespace UnitTest
 
 
 
-       
-    
+
+
     }
 }

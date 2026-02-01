@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Tie;
 
 namespace WpfApplicationDemo
@@ -22,8 +12,8 @@ namespace WpfApplicationDemo
     /// </summary>
     public partial class SearchEngineDemo : Window
     {
-        public const string connectionString = "Data Source=localhost\\sqlexpress;Initial catalog=demo;Trusted_Connection=True;";    
-        
+        public const string connectionString = "Data Source=localhost\\sqlexpress;Initial catalog=demo;Trusted_Connection=True;";
+
         /*
         * 
         * Example of Searching
@@ -34,7 +24,7 @@ namespace WpfApplicationDemo
         * */
         //to retrive data from SQL Server by SELECT Statement with paramters(@ID, @Date1, @Date2)
         public string SQL;
-         
+
         //define WinForm to get 3 values(Result.ID,Result.Date1, Result.Date2)
         public string FormCode;
 
@@ -55,7 +45,7 @@ namespace WpfApplicationDemo
 
         }
 
-   
+
         private string WriteResult(VAL result, DataTable dataTable)
         {
             //Show Output
@@ -80,7 +70,7 @@ namespace WpfApplicationDemo
                 sw.WriteLine();
             }
 
-             return sw.ToString();
+            return sw.ToString();
         }
 
 

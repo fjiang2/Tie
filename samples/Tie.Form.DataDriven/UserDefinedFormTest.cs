@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 using Tie;
 
 namespace DataDrivenWinForm
@@ -26,8 +21,8 @@ namespace DataDrivenWinForm
             DS.AddObject("Date1", new DateTime(2010, 2, 1));
             DS.AddObject("Date2", new DateTime(2010, 5, 3));
 
-            HostType.Register(typeof(System.Windows.Forms.MessageBox)); 
-            
+            HostType.Register(typeof(System.Windows.Forms.MessageBox));
+
         }
 
         private void button1_Click(object sender, EventArgs e)

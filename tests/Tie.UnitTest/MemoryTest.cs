@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Tie;
 
 namespace UnitTest
@@ -21,7 +17,7 @@ namespace UnitTest
 
             val = ds.GetValue("A.B");
             Debug.Assert(val["C"].Intcon == 100);
-            
+
             val = ds.GetValue("A.B.C");
             Debug.Assert(val.Intcon == 100);
 
@@ -50,8 +46,8 @@ namespace UnitTest
 
             string code = "A.a=1; A.b=2; A.c=void; A.D.a=1; A.D.c=null;";
             Script.Execute(code, ds);
-            val=ds["A"];
-            Debug.Assert(val.ToString()== "{{\"a\",1},{\"b\",2},{\"c\",void},{\"D\",{{\"a\",1},{\"c\",null}}}}");
+            val = ds["A"];
+            Debug.Assert(val.ToString() == "{{\"a\",1},{\"b\",2},{\"c\",void},{\"D\",{{\"a\",1},{\"c\",null}}}}");
             ds.ClearNullOrVoid("A");
             val = ds["A"];
             Debug.Assert(val.ToString() == "{{\"a\",1},{\"b\",2},{\"D\",{{\"a\",1}}}}");
@@ -76,11 +72,11 @@ namespace UnitTest
             val["A"]["B"]["C"] = new VAL();
             val["A"]["B"]["C"]["D"] = new VAL(500);
             Debug.Assert(val["A"]["B"]["C"]["D"].Intcon == 500);
-            
+
             val = new VAL();
             val["A"]["B"]["C"]["D"] = new VAL(500);
             Debug.Assert(val["A"]["B"]["C"]["D"].Undefined);
-            
-       }
+
+        }
     }
 }

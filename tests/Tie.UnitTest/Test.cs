@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
-using System.Diagnostics;
 using Tie;
 
 namespace UnitTest
@@ -27,13 +23,13 @@ namespace UnitTest
         {
             if (obj is Test2)
                 return 0;
-            
+
             else
                 return 1;
         }
-    
+
     }
-    
+
 
     class Test : ITest
     {
@@ -52,7 +48,7 @@ namespace UnitTest
                 return 1;
         }
 
-        
+
         public static void main()
         {
             string code = @"
@@ -215,12 +211,12 @@ Setting = class(pivotGridViewer)
 
 
 ";
-//            code = @"
-//            b = 0;
-//            A={2,4,6};
-//            foreach(a in A)
-//               b += a;
-//            ";
+            //            code = @"
+            //            b = 0;
+            //            A={2,4,6};
+            //            foreach(a in A)
+            //               b += a;
+            //            ";
 
 
             //DataTable dt = SQLCommand.FillDataTable("SELECT * FROM Workflows");
@@ -297,13 +293,13 @@ A3 = A.pop(3);
 
 
             Tie.Logger.Open("C:\\temp\\tie.log");
-        
+
             Test test = new Test();
-            ITest[] ITestArray =  new ITest[3];
+            ITest[] ITestArray = new ITest[3];
             ITestArray[0] = new Test2();
             ITestArray[1] = test;
             ITestArray[2] = new Test2();
-           
+
             Script script = new Script("unknown", 500);
             script.DS.AddHostObject("arr", arr);
             script.DS.AddHostObject("test", test);
@@ -327,11 +323,11 @@ A3 = A.pop(3);
 
 
         public int IArrayMethod(ITest[] A)
-        { 
-            int sum=0;
+        {
+            int sum = 0;
             foreach (ITest a in A)
             {
-                if(a!=null)
+                if (a != null)
                     sum += a.IMethod();
             }
             //throw new ApplicationException("Test throw");
@@ -346,24 +342,24 @@ A3 = A.pop(3);
 
         }
 
-        string[] sa = new string[]{"X","Y"};
+        string[] sa = new string[] { "X", "Y" };
         public string[] StringArray
         {
-            set 
-            { 
-                sa = value; 
+            set
+            {
+                sa = value;
             }
-            get 
-            { 
-                return sa; 
+            get
+            {
+                return sa;
             }
         }
-        public bool? dialogResult=true ;
+        public bool? dialogResult = true;
         public bool? DialogResult
         {
             get { return dialogResult; }
             set { dialogResult = value; }
         }
-            
+
     }
 }

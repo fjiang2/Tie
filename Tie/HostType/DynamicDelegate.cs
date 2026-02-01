@@ -144,7 +144,7 @@ namespace Tie
             {
                 il.Emit(OpCodes.Ldloc, 0);    //LOAD L0
                 il.Emit(OpCodes.Ldc_I4, i);   //LOAD i
-                il.Emit(OpCodes.Ldarg, i+1);  //LOAD arg[i+1]
+                il.Emit(OpCodes.Ldarg, i + 1);  //LOAD arg[i+1]
                 if (dParameterTypes[i].IsValueType)
                     il.Emit(OpCodes.Box, dParameterTypes[i]);
                 il.Emit(OpCodes.Stelem_Ref);
@@ -170,9 +170,9 @@ namespace Tie
 
             il.Emit(OpCodes.Ret);
 
-            
+
             //下面可有可无,为了可读性
-            for (int i = 0; i < len+1; i++)
+            for (int i = 0; i < len + 1; i++)
                 dynamicMethod.DefineParameter(i, ParameterAttributes.In, "arg" + i);
 
             return dynamicMethod.CreateDelegate(dType, target);

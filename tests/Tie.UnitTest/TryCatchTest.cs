@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tie;
+﻿using Tie;
 
 namespace UnitTest
 {
@@ -26,7 +23,7 @@ finally
 }
 ";
 
-          //  Tie.Logger.Open("C:\\temp\\tie.log");
+            //  Tie.Logger.Open("C:\\temp\\tie.log");
             DS1 = new Memory();
             Script.Execute(code, DS1);
             System.Diagnostics.Debug.Assert(DS1["i"].Intcon == 10);
@@ -52,13 +49,13 @@ finally
  i=10; 
 }
 ";
-             Tie.Logger.Open("C:\\temp\\tie.log");
+            Tie.Logger.Open("C:\\temp\\tie.log");
             DS1 = new Memory();
             Script.Execute(code, DS1);
             System.Diagnostics.Debug.Assert(DS1["k"].Undefined);
             System.Diagnostics.Debug.Assert(DS1["exception"].Str == "Exception1");
 
-code=@"
+            code = @"
 try
 {
   try {
@@ -88,7 +85,7 @@ finally
             System.Diagnostics.Debug.Assert(DS1["k"].Intcon == 20);
 
 
-//            System.Diagnostics.Debug.Assert(DS1["a"].ToString() == "{{\"b\",{{\"c\",{{\"d1\",12},{\"d2\",{null,\"A\",{{\"e\",\"B\"}}}}}}}}}", "VAL");
+            //            System.Diagnostics.Debug.Assert(DS1["a"].ToString() == "{{\"b\",{{\"c\",{{\"d1\",12},{\"d2\",{null,\"A\",{{\"e\",\"B\"}}}}}}}}}", "VAL");
         }
     }
 }

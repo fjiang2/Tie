@@ -1,6 +1,5 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tie;
 
 namespace Tie.UnitTest.NET5
 {
