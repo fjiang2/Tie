@@ -15,9 +15,6 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
 using Tie;
 using Tie.Helper;
 //using Microsoft.Maps.MapControl.WPF;
@@ -61,7 +58,7 @@ namespace UnitTest
 
             HostType.Register(new Type[]
             {
-                typeof(DateTime), 
+                typeof(DateTime),
                 typeof(string),
                 typeof(System.Reflection.Assembly),
                 typeof(Tie.HostType)
@@ -69,7 +66,7 @@ namespace UnitTest
 
             HostType.AddReference(typeof(Program).Assembly);
             HostType.AddReference(typeof(System.Drawing.Color).Assembly);
-      
+
 
             Helper.Start();
             ValizationExamples.RegisterDemo();
@@ -84,11 +81,11 @@ namespace UnitTest
             MultidimensionalArrayTest.main();
 
             PropertyTest.main();
-            FunctionTest.main(); 
+            FunctionTest.main();
             CastTest.main();
             HostPersistentTest.main();
             HostPersistentTest.main2();
- 
+
             BasicTest.main();
             StatementTest.main();
             ClassTest.main();

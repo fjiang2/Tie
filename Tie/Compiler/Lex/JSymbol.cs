@@ -15,55 +15,25 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-
-using System;
-
-namespace Tie
+namespace Tie.Lex
 {
-    /***************
-     * 
-     *  让Symbol table支持function/class 定义是一个表达式 
-     *  
-     *  2010.10.2
-     * 
-     ***/
-
-    class Symbol		// description of variable and function
+    class JSymbol
     {
+        public double fnum;				// real number
+        public int inum;				// integer
+        public string id;
 
-        public readonly string ident;
-        public readonly int addr;
+        public int len;			        // string length 
+        public string stab;		        // string table
 
-        public readonly int funcLevel;
-        public readonly int varLevel;
-        public readonly bool isFunc;
-        public bool duplicated;
 
-        public Symbol(string ident, int addr, int funcLevel, int varLevel, bool isFunc)
+        public JSymbol()
         {
-            this.ident = ident;
-            this.addr = addr;
-
-            this.funcLevel = funcLevel;
-            this.varLevel = varLevel;
-
-            this.isFunc = isFunc;
-            this.duplicated = false;
-        }
-
-
-        public override String ToString()
-        {
-            return string.Format("{0}:{1}/{2}{3}[{4}]",
-                ident,
-                funcLevel,
-                varLevel,
-                duplicated ? "+" : "",
-                addr);
 
         }
+    };
 
 
-    }
+
 
 }

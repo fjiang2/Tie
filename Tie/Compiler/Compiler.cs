@@ -57,8 +57,8 @@ namespace Tie
         private static Module LoadModule(string objectFile)
         {
             Stream stream = File.Open(objectFile, FileMode.Open);
-            BinaryFormatter bformatter = new BinaryFormatter();
-            Module module = (Module)bformatter.Deserialize(stream);
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            Module module = (Module)binaryFormatter.Deserialize(stream);
             stream.Close();
 
             return module;
@@ -68,8 +68,8 @@ namespace Tie
         private static void SaveModule(string objectFile, Module module)
         {
             Stream stream = File.Open(objectFile, FileMode.Create);
-            BinaryFormatter bformatter = new BinaryFormatter();
-            bformatter.Serialize(stream, module);
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            binaryFormatter.Serialize(stream, module);
             stream.Close();
 
         }

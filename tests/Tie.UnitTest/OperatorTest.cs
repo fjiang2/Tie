@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
 using Tie;
 
@@ -8,8 +6,8 @@ namespace UnitTest
 {
     class OperatorTest
     {
-        double a;
-        double b;
+        readonly double a;
+        readonly double b;
 
         public OperatorTest(double a, double b)
         {
@@ -53,7 +51,7 @@ namespace UnitTest
             OperatorTest v1 = new OperatorTest(1, 2);
             OperatorTest v2 = new OperatorTest(3, 4);
 
-            VAL x = foo( new VAL(20F));
+            VAL x = foo(new VAL(20F));
             string s1 = (string)v1;
 
             Logger.Close();
@@ -91,8 +89,8 @@ b8 = !(12 < 3.1);
             Debug.Assert((bool)DS["b6"] == true);
             Debug.Assert((bool)DS["b7"] == false);
             Debug.Assert((bool)DS["b8"] == true);
-            
-            Debug.Assert(DS["s1"].Str  == s1);
+
+            Debug.Assert(DS["s1"].Str == s1);
 
             int i1 = 20;
             uint u1 = 40;
@@ -107,7 +105,7 @@ b8 = !(12 < 3.1);
             ulong ul = (ulong)val;
             //DateTime dt = (DateTime)val;
 
-            DBNull dbnull = (DBNull)nil;
+            DBNull _nil = (DBNull)nil;
             nil = VAL.Boxing(DBNull.Value);
 
             Debug.Assert(nil.VALTYPE == VALTYPE.nullcon && nil.Value.Equals(typeof(DBNull)));

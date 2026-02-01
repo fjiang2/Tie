@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Tie.FormTest
@@ -14,11 +9,11 @@ namespace Tie.FormTest
         {
             InitializeComponent();
 
-            this.FormClosed += delegate(object sender, FormClosedEventArgs e)
+            this.FormClosed += delegate (object sender, FormClosedEventArgs e)
             {
                 Logger.Close();
             };
-            
+
             this.Text = "C# Label & Button";
 
             Logger.Open("c:\\temp\\tie.log");

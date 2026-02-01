@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-
-namespace Tie.Helper
+﻿namespace Tie.Helper
 {
     public static class Helper
     {
@@ -20,6 +15,6 @@ namespace Tie.Helper
             else if (typeof(T) == typeof(string))
                 Valization.RegisterEnumAsString();
         }
-    
+
     }
 }

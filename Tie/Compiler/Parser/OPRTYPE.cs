@@ -15,55 +15,20 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-
-using System;
-
-namespace Tie
+namespace Tie.Parser
 {
-    /***************
-     * 
-     *  让Symbol table支持function/class 定义是一个表达式 
-     *  
-     *  2010.10.2
-     * 
-     ***/
-
-    class Symbol		// description of variable and function
+    enum OPRTYPE
     {
+        none,
+        numcon,
 
-        public readonly string ident;
-        public readonly int addr;
+        funccon,
+        classcon,
 
-        public readonly int funcLevel;
-        public readonly int varLevel;
-        public readonly bool isFunc;
-        public bool duplicated;
+        intcon,
+        addrcon,
 
-        public Symbol(string ident, int addr, int funcLevel, int varLevel, bool isFunc)
-        {
-            this.ident = ident;
-            this.addr = addr;
-
-            this.funcLevel = funcLevel;
-            this.varLevel = varLevel;
-
-            this.isFunc = isFunc;
-            this.duplicated = false;
-        }
-
-
-        public override String ToString()
-        {
-            return string.Format("{0}:{1}/{2}{3}[{4}]",
-                ident,
-                funcLevel,
-                varLevel,
-                duplicated ? "+" : "",
-                addr);
-
-        }
-
-
+        identcon,
+        regcon
     }
-
 }

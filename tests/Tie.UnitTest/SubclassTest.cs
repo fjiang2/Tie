@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tie;
-using System.Windows.Forms;
-using System.Reflection;
+﻿using Tie;
 
 namespace UnitTest
 {
@@ -147,9 +142,9 @@ form3.MyProp2 = 'B';
             VAL func = DS1["form3"]["plus"];
             VAL Func = Script.Evaluate(func.ToString());
 
-            VAL instance = script.CreateInstance("MyForm3", new object[]{});
-            VAL plus = script.InvokeMethod(instance, "plus", new object[] {1, 2, 3});
-            VAL list = script.InvokeMethod(instance, "List", new object[] {10, 21});
+            VAL instance = script.CreateInstance("MyForm3", new object[] { });
+            VAL plus = script.InvokeMethod(instance, "plus", new object[] { 1, 2, 3 });
+            VAL list = script.InvokeMethod(instance, "List", new object[] { 10, 21 });
             System.Diagnostics.Debug.Assert(plus.ToString() == "6", "method");
             System.Diagnostics.Debug.Assert(list.ToString() == "{10,21}", "method");
 
@@ -159,26 +154,26 @@ form3.MyProp2 = 'B';
             VAL s1 = Script.Evaluate(s, script.DS);
 
 
-            VAL v1 = script.InvokeChainedFunction("typeof", new object[] { new object[] { 1, 2, 3, 4 }, "SET"});
+            VAL v1 = script.InvokeChainedFunction("typeof", new object[] { new object[] { 1, 2, 3, 4 }, "SET" });
 
             VAL L = VAL.Boxing(new object[] { 1, 2, 3, 4, 5 });
-            VAL v2 = script.InvokeChainedFunction("typeof", new object[] {L, "SET"});
-            VAL v3 = script.InvokeChainedFunction("typeof", new object[] {L});
+            VAL v2 = script.InvokeChainedFunction("typeof", new object[] { L, "SET" });
+            VAL v3 = script.InvokeChainedFunction("typeof", new object[] { L });
             System.Diagnostics.Debug.Assert(v3 == new VAL("SET"));
 
 
             SubclassTest sub = new SubclassTest();
-            object sum = Script.InvokeHostMethod(sub, "sum",new object[] { 1, 2} );
+            object sum = Script.InvokeHostMethod(sub, "sum", new object[] { 1, 2 });
 
 
             //--------------------------------------------
             VAL MyForm3 = DS1["MyForm3"];
-            VAL myForm3 = Script.CreateInstance(DS1,  MyForm3, new object[]{});
+            VAL myForm3 = Script.CreateInstance(DS1, MyForm3, new object[] { });
             VAL method = myForm3["plus"];
             VAL sum123 = Script.InvokeFunction(DS1, myForm3, method, new object[] { 1, 2, 3 });
-            System.Diagnostics.Debug.Assert(sum123.Intcon  == 6, "method");
+            System.Diagnostics.Debug.Assert(sum123.Intcon == 6, "method");
 
-            object d = Script.InvokeHostMethod(typeof(SubclassTest), "Sum", new object[] {20,30});
+            object d = Script.InvokeHostMethod(typeof(SubclassTest), "Sum", new object[] { 20, 30 });
             System.Diagnostics.Debug.Assert((int)d == 50, "static host method");
         }
 
@@ -186,7 +181,7 @@ form3.MyProp2 = 'B';
         { }
 
         private int sum(int a, int b) { return a + b; }
-        public static int Sum(int a, int b) { return a+b;}
+        public static int Sum(int a, int b) { return a + b; }
 
     }
 }

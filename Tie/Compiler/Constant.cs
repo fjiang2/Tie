@@ -15,11 +15,6 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Tie
 {
     /// <summary>
@@ -63,7 +58,7 @@ namespace Tie
         /// <summary>
         /// Maximum symbol table size, used by compiler
         /// </summary>
-        public static int MAX_SYMBOL_TABLE_SIZE = 2024;		// max size of sysmbol table
+        public static int MAX_SYMBOL_TABLE_SIZE = 2024;		// max size of symbol table
 
         internal const string VOLATILE_MODULE_NAME = "volatile"; //temp module
         internal const string DEFAULT_MODULE_NAME = "unknown"; // default module in Library
@@ -105,8 +100,8 @@ namespace Tie
         internal const string FUNC_CON_INSTANCE_INVOKE = "FuncconInstanceInvoke";
         internal const string SCOPE = "scope";
         internal const string THIS = "$THIS";
-        
+
     }
-    
+
 
 }

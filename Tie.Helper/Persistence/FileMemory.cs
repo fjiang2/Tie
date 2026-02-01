@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace Tie.Helper
@@ -32,7 +30,7 @@ namespace Tie.Helper
             this.fileName = fileName;
         }
 
-       
+
         /// <summary>
         /// Save variables into persistent device
         /// </summary>

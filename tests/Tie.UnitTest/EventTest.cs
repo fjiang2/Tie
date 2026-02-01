@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
+﻿using System.Data;
 using Tie;
 
 
@@ -34,17 +31,17 @@ namespace UnitTest
 
             script.Execute(code);
             System.Diagnostics.Debug.Assert(script.DS["ID"].Intcon == 1, "event handler");
-            dt.Rows[0]["ID"]=20;
+            dt.Rows[0]["ID"] = 20;
             dt.Rows[0].AcceptChanges();
             System.Diagnostics.Debug.Assert(script.DS["ID"].Intcon == 20, "event handler");
 
             script.Execute("X=plus(2,3);");
             VAL p34 = script.ResidentEvaluate("plus(3,4)");
-            VAL p23 = Script.Evaluate("plus(2,3)",  script.DS);
+            VAL p23 = Script.Evaluate("plus(2,3)", script.DS);
 
             // or
             // args = Coding.Decode("{20,42}");
-            VAL x1 = script.InvokeFunction("plus", new object[] {20,42});
+            VAL x1 = script.InvokeFunction("plus", new object[] { 20, 42 });
             System.Diagnostics.Debug.Assert(x1.Intcon == 62, "plus");
 
             code = @" 
@@ -52,13 +49,13 @@ namespace UnitTest
             ";
 
             script.Execute(code);
-            VAL x2 = script.InvokeFunction("minus", new object[] {20, 42});
+            VAL x2 = script.InvokeFunction("minus", new object[] { 20, 42 });
             System.Diagnostics.Debug.Assert(x2.Intcon == -22, "minus");
 
-            VAL x3 = script.InvokeFunction("multiple", new object[] {20, 30});
+            VAL x3 = script.InvokeFunction("multiple", new object[] { 20, 30 });
             System.Diagnostics.Debug.Assert(x3.Intcon == 600, "multiple");
 
-            
+
 
         }
     }

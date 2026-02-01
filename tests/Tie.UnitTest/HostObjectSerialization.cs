@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
-using Tie;
-using System.Windows.Forms;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
+using Tie;
 
 //测试
 namespace UnitTest

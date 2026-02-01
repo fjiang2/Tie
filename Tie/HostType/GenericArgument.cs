@@ -17,10 +17,6 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Text;
-using System.IO;
 using System.Reflection;
 
 #if TIE4
@@ -38,7 +34,7 @@ namespace Tie
         private Type parameterType;
         private Type valType;
 
-        public GenericArgument(GenericArguments genericArguments, Type parameterType,  Type valType)
+        public GenericArgument(GenericArguments genericArguments, Type parameterType, Type valType)
         {
             this.gas = genericArguments;
             this.parameterType = parameterType;
@@ -111,7 +107,7 @@ namespace Tie
 
         }
 
-        
+
         /*
         * 把函数参数值转化为delegate
         * 
@@ -126,7 +122,7 @@ namespace Tie
             Type gty1 = parameterType.GetGenericTypeDefinition();
             Type[] gpty1 = parameterType.GetGenericArguments();
 
-        
+
             MethodInfo method1 = parameterType.GetMethod("Invoke");
             if (val is MethodInfo)
             {

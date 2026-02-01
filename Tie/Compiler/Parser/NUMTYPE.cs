@@ -15,25 +15,16 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-namespace Tie
+namespace Tie.Parser
 {
-    class Sym
+    enum NUMTYPE
     {
-        public double fnum;				// real number from insymbol 
-        public int inum;				// integer from insymbol 
-        public string id;
-
-        public int len;			        // string length 
-        public string stab;		        // string table
-
-
-        public Sym()
-        {
-            
-        }
-    };
-
-
-
-    
+        voidcon,
+        nullcon,
+        boolcon,
+        intcon,
+        doublecon,
+        // decimalcon,
+        stringcon
+    }
 }

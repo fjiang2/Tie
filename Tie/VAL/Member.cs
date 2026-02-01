@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tie
+﻿namespace Tie
 {
     /// <summary>
     /// 
@@ -15,15 +11,15 @@ namespace Tie
         /// <summary>
         /// 
         /// </summary>
-        public string Name 
-        { 
-            get { return this.name; } 
+        public string Name
+        {
+            get { return this.name; }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
-        public VAL Value 
+        public VAL Value
         {
             get { return this.value; }
         }

@@ -1,12 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Tie;
-
-namespace Tie.FormTest
+﻿namespace Tie.FormTest
 {
     class LabelButtonForm8
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
+﻿using System.Drawing;
 
 
 namespace Tie.Helper
@@ -10,7 +7,7 @@ namespace Tie.Helper
     {
         public static void RegisterDemo()
         {
-            Valizer.Register<Size>(delegate(Size size)
+            Valizer.Register<Size>(delegate (Size size)
             {
                 return new VAL(string.Format("new {0}({1},{2})", typeof(Size).FullName, size.Width, size.Height));
             }
@@ -18,7 +15,7 @@ namespace Tie.Helper
 
 
 
-            Valizer.Register<Point>(delegate(Point point)
+            Valizer.Register<Point>(delegate (Point point)
             {
                 return new VAL(string.Format("new {0}({1},{2})", typeof(Point).FullName, point.X, point.Y));
             }
@@ -89,12 +86,12 @@ namespace Tie.Helper
 
 
             Valizer.Register<Rectangle>(
-                delegate(Rectangle rect)
+                delegate (Rectangle rect)
                 {
                     VAL val = VAL.Boxing(new int[] { rect.X, rect.Y, rect.Width, rect.Height });
                     return val;
                 },
-                delegate(VAL val)
+                delegate (VAL val)
                 {
                     return new Rectangle(val[0].Intcon, val[1].Intcon, val[2].Intcon, val[3].Intcon);
                 }

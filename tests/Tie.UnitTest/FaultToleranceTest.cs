@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Windows.Forms;
 using Tie;
-using System.Windows.Forms;
 
 namespace UnitTest
 {
@@ -10,7 +7,7 @@ namespace UnitTest
     {
         TextBox textBox = new System.Windows.Forms.TextBox();
         private int count = 40;
-        public  int count2 = 10;
+        public int count2 = 10;
 
         int Size { get { return 40; } }
         string log1;
@@ -52,12 +49,12 @@ namespace UnitTest
 
             VAL x = VAL.NewHostType(new System.Drawing.Point(60, 40));
             string s = x.ToString();
- 
+
             Tie.Logger.Open("C:\\temp\\tie.log");
             //script.Execute(code);
 
             script.Execute(code, this);
- 
+
             //TextBox textBox = DS1["textBox"].value as TextBox;
 
             System.Diagnostics.Debug.Assert(textBox.Text == "Hello");

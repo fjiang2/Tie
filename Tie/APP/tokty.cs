@@ -21,7 +21,7 @@ namespace Tie
     /// Token Type used on Tokenizer
     /// </summary>
     public enum tokty
-    { 
+    {
         /// <summary>
         /// number is int, double, float,...
         /// </summary>
@@ -52,5 +52,5 @@ namespace Tie
         /// </summary>
         keyword
     }
-    
+
 }

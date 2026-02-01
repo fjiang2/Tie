@@ -1,4 +1,4 @@
-ï»¿//--------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------//
 //                                                                                                  //
 //        Tie                                                                                       //
 //                                                                                                  //
@@ -15,55 +15,61 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-
-using System;
-
 namespace Tie
 {
-    /***************
-     * 
-     *  è®©Symbol tableæ”¯æŒfunction/class å®šä¹‰æ˜¯ä¸€ä¸ªè¡¨è¾¾å¼ 
-     *  
-     *  2010.10.2
-     * 
-     ***/
-
-    class Symbol		// description of variable and function
+    enum INSTYPE
     {
+        NEG, ADD, SUB, MUL, DIV, MOD,
+        INC, DEC,
 
-        public readonly string ident;
-        public readonly int addr;
+        EQL, NEQ, LSS, LEQ, GTR, GEQ,
 
-        public readonly int funcLevel;
-        public readonly int varLevel;
-        public readonly bool isFunc;
-        public bool duplicated;
+        NOTNOT, ANDAND, OROR, NOT, AND, OR, XOR,
+        EACH,           // foreach(a in A)
 
-        public Symbol(string ident, int addr, int funcLevel, int varLevel, bool isFunc)
-        {
-            this.ident = ident;
-            this.addr = addr;
+        SHR, SHL,       // >> , <<
 
-            this.funcLevel = funcLevel;
-            this.varLevel = varLevel;
+        JMP, JNZ, JZ, LJMP, LJZ,
+        CAS,            // case of switch 
 
-            this.isFunc = isFunc;
-            this.duplicated = false;
-        }
+        PUSH, POP, SP,  // SS 
 
+        RMT,
+        RCP,            // remove CPU top register, register copy
+        RPUSH,          // RPSH = REG.Push()
+        RPOP,           // REGO = REG.Pop()
 
-        public override String ToString()
-        {
-            return string.Format("{0}:{1}/{2}{3}[{4}]",
-                ident,
-                funcLevel,
-                varLevel,
-                duplicated ? "+" : "",
-                addr);
+        ESI, ESO,       // EX PUSH/POP
 
-        }
+        MOV, STO, STO1, // LOAD
 
 
-    }
+        CALL, RET,      // call function
+        MARK, END,      // List, Parameter,
+        OFS, ARR,       // struct. array,
+
+        HALT, NOP,
+        THIS, BASE, NS, // this, base class, namespace, module
+        ADR, VLU,       // &var ·µ»Ø±äÁ¿µÄµØÖ·, *VL, ·µ»ØµØÖ·µÄÖµ 
+
+        PROC, ENDP,	    // function
+        DIRC,           // directive
+        DDT,	        // debug
+        GNRC,           // generic
+
+        //class	
+        NEW,
+        CLSS,   // class
+        PBLC,   // public
+        PRVT,   // private
+        PRTC,   // protected
+        ENDC,	// end of class
+
+
+        THRW   // throw
+
+    };
+
+
 
 }

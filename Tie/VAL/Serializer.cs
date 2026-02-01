@@ -15,9 +15,6 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace Tie
@@ -38,17 +35,17 @@ namespace Tie
             StringWriter o = new StringWriter();
             if (val.IsAssociativeArray())
             {
-                o.Write(Indent(tab, formatted)); 
+                o.Write(Indent(tab, formatted));
                 o.Write("<" + tag + ">");
                 if (formatted) o.WriteLine();
-                
+
                 for (int i = 0; i < val.Size; i++)
                 {
                     VAL v = val[i];
                     o.Write(ToXML(v[1], v[0].Str, tab + 1, fmt));
                 }
-                
-                o.Write(Indent(tab, formatted)); 
+
+                o.Write(Indent(tab, formatted));
                 o.Write("</" + tag + ">");
                 if (formatted) o.WriteLine();
             }
@@ -62,8 +59,8 @@ namespace Tie
             }
             else
             {
-                o.Write(Indent(tab, formatted)); o.Write("<" + tag + ">"); 
-                o.Write(XmlString(val.ToSimpleString())); 
+                o.Write(Indent(tab, formatted)); o.Write("<" + tag + ">");
+                o.Write(XmlString(val.ToSimpleString()));
                 o.Write("</" + tag + ">");
                 if (formatted) o.WriteLine();
             }
@@ -77,7 +74,7 @@ namespace Tie
 
         public static string ToJson(VAL val, string tag, OutputType fmt)
         {
-            if(tag==null || tag=="")
+            if (tag == null || tag == "")
                 return ToJson(val, "", 0, fmt);
             else
                 return "{" + ToJson(val, tag, 0, fmt) + "}";
@@ -86,7 +83,7 @@ namespace Tie
 
         private static string ToJson(VAL val, string tag, int tab, OutputType fmt)
         {
-        
+
             StringWriter o = new StringWriter();
 
             bool quotationMark = (fmt & OutputType.QuotationMark) == OutputType.QuotationMark;
@@ -96,8 +93,8 @@ namespace Tie
             o.Write(Indent(tab, formatted));
             if (tag != "")
             {
-                if(quotationMark)
-                    o.Write("\"" + tag + "\""); 
+                if (quotationMark)
+                    o.Write("\"" + tag + "\"");
                 else
                     o.Write(tag);
 
@@ -106,7 +103,7 @@ namespace Tie
                 else
                     o.Write(":");
             }
-            
+
             if (val.IsAssociativeArray())
             {
                 o.Write("{"); if (formatted) o.WriteLine();
@@ -116,7 +113,7 @@ namespace Tie
                     o.Write(ToJson(v[1], v[0].Str, tab + 1, fmt));
 
                     if (i < val.Size - 1)
-                         o.Write(",");
+                        o.Write(",");
 
                     if (formatted) o.WriteLine();
                 }
@@ -131,10 +128,10 @@ namespace Tie
                 {
                     VAL a = val[j];
                     o.Write(ToJson(a, "", tab + 1, fmt));
-                    
+
                     if (j < val.Size - 1)
                         o.Write(",");
-                    
+
                     if (formatted) o.WriteLine();
                 }
                 o.Write(Indent(tab, formatted)); o.Write("]");
@@ -153,7 +150,7 @@ namespace Tie
             {
                 o.Write(val.Valor);
             }
-            
+
             return o.ToString();
 
         }
@@ -221,7 +218,7 @@ namespace Tie
                 }
 
             }
-            
+
             return o.ToString();
         }
     }

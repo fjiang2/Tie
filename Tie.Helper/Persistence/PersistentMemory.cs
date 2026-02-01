@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using System.Dynamic;
 
 namespace Tie.Helper
@@ -73,7 +70,7 @@ namespace Tie.Helper
         public void SetValue(string variable, object obj)
         {
             VAL v = Valizer.Valize(obj);
-            
+
             if (v.Undefined || v.IsNull)
                 return;
 
@@ -150,7 +147,7 @@ namespace Tie.Helper
         public object GetValue(string variable, object host)
         {
             VAL v = GetVAL(variable);
-            
+
             if (v.Undefined || v.IsNull)
             {
                 return null;
@@ -170,7 +167,7 @@ namespace Tie.Helper
         /// Load memory from persistent device
         /// </summary>
         public abstract void Load();
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -221,7 +218,7 @@ namespace Tie.Helper
         public readonly static DynamicVal Empty = new DynamicVal(VAL.VOID);
 
     }
-    
-    
-  
+
+
+
 }

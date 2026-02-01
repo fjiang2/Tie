@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Tie;
 using System.Diagnostics;
+using Tie;
 
 namespace UnitTest
 {
@@ -33,7 +32,7 @@ namespace UnitTest
                 sum+=i;
             ";
 
-    
+
             script.VolatileExecute(code);
             Debug.Assert(script.DS["sum"].Intcon == 5050, "statement: for loop");
             Debug.Assert(script.DS["i"].Intcon == 101, "statement: for loop");
@@ -89,7 +88,7 @@ namespace UnitTest
             Debug.Assert(script.DS["sum"].Intcon == 55, "statement: foreach");
             script.DS.RemoveAll();
 
-            string[] array = {"a", "b","c"};
+            string[] array = { "a", "b", "c" };
             code = @"
             sum='';
             foreach(var l in L) 
@@ -203,7 +202,7 @@ namespace UnitTest
             script.DS.RemoveAll();
 
             HostType.Register(typeof(IFormattable));
-           // HostType.Register(typeof(System.Collections.IEnumerable));  //这个可以不注册,因为is指令知道后面跟的一定是Type
+            // HostType.Register(typeof(System.Collections.IEnumerable));  //这个可以不注册,因为is指令知道后面跟的一定是Type
             HostType.Register(typeof(List<>));    //GNRC指令会自动搜索Type,所以可以不注册
             List<string> list = new List<string>();
 
@@ -233,7 +232,7 @@ namespace UnitTest
             script.VolatileExecute(code);
             Debug.Assert(script.DS["b1"] == script.DS["b2"], "element in List");
             script.DS.RemoveAll();
-            
+
 
             code = @"
              Format = function(prefix, fmt, args)
@@ -250,7 +249,7 @@ namespace UnitTest
 
             if(f1(1,2)) a=1; else a=2;
 ";
-            
+
             Logger.Close();
             Logger.Open("c:\\temp\\tie.log");
             HostType.Register(typeof(String));
@@ -259,7 +258,7 @@ namespace UnitTest
             VAL stringFormat = script.InvokeFunction("Format", new object[] { ":::", "{0}={1}.{2}:{3}", "A", 20, 30, "B" });
             Debug.Assert(script.DS["stringFormat"] == stringFormat, "variable arguments");
             script.DS.RemoveAll();
-            script.RemoveModule(); 
+            script.RemoveModule();
 
             //Logger.Close();
             //Logger.Open("c:\\temp\\tie.log");

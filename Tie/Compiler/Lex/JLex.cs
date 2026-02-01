@@ -16,26 +16,21 @@
 //--------------------------------------------------------------------------------------------------//
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
 
-namespace Tie
+namespace Tie.Lex
 {
-
-
     abstract class JLex
     {
         protected char ch;
         public static JKey[] Key;
-        private Token tok;
-        private Error error;			//the position of cursor in file
+        private JToken tok;
+        private readonly Error error;			//the position of cursor in file
 
         public JLex(Error err)
         {
             this.error = err;
 
-            tok = new Token();
+            tok = new JToken();
 
             Key = new JKey[]
             {
@@ -749,7 +744,7 @@ namespace Tie
             }
         }
 
-        public Sym sym
+        public JSymbol sym
         {
 
             get
@@ -767,7 +762,7 @@ namespace Tie
             }
         }
 
-        public Token token
+        public JToken token
         {
             get { return this.tok; }
         }
@@ -776,7 +771,7 @@ namespace Tie
 
         public abstract int Index();
 
-        public void Traceback(int index, Token token)
+        public void Traceback(int index, JToken token)
         {
             set_index(index);
             this.tok = token;
@@ -789,9 +784,6 @@ namespace Tie
             return InSymbol();
         }
     }
-
-
-
 
 
 }

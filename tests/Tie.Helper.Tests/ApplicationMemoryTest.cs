@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace Tie.Helper.Tests
@@ -16,12 +13,12 @@ namespace Tie.Helper.Tests
             : base(memory)
         {
 
-            Valizer.Register<Guid>(delegate(Guid guid)
+            Valizer.Register<Guid>(delegate (Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                 },
-                delegate(VAL val)
+                delegate (VAL val)
                 {
                     byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                     return new Guid(bytes);

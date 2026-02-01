@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
-using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace Tie.FormTest
 {
@@ -40,7 +35,7 @@ namespace Tie.FormTest
 
 
 
-       
+
         private void WriteResult(SearchItem item)
         {
             //Show Output
@@ -75,18 +70,18 @@ namespace Tie.FormTest
             initialValue["Date1"] = VAL.Boxing(DateTime.Now.AddMonths(-12));
             initialValue["Date2"] = VAL.Boxing(DateTime.Now);
 
-            if(item!=null)
+            if (item != null)
                 initialValue = item.Result;
 
             item = new SearchItem(1);
             item.InitialValue = initialValue;
 
-            if(SearchCriteriaForm.Search(item))
+            if (SearchCriteriaForm.Search(item))
                 WriteResult(item);
 
-            
+
         }
 
-   
+
     }
 }

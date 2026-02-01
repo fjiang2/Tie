@@ -15,10 +15,6 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Tie
 {
     /// <summary>
@@ -52,5 +48,5 @@ namespace Tie
     /// <param name="DS"></param>
     /// <returns></returns>
     public delegate VAL Functionn(string func, VAL Parameters, Memory DS);  //function set
-   
+
 }

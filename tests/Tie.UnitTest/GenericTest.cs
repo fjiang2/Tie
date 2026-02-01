@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
 using System.Diagnostics;
+using System.Reflection;
+using System.Windows.Forms;
 using Tie;
-using System.Windows.Forms; 
 
 namespace UnitTest
 {
     class GenericTest
     {
         public GenericTest()
-        { 
+        {
         }
 
 
@@ -34,21 +33,21 @@ namespace UnitTest
         public static void main()
         {
 
-           // HostType.Register(typeof(Dictionary<,>));
+            // HostType.Register(typeof(Dictionary<,>));
 
             Type d1 = typeof(Dictionary<,>);
             Type[] typeArgs = { typeof(string), typeof(int) };
             Type constructed = d1.MakeGenericType(typeArgs);
 
             object dict = Activator.CreateInstance(constructed);
-            MethodInfo Add = dict.GetType().GetMethod("Add"); 
-            Add.Invoke(dict, new object[]{"two", 2});
+            MethodInfo Add = dict.GetType().GetMethod("Add");
+            Add.Invoke(dict, new object[] { "two", 2 });
 
 
             GenericTest gt = new GenericTest();
             MethodInfo method = typeof(GenericTest).GetMethod("GenericMethod");
-            MethodInfo generic = method.MakeGenericMethod(new Type[]{ typeof(int) } );
-            object ret = generic.Invoke(gt, new object[] { 1,2 });
+            MethodInfo generic = method.MakeGenericMethod(new Type[] { typeof(int) });
+            object ret = generic.Invoke(gt, new object[] { 1, 2 });
 
             string s1 = gt.GenericMethod<int>(20, 30);
             string s2 = gt.GenericMethod(20, 30);
@@ -75,7 +74,7 @@ namespace UnitTest
             Dictionary<string, int> dict2 = (Dictionary<string, int>)DS["dict2"].HostValue;
             Dictionary<string, List<string>> dict3 = (Dictionary<string, List<string>>)DS["dict3"].HostValue;
 
-            System.Diagnostics.Debug.Assert(dict2["ten"]==10);
+            System.Diagnostics.Debug.Assert(dict2["ten"] == 10);
             System.Diagnostics.Debug.Assert(dict3["comp"][1] == "B");
 
             code = @"
@@ -87,7 +86,7 @@ namespace UnitTest
                 dict = typeof(System.Collections.Generic.Dictionary<,>);
                 list = typeof(System.Collections.Generic.List<>);
             ";
-            
+
             DS.RemoveAll();
             Script.Execute(code, DS);
 
@@ -98,7 +97,7 @@ namespace UnitTest
             Debug.Assert(DS["red"].Value.Equals(System.Drawing.Color.Red));
             Debug.Assert(DS["dict"].Value.Equals(typeof(Dictionary<,>)));
             Debug.Assert(DS["list"].Value.Equals(typeof(List<>)));
-        
+
         }
     }
 }

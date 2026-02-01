@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Tie.FormTest
 {
-    public partial class MainForm1: Form
+    public partial class MainForm1 : Form
     {
         Script script;
         public MainForm1()
         {
             InitializeComponent();
 
-            this.FormClosed += delegate(object sender, FormClosedEventArgs e)
+            this.FormClosed += delegate (object sender, FormClosedEventArgs e)
             {
-                script.Dispose(); 
+                script.Dispose();
                 Logger.Close();
             };
 
@@ -26,7 +20,7 @@ namespace Tie.FormTest
 
             script = new Script();
             script.DS.AddObject("form", this);
-            
+
             string code = @"
                foreach(control in form.Controls)
                {
@@ -37,7 +31,7 @@ namespace Tie.FormTest
                       *newForm;                                                       //evaluate an expression string
                   };
                }
-            "; 
+            ";
             script.Execute(code);
         }
 

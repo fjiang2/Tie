@@ -15,55 +15,18 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-
-using System;
-
-namespace Tie
+namespace Tie.Parser
 {
-    /***************
-     * 
-     *  让Symbol table支持function/class 定义是一个表达式 
-     *  
-     *  2010.10.2
-     * 
-     ***/
-
-    class Symbol		// description of variable and function
+    enum SEGREG
     {
+        NS,         //No Segment Register
+        DS,
+        BP,
+        SI,
+        IP,
+        SP,
 
-        public readonly string ident;
-        public readonly int addr;
-
-        public readonly int funcLevel;
-        public readonly int varLevel;
-        public readonly bool isFunc;
-        public bool duplicated;
-
-        public Symbol(string ident, int addr, int funcLevel, int varLevel, bool isFunc)
-        {
-            this.ident = ident;
-            this.addr = addr;
-
-            this.funcLevel = funcLevel;
-            this.varLevel = varLevel;
-
-            this.isFunc = isFunc;
-            this.duplicated = false;
-        }
-
-
-        public override String ToString()
-        {
-            return string.Format("{0}:{1}/{2}{3}[{4}]",
-                ident,
-                funcLevel,
-                varLevel,
-                duplicated ? "+" : "",
-                addr);
-
-        }
-
-
-    }
-
+        ES,     //used for:  instance of class
+        EX      //used for:  try..catch..finally
+    };
 }

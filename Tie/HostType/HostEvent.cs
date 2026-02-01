@@ -17,8 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Reflection.Emit;
 using System.Reflection;
 
 namespace Tie
@@ -39,7 +37,7 @@ namespace Tie
     {
         public const string EVENT_HANDLER_NAME = "$EventHandlers";
         public static bool RemoveEventHandlerSupported = false;
-        
+
         EventInfo eventInfo;
         VAL func;
         VAL ret;
@@ -47,7 +45,7 @@ namespace Tie
         VAL instance;
 
         Memory DS2;
-       
+
 
         public HostEvent(EventInfo eventInfo, VAL func)
         {
@@ -216,7 +214,7 @@ namespace Tie
 
                 if (delegates.ContainsKey(eventInfo))
                     delegates.Remove(eventInfo);
-                
+
                 return dEmitted;
             }
 

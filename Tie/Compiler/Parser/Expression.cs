@@ -15,12 +15,9 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
+using Tie.Lex;
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tie
+namespace Tie.Parser
 {
 
     class Expression
@@ -327,16 +324,16 @@ namespace Tie
             bool r = true;
             if (lex.sy == SYMBOL.EQUAL)			// A=1
             {
-                Operand var = gen.IV[gen.IP - 1].operand;
+                Operand var1 = gen.IV[gen.IP - 1].operand;
                 lex.InSymbol();
                 r = s_exp1();
-                gen.emit(INSTYPE.STO);//,var);
+                gen.emit(INSTYPE.STO);//,var1);
             }
             else if (lex.sy == SYMBOL.ASSIGNOP)	// A+=1;
             {
                 SYMBOL2 Opr = lex.opr;
                 lex.InSymbol();
-                repeatvar();
+                RepeatVar();
                 r = s_exp1();
                 s_assignop(Opr);
             }
@@ -435,7 +432,21 @@ namespace Tie
         L1:
             switch (lex.sy)
             {
-                case SYMBOL.OROR: lex.InSymbol(); s_exp4(); gen.emit(INSTYPE.OROR); break;
+                case SYMBOL.OROR:
+                    lex.InSymbol();
+
+                    int L1 = gen.emit(INSTYPE.JNZ);
+                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));
+
+                    s_exp4();
+                    gen.emit(INSTYPE.OROR);
+
+                    int L2 = gen.emit(INSTYPE.JMP);
+                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
+                    gen.remit(L1, gen.IP - 1);
+                    gen.remit(L2, gen.IP);
+                    break;
+
                 default: return true;
             }
             goto L1;
@@ -446,7 +457,21 @@ namespace Tie
         L1:
             switch (lex.sy)
             {
-                case SYMBOL.ANDAND: lex.InSymbol(); s_exp5(); gen.emit(INSTYPE.ANDAND); break;
+                case SYMBOL.ANDAND:
+                    lex.InSymbol();
+
+                    int L1 = gen.emit(INSTYPE.JZ);
+                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
+
+                    s_exp5();
+                    gen.emit(INSTYPE.ANDAND);
+
+                    int L2 = gen.emit(INSTYPE.JMP);
+                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));
+                    gen.remit(L1, gen.IP - 1);
+                    gen.remit(L2, gen.IP);
+                    break;
+
                 default: return true;
             }
             goto L1;
@@ -787,7 +812,7 @@ namespace Tie
                 lex.InSymbol();
             else if (lex.sy == SYMBOL.SHIFTOP && lex.opr == SYMBOL2.SHR)    //把>> SHR 替换成2个 > GTR, 用掉一个,还有1个
             {
-                lex.Traceback(lex.Index(), new Token(SYMBOL.RELOP, SYMBOL2.GTR));  //插入一个> GTR
+                lex.Traceback(lex.Index(), new JToken(SYMBOL.RELOP, SYMBOL2.GTR));  //插入一个> GTR
             }
             else
             {
@@ -796,7 +821,7 @@ namespace Tie
                 else
                 {
                     //TRACEBACK:
-                    lex.Traceback(index, new Token(SYMBOL.RELOP, SYMBOL2.LSS));
+                    lex.Traceback(index, new JToken(SYMBOL.RELOP, SYMBOL2.LSS));
                     gen.IP = IP;
                     //恢复被删除的指令, 见上面的注释: ##删除的2条指令
                     gen.emit(INSTYPE.MOV, generic);
@@ -1043,7 +1068,7 @@ namespace Tie
 
 
             /***
-             * 支持Genric class如:new System.Collections.Generic.Dictionary<string, int>(...)
+             * 支持Generic class如:new System.Collections.Generic.Dictionary<string, int>(...)
              * 以及Generic method 如: Add<string>("abc");
              * typevar 
              *      true: generic class
@@ -1136,7 +1161,7 @@ namespace Tie
 
         #region +=, ++, --, #scope
 
-        void repeatvar()	//i+=2  =>  i=i+2
+        void RepeatVar()	//i+=2  =>  i=i+2
         {
             gen.emit(INSTYPE.RCP);
         }
@@ -1167,14 +1192,14 @@ namespace Tie
             switch (opr)
             {
                 case SYMBOL2.PPLUS:
-                    repeatvar();
+                    RepeatVar();
                     gen.emit(INSTYPE.MOV, new Operand(new Numeric(1)));
                     gen.emit(INSTYPE.ADD);
                     gen.emit(INSTYPE.STO);
                     break;
 
                 case SYMBOL2.MMINUS:
-                    repeatvar();
+                    RepeatVar();
                     gen.emit(INSTYPE.MOV, new Operand(new Numeric(1)));
                     gen.emit(INSTYPE.SUB);
                     gen.emit(INSTYPE.STO);

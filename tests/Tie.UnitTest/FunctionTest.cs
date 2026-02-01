@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Tie;
 
 namespace UnitTest
@@ -18,9 +15,9 @@ namespace UnitTest
         {
             return 3.0 * radius1 * radius1 - 3.0 * radius2 * radius2;
         }
-    
+
     }
-    
+
     class FunctionTest
     {
         public int PLUS(int a, int b)
@@ -78,7 +75,7 @@ namespace UnitTest
             Debug.Assert(DS["A5"].Doublecon == 48.0);
             Debug.Assert(DS["A6"].Doublecon == 48.0);
             Debug.Assert(DS["A7"].Doublecon == 21.0);
-            
+
             Debug.Assert(DS["sum"].Intcon == 103);
             Debug.Assert(DS["sum1"].Intcon == 60);
             Debug.Assert(DS["sum2"].Intcon == 60);
@@ -112,7 +109,7 @@ namespace UnitTest
             Debug.Assert(DS["sum6"].Intcon == 55);
             Debug.Assert(DS["sum7"].Intcon == 55);
 
-        
+
             code = @"
             L={0,1,2,3,4,5,6,7,8,9,10};
             plus = function(L) 
@@ -176,7 +173,7 @@ namespace UnitTest
                car = cons[0];
                cdr = cons.slice(1,-1); 
               ";
-          
+
 
             DS.RemoveAll();
             Script.Execute(code, DS);

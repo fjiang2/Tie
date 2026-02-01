@@ -15,43 +15,10 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
-namespace Tie
+namespace Tie.Parser
 {
-
-    enum OPRTYPE
-    {
-        none,
-        numcon,
-
-        funccon,
-        classcon,
-        
-        intcon,
-        addrcon,
-        
-        identcon,
-        regcon
-    }
-
-    enum SEGREG
-    {
-        NS,         //No Segment Register
-        DS,
-        BP,
-        SI,
-        IP,
-        SP,
-
-        ES,     //used for:  instance of class
-        EX      //used for:  try..catch..finally
-    };
-
-
 
     class Operand
     {
@@ -113,7 +80,7 @@ namespace Tie
             }
         }
 
-    
+
         internal static Operand Ident(string id)
         {
             Operand v = new Operand();
@@ -124,7 +91,7 @@ namespace Tie
             return v;
         }
 
-       
+
         internal static Operand Scope(string id)
         {
             Operand v = new Operand();
@@ -135,7 +102,7 @@ namespace Tie
             return v;
         }
 
-     
+
 
         internal static Operand REG(SEGREG REG)
         {
@@ -157,7 +124,7 @@ namespace Tie
             return v;
         }
 
-        
+
 
 
         internal static Operand Delegate(OPRTYPE ty, int addr, string moduleName)
@@ -178,7 +145,7 @@ namespace Tie
             return v;
         }
 
-       
+
 
         internal static Operand Func(string func, string moduleName)
         {
@@ -189,7 +156,7 @@ namespace Tie
             return v;
         }
 
-        internal static Operand Clss(int addr, string moduleName)
+        internal static Operand Class(int addr, string moduleName)
         {
             Operand v = new Operand();
             v.ty = OPRTYPE.classcon;
@@ -201,7 +168,7 @@ namespace Tie
         public override string ToString()
         {
             StringWriter o = new StringWriter();
-            
+
             switch (ty)
             {
                 case OPRTYPE.none:
@@ -219,7 +186,7 @@ namespace Tie
                     break;
 
                 case OPRTYPE.intcon:
-                    o.Write("{0}",value);
+                    o.Write("{0}", value);
                     break;
 
                 case OPRTYPE.addrcon:

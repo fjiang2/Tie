@@ -17,11 +17,11 @@
 
 using System.Text;
 
-namespace Tie
+namespace Tie.Lex
 {
     class StringLex : JLex
     {
-        private StringBuilder buffer;
+        private readonly StringBuilder buffer;
         private int index;
 
         public StringLex(string sourceCode, Error error)
