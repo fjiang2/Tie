@@ -96,7 +96,7 @@ namespace Tie.Compiler.Parser
         {
             Operand v = new Operand();
             v.ty = OPRTYPE.identcon;
-            v.mod = InternalConst.SCOPE;
+            v.mod = Const.SCOPE;
             v.name = id;
             v.value = id;
             return v;
@@ -179,10 +179,10 @@ namespace Tie.Compiler.Parser
                     break;
 
                 case OPRTYPE.funccon:
-                    o.Write("{0}(\"{1}\",{2})", InternalConst.FUNC_FUNCTION, mod, value);
+                    o.Write("{0}(\"{1}\",{2})", Const.FUNC_FUNCTION, mod, value);
                     break;
                 case OPRTYPE.classcon:
-                    o.Write("{0}(\"{1}\",{2})", InternalConst.FUNC_CLASS, mod, value);
+                    o.Write("{0}(\"{1}\",{2})", Const.FUNC_CLASS, mod, value);
                     break;
 
                 case OPRTYPE.intcon:

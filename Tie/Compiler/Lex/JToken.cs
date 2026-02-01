@@ -52,7 +52,7 @@ namespace Tie.Compiler.Lex
             ty = tokty.symbol;
 
             //search keyword
-            for (int i = 0; i < InternalConst.NKW; i++)
+            for (int i = 0; i < Const.NKW; i++)
             {
                 if (sy == JLex.Key[i].ksy)
                 {

@@ -97,13 +97,13 @@ namespace Tie.Compiler.Lex
         private bool GetKeyAndIdent()
         {
             int i, j, k;
-            char[] ident = new char[InternalConst.ALNG];
+            char[] ident = new char[Const.ALNG];
 
             // IDENT   
             if (ch == '_' || ch == '$' || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
             {
                 k = 0;
-                for (i = 0; i < InternalConst.ALNG; i++) ident[i] = (char)0;  //ALNG=10
+                for (i = 0; i < Const.ALNG; i++) ident[i] = (char)0;  //ALNG=10
                 if (ch == '$')                              //a variable begun with $ is system variable
                 {
                     ident[k++] = ch;
@@ -116,7 +116,7 @@ namespace Tie.Compiler.Lex
                 {
                     do
                     {
-                        if (k < InternalConst.ALNG)
+                        if (k < Const.ALNG)
                         {
                             ident[k] = ch;
                             k++;
@@ -133,7 +133,7 @@ namespace Tie.Compiler.Lex
                 tok.sym.len = k;
                 tok.sym.id = new String(ident, 0, k);
 
-                i = 0; j = InternalConst.NKW - 1;  //binary search
+                i = 0; j = Const.NKW - 1;  //binary search
                 do
                 {
                     k = (i + j) / 2;
@@ -254,7 +254,7 @@ namespace Tie.Compiler.Lex
                     NextCh();
                 } while (ch >= '0' && ch <= '9');
 
-                if (k > InternalConst.KMAX || tok.sym.inum > InternalConst.NMAX)
+                if (k > Const.KMAX || tok.sym.inum > Const.NMAX)
                 {
                     error.OnError(21);
                     tok.sym.inum = 0;
@@ -704,9 +704,9 @@ namespace Tie.Compiler.Lex
             int s;
             double d, t;
 
-            if (k + e > InternalConst.EMAX)
+            if (k + e > Const.EMAX)
                 error.OnError(21);
-            else if (k + e < InternalConst.EMIN)
+            else if (k + e < Const.EMIN)
                 tok.sym.fnum = 0;
             else
             {

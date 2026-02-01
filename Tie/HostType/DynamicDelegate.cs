@@ -123,7 +123,7 @@ namespace Tie
                 dParameterTypes); 
 #else
             DynamicMethod dynamicMethod = new DynamicMethod(
-                InternalConst.FUNC_CON_INSTANCE_INVOKE,
+                Const.FUNC_CON_INSTANCE_INVOKE,
                 dMethod.ReturnType,
                 dParameterTypes,
                 target.GetType());  //把DynamicMethod关联到target的class

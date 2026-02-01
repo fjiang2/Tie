@@ -17,7 +17,7 @@
 
 namespace Tie
 {
-    class InternalConst
+    class Const
     {
         public const int NKW = 39;                        // no. of key words 
         public const int ALNG = 64;                        // no. of significant chars in identifiers 

@@ -436,18 +436,18 @@ namespace Tie.VM
 
                 //内部使用,强制类型转换cast
                 //修改这个函数名,必须修改JExpression.s_exp16() 和 s_exp24()
-                case InternalConst.FUNC_CAST_TYPE_VALUE:        //用于JExpression.s_exp16()的cast, (type)value 例如: a = (string[]}null;
+                case Const.FUNC_CAST_TYPE_VALUE:        //用于JExpression.s_exp16()的cast, (type)value 例如: a = (string[]}null;
                     if (size == 2)
                         return cast(L1, L0);
                     break;
 
-                case InternalConst.FUNC_CAST_VALUE_TYPE:        //用于JExpression.s_exp24()的cast, value as type 例如: a = null as string;
+                case Const.FUNC_CAST_VALUE_TYPE:        //用于JExpression.s_exp24()的cast, value as type 例如: a = null as string;
                     if (size == 2)
                         return cast(L0, L1);
                     break;
 
                 //用来实现.net中的is操作符
-                case InternalConst.FUNC_IS_TYPE:
+                case Const.FUNC_IS_TYPE:
                     if (size == 2)
                     {
                         Type type = SystemFunction.GetValDefinitionType(L1);
@@ -465,7 +465,7 @@ namespace Tie.VM
 
                 //内部使用,产生数组类型 int[], 或者 int[,,]
                 //修改这个函数名,必须修改JExpression.s_varnext()
-                case InternalConst.FUNC_MAKE_ARRAY_TYPE:
+                case Const.FUNC_MAKE_ARRAY_TYPE:
                     if (size == 1 || size == 2)
                     {
                         Type ty = SystemFunction.GetValDefinitionType(L0);
@@ -483,13 +483,13 @@ namespace Tie.VM
 
 
                 //内部使用 $function(moduleName,addr) or $function(moduleName,functionName), 修改这里,必须同时修改VAL.encode中的funccon/classcon编码
-                case InternalConst.FUNC_FUNCTION:
+                case Const.FUNC_FUNCTION:
                     if (L[1].ty == VALTYPE.intcon)
                         return new VAL(Operand.Func(L[1].Intcon, L[0].Str));
                     else
                         return new VAL(Operand.Func(L[1].Str, L[0].Str));
 
-                case InternalConst.FUNC_CLASS:
+                case Const.FUNC_CLASS:
                     return new VAL(Operand.Class(L[1].Intcon, L[0].Str));
 
 
