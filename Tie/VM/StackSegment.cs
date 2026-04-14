@@ -19,7 +19,7 @@
 using System;
 using System.IO;
 
-namespace Tie
+namespace Tie.VM
 {
     class StackSegment<T>
     {

@@ -15,7 +15,7 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-namespace Tie.Parser
+namespace Tie.Compiler.Parser
 {
     enum NUMTYPE
     {

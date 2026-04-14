@@ -16,9 +16,9 @@
 //--------------------------------------------------------------------------------------------------//
 
 using System.IO;
-using Tie.Lex;
+using Tie.Compiler.Lex;
 
-namespace Tie.Parser
+namespace Tie.Compiler.Parser
 {
 
     /// <summary>

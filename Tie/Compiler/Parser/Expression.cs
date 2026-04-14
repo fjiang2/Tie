@@ -15,9 +15,9 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-using Tie.Lex;
+using Tie.Compiler.Lex;
 
-namespace Tie.Parser
+namespace Tie.Compiler.Parser
 {
 
     class Expression
@@ -95,13 +95,13 @@ namespace Tie.Parser
             }
             else if (gen.IV[gen.IP - 1].cmd == INSTYPE.INC || gen.IV[gen.IP - 1].cmd == INSTYPE.DEC)             //i++ or i--;
             {
-                gen.emit(INSTYPE.RMT);
+                gen.Emit(INSTYPE.RMT);
             }
             else if (
                     (gen.IP >= 2 && gen.IV[gen.IP - 2] != null && gen.IV[gen.IP - 2].cmd == INSTYPE.CALL)         //e.g: foo(12);
                  || (gen.IP >= 3 && gen.IV[gen.IP - 3] != null && gen.IV[gen.IP - 3].cmd == INSTYPE.CALL && gen.IV[gen.IP - 1].cmd == INSTYPE.ESO) //e.g. math.sin(20.0);
                  )
-                gen.emit(INSTYPE.RMT); //remove CPU top on account of assign statement
+                gen.Emit(INSTYPE.RMT); //remove CPU top on account of assign statement
 
         }
 
@@ -147,11 +147,11 @@ namespace Tie.Parser
                 s_exp14();
                 switch (Opr)
                 {
-                    case SYMBOL2.BNOT: gen.emit(INSTYPE.NOT); break;
-                    case SYMBOL2.NOT: gen.emit(INSTYPE.NOTNOT); break;
-                    case SYMBOL2.NEG: gen.emit(INSTYPE.NEG, lex.sy == SYMBOL.PLUS ? 1 : -1); break;
-                    case SYMBOL2.ADR: gen.emit(INSTYPE.ADR); break;
-                    case SYMBOL2.VLU: gen.emit(INSTYPE.VLU); break;
+                    case SYMBOL2.BNOT: gen.Emit(INSTYPE.NOT); break;
+                    case SYMBOL2.NOT: gen.Emit(INSTYPE.NOTNOT); break;
+                    case SYMBOL2.NEG: gen.Emit(INSTYPE.NEG, lex.sy == SYMBOL.PLUS ? 1 : -1); break;
+                    case SYMBOL2.ADR: gen.Emit(INSTYPE.ADR); break;
+                    case SYMBOL2.VLU: gen.Emit(INSTYPE.VLU); break;
                     default: return false;
                 }
                 return true;
@@ -176,8 +176,8 @@ namespace Tie.Parser
                 {
                     switch (lex.opr)
                     {
-                        case SYMBOL2.PPLUS: gen.emit(INSTYPE.INC); break;
-                        case SYMBOL2.MMINUS: gen.emit(INSTYPE.DEC); break;
+                        case SYMBOL2.PPLUS: gen.Emit(INSTYPE.INC); break;
+                        case SYMBOL2.MMINUS: gen.Emit(INSTYPE.DEC); break;
                     }
                     lex.InSymbol();
                 }
@@ -241,7 +241,7 @@ namespace Tie.Parser
 
                     s_exp1();
 
-                    expect(SYMBOL.RP);
+                    Expect(SYMBOL.RP);
                     if (       //强制类型转换
                            lex.sy == SYMBOL.identsy || lex.sy == SYMBOL.THIS || lex.sy == SYMBOL.BASE
                         || lex.sy == SYMBOL.LP || lex.sy == SYMBOL.LC || lex.sy == SYMBOL.LB
@@ -251,7 +251,7 @@ namespace Tie.Parser
                         )
                     {
                         s_exp1();
-                        s_call(Constant.FUNC_CAST_TYPE_VALUE, 2);
+                        s_call(Const.FUNC_CAST_TYPE_VALUE, 2);
                     }
                     break;
 
@@ -261,10 +261,10 @@ namespace Tie.Parser
                 case SYMBOL.nullsy:
                 case SYMBOL.VOID:
                 case SYMBOL.truesy:
-                case SYMBOL.falsesy: gen.emit(INSTYPE.MOV, new Operand(new Numeric(lex.sy, lex.sym))); lex.InSymbol(); break;
+                case SYMBOL.falsesy: gen.Emit(INSTYPE.MOV, new Operand(new Numeric(lex.sy, lex.sym))); lex.InSymbol(); break;
 
-                case SYMBOL.LC: lex.InSymbol(); gen.emit(INSTYPE.MARK); s_expr1(); expect(SYMBOL.RC); gen.emit(INSTYPE.END); break;
-                case SYMBOL.LB: lex.InSymbol(); gen.emit(INSTYPE.MARK); s_expr1(); expect(SYMBOL.RB); gen.emit(INSTYPE.END); break;
+                case SYMBOL.LC: lex.InSymbol(); gen.Emit(INSTYPE.MARK); s_expr1(); Expect(SYMBOL.RC); gen.Emit(INSTYPE.END); break;
+                case SYMBOL.LB: lex.InSymbol(); gen.Emit(INSTYPE.MARK); s_expr1(); Expect(SYMBOL.RB); gen.Emit(INSTYPE.END); break;
 
                 case SYMBOL.FUNC: ((JParser)this).e_func(OPRTYPE.funccon); break;
                 case SYMBOL.CLASS: ((JParser)this).e_func(OPRTYPE.classcon); break;
@@ -274,39 +274,39 @@ namespace Tie.Parser
                     lex.InSymbol();
                     if (lex.sy == SYMBOL.LC) //匿名class, 例如:new {Id=100, Name="Jane"}
                     {
-                        gen.emit(INSTYPE.MARK);
+                        gen.Emit(INSTYPE.MARK);
                         lex.InSymbol();
 
                         while (lex.sy == SYMBOL.identsy)
                         {
                             string ident = lex.sym.id;
-                            gen.emit(INSTYPE.MARK);
+                            gen.Emit(INSTYPE.MARK);
                             Operand x = new Operand(new Numeric(ident));
-                            gen.emit(INSTYPE.MOV, x);
+                            gen.Emit(INSTYPE.MOV, x);
                             lex.InSymbol();
 
-                            expect(SYMBOL.EQUAL);
+                            Expect(SYMBOL.EQUAL);
 
                             s_exp1();
-                            gen.emit(INSTYPE.END);
+                            gen.Emit(INSTYPE.END);
 
                             if (lex.sy == SYMBOL.COMMA)
                                 lex.InSymbol();
                         }
 
-                        expect(SYMBOL.RC);
-                        gen.emit(INSTYPE.END);
+                        Expect(SYMBOL.RC);
+                        gen.Emit(INSTYPE.END);
                     }
                     else if (s_decl_instance())  //如果不是new object()
                     {
                         int operand = 1;
                         if (lex.sy == SYMBOL.LC)    //双操作符
                         {
-                            lex.InSymbol(); gen.emit(INSTYPE.MARK); s_expr1(); expect(SYMBOL.RC); gen.emit(INSTYPE.END);
+                            lex.InSymbol(); gen.Emit(INSTYPE.MARK); s_expr1(); Expect(SYMBOL.RC); gen.Emit(INSTYPE.END);
                             operand = 2;
                         }
 
-                        gen.emit(INSTYPE.NEW, operand);
+                        gen.Emit(INSTYPE.NEW, operand);
                     }
                     break;
 
@@ -324,10 +324,10 @@ namespace Tie.Parser
             bool r = true;
             if (lex.sy == SYMBOL.EQUAL)			// A=1
             {
-                Operand var1 = gen.IV[gen.IP - 1].operand;
+                //Operand var1 = gen.IV[gen.IP - 1].operand;
                 lex.InSymbol();
                 r = s_exp1();
-                gen.emit(INSTYPE.STO);//,var1);
+                gen.Emit(INSTYPE.STO);//,var1);
             }
             else if (lex.sy == SYMBOL.ASSIGNOP)	// A+=1;
             {
@@ -350,15 +350,15 @@ namespace Tie.Parser
                     {
                         lex.InSymbol();
 
-                        int L1 = gen.emit(INSTYPE.LJZ);		//JZ L2+1
+                        int L1 = gen.Emit(INSTYPE.LJZ);		//JZ L2+1
                         s_exp3();
-                        int L2 = gen.emit(INSTYPE.LJMP);	//JMP END
+                        int L2 = gen.Emit(INSTYPE.LJMP);	//JMP END
 
-                        expect(SYMBOL.COLON);
+                        Expect(SYMBOL.COLON);
                         s_exp3();
 
-                        gen.remit(L1, L2 + 1 - L1);
-                        gen.remit(L2, gen.IP - L2);			//gen.remit(L2,END);
+                        gen.Remit(L1, L2 + 1 - L1);
+                        gen.Remit(L2, gen.IP - L2);			//gen.remit(L2,END);
                     }
                     break;
 
@@ -367,16 +367,16 @@ namespace Tie.Parser
                         // a = b ?? c;
                         lex.InSymbol();
 
-                        gen.emit(INSTYPE.RCP);              // clone b
-                        gen.emit(INSTYPE.MOV, new Operand(Numeric.NULL));
-                        gen.emit(INSTYPE.NEQ);              // b!=null ?
+                        gen.Emit(INSTYPE.RCP);              // clone b
+                        gen.Emit(INSTYPE.MOV, new Operand(Numeric.NULL));
+                        gen.Emit(INSTYPE.NEQ);              // b!=null ?
 
-                        int L1 = gen.emit(INSTYPE.JNZ);	    // if (b!=null) == true jmp
-                        gen.emit(INSTYPE.RPOP);
+                        int L1 = gen.Emit(INSTYPE.JNZ);	    // if (b!=null) == true jmp
+                        gen.Emit(INSTYPE.RPOP);
 
                         s_exp3();
 
-                        gen.remit(L1, gen.IP);
+                        gen.Remit(L1, gen.IP);
                     }
                     break;
                 /*
@@ -416,10 +416,10 @@ namespace Tie.Parser
                             break;
                     }
                     gen.IP--;
-                    gen.emit(INSTYPE.MARK);
-                    gen.emit(INSTYPE.MOV, OPR);
+                    gen.Emit(INSTYPE.MARK);
+                    gen.Emit(INSTYPE.MOV, OPR);
                     lex.InSymbol(); s_exp3();
-                    gen.emit(INSTYPE.END);
+                    gen.Emit(INSTYPE.END);
                     break;
 
                 default: return true;
@@ -435,16 +435,16 @@ namespace Tie.Parser
                 case SYMBOL.OROR:
                     lex.InSymbol();
 
-                    int L1 = gen.emit(INSTYPE.JNZ);
-                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));
+                    int L1 = gen.Emit(INSTYPE.JNZ);
+                    //gen.emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));
 
                     s_exp4();
-                    gen.emit(INSTYPE.OROR);
+                    //gen.emit(INSTYPE.OROR);
 
-                    int L2 = gen.emit(INSTYPE.JMP);
-                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
-                    gen.remit(L1, gen.IP - 1);
-                    gen.remit(L2, gen.IP);
+                    int L2 = gen.Emit(INSTYPE.JMP);
+                    gen.Emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
+                    gen.Remit(L1, gen.IP - 1);
+                    gen.Remit(L2, gen.IP);
                     break;
 
                 default: return true;
@@ -460,16 +460,16 @@ namespace Tie.Parser
                 case SYMBOL.ANDAND:
                     lex.InSymbol();
 
-                    int L1 = gen.emit(INSTYPE.JZ);
-                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
+                    int L1 = gen.Emit(INSTYPE.JZ);
+                    //gen.emit(INSTYPE.RPUSH, new Operand(Numeric.TRUE));
 
                     s_exp5();
-                    gen.emit(INSTYPE.ANDAND);
+                    //gen.emit(INSTYPE.ANDAND);
 
-                    int L2 = gen.emit(INSTYPE.JMP);
-                    gen.emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));
-                    gen.remit(L1, gen.IP - 1);
-                    gen.remit(L2, gen.IP);
+                    int L2 = gen.Emit(INSTYPE.JMP);
+                    gen.Emit(INSTYPE.RPUSH, new Operand(Numeric.FALSE));
+                    gen.Remit(L1, gen.IP - 1);
+                    gen.Remit(L2, gen.IP);
                     break;
 
                 default: return true;
@@ -482,7 +482,7 @@ namespace Tie.Parser
         L1:
             switch (lex.sy)
             {
-                case SYMBOL.OR: lex.InSymbol(); s_exp6(); gen.emit(INSTYPE.OR); break;
+                case SYMBOL.OR: lex.InSymbol(); s_exp6(); gen.Emit(INSTYPE.OR); break;
                 default: return true;
             }
             goto L1;
@@ -493,7 +493,7 @@ namespace Tie.Parser
         L1:
             switch (lex.sy)
             {
-                case SYMBOL.XOR: lex.InSymbol(); s_exp7(); gen.emit(INSTYPE.XOR); break;
+                case SYMBOL.XOR: lex.InSymbol(); s_exp7(); gen.Emit(INSTYPE.XOR); break;
                 default: return true;
             }
             goto L1;
@@ -504,7 +504,7 @@ namespace Tie.Parser
         L1:
             switch (lex.sy)
             {
-                case SYMBOL.AND: lex.InSymbol(); s_exp8(); gen.emit(INSTYPE.AND); break;
+                case SYMBOL.AND: lex.InSymbol(); s_exp8(); gen.Emit(INSTYPE.AND); break;
                 default: return true;
             }
             goto L1;
@@ -519,8 +519,8 @@ namespace Tie.Parser
                 s_exp8();
                 switch (Opr)
                 {
-                    case SYMBOL2.EQL: gen.emit(INSTYPE.EQL); break;
-                    case SYMBOL2.NEQ: gen.emit(INSTYPE.NEQ); break;
+                    case SYMBOL2.EQL: gen.Emit(INSTYPE.EQL); break;
+                    case SYMBOL2.NEQ: gen.Emit(INSTYPE.NEQ); break;
                     default: return false;
                 }
             }
@@ -540,26 +540,26 @@ namespace Tie.Parser
                         s_exp9();
                         switch (Opr)
                         {
-                            case SYMBOL2.GTR: gen.emit(INSTYPE.GTR); break;
-                            case SYMBOL2.LSS: gen.emit(INSTYPE.LSS); break;
-                            case SYMBOL2.LEQ: gen.emit(INSTYPE.LEQ); break;
-                            case SYMBOL2.GEQ: gen.emit(INSTYPE.GEQ); break;
+                            case SYMBOL2.GTR: gen.Emit(INSTYPE.GTR); break;
+                            case SYMBOL2.LSS: gen.Emit(INSTYPE.LSS); break;
+                            case SYMBOL2.LEQ: gen.Emit(INSTYPE.LEQ); break;
+                            case SYMBOL2.GEQ: gen.Emit(INSTYPE.GEQ); break;
                         }
                         break;
 
                     case SYMBOL.IN:     //if(a in A) ...  翻译成 if (a < A) .. , 意思是a是不是A的一个元素
                         s_exp9();
-                        gen.emit(INSTYPE.LSS);
+                        gen.Emit(INSTYPE.LSS);
                         break;
 
                     case SYMBOL.IS:     //exp1 is exp2 翻译成 HostType.IsType(exp1,exp2)
                         s_var(true);    //s_exp9(); //is后面是.net的System.Type, 函数s_var(true)中的true表示支持generic type
-                        s_call(Constant.FUNC_IS_TYPE, 2);
+                        s_call(Const.FUNC_IS_TYPE, 2);
                         break;
 
                     case SYMBOL.AS:     //exp1 as exp2  翻译成 $castvt(exp1, exp2)
                         s_var(true);    //s_exp9();     //参照上面的SYMBOL.IS子句
-                        s_call(Constant.FUNC_CAST_VALUE_TYPE, 2);
+                        s_call(Const.FUNC_CAST_VALUE_TYPE, 2);
                         break;
                 }
             }
@@ -578,8 +578,8 @@ namespace Tie.Parser
 
                 switch (Opr)
                 {
-                    case SYMBOL2.SHL: gen.emit(INSTYPE.SHL); break;
-                    case SYMBOL2.SHR: gen.emit(INSTYPE.SHR); break;
+                    case SYMBOL2.SHL: gen.Emit(INSTYPE.SHL); break;
+                    case SYMBOL2.SHR: gen.Emit(INSTYPE.SHR); break;
                     default: return false;
                 }
             }
@@ -593,8 +593,8 @@ namespace Tie.Parser
         L1:
             switch (lex.sy)
             {
-                case SYMBOL.PLUS: lex.InSymbol(); s_exp12(); gen.emit(INSTYPE.ADD); break;
-                case SYMBOL.MINUS: lex.InSymbol(); s_exp12(); gen.emit(INSTYPE.SUB); break;
+                case SYMBOL.PLUS: lex.InSymbol(); s_exp12(); gen.Emit(INSTYPE.ADD); break;
+                case SYMBOL.MINUS: lex.InSymbol(); s_exp12(); gen.Emit(INSTYPE.SUB); break;
                 default: return true;
             }
             goto L1;
@@ -605,9 +605,9 @@ namespace Tie.Parser
         L1:
             switch (lex.sy)
             {
-                case SYMBOL.STAR: lex.InSymbol(); s_exp13(); gen.emit(INSTYPE.MUL); break;
-                case SYMBOL.DIV: lex.InSymbol(); s_exp13(); gen.emit(INSTYPE.DIV); break;
-                case SYMBOL.MOD: lex.InSymbol(); s_exp13(); gen.emit(INSTYPE.MOD); break;
+                case SYMBOL.STAR: lex.InSymbol(); s_exp13(); gen.Emit(INSTYPE.MUL); break;
+                case SYMBOL.DIV: lex.InSymbol(); s_exp13(); gen.Emit(INSTYPE.DIV); break;
+                case SYMBOL.MOD: lex.InSymbol(); s_exp13(); gen.Emit(INSTYPE.MOD); break;
                 default: return true;
             }
             goto L1;
@@ -630,7 +630,7 @@ namespace Tie.Parser
             {
                 if (lex.sy == SYMBOL.THIS)
                 {
-                    gen.emit(INSTYPE.THIS, 0);
+                    gen.Emit(INSTYPE.THIS, 0);
                     lex.InSymbol();
                 }
                 else if (lex.sy == SYMBOL.BASE)
@@ -646,7 +646,7 @@ namespace Tie.Parser
                     //        break;
                     //} while (lex.sy == SYMBOL.BASE);
                     //gen.emit(INSTYPE.BSE, n);
-                    gen.emit(INSTYPE.BASE, 1);   //支持base.x, 不支持base.base.x
+                    gen.Emit(INSTYPE.BASE, 1);   //支持base.x, 不支持base.base.x
                     lex.InSymbol();
                 }
                 else
@@ -665,11 +665,11 @@ namespace Tie.Parser
                     if (addr == -1)
                     {
                         Operand x = Operand.Ident(ident);
-                        gen.emit(INSTYPE.MOV, x);//LOAD
+                        gen.Emit(INSTYPE.MOV, x);//LOAD
                     }
                     else   //local var
                     {
-                        gen.emit(INSTYPE.MOV, Operand.REGAddr(SEGREG.BP, addr, ident));
+                        gen.Emit(INSTYPE.MOV, Operand.REGAddr(SEGREG.BP, addr, ident));
                     }
                 }
 
@@ -691,14 +691,14 @@ namespace Tie.Parser
             {
                 case SYMBOL.identsy:
                     Operand x = Operand.Ident(lex.sym.id);
-                    gen.emit(INSTYPE.MOV, x);//LOAD
+                    gen.Emit(INSTYPE.MOV, x);//LOAD
                     lex.InSymbol();
                     break;
 
                 case SYMBOL.LP:
                     lex.InSymbol();
                     s_var1(typevar);
-                    expect(SYMBOL.RP);
+                    Expect(SYMBOL.RP);
                     break;
 
                 default:
@@ -729,19 +729,19 @@ namespace Tie.Parser
                     {
                         lex.InSymbol();
                         s_var1(typevar);
-                        expect(SYMBOL.RP);
+                        Expect(SYMBOL.RP);
                     }
                     else
                     {
                         Operand x = Operand.Ident(lex.sym.id);
-                        gen.emit(INSTYPE.MOV, x);//LOAD
+                        gen.Emit(INSTYPE.MOV, x);//LOAD
                         lex.InSymbol();
                     }
 
                     switch (Opr)
                     {
-                        case SYMBOL2.DOT: gen.emit(INSTYPE.OFS); break;
-                        case SYMBOL2.ARROW: gen.emit(INSTYPE.OFS); break;
+                        case SYMBOL2.DOT: gen.Emit(INSTYPE.OFS); break;
+                        case SYMBOL2.ARROW: gen.Emit(INSTYPE.OFS); break;
                     }
                     break;
 
@@ -797,7 +797,7 @@ namespace Tie.Parser
             int IP = gen.IP;
 
             lex.InSymbol();
-            int L0 = gen.emit(INSTYPE.MARK);
+            int L0 = gen.Emit(INSTYPE.MARK);
             s_var(true);                   //至少得有一个Type
             int count = 1;
             while (lex.sy == SYMBOL.COMMA)   //如果这种情况, Dictionary<,> 那么MARK和END之间为空
@@ -806,7 +806,7 @@ namespace Tie.Parser
                 s_var(true);
                 count++;
             }
-            gen.emit(INSTYPE.END);
+            gen.Emit(INSTYPE.END);
 
             if (lex.sy == SYMBOL.RELOP && lex.opr == SYMBOL2.GTR)
                 lex.InSymbol();
@@ -824,9 +824,9 @@ namespace Tie.Parser
                     lex.Traceback(index, new JToken(SYMBOL.RELOP, SYMBOL2.LSS));
                     gen.IP = IP;
                     //恢复被删除的指令, 见上面的注释: ##删除的2条指令
-                    gen.emit(INSTYPE.MOV, generic);
+                    gen.Emit(INSTYPE.MOV, generic);
                     if (compvar)
-                        gen.emit(INSTYPE.OFS);
+                        gen.Emit(INSTYPE.OFS);
 
                     return;
                 }
@@ -838,7 +838,7 @@ namespace Tie.Parser
             if (typevar || lex.sy != SYMBOL.LP)
                 generic.value = (string)generic.value + '`' + count;
 
-            gen.emit(INSTYPE.GNRC, generic);
+            gen.Emit(INSTYPE.GNRC, generic);
 
             return;
         }
@@ -909,7 +909,7 @@ namespace Tie.Parser
                         gen.IP -= 1;                        //移去指令OFS
                         funcptr = true;
                         call = Operand.REG(SEGREG.NS);       //SEGREG.NS 只是用作标记而已
-                        gen.emit(INSTYPE.PUSH);             //这个时候REG.Top是函数指针, 放入SS堆栈, 在函数调用后用SP -1 弹出
+                        gen.Emit(INSTYPE.PUSH);             //这个时候REG.Top是函数指针, 放入SS堆栈, 在函数调用后用SP -1 弹出
                     }
                 }
                 else
@@ -938,13 +938,13 @@ namespace Tie.Parser
                     }
                 }
 
-                expect(SYMBOL.RP);
+                Expect(SYMBOL.RP);
             }
             else
                 lex.InSymbol();
 
             for (int i = 0; i < parameter; i++)
-                gen.emit(INSTYPE.PUSH);
+                gen.Emit(INSTYPE.PUSH);
 
             /*
              * namespace of arguments has higher priority than function. 
@@ -952,47 +952,47 @@ namespace Tie.Parser
              *    this(.button1)is higher than this.form.Controls(.Add)
              * */
             if (compvar)
-                gen.emit(INSTYPE.ESI);
+                gen.Emit(INSTYPE.ESI);
 
-            gen.emit(INSTYPE.PUSH, Operand.REG(SEGREG.IP));//func return address[BP-1]
+            gen.Emit(INSTYPE.PUSH, Operand.REG(SEGREG.IP));//func return address[BP-1]
 
 
             if (entry > 0)
             {
-                gen.emit(INSTYPE.CALL, call);
+                gen.Emit(INSTYPE.CALL, call);
             }
             else
             {
                 if (call.ty == OPRTYPE.addrcon)
-                    gen.emit(INSTYPE.CALL, call);       //第二种可能:　address
+                    gen.Emit(INSTYPE.CALL, call);       //第二种可能:　address
                 else if (funcptr)
                 {
                     call.value = -parameter - 1;         //第三种可能: 函数入口地址 function pointer 在SS[SP+call.value]
-                    gen.emit(INSTYPE.CALL, call);
+                    gen.Emit(INSTYPE.CALL, call);
                 }
                 else
                 {                                       //第一种可能:
                     int addr = vtab.FuncAddr(call.Str);
                     if (addr != -1)
                     {
-                        gen.emit(INSTYPE.CALL, new Operand(addr));      //传统的C语言风格的函数
+                        gen.Emit(INSTYPE.CALL, new Operand(addr));      //传统的C语言风格的函数
                     }
                     else
-                        gen.emit(INSTYPE.CALL, call);   //string
+                        gen.Emit(INSTYPE.CALL, call);   //string
                 }
             }
 
 
 
-            gen.emit(INSTYPE.SP, new Operand(-(parameter + 1)));    //CPU中使用这个来计算有多少个函数参数的.
+            gen.Emit(INSTYPE.SP, new Operand(-(parameter + 1)));    //CPU中使用这个来计算有多少个函数参数的.
 
             if (compvar)
-                gen.emit(INSTYPE.ESO);                          //CPU中把ESO用作有没有arg0标志的,参照CPU.cs
+                gen.Emit(INSTYPE.ESO);                          //CPU中把ESO用作有没有arg0标志的,参照CPU.cs
 
 
             //如果SS[SP-(parameter+1)] 保存有函数入口地址,那么,SS要多POP一个
             if (funcptr)                                        //因为上面的SP, ESO 有标志作用, 所以下面的SP -1 必须放在最后,
-                gen.emit(INSTYPE.SP, new Operand(-1));
+                gen.Emit(INSTYPE.SP, new Operand(-1));
 
         }
 
@@ -1013,9 +1013,9 @@ namespace Tie.Parser
             s_var(true);
 
             if (gen.IV[gen.IP - 1].cmd == INSTYPE.SP)     //指令CALL后面,一定是指令SP
-                gen.remit(gen.IP - 2, INSTYPE.NEW);       //普通对象 new Circle()    CALL/SP
+                gen.Remit(gen.IP - 2, INSTYPE.NEW);       //普通对象 new Circle()    CALL/SP
             else if (gen.IV[gen.IP - 1].cmd == INSTYPE.ESO)
-                gen.remit(gen.IP - 3, INSTYPE.NEW);       //带有名字空间的对象 new System.Windows.Forms.Label()   CALL/SP/ESO
+                gen.Remit(gen.IP - 3, INSTYPE.NEW);       //带有名字空间的对象 new System.Windows.Forms.Label()   CALL/SP/ESO
             else
                 return true;        // new int[][]{1,2,3}, 这个时候 gen.IV[gen.IP - 1].cmd == INSTYPE.NOP
 
@@ -1042,7 +1042,7 @@ namespace Tie.Parser
             lex.InSymbol();
 
             Operand x = Operand.Ident(ident);
-            gen.emit(INSTYPE.MOV, x);//LOAD
+            gen.Emit(INSTYPE.MOV, x);//LOAD
 
             bool compvar = false;  //name space
             while (lex.sy == SYMBOL.STRUCTOP)
@@ -1053,16 +1053,16 @@ namespace Tie.Parser
                 if (lex.sy == SYMBOL.identsy)
                 {
                     x = Operand.Ident(lex.sym.id);
-                    gen.emit(INSTYPE.MOV, x);//LOAD
+                    gen.Emit(INSTYPE.MOV, x);//LOAD
                     lex.InSymbol();
                 }
                 else
-                    expect(SYMBOL.identsy);
+                    Expect(SYMBOL.identsy);
 
                 switch (Opr)
                 {
-                    case SYMBOL2.DOT: gen.emit(INSTYPE.OFS); break;
-                    case SYMBOL2.ARROW: gen.emit(INSTYPE.OFS); break;
+                    case SYMBOL2.DOT: gen.Emit(INSTYPE.OFS); break;
+                    case SYMBOL2.ARROW: gen.Emit(INSTYPE.OFS); break;
                 }
             }
 
@@ -1086,12 +1086,12 @@ namespace Tie.Parser
                 s_funcarg(compvar, -1);
                 if (gen.IV[gen.IP - 1].cmd == INSTYPE.SP)     //指令CALL后面,一定是指令SP
                 {
-                    gen.remit(gen.IP - 2, INSTYPE.NEW);       //普通对象 new Circle()    CALL/SP
+                    gen.Remit(gen.IP - 2, INSTYPE.NEW);       //普通对象 new Circle()    CALL/SP
                     return false;
                 }
                 else if (gen.IV[gen.IP - 1].cmd == INSTYPE.ESO)
                 {
-                    gen.remit(gen.IP - 3, INSTYPE.NEW);       //带有名字空间的对象 new System.Windows.Forms.Label()   CALL/SP/ESO
+                    gen.Remit(gen.IP - 3, INSTYPE.NEW);       //带有名字空间的对象 new System.Windows.Forms.Label()   CALL/SP/ESO
                     return false;
                 }
 
@@ -1116,13 +1116,13 @@ namespace Tie.Parser
             lex.InSymbol();
             if (lex.sy == SYMBOL.RB)
             {
-                s_call(Constant.FUNC_MAKE_ARRAY_TYPE, 1);
+                s_call(Const.FUNC_MAKE_ARRAY_TYPE, 1);
 
                 //技术性的插入一个空指令NOP, 是因为上面的s_call(....) emit了一个CALL指令,
                 //如果new一个数组的话, 如new int[], 跟new Circle(), 最后2句都是CALL/SP指令,分不清楚
                 //所以: new int[]的指令是  CALL/SP/NOP
                 //参照JExpression.s_instance()
-                gen.emit(INSTYPE.NOP);
+                gen.Emit(INSTYPE.NOP);
                 lex.InSymbol();
             }
             else if (lex.sy == SYMBOL.COMMA)    //多维数组
@@ -1134,26 +1134,26 @@ namespace Tie.Parser
                     lex.InSymbol();
                 }
                 while (lex.sy == SYMBOL.COMMA);
-                expect(SYMBOL.RB);
-                gen.emit(INSTYPE.MOV, new Operand(new Numeric(rank)));
-                s_call(Constant.FUNC_MAKE_ARRAY_TYPE, 2);
-                gen.emit(INSTYPE.NOP);          //技术性的插入一个空指令NOP. 参照上面的注释
+                Expect(SYMBOL.RB);
+                gen.Emit(INSTYPE.MOV, new Operand(new Numeric(rank)));
+                s_call(Const.FUNC_MAKE_ARRAY_TYPE, 2);
+                gen.Emit(INSTYPE.NOP);          //技术性的插入一个空指令NOP. 参照上面的注释
             }
             else
             {
                 //支持多维数组和多维属性   this[i,j,k];
-                int L0 = gen.emit(INSTYPE.NOP);
+                int L0 = gen.Emit(INSTYPE.NOP);
                 s_exp1();                   //至少得有一个下标
                 if (lex.sy == SYMBOL.COMMA)
                 {
-                    gen.remit(L0, INSTYPE.MARK);
+                    gen.Remit(L0, INSTYPE.MARK);
                     lex.InSymbol();
                     s_expr1();
-                    gen.emit(INSTYPE.END);
+                    gen.Emit(INSTYPE.END);
                 }
 
-                expect(SYMBOL.RB);
-                gen.emit(INSTYPE.ARR);
+                Expect(SYMBOL.RB);
+                gen.Emit(INSTYPE.ARR);
             }
         }
 
@@ -1163,26 +1163,26 @@ namespace Tie.Parser
 
         void RepeatVar()	//i+=2  =>  i=i+2
         {
-            gen.emit(INSTYPE.RCP);
+            gen.Emit(INSTYPE.RCP);
         }
 
         bool s_assignop(SYMBOL2 opr)
         {
             switch (opr)
             {
-                case SYMBOL2.ePLUS: gen.emit(INSTYPE.ADD); break;
-                case SYMBOL2.eMINUS: gen.emit(INSTYPE.SUB); break;
-                case SYMBOL2.eSTAR: gen.emit(INSTYPE.MUL); break;
-                case SYMBOL2.eDIV: gen.emit(INSTYPE.DIV); break;
-                case SYMBOL2.eMOD: gen.emit(INSTYPE.MOD); break;
-                case SYMBOL2.eAND: gen.emit(INSTYPE.AND); break;
-                case SYMBOL2.eOR: gen.emit(INSTYPE.OR); break;
-                case SYMBOL2.eXOR: gen.emit(INSTYPE.XOR); break;
-                case SYMBOL2.eSHL: gen.emit(INSTYPE.SHR); break;
-                case SYMBOL2.eSHR: gen.emit(INSTYPE.SHL); break;
+                case SYMBOL2.ePLUS: gen.Emit(INSTYPE.ADD); break;
+                case SYMBOL2.eMINUS: gen.Emit(INSTYPE.SUB); break;
+                case SYMBOL2.eSTAR: gen.Emit(INSTYPE.MUL); break;
+                case SYMBOL2.eDIV: gen.Emit(INSTYPE.DIV); break;
+                case SYMBOL2.eMOD: gen.Emit(INSTYPE.MOD); break;
+                case SYMBOL2.eAND: gen.Emit(INSTYPE.AND); break;
+                case SYMBOL2.eOR: gen.Emit(INSTYPE.OR); break;
+                case SYMBOL2.eXOR: gen.Emit(INSTYPE.XOR); break;
+                case SYMBOL2.eSHL: gen.Emit(INSTYPE.SHR); break;
+                case SYMBOL2.eSHR: gen.Emit(INSTYPE.SHL); break;
                 default: return false;
             }
-            gen.emit(INSTYPE.STO);
+            gen.Emit(INSTYPE.STO);
 
             return true;
         }
@@ -1193,16 +1193,16 @@ namespace Tie.Parser
             {
                 case SYMBOL2.PPLUS:
                     RepeatVar();
-                    gen.emit(INSTYPE.MOV, new Operand(new Numeric(1)));
-                    gen.emit(INSTYPE.ADD);
-                    gen.emit(INSTYPE.STO);
+                    gen.Emit(INSTYPE.MOV, new Operand(new Numeric(1)));
+                    gen.Emit(INSTYPE.ADD);
+                    gen.Emit(INSTYPE.STO);
                     break;
 
                 case SYMBOL2.MMINUS:
                     RepeatVar();
-                    gen.emit(INSTYPE.MOV, new Operand(new Numeric(1)));
-                    gen.emit(INSTYPE.SUB);
-                    gen.emit(INSTYPE.STO);
+                    gen.Emit(INSTYPE.MOV, new Operand(new Numeric(1)));
+                    gen.Emit(INSTYPE.SUB);
+                    gen.Emit(INSTYPE.STO);
                     break;
                 default: return false;
             }
@@ -1238,7 +1238,7 @@ namespace Tie.Parser
             }
 
 
-            gen.emit(INSTYPE.DIRC, S);
+            gen.Emit(INSTYPE.DIRC, S);
             return true;
 
         }
@@ -1259,15 +1259,15 @@ namespace Tie.Parser
         private void s_call(Operand func, int argc)
         {
             for (int i = 0; i < argc; i++)
-                gen.emit(INSTYPE.PUSH);
+                gen.Emit(INSTYPE.PUSH);
 
-            gen.emit(INSTYPE.PUSH, Operand.REG(SEGREG.IP));
-            gen.emit(INSTYPE.CALL, func);
-            gen.emit(INSTYPE.SP, -(argc + 1));
+            gen.Emit(INSTYPE.PUSH, Operand.REG(SEGREG.IP));
+            gen.Emit(INSTYPE.CALL, func);
+            gen.Emit(INSTYPE.SP, -(argc + 1));
         }
 
 
-        protected bool expect(SYMBOL sy)
+        protected bool Expect(SYMBOL sy)
         {
             if (lex.sy == sy)
             {

@@ -17,7 +17,7 @@
 
 using System.IO;
 
-namespace Tie.Parser
+namespace Tie.Compiler.Parser
 {
 
     class Operand
@@ -96,7 +96,7 @@ namespace Tie.Parser
         {
             Operand v = new Operand();
             v.ty = OPRTYPE.identcon;
-            v.mod = Constant.SCOPE;
+            v.mod = Const.SCOPE;
             v.name = id;
             v.value = id;
             return v;
@@ -179,10 +179,10 @@ namespace Tie.Parser
                     break;
 
                 case OPRTYPE.funccon:
-                    o.Write("{0}(\"{1}\",{2})", Constant.FUNC_FUNCTION, mod, value);
+                    o.Write("{0}(\"{1}\",{2})", Const.FUNC_FUNCTION, mod, value);
                     break;
                 case OPRTYPE.classcon:
-                    o.Write("{0}(\"{1}\",{2})", Constant.FUNC_CLASS, mod, value);
+                    o.Write("{0}(\"{1}\",{2})", Const.FUNC_CLASS, mod, value);
                     break;
 
                 case OPRTYPE.intcon:

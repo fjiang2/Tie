@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 
-namespace Tie.Lex
+namespace Tie.Compiler.Lex
 {
     class FileLex : JLex
     {

@@ -19,7 +19,7 @@
 using System;
 using System.IO;
 
-namespace Tie.Lex
+namespace Tie.Compiler.Lex
 {
     class JToken
     {
@@ -52,7 +52,7 @@ namespace Tie.Lex
             ty = tokty.symbol;
 
             //search keyword
-            for (int i = 0; i < Constant.NKW; i++)
+            for (int i = 0; i < Const.NKW; i++)
             {
                 if (sy == JLex.Key[i].ksy)
                 {

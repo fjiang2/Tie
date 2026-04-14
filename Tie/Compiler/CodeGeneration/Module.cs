@@ -19,15 +19,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Tie.Lex;
-using Tie.Parser;
+using Tie.Compiler.Lex;
+using Tie.Compiler.Parser;
 
 namespace Tie
 {
 
     class Module
     {
-        List<CodeBlock> blocks;       //keep all code blocks
+        private readonly List<CodeBlock> blocks;       //keep all code blocks
 
         public string moduleName;
         public readonly int maxSize;
@@ -40,7 +40,7 @@ namespace Tie
         private Error error;
 
         public Module()
-            : this(Constant.VOLATILE_MODULE_NAME, Constant.MAX_INSTRUCTION_NUM)
+            : this(Const.VOLATILE_MODULE_NAME, Constant.MAX_INSTRUCTION_NUM)
         {
         }
 
@@ -121,7 +121,7 @@ namespace Tie
 
             if (codeMode == CodeMode.Append)
             {
-                if (blocks.Count + 1 > Constant.MAX_CODEBLOCK_NUM)
+                if (blocks.Count + 1 > Const.MAX_CODEBLOCK_NUM)
                     throw new CompilingException("CodeBlock number reaches maximum limitation.", Position.UNKNOWN);
 
                 IP1 = IP2;
@@ -143,7 +143,7 @@ namespace Tie
         }
 
 
-        public static Module decode(VAL val)
+        public static Module Decode(VAL val)
         {
             string moduleName = val["name"].Str;
             string codePiece = val["code"].Str;
@@ -154,7 +154,7 @@ namespace Tie
             return module;
         }
 
-        public static VAL encode(Module module)
+        public static VAL Encode(Module module)
         {
             VAL val = new VAL();
             val["name"] = new VAL(module.moduleName);

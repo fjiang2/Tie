@@ -39,15 +39,15 @@ namespace Tie
 
         }
 
-        private Symbol[] symTab;
-        private Stack<Stamp> stack;
+        private readonly Symbol[] symTab;
+        private readonly Stack<Stamp> stack;
         private int SP;
 
         private int funcLevel;				// local function nest
         private Stamp current;
 
 
-        private Error error;
+        private readonly Error error;
 
         public SymbolTable(int size, Error error)
         {

@@ -18,7 +18,7 @@
 using System;
 
 
-namespace Tie
+namespace Tie.VM
 {
 
     class Context

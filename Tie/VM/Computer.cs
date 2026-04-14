@@ -16,7 +16,7 @@
 //--------------------------------------------------------------------------------------------------//
 using System;
 
-namespace Tie
+namespace Tie.VM
 {
     /// <summary>
     /// Compiler and Virtual Machine

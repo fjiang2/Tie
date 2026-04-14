@@ -19,12 +19,13 @@
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
+using Tie.VM;
 
 namespace Tie
 {
     class DynamicDelegate
     {
-        private VAL func = null;    //如果变量名字改变了,请同时修改函数InstanceDelegate(,)中的引用字符串
+        private readonly VAL func = null;    //如果变量名字改变了,请同时修改函数InstanceDelegate(,)中的引用字符串
 
         private DynamicDelegate(VAL func)
         {
@@ -117,12 +118,12 @@ namespace Tie
 
 #if SILVERLIGHT
             DynamicMethod dynamicMethod = new DynamicMethod(
-                Constant.FUNC_CON_INSTANCE_INVOKE,
+                InternalConst.FUNC_CON_INSTANCE_INVOKE,
                 dMethod.ReturnType,
                 dParameterTypes); 
 #else
             DynamicMethod dynamicMethod = new DynamicMethod(
-                Constant.FUNC_CON_INSTANCE_INVOKE,
+                Const.FUNC_CON_INSTANCE_INVOKE,
                 dMethod.ReturnType,
                 dParameterTypes,
                 target.GetType());  //把DynamicMethod关联到target的class
