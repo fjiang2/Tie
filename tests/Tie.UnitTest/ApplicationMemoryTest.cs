@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Tie;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Ports;
-using Tie.Helper;
 using System.Windows;
+using Tie;
+using Tie.Helper;
 
 namespace UnitTest
 {
@@ -47,7 +45,7 @@ namespace UnitTest
         }
     }
 
-    class CommConfig 
+    class CommConfig
     {
         public CommConfig()
         {
@@ -86,12 +84,12 @@ namespace UnitTest
             : base(memory)
         {
 
-            Valizer.Register<Guid>(delegate(Guid guid)
+            Valizer.Register<Guid>(delegate (Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                 },
-                delegate(VAL val)
+                delegate (VAL val)
                 {
                     byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                     return new Guid(bytes);
@@ -106,7 +104,7 @@ namespace UnitTest
         protected override int MaxVariableSpaceLength { get { return VarColWidh; } }
         protected override int MaxValueSpaceLength { get { return ValColWidh; } }
 
-        protected override IEnumerable<KeyValuePair<string, string>> ReadMemory(IEnumerable<string> varibles)
+        protected override IEnumerable<KeyValuePair<string, string>> ReadMemory(IEnumerable<string> variables)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
             if (File.Exists(fileName))
@@ -152,7 +150,7 @@ namespace UnitTest
             }
         }
 
-        
+
 
         public static void main()
         {
@@ -185,7 +183,7 @@ namespace UnitTest
             device.ValColWidh = 40;
             device.Save(new VAR[] { "Place" });
             string text1 = device.GetFileText();
-            string text2 = 
+            string text2 =
 @"Place.Zip 	 ""60015""
 Place.State 	 ""TX""
 Place.City 	 ""Stafford""
@@ -226,7 +224,7 @@ Place.StreetName 	 ""500 Airport Highway""
             device.Load();
             size = device.GetValue<System.Windows.Size>("Size");
             Debug.Assert(size.Width == 10 && size.Height == 20);
-            
+
             Guid guid = device.GetValue<Guid>("Guid");
             Debug.Assert(guid == new Guid("DEC32C1A-550E-4F5C-8B81-DDD395578A77"));
 
@@ -234,7 +232,7 @@ Place.StreetName 	 ""500 Airport Highway""
             double[] d = device.GetValue<double[]>("Integers");
 
             byte[] bytes = device.GetValue<byte[]>("Bytes");
-            Debug.Assert(bytes[0]==1 && bytes[1]==2 && bytes[2]==3 && bytes[3]==4);
+            Debug.Assert(bytes[0] == 1 && bytes[1] == 2 && bytes[2] == 3 && bytes[3] == 4);
 
             System.Drawing.Color color = device.GetValue<System.Drawing.Color>("Color");
             Debug.Assert(color == System.Drawing.Color.Red);
@@ -285,11 +283,11 @@ Place.StreetName 	 ""500 Airport Highway""
             dict.Add("B", 2);
             device.SetValue("dict", dict);
 
-             /**
-             * 
-             * Nullable<T>
-             * 
-             * */
+            /**
+            * 
+            * Nullable<T>
+            * 
+            * */
             bool? nbool = true;
             device.SetValue("nullable", nbool);
 
@@ -307,7 +305,7 @@ Place.StreetName 	 ""500 Airport Highway""
             device.Save();
             DS.RemoveAll();
             device.Load();
-            
+
             IUrlConfig url = device.GetValue<IUrlConfig>("Url");
             Debug.Assert(url.Port == 88);
 
@@ -339,7 +337,7 @@ Place.StreetName 	 ""500 Airport Highway""
             fm.Save();
             DS.RemoveAll();
             fm.Load();
-            
+
             Logger.Close();
 
 
@@ -347,6 +345,6 @@ Place.StreetName 	 ""500 Airport Highway""
         }
 
 
-     
+
     }
 }

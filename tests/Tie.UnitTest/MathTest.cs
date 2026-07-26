@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using Tie;
 
@@ -42,15 +40,15 @@ namespace UnitTest
                 y=D.Width==120? 10:20;
             ";
 
-             
+
             Tie.Logger.Open("C:\\temp\\tie.log");
             HostType.Register(typeof(System.Math), true);
             HostType.Register(typeof(System.Convert), true);
-           // HostType.Register("DictionaryStringInt32", typeof(Dictionary<string, int>));
+            // HostType.Register("DictionaryStringInt32", typeof(Dictionary<string, int>));
             HostType.Register(typeof(System.DateTime), true);
 
             VAL v = VAL.Array();
- 
+
             Script script = new Script("unknown", 500);
             script.DS.AddObject("dict", dict);
             script.VolatileExecute(code);

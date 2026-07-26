@@ -15,12 +15,6 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Tie
 {
     class Tuple<T>
@@ -44,7 +38,7 @@ namespace Tie
         public T2 Item2;
     }
 
-    
+
     class Tuple<T, T2, T3> : Tuple<T, T2>
     {
         public Tuple(T item1, T2 item2, T3 item3)

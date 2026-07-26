@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using Tie;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tie.UnitTest.NET4
+namespace Tie.UnitTest.NET5
 {
-
-
     class Car
     {
         public string PetName = string.Empty;
@@ -21,7 +20,7 @@ namespace Tie.UnitTest.NET4
 
     public static class MyExtensions
     {
-        public static IEnumerable<R> Transform<T, R> ( this IEnumerable<T> input,  Func<T, R> op)
+        public static IEnumerable<R> Transform<T, R>(this IEnumerable<T> input, Func<T, R> op)
         {
             foreach (var item in input)
             {
@@ -30,64 +29,45 @@ namespace Tie.UnitTest.NET4
         }
     }
 
-    class ExtendMethodTest
+    [TestClass]
+    public class ExtendMethodTest
     {
-        public string Times<T>(T X, T Y) where T: IEnumerable 
-        {
-            string s = "";
-            foreach (var x in X)
-                foreach (var y in Y)
-                {
-                    s += x.ToString()+y.ToString()+";";
-                }
-
-            return s;
-        }
-
-        public static void main()
-        {
-
-            List<Car> myCars = new List<Car>() {
+        List<Car> myCars = new List<Car>() {
                 new Car{ PetName = "Henry", Color = "Silver", Speed = 100, Make = "BMW"},
                 new Car{ PetName = "Daisy", Color = "Tan", Speed = 90, Make = "BMW"},
                 new Car{ PetName = "Mary", Color = "Black", Speed = 55, Make = "VW"},
                 new Car{ PetName = "Clunker", Color = "Rust", Speed = 5, Make = "Yugo"},
                 new Car{ PetName = "Melvin", Color = "White", Speed = 43, Make = "Ford"}
-           };
+        };
 
 
-            string[] currentVideoGames = 
-                {
-                    "Morrowind", 
+        string[] currentVideoGames =
+        {
+                    "Morrowind",
                     "BioShock",
-                    "Half Life 2", 
+                    "Half Life 2",
                     "The Darkness",
-                    "Daxter", 
+                    "Daxter",
                     "System Shock 2"
-                };
+        };
 
+        public string Times<T>(T X, T Y) where T : IEnumerable
+        {
+            string s = "";
+            foreach (var x in X)
+                foreach (var y in Y)
+                {
+                    s += x.ToString() + y.ToString() + ";";
+                }
 
+            return s;
+        }
 
-            var subset = currentVideoGames
-                .Where(game => game.Length > 6)
-                .OrderBy(game => game)
-                .Select(game => game);
-
-            string s1 = "";
-            foreach (var game in subset)
-            {
-                Console.WriteLine("Item: {0}", game);
-                s1 += game;
-            }
-
-            Logger.Close();
-            Logger.Open("c:\\temp\\tie.log");
+        [TestMethod]
+        public void Test_Function_Times()
+        {
             Memory DS = new Memory();
             string code;
-
-
-
-
             ExtendMethodTest test = new ExtendMethodTest();
             string t1 = test.Times<int[]>(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
             DS.RemoveAll();
@@ -100,14 +80,32 @@ namespace Tie.UnitTest.NET4
 
             Script.Execute(code, DS);
             Debug.Assert(DS["t1"].Str == t1);
+        }
 
+        [TestMethod]
+        public void TestExtension()
+        {
+            Logger.Close();
+            Logger.Open("c:\\temp\\tie.log");
+            
+            var subset = currentVideoGames
+              .Where(game => game.Length > 6)
+              .OrderBy(game => game)
+              .Select(game => game);
+
+            string s1 = "";
+            foreach (var game in subset)
+            {
+                Console.WriteLine("Item: {0}", game);
+                s1 += game;
+            }
 
 
             HostType.Register(typeof(Enumerable));
             //HostType.Register(typeof(Queryable)); 
 
-            
-            code = @"
+
+            string code = @"
             subset2 = currentVideoGames
                 .Where( game => HOST(game).Length > 6)
                 .OrderBy(game => { return game;} )
@@ -124,6 +122,7 @@ namespace Tie.UnitTest.NET4
 
             ";
 
+            Memory DS = new Memory();
             DS.RemoveAll();
             DS.Add("currentVideoGames", VAL.Boxing(currentVideoGames));
             Script.Execute(code, DS);
@@ -141,7 +140,7 @@ namespace Tie.UnitTest.NET4
 
             VAL x = DS["subset2"][0];
 
-           // Debug.Assert(s1==s2);
+            // Debug.Assert(s1==s2);
 
             //code = "1+3";
             //DS.Clear();

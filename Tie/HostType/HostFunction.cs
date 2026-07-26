@@ -17,10 +17,6 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Text;
-using System.IO;
 using System.Reflection;
 
 namespace Tie
@@ -103,7 +99,7 @@ namespace Tie
         private object[] args1;     //输入的待处理的参数
         private Type[] argTypes1;   //args1的Types
 
-   
+
         public HostFunction(object host, string func, VALL parameters)
         {
             this.host = host;
@@ -120,7 +116,7 @@ namespace Tie
             argTypes1 = new Type[count];
             for (int i = 0; i < count; i++)
                 argTypes1[i] = parameters[i].Type;
-       
+
         }
 
         public override string ToString()
@@ -147,9 +143,9 @@ namespace Tie
         public VAL RunFunction(MethodInfo[] methods)
         {
             VAL ret = RunFunctionSilently(methods);
-            if((object)ret == null)
+            if ((object)ret == null)
                 throw new HostTypeException("Method {0} in .NET is not defined.", this.ToString());
-            
+
             return ret;
         }
 
@@ -165,7 +161,7 @@ namespace Tie
             //如果没有指定methods的范围,那么需要搜索所有的函数,因为有些特殊情况: 
             //      譬如: 参数值null, 可以指向任何object或者数组
             //            参数值是delegate, generic
-            if(methods==null)
+            if (methods == null)
                 methods = OverloadingMethods(hostType, func);
 
             Tuple<MethodInfo, object[]> call = ChooseMethod(methods);
@@ -174,7 +170,7 @@ namespace Tie
 
             return InvokeMethod(call.Item1, host, call.Item2);
         }
-        
+
         #endregion
 
 
@@ -217,17 +213,17 @@ namespace Tie
             return call;
         }
 
-       
+
 
 
 
 
         //检查函数参数类型和传入值的类型是不是相容
-        private Tuple<MethodInfo,object[]> CheckParameters(MethodInfo method)
+        private Tuple<MethodInfo, object[]> CheckParameters(MethodInfo method)
         {
             ParameterInfo[] parameters = method.GetParameters();
             int len = parameters.Length;
-            
+
             object[] args2 = new object[len];
             Type[] argTypes2 = new Type[len];
 
@@ -240,7 +236,7 @@ namespace Tie
                     for (int i = 0; i < len - 1; i++)
                     {
                         args2[i] = args1[i];
-                        argTypes2[i] = argTypes1[i]; 
+                        argTypes2[i] = argTypes1[i];
                     }
 
                     //组装最后一个参数,为数组
@@ -258,15 +254,15 @@ namespace Tie
             //如果参数个数不相等
             if (len != args1.Length)
                 return null;
-            
+
             //如果参数个数相等
             for (int i = 0; i < len; i++)
             {
                 args2[i] = args1[i];
-                argTypes2[i] = argTypes1[i]; 
+                argTypes2[i] = argTypes1[i];
             }
 
-            L1:
+        L1:
             GenericArguments gas = new GenericArguments();
             for (int i = 0; i < len; i++)
             {
@@ -278,7 +274,7 @@ namespace Tie
                     object temp = gas.CheckCompatibleType(parameters[i], args2[i], argTypes2[i]);//深度检查,函数参数
                     if (temp == null)
                         return null;
-                    
+
                     args2[i] = temp;
                 }
             }
@@ -313,7 +309,7 @@ namespace Tie
                     if (arg is Delegate)
                     {
                         Delegate d = (Delegate)arg;
-                        if (d.Method.Name == Constant.FUNC_CON_INSTANCE_INVOKE)
+                        if (d.Method.Name == Const.FUNC_CON_INSTANCE_INVOKE)
                             throw new HostTypeException("Call delegate {0} failed in {1} of {2}", d, methodInfo, host);
                     }
                 }
@@ -418,7 +414,7 @@ namespace Tie
 
 
         #endregion
-            
+
 
         #region static OperatorOverloading
 
@@ -427,7 +423,7 @@ namespace Tie
         {
             return OperatorOverloading(opr, v1, v2, false);
         }
-        
+
         public static VAL OperatorOverloading(Operator opr, VAL v)
         {
             return OperatorOverloading(opr, v, null, false);
@@ -438,10 +434,10 @@ namespace Tie
         {
             VALL L = new VALL();
             L.Add(v1);
-            
-            if((object)v2!=null)
+
+            if ((object)v2 != null)
                 L.Add(v2);
-            
+
             HostFunction hFunc = new HostFunction(v1.value, opr.ToString(), L);
             if (silent)
                 return hFunc.RunFunctionSilently(null);

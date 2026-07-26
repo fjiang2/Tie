@@ -17,10 +17,7 @@
 
 
 using System;
-using System.Collections.Generic;
 using System.Collections;
-using System.Text;
-using System.IO;
 using System.Reflection;
 
 
@@ -28,9 +25,9 @@ namespace Tie
 {
     enum OffsetType
     {
-        ANY= 1,
-        STRUCT=2,
-        ARRAY=4
+        ANY = 1,
+        STRUCT = 2,
+        ARRAY = 4
     }
 
     class HostOffset
@@ -65,7 +62,7 @@ namespace Tie
 
                 if (R1.ty == VALTYPE.funccon
                     || (R1.ty == VALTYPE.hostcon && (R1.value is MethodInfo || R1.value is MethodInfo[])) //TIE函数或者C#方法
-                    ) 
+                    )
                     R0.temp = R1.temp;      //instance of CPU 
             }
             return R0;
@@ -93,14 +90,14 @@ namespace Tie
                 //因为一个变量R0被赋值为MethodInfo以后, R0.temp就会有值,如果R0又再次赋值为另外一个MethodInfo的话,那么就是简单赋值
                 //所以这里要返回false, 用于SystemFunction中的methodof(...), 以及Script.SyncInstance(..)
                 //offset 在这里作为标志用,是技术性的
-                if (offset is MethodInfo)   
+                if (offset is MethodInfo)
                     return false;
 
                 return HostTypeAssign(host, offset, R1.HostValue, R1.hty == HandlerActionType.Add);  //参照class HostEvent, R1.SEG用作Add/Remove Handler的标志
             }
 
-         
-            
+
+
             return false;
         }
 
@@ -155,7 +152,7 @@ namespace Tie
             //处理this[,,..]属性
             {
                 Type offsetType = (offset != null) ? offsetType = offset.GetType() : typeof(object);
-                Type valType = (val != null)? val.GetType() : typeof(object);
+                Type valType = (val != null) ? val.GetType() : typeof(object);
 
                 Type[] types;
                 object[] objectArray;
@@ -227,7 +224,7 @@ namespace Tie
         #endregion
 
 
-        
+
 
 
 
@@ -242,18 +239,18 @@ namespace Tie
          *      this.property
          * 
          * */
-      
+
         public static VAL HostTypeOffset(VAL R0, VAL R1, OffsetType offsetType)
         {
             if (R0.ty != VALTYPE.hostcon)
                 return VAL.NewVoidType();
 
-            
+
             object host = R0.value;
 
             object offset = R1.HostValue;
-          
-            
+
+
             object obj = null;
             Type type = null;
 
@@ -282,7 +279,7 @@ namespace Tie
 
             type = host.GetType();
 
-            
+
             if (offsetType == OffsetType.ANY || offsetType == OffsetType.ARRAY)
             {
                 //数组 abstract Array: IList, ICollection, IEumerable
@@ -332,7 +329,7 @@ namespace Tie
                         return HostTypeOffsetBoxing(enumerator.Current, host, offset);
                 }
 
-                
+
                 {   //处理this[,,...]属性
                     Type[] types;
                     object[] objectArray;
@@ -363,10 +360,10 @@ namespace Tie
                             if (obj != null)
                                 return HostTypeOffsetBoxing(obj, host, offset);
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             if (offsetType == OffsetType.ARRAY)
-                                throw e;
+                                throw;
                         }
                     }
                 }
@@ -377,9 +374,9 @@ namespace Tie
             }
 
             if (offset is string)
-               return HostTypeOffsetMemberInfo(type,host, offset);
+                return HostTypeOffsetMemberInfo(type, host, offset);
             else
-               return HostTypeOffsetBoxing(null, host, offset);
+                return HostTypeOffsetBoxing(null, host, offset);
 
         }
 
@@ -433,7 +430,7 @@ namespace Tie
         }
 
 
-      
+
         #endregion
 
 
@@ -472,7 +469,7 @@ namespace Tie
                     }
                 }
             }
-            else if(proc.value is Delegate)         //不用假定delegate是静态函数, 因为我们用.net的机制, 把d.Target传入delegate,以便使用到的外部变量
+            else if (proc.value is Delegate)         //不用假定delegate是静态函数, 因为我们用.net的机制, 把d.Target传入delegate,以便使用到的外部变量
             {
                 Delegate d = (Delegate)proc.value;
                 MethodInfo method = d.Method;
@@ -483,15 +480,15 @@ namespace Tie
         }
 
 
-      
+
         #endregion
 
 
 
         #region Compatible Type 
 
-      
-        
+
+
         //检查val是不是和Type是相容的
         public static bool IsCompatibleType(Type type, object val, Type valType)
         {
@@ -525,7 +522,7 @@ namespace Tie
                 else if (type.IsGenericType && Nullable.GetUnderlyingType(type) == valType)
                     return true;
 
-                else 
+                else
                     return false;
             }
 
@@ -536,9 +533,9 @@ namespace Tie
         #endregion
 
 
-        
+
         #region HostType Compare
-        
+
         public static int HostCompareTo(Operator opr, VAL v1, VAL v2)
         {
             if (v1.ty != VALTYPE.hostcon || v2.ty != VALTYPE.hostcon)
@@ -583,7 +580,7 @@ namespace Tie
             //下面的code是二个都不为null
             Type type1 = x1.GetType();
             Type type2 = x2.GetType();
-            
+
             //如果都为ValueType, 目前只支持比较相等的值
             if (type1.IsValueType && type2.IsValueType)
             {
@@ -620,7 +617,7 @@ namespace Tie
                 switch (opr)
                 {
                     case Operator.op_LessThan:
-                        return comp.Boolcon? - 1: 10;
+                        return comp.Boolcon ? -1 : 10;
                     case Operator.op_Equality:
                         return comp.Boolcon ? 0 : 10;
                     case Operator.op_GreaterThan:
@@ -630,11 +627,11 @@ namespace Tie
 
 
             //如果是相同基类继承下去的对象,目前只支持比较相等与否
-            Type type = HostCoding.CommonBaseClass(new object[] { x1, x2});
+            Type type = HostCoding.CommonBaseClass(new object[] { x1, x2 });
             if (type != null)
             {
                 if (x1 == x2)
-                     return 0;
+                    return 0;
             }
 
 
@@ -659,9 +656,9 @@ namespace Tie
              *  最后输出类型为: System.Windows.Forms.FontStyle
              * 
              **/
-            
+
             Type type = null;
-            if (type1.IsEnum)       
+            if (type1.IsEnum)
                 type = type1;
             else if (type0.IsEnum)
                 type = type0;
@@ -686,7 +683,7 @@ namespace Tie
 
             if (Enum.IsDefined(type, host))
             {
-                    return string.Format("{0}.{1}", fullName, host);
+                return string.Format("{0}.{1}", fullName, host);
             }
 
             string s = "";
@@ -708,7 +705,7 @@ namespace Tie
             return s;
 
         }
-        
+
         #endregion
 
     }

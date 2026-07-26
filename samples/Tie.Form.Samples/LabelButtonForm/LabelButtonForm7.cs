@@ -1,14 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Tie;
-
-namespace Tie.FormTest 
+﻿namespace Tie.FormTest
 {
-    class LabelButtonForm7 
+    class LabelButtonForm7
     {
         TieScript script;
 
@@ -73,7 +65,7 @@ namespace Tie.FormTest
              new LabelButtonForm('Tie class');
              ";
 
-             script.Execute(code);
+            script.Execute(code);
 
         }
     }

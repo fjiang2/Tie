@@ -16,26 +16,21 @@
 //--------------------------------------------------------------------------------------------------//
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
 
-namespace Tie
+namespace Tie.Compiler.Lex
 {
-
-
     abstract class JLex
     {
         protected char ch;
         public static JKey[] Key;
-        private Token tok;
-        private Error error;			//the position of cursor in file
+        private JToken tok;
+        private readonly Error error;			//the position of cursor in file
 
         public JLex(Error err)
         {
             this.error = err;
 
-            tok = new Token();
+            tok = new JToken();
 
             Key = new JKey[]
             {
@@ -102,13 +97,13 @@ namespace Tie
         private bool GetKeyAndIdent()
         {
             int i, j, k;
-            char[] ident = new char[Constant.ALNG];
+            char[] ident = new char[Const.ALNG];
 
             // IDENT   
             if (ch == '_' || ch == '$' || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
             {
                 k = 0;
-                for (i = 0; i < Constant.ALNG; i++) ident[i] = (char)0;  //ALNG=10
+                for (i = 0; i < Const.ALNG; i++) ident[i] = (char)0;  //ALNG=10
                 if (ch == '$')                              //a variable begun with $ is system variable
                 {
                     ident[k++] = ch;
@@ -121,7 +116,7 @@ namespace Tie
                 {
                     do
                     {
-                        if (k < Constant.ALNG)
+                        if (k < Const.ALNG)
                         {
                             ident[k] = ch;
                             k++;
@@ -138,7 +133,7 @@ namespace Tie
                 tok.sym.len = k;
                 tok.sym.id = new String(ident, 0, k);
 
-                i = 0; j = Constant.NKW - 1;  //binary search
+                i = 0; j = Const.NKW - 1;  //binary search
                 do
                 {
                     k = (i + j) / 2;
@@ -259,7 +254,7 @@ namespace Tie
                     NextCh();
                 } while (ch >= '0' && ch <= '9');
 
-                if (k > Constant.KMAX || tok.sym.inum > Constant.NMAX)
+                if (k > Const.KMAX || tok.sym.inum > Const.NMAX)
                 {
                     error.OnError(21);
                     tok.sym.inum = 0;
@@ -613,7 +608,15 @@ namespace Tie
                 case '{': tok.sy = SYMBOL.LC; NextCh(); break;
                 case '}': tok.sy = SYMBOL.RC; NextCh(); break;
 
-                case '?': tok.sy = SYMBOL.QUEST; NextCh(); break;
+                case '?':
+                    NextCh();
+                    switch (ch)
+                    {
+                        case '?': tok.sy = SYMBOL.QQUEST; NextCh(); break;
+                        default: tok.sy = SYMBOL.QUEST; break;
+                    }
+                    break;
+
                 case ',': tok.sy = SYMBOL.COMMA; NextCh(); break;
                 case ';': tok.sy = SYMBOL.SEMI; NextCh(); break;
                 case '.': tok.sy = SYMBOL.STRUCTOP; tok.opr = SYMBOL2.DOT; NextCh(); break;
@@ -626,7 +629,7 @@ namespace Tie
                 case '\\': tok.sy = SYMBOL.DELIMITER; NextCh(); break;
                 default:
                     //cerr<<"error letter:"<<ch<<" has already skip";
-                    error.OnError(24); 
+                    error.OnError(24);
                     NextCh();
                     goto L1;
             } // switch
@@ -701,9 +704,9 @@ namespace Tie
             int s;
             double d, t;
 
-            if (k + e > Constant.EMAX)
+            if (k + e > Const.EMAX)
                 error.OnError(21);
-            else if (k + e < Constant.EMIN)
+            else if (k + e < Const.EMIN)
                 tok.sym.fnum = 0;
             else
             {
@@ -741,7 +744,7 @@ namespace Tie
             }
         }
 
-        public Sym sym
+        public JSymbol sym
         {
 
             get
@@ -759,7 +762,7 @@ namespace Tie
             }
         }
 
-        public Token token
+        public JToken token
         {
             get { return this.tok; }
         }
@@ -768,7 +771,7 @@ namespace Tie
 
         public abstract int Index();
 
-        public void Traceback(int index, Token token)
+        public void Traceback(int index, JToken token)
         {
             set_index(index);
             this.tok = token;
@@ -781,9 +784,6 @@ namespace Tie
             return InSymbol();
         }
     }
-
-
-
 
 
 }

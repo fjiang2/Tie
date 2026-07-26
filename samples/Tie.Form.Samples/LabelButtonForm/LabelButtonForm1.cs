@@ -1,12 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Tie;
+﻿using System.Windows.Forms;
 
-namespace Tie.FormTest 
+namespace Tie.FormTest
 {
     class LabelButtonForm1 : Form
     {
@@ -18,7 +12,7 @@ namespace Tie.FormTest
         {
             button1 = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
-            
+
             button1.Location = new System.Drawing.Point(50, 140);
             button1.Size = new System.Drawing.Size(120, 24);
             button1.Text = "Cancel";
@@ -46,7 +40,7 @@ namespace Tie.FormTest
                     button1.Text = 'Cancel ' + count++;
                 };    
              ";
-             script.Execute(code, this);
+            script.Execute(code, this);
             this.Show();
         }
     }

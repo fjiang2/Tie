@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Tie;
 
 
@@ -49,7 +47,7 @@ namespace UnitTest
             script.DS = new Memory();
             script.VolatileExecute(code1);
             val = script.DS["menu"];
-            
+
             string xml2 = val.ToXml("menu");
             string json2 = val.ToJson("menu");
             json2 = val.ToJson(null);

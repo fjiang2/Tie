@@ -13,7 +13,7 @@ namespace Tie.Helper.Tests
         static string __Address;
         static VAL __val;
 
-        static ExtensionTest()
+        public ExtensionTest()
         {
             // Arrange
             string code = "{ Name : '1000 SH 6', City : 'Sugar Land', State : 'TX', Zip : '77578'}";
@@ -36,7 +36,7 @@ namespace Tie.Helper.Tests
         }
 
         [TestMethod]
-        public void DictinaryToVAL()
+        public void DictionaryToVAL()
         {
             //Arrange
             var dict = new Dictionary<string, string>();

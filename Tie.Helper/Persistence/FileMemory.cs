@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace Tie.Helper
 {
     /// <summary>
     /// used to serialize memory to persistent device, such as database server or text file
-    /// varible can be simple varible or composite varible, such as "X.a", "X.a.b"
+    /// variable can be simple variable or composite variable, such as "X.a", "X.a.b"
     /// </summary>
     public class FileMemory : PersistentMemory
     {
@@ -32,7 +30,7 @@ namespace Tie.Helper
             this.fileName = fileName;
         }
 
-       
+
         /// <summary>
         /// Save variables into persistent device
         /// </summary>
@@ -72,7 +70,7 @@ namespace Tie.Helper
         }
 
         /// <summary>
-        /// Save all varibles into persistent device
+        /// Save all variables into persistent device
         /// </summary>
         public override void Save()
         {
@@ -80,7 +78,7 @@ namespace Tie.Helper
         }
 
         /// <summary>
-        /// Load all varibles from persistent device
+        /// Load all variables from persistent device
         /// </summary>
         public override void Load()
         {

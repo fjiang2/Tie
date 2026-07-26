@@ -17,7 +17,7 @@
 
 
 
-using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
@@ -28,13 +28,21 @@ namespace Tie
     /// </summary>
     public sealed class Memory
     {
-        private Dictionary<VAR, VAL> ds = new Dictionary<VAR, VAL>();
+        private IDictionary<VAR, VAL> ds = new Dictionary<VAR, VAL>();
 
         /// <summary>
         /// Initializes a new instance
         /// </summary>
         public Memory()
         {
+        }
+
+        internal Memory(bool concurrent)
+        {
+            if (concurrent)
+                ds = new ConcurrentDictionary<VAR, VAL>();
+            else
+                ds = new Dictionary<VAR, VAL>();
         }
 
         /// <summary>
@@ -105,7 +113,7 @@ namespace Tie
 
 
         /// <summary>
-        /// Dictionary of varible
+        /// Dictionary of variable
         /// </summary>
         internal IDictionary<VAR, VAL> DS
         {
@@ -278,7 +286,7 @@ namespace Tie
         #region Remove/RemoveAll
 
         /// <summary>
-        /// Clear varible dictionary
+        /// Clear variable dictionary
         /// </summary>
         public void RemoveAll()
         {
@@ -289,7 +297,7 @@ namespace Tie
         /// <summary>
         /// Remove a variable
         /// </summary>
-        /// <param name="name">varible name</param>
+        /// <param name="name">variable name</param>
         /// <returns></returns>
         public bool Remove(VAR name)
         {
@@ -306,7 +314,7 @@ namespace Tie
         /// Clear void or null value
         /// </summary>
         /// <param name="name"></param>
-        public void ClearNullorVoid(VAR name)
+        public void ClearNullOrVoid(VAR name)
         {
             if (!Exists(name))
                 return;
@@ -340,7 +348,7 @@ namespace Tie
 
 
         /// <summary>
-        /// Generate assignment statemnts for all variables
+        /// Generate assignment statements for all variables
         /// </summary>
         /// <returns></returns>
         public string ToScript()
@@ -349,7 +357,7 @@ namespace Tie
         }
 
         /// <summary>
-        /// Generate assignment statemnts for selected variables
+        /// Generate assignment statements for selected variables
         /// </summary>
         /// <returns></returns>
         public string ToScript(IEnumerable<VAR> names)
@@ -429,9 +437,9 @@ namespace Tie
 
 
 
-        //从DS中抽取keyNames的值
+        //从DS中抽取 keyNames 的值
         /// <summary>
-        /// Copy some varibles into new varible dictionary
+        /// Copy some variables into new variable dictionary
         /// </summary>
         /// <param name="names"></param>
         /// <returns></returns>
@@ -452,9 +460,9 @@ namespace Tie
         }
 
         /// <summary>
-        /// Remove unchanged varibles
+        /// Remove unchanged variables
         /// </summary>
-        /// <param name="referenceMemory">reference varibles</param>
+        /// <param name="referenceMemory">reference variables</param>
         public void RemoveUnchangedBlock(Memory referenceMemory)
         {
             foreach (KeyValuePair<VAR, VAL> kvp in DS)
@@ -491,7 +499,7 @@ namespace Tie
 
 
         /// <summary>
-        /// explicit convert varible dictionary into VAL associative array
+        /// explicit convert variable dictionary into VAL associative array
         /// </summary>
         /// <param name="memory"></param>
         /// <returns></returns>

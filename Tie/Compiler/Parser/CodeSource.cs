@@ -15,16 +15,12 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-namespace Tie
+namespace Tie.Compiler.Parser
 {
     enum CodeSource
     {
         STRING,
         FILE
     }
-
-
-
-
 
 }

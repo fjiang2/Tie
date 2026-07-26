@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using Tie;
 
 namespace Tie.Helper
 {
@@ -110,11 +106,11 @@ namespace Tie.Helper
                         return VAL.NewHostType(new DateTime(L0.Intcon, L1.Intcon, L2.Intcon));
                     break;
             }
-            
+
             return null;
         }
 
 
-      
+
     }
 }

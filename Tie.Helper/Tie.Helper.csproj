@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net480</TargetFrameworks>
+    <TargetFrameworks>net6.0;net48</TargetFrameworks>
     <AssemblyName>Tie.Helper</AssemblyName>
     <RootNamespace>Tie.Helper</RootNamespace>
-    <Version>2.0.11</Version>
-    <AssemblyVersion>2.0.11</AssemblyVersion>
+    <Version>2.1.0</Version>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
     <SignAssembly>true</SignAssembly>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Authors>Datum Connect</Authors>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl></PackageProjectUrl>
     <PackageTags>Tie Helper</PackageTags>
@@ -17,7 +17,7 @@
     <PackageIconUrl></PackageIconUrl>
     <DocumentationFile></DocumentationFile>
     <AssemblyOriginatorKeyFile>tie.snk</AssemblyOriginatorKeyFile>
-    <PackageOutputPath>$(LocalNugetPath)</PackageOutputPath>
+    <PackageOutputPath>$(LocalNugetPackages)</PackageOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="obj" />
@@ -25,8 +25,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tie\Tie.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
   </ItemGroup>
 </Project>

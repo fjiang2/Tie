@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tie;
 using System.Diagnostics;
+using Tie;
 
 namespace UnitTest
 {
-	class VALTest
-	{
+    class VALTest
+    {
         public VALTest()
         { }
 
         public int sum(int[] A)
         {
-            int s=0;
+            int s = 0;
             foreach (int a in A)
                 s += a;
             return s;
@@ -101,11 +99,11 @@ E4 = E.ctype(ObjectArray);
 
 
             Tie.Logger.Open("C:\\temp\\tie.log");
-            string THIS="States.S2";
+            string THIS = "States.S2";
             Memory memory = new Memory();
             Script.Evaluate(THIS, "this.from(base.S1) && base.S1.Completed)", memory, new WorkflowFunction());
             VAL nodes = Script.Evaluate("States", memory);
-            System.Diagnostics.Debug.Assert(nodes.ToExJson() =="{\r\n  S2 : null,\r\n  S1 : {\r\n    Completed : void\r\n  }\r\n}", "void测试");
+            System.Diagnostics.Debug.Assert(nodes.ToExJson() == "{\r\n  S2 : null,\r\n  S1 : void\r\n}", "void测试");
 
             code = @"
                 addreference(Assembly.Load('Tie.UnitTest'));
@@ -153,7 +151,7 @@ E4 = E.ctype(ObjectArray);
         {
             return a + b;
         }
-	}
+    }
 
     public enum MyColor { red, green, black };
 

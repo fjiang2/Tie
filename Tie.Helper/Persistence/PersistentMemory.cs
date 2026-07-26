@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using System.Dynamic;
 
 namespace Tie.Helper
@@ -44,10 +41,10 @@ namespace Tie.Helper
         {
             //VAR var = new VAR(variable);
 
-            ////simple varible
+            ////simple variable
             //VAL val = memory[var];
             //if (!val.Defined)
-            //    val = Script.Evaluate(variable, memory); //composite varible
+            //    val = Script.Evaluate(variable, memory); //composite variable
 
             //return val;
 
@@ -55,7 +52,7 @@ namespace Tie.Helper
         }
 
         /// <summary>
-        /// check if varible is defined
+        /// check if variable is defined
         /// </summary>
         /// <param name="variable"></param>
         /// <returns></returns>
@@ -73,7 +70,7 @@ namespace Tie.Helper
         public void SetValue(string variable, object obj)
         {
             VAL v = Valizer.Valize(obj);
-            
+
             if (v.Undefined || v.IsNull)
                 return;
 
@@ -99,7 +96,7 @@ namespace Tie.Helper
         }
 
         /// <summary>
-        /// return value by varible
+        /// return value by variable
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable"></param>
@@ -142,7 +139,7 @@ namespace Tie.Helper
         }
 
         /// <summary>
-        /// return value of varible, host is instantiated which is used for interface type of object
+        /// return value of variable, host is instantiated which is used for interface type of object
         /// </summary>
         /// <param name="variable"></param>
         /// <param name="host"></param>
@@ -150,7 +147,7 @@ namespace Tie.Helper
         public object GetValue(string variable, object host)
         {
             VAL v = GetVAL(variable);
-            
+
             if (v.Undefined || v.IsNull)
             {
                 return null;
@@ -170,7 +167,7 @@ namespace Tie.Helper
         /// Load memory from persistent device
         /// </summary>
         public abstract void Load();
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -221,7 +218,7 @@ namespace Tie.Helper
         public readonly static DynamicVal Empty = new DynamicVal(VAL.VOID);
 
     }
-    
-    
-  
+
+
+
 }

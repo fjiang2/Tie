@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tie;
+﻿using Tie;
 
 namespace UnitTest
 {
     class ParamsTest
     {
         public static string Format(string fmt, params int[] A)
-        { 
+        {
             object[] args = new object[A.Length];
-            for(int i=0;i<args.Length;i++)
-                args[i]= A[i];
+            for (int i = 0; i < args.Length; i++)
+                args[i] = A[i];
 
             return string.Format("Test:" + fmt, args);
         }
@@ -22,7 +19,7 @@ namespace UnitTest
         {
             Memory DS = new Memory();
             HostType.Register(typeof(System.String));
-            
+
             Logger.Close();
             Logger.Open("c:\\temp\\tie.log");
 
@@ -34,7 +31,7 @@ namespace UnitTest
             //Coding.Execute(code, DS);
             //System.Diagnostics.Debug.Assert(DS["s1"].Str == "A=100+200+300");
 
-            code= @"
+            code = @"
                 foo = function(fmt,A)
                 {
                     var sum=0;
@@ -112,7 +109,7 @@ namespace UnitTest
             System.Diagnostics.Debug.Assert(DS["s2"].Intcon == 1);
             System.Diagnostics.Debug.Assert(DS["s3"].Intcon == 3);
 
-            string s2 = UnitTest.ParamsTest.Format("{0}+{1}+{2}",1,2,3);
+            string s2 = UnitTest.ParamsTest.Format("{0}+{1}+{2}", 1, 2, 3);
             code = @"
                 s1 = UnitTest.ParamsTest.Format('{0}+{1}+{2}',{1,2,3});
                 s2 = UnitTest.ParamsTest.Format('{0}+{1}+{2}',1,2,3);

@@ -16,18 +16,14 @@
 //--------------------------------------------------------------------------------------------------//
 
 
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Reflection;
 
 
 namespace Tie
 {
     class Library
     {
-        private static Dictionary<string, Module> Modules = new Dictionary<string, Module>();
+        private static readonly Dictionary<string, Module> Modules = new Dictionary<string, Module>();
 
         public Library()
         { }
@@ -90,7 +86,7 @@ namespace Tie
 
             //否则产生一个新的module
             module = new Module(moduleName, moduleSize);
-            if (module.CompileCodeBlock(scope, codePiece, codeType,overwritten))
+            if (module.CompileCodeBlock(scope, codePiece, codeType, overwritten))
             {
                 Library.AddModule(module);
                 moduleName = module.moduleName;     //因为有可能被directive #module 改变
@@ -101,28 +97,28 @@ namespace Tie
         }
 
 
-        public static void decode(VAL val)
+        public static void Decode(VAL val)
         {
             for (int i = 0; i < val.Size; i++)
             {
-                Module module = Module.decode(val[i]);
-                Library.AddModule(module);  
+                Module module = Module.Decode(val[i]);
+                Library.AddModule(module);
             }
         }
 
-        public static VAL encode()
+        public static VAL Encode()
         {
             VAL val = VAL.Array();
-            foreach (KeyValuePair<string,Module> kvp in Library.Modules)
+            foreach (KeyValuePair<string, Module> kvp in Library.Modules)
             {
-                val.List.Add(Module.encode(kvp.Value));
+                val.List.Add(Module.Encode(kvp.Value));
             }
             return val;
         }
 
         public override string ToString()
         {
-            return string.Format("Library#{0}",Modules.Count);
+            return string.Format("Library#{0}", Modules.Count);
         }
     }
 }

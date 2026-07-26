@@ -16,8 +16,6 @@
 //--------------------------------------------------------------------------------------------------//
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 namespace Tie
 {
@@ -74,7 +72,7 @@ namespace Tie
 
 
         private void NullWriteLine(string message)
-        { 
+        {
         }
 
         private void StreamWriteLine(string message)
@@ -84,7 +82,7 @@ namespace Tie
 
             streamWriter.WriteLine(message);
             this.streamWriter.Flush();
-       
+
         }
 
         private static Logger Instance

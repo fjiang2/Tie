@@ -17,18 +17,15 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Text;
-using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
+using Tie.VM;
 
 namespace Tie
 {
     class DynamicDelegate
     {
-        private VAL func = null;    //如果变量名字改变了,请同时修改函数InstanceDelegate(,)中的引用字符串
+        private readonly VAL func = null;    //如果变量名字改变了,请同时修改函数InstanceDelegate(,)中的引用字符串
 
         private DynamicDelegate(VAL func)
         {
@@ -57,9 +54,9 @@ namespace Tie
             string moduleName = func.Class;
             Module module = Library.GetModule(moduleName);
             if (module == null)
-                return -1;;
+                return -1; ;
 
-            return module.CS[func.Address].operand.Addr -1;
+            return module.CS[func.Address].operand.Addr - 1;
         }
 
 
@@ -113,7 +110,7 @@ namespace Tie
             Type[] dParameterTypes = new Type[len + 1];
             dParameterTypes[0] = target.GetType();
             for (int i = 0; i < len; i++)
-                dParameterTypes[i+1] = dParemeters[i].ParameterType;
+                dParameterTypes[i + 1] = dParemeters[i].ParameterType;
 
 #if DOTNET_STANDARD2
             throw new NotImplementedException();
@@ -121,12 +118,12 @@ namespace Tie
 
 #if SILVERLIGHT
             DynamicMethod dynamicMethod = new DynamicMethod(
-                Constant.FUNC_CON_INSTANCE_INVOKE,
+                InternalConst.FUNC_CON_INSTANCE_INVOKE,
                 dMethod.ReturnType,
                 dParameterTypes); 
 #else
             DynamicMethod dynamicMethod = new DynamicMethod(
-                Constant.FUNC_CON_INSTANCE_INVOKE,
+                Const.FUNC_CON_INSTANCE_INVOKE,
                 dMethod.ReturnType,
                 dParameterTypes,
                 target.GetType());  //把DynamicMethod关联到target的class
@@ -148,7 +145,7 @@ namespace Tie
             {
                 il.Emit(OpCodes.Ldloc, 0);    //LOAD L0
                 il.Emit(OpCodes.Ldc_I4, i);   //LOAD i
-                il.Emit(OpCodes.Ldarg, i+1);  //LOAD arg[i+1]
+                il.Emit(OpCodes.Ldarg, i + 1);  //LOAD arg[i+1]
                 if (dParameterTypes[i].IsValueType)
                     il.Emit(OpCodes.Box, dParameterTypes[i]);
                 il.Emit(OpCodes.Stelem_Ref);
@@ -174,9 +171,9 @@ namespace Tie
 
             il.Emit(OpCodes.Ret);
 
-            
+
             //下面可有可无,为了可读性
-            for (int i = 0; i < len+1; i++)
+            for (int i = 0; i < len + 1; i++)
                 dynamicMethod.DefineParameter(i, ParameterAttributes.In, "arg" + i);
 
             return dynamicMethod.CreateDelegate(dType, target);

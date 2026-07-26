@@ -16,14 +16,11 @@
 //--------------------------------------------------------------------------------------------------//
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
 
 
-namespace Tie
+namespace Tie.VM
 {
- 
+
     class Context
     {
         private Memory DS0;      //System Level variables
@@ -32,7 +29,7 @@ namespace Tie
 
         protected IUserDefinedFunction userFunc;
         public Context()
-            :this(null, null, null)
+            : this(null, null, null)
         {
             this.DS2 = Computer.DS2;
             this.DS1 = Computer.DS1;
@@ -45,7 +42,7 @@ namespace Tie
         }
 
         public Context(Memory DS2, IUserDefinedFunction userFunc)
-            : this(DS2, null , userFunc)
+            : this(DS2, null, userFunc)
         {
             this.DS1 = Computer.DS1;
         }
@@ -55,7 +52,7 @@ namespace Tie
             this.userFunc = userFunc;
             this.DS2 = DS2;
             this.DS1 = DS1;
-            this.DS0 = new Memory();
+            this.DS0 = new Memory(concurrent: true);
             Init(DS0);
         }
 
@@ -73,7 +70,7 @@ namespace Tie
         }
 
 
-       
+
         public Memory DataSegment
         {
             get
@@ -100,7 +97,7 @@ namespace Tie
             }
 
             if ((object)ret == null)
-                ret = FunctionChain.Chain.Invoke(func, parameters, DS2); 
+                ret = FunctionChain.Chain.Invoke(func, parameters, DS2);
 
 
             if ((object)ret == null)
@@ -112,11 +109,11 @@ namespace Tie
             return ret;
 #endif
             }
-            
+
             return ret;
         }
 
-        public  VAL GetVAL(VAR ident, bool readOnly)
+        public VAL GetVAL(VAR ident, bool readOnly)
         {
             if (DS2 != null && DS2.Exists(ident))         //user temp variable
                 return DS2[ident];

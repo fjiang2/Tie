@@ -15,23 +15,11 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using Tie.Compiler.Lex;
 
-namespace Tie
+namespace Tie.Compiler.Parser
 {
-    enum NUMTYPE
-    {
-        voidcon,
-        nullcon,
-        boolcon,
-        intcon,
-        doublecon,
-        // decimalcon,
-        stringcon
-    }
 
     /// <summary>
     /// Numeric, logical, lexical operands
@@ -53,7 +41,7 @@ namespace Tie
             {
                 Numeric c = new Numeric();
                 c.ty = NUMTYPE.voidcon;
-                c.value = null; 
+                c.value = null;
                 return c;
             }
         }
@@ -65,7 +53,29 @@ namespace Tie
             {
                 Numeric c = new Numeric();
                 c.ty = NUMTYPE.nullcon;
-                c.value = null; 
+                c.value = null;
+                return c;
+            }
+        }
+
+        public static Numeric TRUE
+        {
+            get
+            {
+                Numeric c = new Numeric();
+                c.ty = NUMTYPE.boolcon;
+                c.value = true;
+                return c;
+            }
+        }
+
+        public static Numeric FALSE
+        {
+            get
+            {
+                Numeric c = new Numeric();
+                c.ty = NUMTYPE.boolcon;
+                c.value = false;
                 return c;
             }
         }
@@ -82,25 +92,25 @@ namespace Tie
             value = str;
         }
 
-        public Numeric(SYMBOL sy, Sym sym)
+        public Numeric(SYMBOL sy, JSymbol sym)
         {
             switch (sy)
             {
                 case SYMBOL.intcon:
                     ty = NUMTYPE.intcon;
-                    value = sym.inum;  
+                    value = sym.inum;
                     break;
 
                 case SYMBOL.floatcon:
                     ty = NUMTYPE.doublecon;
-                    value = sym.fnum; 
+                    value = sym.fnum;
                     break;
 
                 case SYMBOL.stringcon:
                     ty = NUMTYPE.stringcon;
-                    value = sym.stab;  
+                    value = sym.stab;
                     break;
-                
+
                 case SYMBOL.nullsy:
                     ty = NUMTYPE.nullcon;
                     value = null;
@@ -113,12 +123,12 @@ namespace Tie
 
                 case SYMBOL.truesy:
                     ty = NUMTYPE.boolcon;
-                    value = true; 
+                    value = true;
                     break;
-                
+
                 case SYMBOL.falsesy:
                     ty = NUMTYPE.boolcon;
-                    value = false; 
+                    value = false;
                     break;
             }
         }

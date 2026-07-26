@@ -17,27 +17,25 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
-namespace Tie
+namespace Tie.Compiler.Lex
 {
-    class Token
+    class JToken
     {
 
         public SYMBOL sy;
-        public Sym sym;
+        public JSymbol sym;
         public SYMBOL2 opr;
 
 
-        public Token()
+        public JToken()
         {
-            sym = new Sym();
+            sym = new JSymbol();
 
         }
 
-        public Token(SYMBOL sy, SYMBOL2 opr)
+        public JToken(SYMBOL sy, SYMBOL2 opr)
             : this()
         {
             this.sy = sy;
@@ -54,7 +52,7 @@ namespace Tie
             ty = tokty.symbol;
 
             //search keyword
-            for (int i = 0; i < Constant.NKW; i++)
+            for (int i = 0; i < Const.NKW; i++)
             {
                 if (sy == JLex.Key[i].ksy)
                 {
@@ -193,6 +191,7 @@ namespace Tie
                     break;
 
                 case SYMBOL.QUEST: o.Write('?'); break;
+                case SYMBOL.QQUEST: o.Write("??"); break;
                 case SYMBOL.COLON: o.Write(':'); break;
                 case SYMBOL.COMMA: o.Write(','); break;
                 case SYMBOL.SEMI: o.Write(';'); if (wellFormatted) o.WriteLine(); break;

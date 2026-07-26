@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Dynamic;
-using Tie;
-using Tie.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
@@ -17,7 +10,7 @@ namespace Tie.Helper.Tests
         static Memory DS = new Memory();
         static dynamic config;
 
-        static DbMemoryFacts()
+        public DbMemoryFacts()
         {
             string code = @"
                 Cassandra.Host	='192.168.0.20';
@@ -39,7 +32,7 @@ namespace Tie.Helper.Tests
         public void GetValueString2()
         {
             string host = (string)config.Cassandra.Host;
-            
+
             // Assert
             Assert.AreEqual(host, "192.168.0.20");
         }
@@ -86,7 +79,7 @@ namespace Tie.Helper.Tests
             DateTime time = (DateTime)config.date;
 
             // Assert
-            Assert.AreEqual(time, new DateTime(2015,2,3));
+            Assert.AreEqual(time, new DateTime(2015, 2, 3));
         }
 
         [TestMethod]

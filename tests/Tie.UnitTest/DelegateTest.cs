@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Tie;
 
 namespace UnitTest
@@ -46,12 +43,12 @@ namespace UnitTest
 
         public string foo(Concat0000 concat, string a, string b)
         {
-            return concat(a,b);
+            return concat(a, b);
         }
 
         public DelegateTest()
-        { 
-        
+        {
+
         }
 
         public static void main()
@@ -63,7 +60,7 @@ namespace UnitTest
             string code;
 
             HostType.Register(typeof(Impl));
- 
+
             DelegateTest test = new DelegateTest();
             Impl impl = new Impl();
             code = @"
@@ -89,22 +86,22 @@ namespace UnitTest
                 sum6 = dPlus2((int[]){10,20});
             ";
 
-            Plus0000 dPlus = delegate(int[] A)
+            Plus0000 dPlus = delegate (int[] A)
             {
                 int s = 0;
                 foreach (int a in A)
-                   s += a;
+                    s += a;
                 return s;
             };
 
             int x = 300;
 
-            Plus0000 dPlus2 = delegate(int[] A)
+            Plus0000 dPlus2 = delegate (int[] A)
             {
                 int s = 0;
                 foreach (int a in A)
                     s += a;
-                return s+x;
+                return s + x;
             };
 
             DS.RemoveAll();
@@ -114,7 +111,7 @@ namespace UnitTest
             DS.Add("dPlus2", VAL.NewHostType(dPlus2));
 
 
-            int x1 = dPlus2(new int[]{1, 2} );
+            int x1 = dPlus2(new int[] { 1, 2 });
             int x2 = (int)dPlus2.Method.Invoke(dPlus2.Target, new object[] { new int[] { 1, 2 } });
 
             //因为有TIE function 作为delegate,所以不能用volatile excute

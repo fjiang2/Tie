@@ -14,10 +14,9 @@
 //                                                                                                  //
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
+using Tie.Compiler.Lex;
+using Tie.VM;
 
 namespace Tie
 {
@@ -173,12 +172,12 @@ namespace Tie
 
         internal static VAL Run(object instance, string code, Memory memory)
         {
-            memory.Add(Constant.THIS, VAL.Boxing1(instance));
+            memory.Add(Const.THIS, VAL.Boxing1(instance));
 
             if (code.IndexOf("return") == -1)
-                return Script.Evaluate(Constant.THIS, code, memory, null);
+                return Script.Evaluate(Const.THIS, code, memory, null);
             else
-                return Script.Execute(Constant.THIS, code, memory, null);
+                return Script.Execute(Const.THIS, code, memory, null);
         }
 
         /// <summary>

@@ -1,12 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using Tie;
 
-namespace Tie.FormTest 
+namespace Tie.FormTest
 {
     class LabelButtonForm0 : Form
     {
@@ -18,7 +13,7 @@ namespace Tie.FormTest
         {
             button1 = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
-            
+
             button1.Location = new System.Drawing.Point(50, 140);
             button1.Size = new System.Drawing.Size(120, 24);
             button1.Text = "Cancel";
@@ -32,17 +27,17 @@ namespace Tie.FormTest
             Controls.Add(this.button1);
 
             this.Text = "Standard C# Form";
-            
-            button1.Click +=  delegate(object sender, EventArgs e)
+
+            button1.Click += delegate (object sender, EventArgs e)
                {
-                 ((Button)sender).Text="OK";
-                 label1.Text = "Good bye "+ count++;
-               };    
- 
-            label1.Click += delegate(object sender, EventArgs e)
+                   ((Button)sender).Text = "OK";
+                   label1.Text = "Good bye " + count++;
+               };
+
+            label1.Click += delegate (object sender, EventArgs e)
                {
-                    ((Label)sender).Text="Hello World";
-                    button1.Text = "Cancel " + count++;
+                   ((Label)sender).Text = "Hello World";
+                   button1.Text = "Cancel " + count++;
                };
 
             this.Show();

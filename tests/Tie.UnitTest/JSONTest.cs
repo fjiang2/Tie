@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Tie;
 
 namespace UnitTest
@@ -282,7 +279,7 @@ text = 'OK';
 
             VAL B = Script.Evaluate("{ a:12, b:'ok', c:false, d:3.14, e: {a:1, b:3}}");
             var B1 = Valizer.Devalize(B, new { a = 0, b = string.Empty, c = true, e = new { a = 0, b = 0 } });
-            Debug.Assert(B1.a==12 && B1.e.a == 1 && B1.e.b == 3);
+            Debug.Assert(B1.a == 12 && B1.e.a == 1 && B1.e.b == 3);
 
             VAL B2 = Valizer.Valize(B1);
         }

@@ -16,64 +16,13 @@
 //--------------------------------------------------------------------------------------------------//
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Runtime.Serialization;
+
+using Tie.Compiler.Parser;
 
 namespace Tie
 {
-    
-    enum INSTYPE
-    {
-		NEG, ADD, SUB, MUL, DIV, MOD,
-	    INC, DEC,
-	
-	    EQL, NEQ, LSS, LEQ, GTR, GEQ,
-	
-	    NOTNOT, ANDAND, OROR, NOT, AND, OR, XOR, 
-        EACH, //foreach(a in A)
 
-	    SHR, SHL,	// >> , <<
-	
-	    JMP, JNZ,JZ, LJMP, LJZ,
-	    CAS,	//case of switch 
-
-	    PUSH, POP, SP,     //SS 
-        RMT, RCP,          //remove CPU top register, register copy
-        ESI, ESO,          //EX PUSH/POP
-	
-	    MOV,STO,STO1,	//LOAD
-        //REGI,REGO,      // REGI = REG.Push(), REGO = REG.Pop()
-
-	    CALL,RET,	// call function
-	    MARK,END,	// List, Parameter,
-	    OFS,ARR,	// struct. array,
-
-	    HALT,NOP,
-        THIS, BASE, NS,  //this, base class, namespace, module
-        ADR, VLU,            //&var 返回变量的地址, *VL, 返回地址的值 
-
-	    PROC,ENDP,	//function
-        DIRC,       //directive
-	    DDT,	//debug
-        GNRC,    //generic
-
-//class	
-        NEW,
-	    CLSS,	//class
-	    PBLC,	//public
-	    PRVT,	//private
-	    PRTC,	//protected
-	    ENDC,	//end of class
-
-
-        THRW   //throw
-
-	};
-
-
-    class Instruction  
+    class Instruction
     {
         public INSTYPE cmd;
         public Operand operand;
@@ -85,13 +34,13 @@ namespace Tie
 
         public Instruction(INSTYPE cmd, Position pos)
             : this(cmd, null, pos)
-        { 
-        
+        {
+
         }
 
 
-        public Instruction(INSTYPE cmd, Operand opr, Position pos) 
-        { 
+        public Instruction(INSTYPE cmd, Operand opr, Position pos)
+        {
             this.cmd = cmd;
             this.operand = opr;
 
@@ -126,13 +75,13 @@ namespace Tie
 
                 case INSTYPE.NOT: o = "NOT "; break;
                 case INSTYPE.AND: o = "AND "; break;
-                case INSTYPE.OR:  o = "OR  "; break;
+                case INSTYPE.OR: o = "OR  "; break;
 
                 case INSTYPE.NOTNOT: o = "NNOT "; break;
                 case INSTYPE.ANDAND: o = "AAND "; break;
-                case INSTYPE.OROR:   o = "OOR  "; break;
+                case INSTYPE.OROR: o = "OOR  "; break;
 
-                case INSTYPE.EACH:  o = "EACH"; break;
+                case INSTYPE.EACH: o = "EACH"; break;
 
                 case INSTYPE.XOR: o = "XOR "; break;
                 case INSTYPE.SHR: o = "SHR "; break;
@@ -140,7 +89,7 @@ namespace Tie
 
                 case INSTYPE.JMP: o = "JMP "; break;
                 case INSTYPE.JNZ: o = "JNZ "; break;
-                case INSTYPE.JZ:  o = "JZ  "; break;
+                case INSTYPE.JZ: o = "JZ  "; break;
 
                 case INSTYPE.CAS: o = "CAS "; break;
                 case INSTYPE.LJMP: o = "LJMP"; break;
@@ -148,7 +97,7 @@ namespace Tie
 
                 case INSTYPE.PUSH: o = "PUSH"; break;
                 case INSTYPE.POP: o = "POP "; break;
-                case INSTYPE.SP:  o = "SP  "; break;
+                case INSTYPE.SP: o = "SP  "; break;
                 case INSTYPE.RMT: o = "RMT "; break;
                 case INSTYPE.RCP: o = "RCP "; break;
                 case INSTYPE.ESI: o = "ESI"; break;
@@ -166,25 +115,25 @@ namespace Tie
                 case INSTYPE.OFS: o = "OFS "; break;
                 case INSTYPE.ARR: o = "ARR "; break;
 
-                case INSTYPE.NOP:  o = "NOP "; break;
+                case INSTYPE.NOP: o = "NOP "; break;
                 case INSTYPE.HALT: o = "HALT"; break;
 
-                case INSTYPE.DDT:  o = "DDT "; break;
+                case INSTYPE.DDT: o = "DDT "; break;
                 case INSTYPE.PROC: o = "PROC"; break;
                 case INSTYPE.ENDP:
-                    if ((OPRTYPE)operand.Addr == OPRTYPE.classcon) 
+                    if ((OPRTYPE)operand.Addr == OPRTYPE.classcon)
                         o = "ENDC";
                     else
-                        o = "ENDP"; 
+                        o = "ENDP";
                     break;
 
                 case INSTYPE.DIRC: o = "DIRC"; break;
 
                 case INSTYPE.ADR: o = "ADR "; break;
-                case INSTYPE.VLU:  o = "VLU "; break;
+                case INSTYPE.VLU: o = "VLU "; break;
 
                 //class define
-                case INSTYPE.NEW:  o = "NEW"; break;
+                case INSTYPE.NEW: o = "NEW"; break;
                 case INSTYPE.CLSS: o = "CLSS"; break;
                 case INSTYPE.NS: o = "NS"; break;
 
@@ -201,16 +150,16 @@ namespace Tie
 
                 default: o = "#INS#" + cmd; break;
             }
-            
-            if(cmd != INSTYPE.ENDP &&  operand != null)
-                o = o + " "+'\t' + operand.ToString();
+
+            if (cmd != INSTYPE.ENDP && operand != null)
+                o = o + " " + '\t' + operand.ToString();
 #if DEBUG
             o = string.Format("({0,3}:{1,3}|{2,2})\t{3}", line, col, block, o);
 #endif
             return o;
-        }	
-	 }
+        }
+    }
 
-   
+
 
 }

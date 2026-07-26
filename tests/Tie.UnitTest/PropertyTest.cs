@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tie;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Tie;
 
 namespace UnitTest
 {
     class BasePropertyTest
     {
         public int a;
-        
+
         public object SelectedValue
         {
             get
@@ -87,13 +85,13 @@ namespace UnitTest
             {
                 return this.A[index];
             }
-            set 
+            set
             {
                 this.A[index] = value;
             }
         }
 
-        public int[,,] AA = new int[,,] { {{1,2}, {3,4}, {5,6}}, {{7,8}, {9,10}, {11,12}} };        //2X3X2
+        public int[,,] AA = new int[,,] { { { 1, 2 }, { 3, 4 }, { 5, 6 } }, { { 7, 8 }, { 9, 10 }, { 11, 12 } } };        //2X3X2
 
         public int this[int i, string j, int k]
         {
@@ -103,7 +101,7 @@ namespace UnitTest
             }
             set
             {
-                AA[i, Convert.ToInt32(j), k ] = value;
+                AA[i, Convert.ToInt32(j), k] = value;
             }
         }
 
@@ -116,8 +114,8 @@ namespace UnitTest
 
             PropertyTest p = new PropertyTest();
             DS.Add("p", VAL.Boxing(p));
-            
-            
+
+
             string code = @"
              //属性
               p.A[0] =10000;
@@ -162,10 +160,10 @@ namespace UnitTest
             Debug.Assert(p.SelectedValue == "Hello World");
             Debug.Assert(p.Age == 21);
             Debug.Assert(p.privateValue == 10000);
-            Debug.Assert(p.AA[1,1,1] == 500);
+            Debug.Assert(p.AA[1, 1, 1] == 500);
 
             Debug.Assert(p.A[0] == 10000);
-            Debug.Assert(p.AA[0,1,1] == 4444);
+            Debug.Assert(p.AA[0, 1, 1] == 4444);
 
 
             string myDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -175,7 +173,7 @@ namespace UnitTest
             //check nested type
 
             code = "typeof(System.Environment.SpecialFolder)";
-            VAL sp= Script.Evaluate(code);
+            VAL sp = Script.Evaluate(code);
             Debug.Assert(sp.ToString() == "typeof(System.Environment+SpecialFolder)");
 
             code = @"

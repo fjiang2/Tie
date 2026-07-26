@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tie
+﻿namespace Tie
 {
     /// <summary>
     /// 
     /// </summary>
-    public struct Member
+    public readonly struct Member
     {
-        private string name;
-        private VAL value;
+        private readonly string name;
+        private readonly VAL value;
 
         /// <summary>
         /// 
         /// </summary>
-        public string Name 
-        { 
-            get { return this.name; } 
+        public string Name
+        {
+            get { return this.name; }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
-        public VAL Value 
+        public VAL Value
         {
             get { return this.value; }
         }

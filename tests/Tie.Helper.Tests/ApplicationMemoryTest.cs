@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace Tie.Helper.Tests
@@ -16,12 +13,12 @@ namespace Tie.Helper.Tests
             : base(memory)
         {
 
-            Valizer.Register<Guid>(delegate(Guid guid)
+            Valizer.Register<Guid>(delegate (Guid guid)
                 {
                     byte[] bytes = guid.ToByteArray();
                     return new VAL("\"" + Serialization.ByteArrayToHexString(bytes) + "\"");     //because this is a string, need quotation marks ""
                 },
-                delegate(VAL val)
+                delegate (VAL val)
                 {
                     byte[] bytes = Serialization.HexStringToByteArray(val.Str);
                     return new Guid(bytes);
@@ -36,7 +33,7 @@ namespace Tie.Helper.Tests
         protected override int MaxVariableSpaceLength { get { return VarColWidh; } }
         protected override int MaxValueSpaceLength { get { return ValColWidh; } }
 
-        protected override IEnumerable<KeyValuePair<string, string>> ReadMemory(IEnumerable<string> varibles)
+        protected override IEnumerable<KeyValuePair<string, string>> ReadMemory(IEnumerable<string> variables)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
             if (File.Exists(fileName))

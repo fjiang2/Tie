@@ -17,12 +17,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Reflection;
 
 namespace Tie.Valization
 {
-   
+
     /**
      * 
      * 用来支持已经存在的class的Valization
@@ -36,8 +35,8 @@ namespace Tie.Valization
 
     static class ValizationMgr
     {
-       private static Dictionary<Type, BaseValization> registries = new Dictionary<Type, BaseValization>();
-       private static Dictionary<Type, Tuple<MethodInfo, object, object[]>> genericRegistries = new Dictionary<Type, Tuple<MethodInfo, object, object[]>>();
+        private static Dictionary<Type, BaseValization> registries = new Dictionary<Type, BaseValization>();
+        private static Dictionary<Type, Tuple<MethodInfo, object, object[]>> genericRegistries = new Dictionary<Type, Tuple<MethodInfo, object, object[]>>();
 
         public static void Register(Type type, BaseValization valization)
         {
@@ -97,11 +96,11 @@ namespace Tie.Valization
                         return true;
 
                     if (GenericType.HasInterface(type, ty))
-                        return true; 
+                        return true;
                 }
-                
+
                 return false;
-                
+
             }
         }
 
@@ -237,16 +236,16 @@ namespace Tie.Valization
         public static object Devalize(object host, Type hostType, VAL val)
         {
             BaseValization valization = GetValization(hostType);
-             if (valization != null)
-             {
-                 return valization.Devalize(host, hostType, val);
-             }
-            
+            if (valization != null)
+            {
+                return valization.Devalize(host, hostType, val);
+            }
 
-             return null;
+
+            return null;
         }
 
-        
+
 
 
     }

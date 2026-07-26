@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
 using System.Data.SqlClient;
+using System.IO;
+using System.Windows.Forms;
 using Tie;
 
 namespace SearchEngine
@@ -45,13 +41,13 @@ namespace SearchEngine
             StreamReader streamReader = new StreamReader("..\\..\\form.tie");
             FormCode = streamReader.ReadToEnd();
             streamReader.Close();
-            
+
             streamReader = new StreamReader("..\\..\\..\\data\\test.sql");
             SQL = streamReader.ReadToEnd();
             streamReader.Close();
         }
 
-   
+
         private string WriteResult(VAL result, DataTable dataTable)
         {
             //Show Output
@@ -76,7 +72,7 @@ namespace SearchEngine
                 sw.WriteLine();
             }
 
-             return sw.ToString();
+            return sw.ToString();
         }
 
 
@@ -103,7 +99,7 @@ namespace SearchEngine
 
         private void button1_Click(object sender, EventArgs e)
         {
- 
+
             /*
              * ---------------------------------------------------------------+--------------------------------------------------
              *            C#                                                  |        Tie
@@ -115,7 +111,7 @@ namespace SearchEngine
              *  --------------------------------------------------------------+--------------------------------------------------          
              *  
              */
-                        
+
             VAL initialValue = new VAL();
             initialValue["ID"] = new VAL("500");
             initialValue["Date"] = VAL.Array(2);
@@ -125,11 +121,11 @@ namespace SearchEngine
             Script script = new Script();
             script.DS.Add("initialValue", initialValue);
             script.Execute(this.FormCode);
-            
-            Form form = (Form)script.DS["form"].HostValue;     
+
+            Form form = (Form)script.DS["form"].HostValue;
             if (form.ShowDialog() == DialogResult.OK)
             {
-                VAL result = script.DS["Result"];              
+                VAL result = script.DS["Result"];
                 if (!result.IsNull)
                 {
                     DataTable dataTable = FillDataTable(SQL, result);
@@ -137,10 +133,10 @@ namespace SearchEngine
                 }
 
             }
-            
+
             script.Dispose();
         }
 
-   
+
     }
 }

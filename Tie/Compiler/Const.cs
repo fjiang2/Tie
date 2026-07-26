@@ -1,4 +1,4 @@
-﻿//--------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------//
 //                                                                                                  //
 //        Tie                                                                                       //
 //                                                                                                  //
@@ -17,23 +17,33 @@
 
 namespace Tie
 {
-    class Sym
+    class Const
     {
-        public double fnum;				// real number from insymbol 
-        public int inum;				// integer from insymbol 
-        public string id;
+        public const int NKW = 39;                        // no. of key words 
+        public const int ALNG = 64;                        // no. of significant chars in identifiers 
 
-        public int len;			        // string length 
-        public string stab;		        // string table
+        public const int EMAX = 322;                       // max exponent of real numbers 
+        public const int EMIN = -292;                      // min exponent 
 
+        public const int KMAX = 15;                        // max no. of significant digits 
+        public const int NMAX = int.MaxValue;              // 2^32-1 
 
-        public Sym()
-        {
-            
-        }
-    };
+        public const byte MAX_CODEBLOCK_NUM = 16;           // max CODE Block#
 
 
+        public const string VOLATILE_MODULE_NAME = "volatile"; //temp module
+        public const string DEFAULT_MODULE_NAME = "unknown"; // default module in Library
 
-    
+        public const string FUNC_MAKE_ARRAY_TYPE = "$makearraytype";
+        public const string FUNC_FUNCTION = "$function";
+        public const string FUNC_CLASS = "$class";
+        public const string FUNC_CAST_VALUE_TYPE = "$castvt";
+        public const string FUNC_CAST_TYPE_VALUE = "$casttv";
+        public const string FUNC_IS_TYPE = "$istype";
+
+        public const string FUNC_CON_INSTANCE_INVOKE = "FuncconInstanceInvoke";
+        public const string SCOPE = "scope";
+        public const string THIS = "$THIS";
+
+    }
 }

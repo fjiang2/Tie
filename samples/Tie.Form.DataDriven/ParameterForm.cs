@@ -1,13 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using Tie;
-using System.Reflection;
 
 
 namespace DataDrivenWinForm
@@ -26,7 +21,7 @@ namespace DataDrivenWinForm
         {
             InitializeComponent();
 
-            Script.FunctionChain.Add("error", delegate(VAL parameters, Memory DS)
+            Script.FunctionChain.Add("error", delegate (VAL parameters, Memory DS)
             {
                 int size = parameters.Size;
                 VAL L0 = (size > 0) ? parameters[0] : null;
@@ -41,7 +36,7 @@ namespace DataDrivenWinForm
                     errorProvider1.SetError(control, L1.Str);
                     return new VAL();
                 }
-                else if(size == 1)
+                else if (size == 1)
                 {
                     toolTip1.SetToolTip(control, "");
                     errorProvider1.SetError(control, "");
@@ -78,7 +73,7 @@ namespace DataDrivenWinForm
         private void LoadControls(Control.ControlCollection Controls, VAL controlDefinitions)
         {
             //create window controls
-            foreach(VAL definition in controlDefinitions)
+            foreach (VAL definition in controlDefinitions)
             {
                 string clss = definition["Class"].Str;
                 Control control = (Control)HostType.NewInstance(clss, new object[] { });
@@ -90,7 +85,7 @@ namespace DataDrivenWinForm
                     this.memory.Add(control.Name, VAL.NewHostType(control));
 
                 VAL sub = definition["Controls"];
-                if(sub.Defined)
+                if (sub.Defined)
                 {
                     LoadControls(control.Controls, sub);
                 }
@@ -108,7 +103,7 @@ namespace DataDrivenWinForm
                 }
             }
 
-            TieScript.RemoveModule(); 
+            TieScript.RemoveModule();
         }
 
         private void toolStripButtonSubmit_Click(object sender, EventArgs e)
@@ -173,7 +168,7 @@ namespace DataDrivenWinForm
             return SQL;
         }
 
-      
+
 
     }
 }

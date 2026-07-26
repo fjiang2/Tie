@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tie;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Windows.Forms;
+using Tie;
 
 namespace UnitTest
 {
     class BasicTest
     {
         public BasicTest()
-        {}
+        { }
 
         public void DataPrint(string[] header, string[] footer)
         {
@@ -46,7 +44,7 @@ namespace UnitTest
             form.Dock = DockStyle.Fill;
             Memory DS = new Memory();
             DS.Add("textBox", VAL.Boxing(textBox));
-            
+
             Script.Execute("", @"
             {
 
@@ -86,7 +84,7 @@ namespace UnitTest
               test.DataPrint({'A','B'}, {}.typeof('System.Int32[]'));
              ", DS);
 
-            
+
             Logger.Close();
             Logger.Open("c:\\temp\\tie.log");
 
@@ -172,14 +170,14 @@ namespace UnitTest
             A = Script.Execute("{A={{\"State\",{\"Ohio\"}},\"A\"}; write(A.State); write(A[-1]);}", DS);
 
             Console.WriteLine("Date = {0}", dt);
-            Script.Execute("{var i; write(\"xx\",\"yy\");}" ,DS);
+            Script.Execute("{var i; write(\"xx\",\"yy\");}", DS);
             Script.Execute(" {var i; for(i=0; i<3; i++) write(\"key\"+i,\"message\");}", DS);
 
-            A = Script.Execute("{ X[\"City\"]=\"BTR\"; write(X[\"City\"]);}" ,DS);
+            A = Script.Execute("{ X[\"City\"]=\"BTR\"; write(X[\"City\"]);}", DS);
 
             Script.Execute("G", "{i=1; A[i][3]=2; this.a=10; this.a = this.a+30;   $bx=$x+3;i.j.k=120; this.j2=130;}", DS);
 
-           
+
 
             //测试.Net Object的Serialization
             HostType.Register(typeof(DateTime));
@@ -204,7 +202,7 @@ namespace UnitTest
 
             string S = "";
             Memory M = new Memory();
-            Script.Execute(S, M); 
+            Script.Execute(S, M);
         }
 
     }

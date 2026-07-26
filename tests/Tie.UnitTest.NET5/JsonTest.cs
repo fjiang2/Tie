@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tie;
 
 namespace Tie.UnitTest.NET5
 {
@@ -12,7 +7,7 @@ namespace Tie.UnitTest.NET5
     public class JsonTest
     {
         [TestMethod]
-        public void DictinaryToJson()
+        public void DictionaryToJson()
         {
             //Arrange
             var dict = new Dictionary<string, object>();

@@ -15,7 +15,7 @@
 //                                                                                                  //
 //--------------------------------------------------------------------------------------------------//
 
-namespace Tie
+namespace Tie.Compiler.Lex
 {
     class JKey
     {
@@ -28,9 +28,5 @@ namespace Tie
             this.ksy = ksy;
         }
     }
-
-
-
-
 
 }

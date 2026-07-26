@@ -17,11 +17,9 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
-namespace Tie
+namespace Tie.VM
 {
     class Register
     {
@@ -40,7 +38,7 @@ namespace Tie
         {
             if (IsOverflow())
                 throw new TieException("CPU Register overflow");
-            
+
             REGS[++CPU_SP] = v;
             return true;
         }
@@ -49,35 +47,35 @@ namespace Tie
         {
             if (IsEmpty())
                 throw new TieException("CPU Register empty");
-            
+
             return REGS[CPU_SP--];
         }
 
-        
+
         //indirect addressing
         public VAL Pop()
         {
             if (IsEmpty())
                 throw new TieException("CPU Register empty");
-            
-            return IndirectValue( REGS[CPU_SP--]);
+
+            return IndirectValue(REGS[CPU_SP--]);
         }
 
         private VAL IndirectValue(VAL var)
         {
-           VAL val;
-           try
-           {
-               if (var.ty == VALTYPE.addrcon)
-                   return SS[var.Address];
-               else
-                   return var;
-           }
-           catch (Exception)
-           {
-               val = new VAL();
-               throw new TieException("R01 varible is not initialized in STACK");
-           }
+            VAL val;
+            try
+            {
+                if (var.ty == VALTYPE.addrcon)
+                    return SS[var.Address];
+                else
+                    return var;
+            }
+            catch (Exception)
+            {
+                val = new VAL();
+                throw new TieException("R01 variable is not initialized in STACK");
+            }
         }
 
         public VAL Top()
@@ -112,7 +110,7 @@ namespace Tie
         //        R1.ty = R0.ty;
         //        R1.value = R0.value;
         //    }
-        
+
         //}
 
         public override string ToString()
@@ -142,6 +140,6 @@ namespace Tie
         //    v.name = operand.name;
         //    return v;
         //}
-    
+
     }
 }

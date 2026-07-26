@@ -1,11 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿using System.Data;
+using System.Data.SqlClient;
 using System.Windows.Forms;
-using System.Data.SqlClient; 
-using Tie;
 
 namespace Tie.FormTest
 {
@@ -65,8 +60,8 @@ namespace Tie.FormTest
                 return false;
 
             item.Result = result;
-            item.DataTable = searchCriteriaForm.FillDataTable(item.SQL , result);
-            
+            item.DataTable = searchCriteriaForm.FillDataTable(item.SQL, result);
+
             return true;
         }
     }
