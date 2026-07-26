@@ -360,10 +360,10 @@ namespace Tie
                             if (obj != null)
                                 return HostTypeOffsetBoxing(obj, host, offset);
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             if (offsetType == OffsetType.ARRAY)
-                                throw e;
+                                throw;
                         }
                     }
                 }

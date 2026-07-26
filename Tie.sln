@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34728.123
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11903.348 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7BE026F2-8686-46A2-BD28-1553DCABA077}"
 EndProject
@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie.UnitTest", "tests\Tie.U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie", "Tie\Tie.csproj", "{4CA5DE09-094E-47A3-981B-EA13B3F047CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie.UnitTest.NET5", "tests\Tie.UnitTest.NET5\Tie.UnitTest.NET5.csproj", "{888A7550-8C7D-4CDB-AF0D-EC8E726EDE72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tie.UnitTest.NET6", "tests\Tie.UnitTest.NET5\Tie.UnitTest.NET6.csproj", "{888A7550-8C7D-4CDB-AF0D-EC8E726EDE72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

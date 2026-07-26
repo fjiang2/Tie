@@ -12,11 +12,16 @@
     <AssemblyName>Tie.FormTest</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName></SccProjectName>
-    <SccLocalPath></SccLocalPath>
-    <SccAuxPath></SccAuxPath>
-    <SccProvider></SccProvider>
-    <FileUpgradeFlags></FileUpgradeFlags>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
@@ -57,7 +62,8 @@
     </Compile>
     <Compile Include="LabelButtonForm\LabelButtonForm8.cs" />
     <Compile Include="LabelButtonForm\LabelButtonForm7.cs" />
-    <Compile Include="LabelButtonForm\LabelButtonForm6.cs"></Compile>
+    <Compile Include="LabelButtonForm\LabelButtonForm6.cs">
+    </Compile>
     <Compile Include="LabelButtonForm\LabelButtonForm5.cs">
       <SubType>Form</SubType>
     </Compile>

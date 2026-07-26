@@ -44,10 +44,6 @@ namespace Tie.Helper
 #endif
 
 
-            //new System.Drawing.Font("MS Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)))
-            HostType.Register(typeof(System.Drawing.FontStyle));
-            HostType.Register(typeof(System.Drawing.GraphicsUnit));
-
 #if VERSION1
             HostType.Register(typeof(Font), @"
                 $style= 'System.Drawing.FontStyle.Regular';
@@ -61,10 +57,6 @@ namespace Tie.Helper
             ");
 #else
 
-            Valizer.Register<Font>(@"
-                format('new {0}(""{1}"",(float){2},{3},{4},(byte)0)', 
-                    this.GetType().FullName, this.Name, this.Size, this.Style.valize(), this.Unit.valize())
-            ");
 #endif
 
 
